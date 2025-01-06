@@ -27,6 +27,7 @@ import ru.dargen.evoplus.util.json.toJson
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.sendCommand
 import ru.dargen.evoplus.util.minecraft.uncolored
@@ -37,7 +38,9 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
 
     private val BossCursedPattern = "Босс проклят! Особенность: ([а-яА-ЯёЁ ]+)".toRegex()
     private val BossCapturePattern = "^Босс (.*) захвачен кланом (.*)!\$".toRegex()
-    private val BossHealthsPattern = "([а-яА-ЯёЁ ]+)\\s\\s(\\d+)".toRegex()
+
+    //    private val BossHealthsPattern = "^[А-Яа-яЁё ]+ \\d+(\\.\\d+)?❤\$".toRegex()
+    private val BossHealthsPattern = "^([А-Яа-яЁё ]+) (\\d+(\\.\\d+)?)❤\$".toRegex()
     val BossMenuPattern = "[넼넽넾]".toRegex()
 
     val BossDamageText = text("???? [??]: ??\uE35E") { isShadowed = true }
@@ -119,10 +122,12 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
                 "Нажмите, чтобы принять.",
                 delay = 10.0
             ) {
-                leftClick { _, state -> if (isHovered && state) {
-                    BossReceiveScreen.open(shared)
-                true
-                } else false }
+                leftClick { _, state ->
+                    if (isHovered && state) {
+                        BossReceiveScreen.open(shared)
+                        true
+                    } else false
+                }
             }
         }
     }

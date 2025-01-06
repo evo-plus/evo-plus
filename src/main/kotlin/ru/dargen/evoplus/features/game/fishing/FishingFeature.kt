@@ -28,6 +28,7 @@ import kotlin.math.max
 object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) {
 
     val BackpackTitle = "\uE974"
+    val TradeTitle = "\uE114"
     val FishExpPattern = "^Опыта дает питомцу: (\\d+)\$".toRegex()
     val FishCaloriesPattern = "^Калорийность: (\\d+)\$".toRegex()
     val HigherBitingPattern = "^На локации \"([\\S\\s]+)\" повышенный клёв!\$".toRegex()
@@ -51,10 +52,11 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
             val isCraftingInventory = (currentScreen is InventoryScreen)
             val isBackpackInventory =
                 (currentScreen is GenericContainerScreen && BackpackTitle in currentScreen.title.string)
+            val isTradeInventory = (currentScreen is GenericContainerScreen && TradeTitle in currentScreen.title.string)
 
-            render = isWidgetEditor || isCraftingInventory || isBackpackInventory
+            render = isWidgetEditor || isCraftingInventory || isBackpackInventory || isTradeInventory
 
-            if (!isCraftingInventory && !isBackpackInventory) return@tick
+            if (!isCraftingInventory && !isBackpackInventory && !isTradeInventory) return@tick
 
             val exp = max(
                 currentScreen
@@ -71,6 +73,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
     val FishCaloriesWidget by widgets.widget("Счёт общей калорийности рыбы", "fish-calories") {
         val fishExpText = +text("Общая калорийность: 0") {
             isShadowed = true
+
         }
 
         tick {
@@ -78,10 +81,11 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
             val isCraftingInventory = (currentScreen is InventoryScreen)
             val isBackpackInventory =
                 (currentScreen is GenericContainerScreen && BackpackTitle in currentScreen.title.string)
+            val isTradeInventory = (currentScreen is GenericContainerScreen && TradeTitle in currentScreen.title.string)
 
-            render = isWidgetEditor || isCraftingInventory || isBackpackInventory
+            render = isWidgetEditor || isCraftingInventory || isBackpackInventory || isTradeInventory
 
-            if (!isCraftingInventory && !isBackpackInventory) return@tick
+            if (!isCraftingInventory && !isBackpackInventory && !isTradeInventory) return@tick
 
             val calories = max(
                 currentScreen
@@ -126,7 +130,12 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
 
         listen<HourlyQuestInfo> { info ->
             HourlyQuests.clear()
-            HourlyQuests.putAll(info.data.mapValues { HourlyQuestInfoHolder(HourlyQuestType.byOrdinal(it.key)!!, it.value) })
+            HourlyQuests.putAll(info.data.mapValues {
+                HourlyQuestInfoHolder(
+                    HourlyQuestType.byOrdinal(it.key)!!,
+                    it.value
+                )
+            })
         }
 
         var fishHookTicks = 0

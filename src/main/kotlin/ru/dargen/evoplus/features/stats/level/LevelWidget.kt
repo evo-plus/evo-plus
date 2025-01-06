@@ -54,7 +54,7 @@ object LevelWidget : WidgetBase {
 
     fun update(statistic: StatisticData) {
         if (statistic.nextLevel.isMaxLevel) {
-            Text.text = "§aMAX"
+            Text.text = "§aМаксимальный уровень"
             ProgressBar.enabled = false
             ProgressBar.progress = .0
         }

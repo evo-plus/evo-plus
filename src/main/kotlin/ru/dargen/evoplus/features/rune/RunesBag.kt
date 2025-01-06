@@ -33,6 +33,7 @@ object RunesBag {
         on<KeyTypeEvent> {
             if (RuneFeature.RunesSetSwitch && CurrentScreen?.title?.string?.contains(MENU_NAME) == true) {
                 var index = SelectedSet.id
+
                 if (Keybinds.SelectRuneSetBinds.any { it.boundKey.code == key }) {
                     index = Keybinds.SelectRuneSetBinds.indexOfFirst { it.boundKey.code == key }
                 } else index += (if (Keybinds.MoveRuneSetLeft.boundKey.code == key) -1
@@ -43,7 +44,11 @@ object RunesBag {
                     index >= RuneSetsSlots.size -> index = 0
                 }
 
-                Inventories.click(slot = RuneSetsSlots[index])
+                val clickedItem = CurrentScreenHandler?.getSlot(RuneSetsSlots[index])?.stack
+                val firstLoreLine = clickedItem?.lore?.firstOrNull()?.string?.uncolored()
+
+                if (firstLoreLine?.contains("Нажмите, чтобы использовать") == true)
+                    Inventories.click(slot = RuneSetsSlots[index])
             }
         }
 
