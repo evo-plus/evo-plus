@@ -52,7 +52,6 @@ class TextNode(lines: List<String>) : Node() {
             else matrices.drawText(line, x, y, isShadowed, color)
         }
     }
-
 }
 
 fun text(vararg lines: String, block: TextNode.() -> Unit = {}) = TextNode(*lines).apply(block)

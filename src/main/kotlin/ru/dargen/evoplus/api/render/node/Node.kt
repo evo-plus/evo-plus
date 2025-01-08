@@ -267,7 +267,6 @@ abstract class Node {
     operator fun <N : Node> N.unaryPlus() = apply { this@Node.addChildren(this) }
 
     operator fun <N : Node> N.unaryMinus() = apply { this@Node.removeChildren(this) }
-
 }
 
 //hover

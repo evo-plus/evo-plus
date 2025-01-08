@@ -73,7 +73,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
     val FishCaloriesWidget by widgets.widget("Счёт общей калорийности рыбы", "fish-calories") {
         val fishExpText = +text("Общая калорийность: 0") {
             isShadowed = true
-
+            //TODO: сделать поверх бекграунда инвентаря майнкрафта
         }
 
         tick {

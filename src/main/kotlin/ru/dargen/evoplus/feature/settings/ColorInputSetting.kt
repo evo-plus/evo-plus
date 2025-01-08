@@ -17,15 +17,15 @@ import java.awt.Color
 class ColorInputSetting(
     id: String, name: String, value: Boolean
 ) : Setting<Boolean>(id, name) {
-    
+
     override var value: Boolean = value
         set(value) {
             field = value
             handler(value)
         }
-    
+
     final var mirroring = false
-    
+
     val inputs = buildList {
         repeat(2) {
             add(input {
@@ -36,7 +36,7 @@ class ColorInputSetting(
             })
         }
     }
-    
+
     override fun load(element: JsonElement) {
         element.asJsonObject.get(id)?.asJsonObject?.apply {
             value = get("colorize").asBoolean
@@ -48,7 +48,7 @@ class ColorInputSetting(
             }
         }
     }
-    
+
     override fun store() = JsonObject().apply {
         addProperty("colorize", value)
         addProperty("mirroring", mirroring)
@@ -56,10 +56,10 @@ class ColorInputSetting(
             addProperty("chatcolor_$index", inputNode.content)
         }
     }
-    
+
     private val mirrorButton = run {
         fun Boolean.stringify() = if (this) "Зеркальность" else "Градация"
-        
+
         button(mirroring.stringify()) {
             on {
                 mirroring = !mirroring
@@ -67,23 +67,24 @@ class ColorInputSetting(
             }
         }
     }
-    
+
     private val resetButton = button("Сбросить") {
         on { inputs.forEach { it.content = "ffffff" } }
     }
-    
+
     override val settingElement = object : FeatureScreenElement {
         override fun create() = rectangle {
+            //TODO: исправить отображение кнопки (потому что слава дебил и оно теперь нормально не подгружает)
             fun Boolean.stringfy() = if (this) "§aВключено" else "§cВыключено"
-            
+
             color = Colors.TransparentBlack
             size = v3(y = 60.0)
-            
+
             +text(name) {
                 translation = v3(6.6, 15.0)
                 origin = Relative.LeftCenter
             }
-            
+
             +hbox {
                 align = Relative.LeftBottom
                 origin = Relative.LeftCenter
@@ -91,12 +92,12 @@ class ColorInputSetting(
                 inputs.forEach { +it }
                 +resetButton
             }
-            
+
             +vbox {
                 align = Relative.RightBottom
                 origin = Relative.RightCenter
                 translation = v3(y = -30.0)
-                
+
                 +button(value.stringfy()) {
                     on {
                         this@ColorInputSetting.value = !this@ColorInputSetting.value
