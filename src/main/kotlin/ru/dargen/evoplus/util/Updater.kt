@@ -20,7 +20,6 @@ import java.net.URLClassLoader
 import java.nio.channels.Channels
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.logging.Level
 import kotlin.concurrent.thread
 import kotlin.io.path.deleteIfExists
 
@@ -30,13 +29,12 @@ object Updater {
     private const val PROJECT_PROPERTIES_URL =
         "https://raw.githubusercontent.com/asyncdargen/evo-plus/kotlin/gradle.properties"
 
-    val ModVersion by lazy { EvoPlus.ModContainer.metadata.version.friendlyString }
+    val ModVersion by lazy { EvoPlus.VersionString }
     val LatestVersion by LazyExpiringReference(2, TimeUnit.MINUTES) {
         Properties().apply { load(URL(PROJECT_PROPERTIES_URL).openStream()) }.getProperty("mod_version")
     }
 
-    val IsDevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
-    val Outdated get() = !IsDevEnvironment && ModVersion < LatestVersion
+    val Outdated get() = !EvoPlus.DevEnvironment && ModVersion < LatestVersion
 
     val ModFiles = FabricLoader.getInstance().getModContainer("evo-plus").get().origin.paths
 

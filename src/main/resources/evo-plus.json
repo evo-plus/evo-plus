@@ -40,6 +40,8 @@
     "network.ClientPlayNetworkHandlerMixin",
     "network.ClientPlayerInteractionManagerMixin",
 
+    "resource.ResourcePackManagerMixin",
+
     "MessageHandlerMixin",
     "MinecraftClientMixin",
     "MinecraftClientAccessor"

@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.features.chat
 
 import net.minecraft.item.Items
-import ru.dargen.evoplus.ReplacerParser
 import ru.dargen.evoplus.api.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.api.event.chat.ChatSendEvent
 import ru.dargen.evoplus.api.event.on
@@ -99,7 +98,7 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
         on<StringRenderEvent> {
 //            if (!ReplaceUniqueUsers) return@on
 
-            text = text?.let(ReplacerParser::replace)
+//            text = text?.let(ReplacerParser::replace)
 
 //            this.text = Replacer
 //                .mapKeys { it.key.cast<String>() }

@@ -94,10 +94,7 @@ abstract class Node {
 
     val wholePosition: Vector3
         get() {
-//            (parent?.size?.times(align) ?: Vector3.Mutable())
-//                .plus(translation).plus(position)
-//                .times(wholeScale.x / scale.x, wholeScale.y / scale.y, wholeScale.z / scale.z)
-//                .plus((!size).times(origin).times(wholeScale))
+
             val wholeScale = wholeScale
             return (parent?.size?.times(align) ?: Vector3.Mutable())
                     .plus(translation).plus(position)

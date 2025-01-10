@@ -153,6 +153,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
         }
         
         listen<StatisticInfo> {
+            println(it.data)
             StatisticHolder.accept(it.data)
         }
     }

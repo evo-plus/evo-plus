@@ -34,7 +34,6 @@ import ru.dargen.evoplus.api.event.inventory.InventoryOpenEvent;
 import ru.dargen.evoplus.api.event.inventory.InventorySlotUpdateEvent;
 import ru.dargen.evoplus.api.event.network.ChangeServerEvent;
 import ru.dargen.evoplus.api.event.network.CustomPayloadEvent;
-import ru.dargen.evoplus.api.event.player.PlayerListEvent;
 import ru.dargen.evoplus.api.event.world.ChunkLoadEvent;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.minecraft.Inventories;

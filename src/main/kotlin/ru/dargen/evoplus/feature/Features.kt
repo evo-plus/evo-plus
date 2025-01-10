@@ -2,6 +2,7 @@ package ru.dargen.evoplus.feature
 
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.api.event.game.MinecraftLoadedEvent
 import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.keybind.Keybinds.MenuKey
@@ -26,7 +27,6 @@ import ru.dargen.evoplus.features.rune.RuneFeature
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.features.staff.StaffFeature
 import ru.dargen.evoplus.features.stats.StatisticFeature
-import ru.dargen.evoplus.util.Updater
 import ru.dargen.evoplus.util.catch
 import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.json.isNull
@@ -63,7 +63,7 @@ data object Features {
     }
 
     fun load() {
-        if (Updater.IsDevEnvironment) {
+        if (EvoPlus.DevEnvironment) {
             DevFeature.register()
         }
         AutoClickerFeature.register()

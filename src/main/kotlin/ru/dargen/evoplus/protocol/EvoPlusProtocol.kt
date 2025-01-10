@@ -7,6 +7,7 @@ import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket
 import net.minecraft.util.Identifier
 import pro.diamondworld.protocol.ProtocolRegistry
 import pro.diamondworld.protocol.packet.ServerInfo
+import pro.diamondworld.protocol.packet.VerificationToken
 import pro.diamondworld.protocol.util.BufUtil
 import pro.diamondworld.protocol.util.ProtocolSerializable
 import ru.dargen.evoplus.Logger
@@ -32,12 +33,12 @@ import kotlin.reflect.KClass
 typealias Handler<T> = (T) -> Unit
 typealias RawHandler = Handler<ByteBuf>
 
-private val Handlers = mutableMapOf<String, RawHandler>()
-
 object EvoPlusProtocol {
 
     val Registry = ProtocolRegistry()
+    val Handlers = mutableMapOf<String, RawHandler>()
 
+    var Token: String? = null
     var Server = ServerInfo.EMPTY
         set(value) {
             if (value.serverName != field.serverName && "PRISONEVO" in value.serverName) EvoJoinEvent.fire()
@@ -66,7 +67,10 @@ object EvoPlusProtocol {
         }
 
         listen<ServerInfo> { Server = it }
-
+        listen<VerificationToken> {
+            Token = it.token
+            Logger.info("Received token: $it")
+        }
         initRegistries()
     }
 
@@ -84,7 +88,7 @@ object EvoPlusProtocol {
 }
 
 //listen
-fun onRaw(channel: String, handler: RawHandler) = Handlers.put(channel, handler)
+fun onRaw(channel: String, handler: RawHandler) = EvoPlusProtocol.Handlers.put(channel, handler)
 
 inline fun <P : ProtocolSerializable> listen(
     packetType: KClass<P>,

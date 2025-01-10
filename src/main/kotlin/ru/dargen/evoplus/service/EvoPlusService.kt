@@ -3,22 +3,23 @@ package ru.dargen.evoplus.service
 import ru.dargen.evoplus.Logger
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
 import ru.dargen.evoplus.service.controller.GameController
+import ru.dargen.evoplus.service.visual.PlayerNames
 import ru.dargen.evoplus.util.Updater
 import ru.dargen.evoplus.util.collection.takeIfNotEmpty
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.newSetCacheExpireAfterWrite
-import ru.dargen.rest.RestClientFactory
+import ru.dargen.evoplus.util.rest.controller
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.time.Duration.Companion.minutes
 
 object EvoPlusService {
 
-    private val GameClient = RestClientFactory.createHttpBuiltinClient()
-        .createController<GameController>(GameController::class.java)
+    private val GameClient = controller<GameController>()
 
     private val ingamePlayers = newSetCacheExpireAfterWrite<String>(1.minutes)
 
     init {
+        PlayerNames
         scheduleEvery(period = 30, unit = SECONDS) {
             runCatching { GameClient.update(Client.session.username, Updater.ModVersion) }
                 .onFailure { Logger.error("Error while updating ingame status", it) }

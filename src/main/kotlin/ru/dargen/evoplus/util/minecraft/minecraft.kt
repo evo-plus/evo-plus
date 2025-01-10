@@ -10,8 +10,8 @@ import net.minecraft.text.HoverEvent
 import net.minecraft.text.Text
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
+import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.MinecraftClientExtension
-import ru.dargen.evoplus.ModLabel
 import ru.dargen.evoplus.mixin.MinecraftClientAccessor
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
@@ -73,10 +73,10 @@ fun forceInMainThread(runnable: () -> Unit) {
 fun playSound(event: SoundEvent) = Player?.playSound(event, 1f, 1f)
 fun playSound(event: RegistryEntry.Reference<SoundEvent>) = playSound(event.value())
 
-fun printMessage(message: String?) = Player?.sendMessage("$ModLabel§8: §f$message".asText(), false)
+fun printMessage(message: String?) = Player?.sendMessage("${EvoPlus.Label}§8: §f$message".asText(), false)
 
 fun printHoveredCommandMessage(message: String, hover: String, command: String) =
-    Text.literal("$ModLabel§8: §a$message").run {
+    Text.literal("${EvoPlus.Label}§8: §a$message").run {
         style = style.withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, hover.asText()))
             .withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, command))
 

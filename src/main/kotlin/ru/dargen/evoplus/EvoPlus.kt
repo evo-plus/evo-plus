@@ -2,6 +2,7 @@ package ru.dargen.evoplus
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.text.Text
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.api.event.EventBus
 import ru.dargen.evoplus.api.keybind.KeyBindings
@@ -19,20 +20,25 @@ import ru.dargen.evoplus.util.Updater
 import ru.dargen.evoplus.util.minecraft.Client
 import java.util.concurrent.TimeUnit
 
-
-val ModLabel = "§f§lEvo§6§lPlus"
-
-val Logger = LoggerFactory.getLogger(EvoPlus::class.java)
+val Logger = LoggerFactory.getLogger("EvoPlus")
 
 object EvoPlus : ClientModInitializer {
 
+    val Label = "§f§lEvo§6§lPlus"
+    val LabelText = Text.of(Label)
+
     val ModContainer by lazy { FabricLoader.getInstance().getModContainer("evo-plus").get() }
+
+    val Path by lazy { ModContainer.origin.paths.first() }
+    val Id by lazy { ModContainer.metadata.id }
+    val Version by lazy { ModContainer.metadata.version }
+    val VersionString by lazy { Version.friendlyString }
+    val DevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
 
     override fun onInitializeClient() {
         EventBus
         Scheduler
         KeyBindings
-        ReplacerParser
 
         EvoPlusProtocol
 
@@ -46,19 +52,19 @@ object EvoPlus : ClientModInitializer {
         scheduleUpdater()
     }
 
-    private fun scheduleUpdater() = scheduleEvery(5, 5, unit = TimeUnit.MINUTES) {
-        if (Client?.inGameHud != null && Updater.Outdated) Notifies.showText(
-            "Обнаружена новая версия EvoPlus - §e${Updater.LatestVersion}",
-            "Нажмите, чтобы обновиться.",
-            delay = 15.0
-        ) {
-            leftClick { _, state ->
-                if (isHovered && state) {
-                    Updater.tryUpdate()
-                    true
-                } else false
-            }
+}
+
+private fun scheduleUpdater() = scheduleEvery(5, 5, unit = TimeUnit.MINUTES) {
+    if (Client?.inGameHud != null && Updater.Outdated) Notifies.showText(
+        "Обнаружена новая версия EvoPlus - §e${Updater.LatestVersion}",
+        "Нажмите, чтобы обновиться.",
+        delay = 15.0
+    ) {
+        leftClick { _, state ->
+            if (isHovered && state) {
+                Updater.tryUpdate()
+                true
+            } else false
         }
     }
-
 }
