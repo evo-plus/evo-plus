@@ -19,7 +19,7 @@ import ru.dargen.evoplus.api.render.node.input.input
 import ru.dargen.evoplus.api.render.node.scroll.VScrollViewNode
 import ru.dargen.evoplus.api.render.node.scroll.vScrollView
 import ru.dargen.evoplus.api.scheduler.async
-import ru.dargen.evoplus.util.Social
+import ru.dargen.evoplus.resource.Social
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.v3

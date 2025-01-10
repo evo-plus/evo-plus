@@ -1,10 +1,10 @@
 package ru.dargen.evoplus.service
 
+import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.Logger
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
 import ru.dargen.evoplus.service.controller.GameController
 import ru.dargen.evoplus.service.visual.PlayerNames
-import ru.dargen.evoplus.util.Updater
 import ru.dargen.evoplus.util.collection.takeIfNotEmpty
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.newSetCacheExpireAfterWrite
@@ -21,7 +21,7 @@ object EvoPlusService {
     init {
         PlayerNames
         scheduleEvery(period = 30, unit = SECONDS) {
-            runCatching { GameClient.update(Client.session.username, Updater.ModVersion) }
+            runCatching { GameClient.update(Client.session.username, EvoPlus.VersionString) }
                 .onFailure { Logger.error("Error while updating ingame status", it) }
                 .onSuccess { if (!it) Logger.warn("Failed ingame status update") }
         }
