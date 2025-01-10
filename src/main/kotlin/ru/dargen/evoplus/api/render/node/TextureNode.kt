@@ -1,12 +1,12 @@
 package ru.dargen.evoplus.api.render.node
 
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import ru.dargen.evoplus.api.render.animation.property.proxied
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.render.bindTexture
 
 @KotlinOpens
 class TextureNode : Node() {
@@ -16,6 +16,7 @@ class TextureNode : Node() {
     var textureOffset by proxied(v3())
     var textureSize by proxied(v3(256.0, 256.0))
     var repeating = false
+    var blend = true
 
     init {
         size = textureSize.clone()
@@ -24,7 +25,8 @@ class TextureNode : Node() {
     override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
         if (!this::identifier.isInitialized) return
 
-        identifier.bindTexture()
+        RenderSystem.setShaderTexture(0, identifier)
+        if (blend) RenderSystem.enableBlend()
         
         if (repeating) DrawableHelper.drawRepeatingTexture(
             matrices, 0, 0,

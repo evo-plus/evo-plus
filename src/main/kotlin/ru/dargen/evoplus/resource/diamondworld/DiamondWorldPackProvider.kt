@@ -9,7 +9,7 @@ import ru.dargen.evoplus.features.misc.MiscFeature
 import ru.dargen.evoplus.resource.AbstractResourcePackProvider
 import ru.dargen.evoplus.util.rest.request
 import java.io.InputStream
-import java.net.http.HttpResponse
+import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.Paths
 import java.util.function.Consumer
 import kotlin.io.path.exists
@@ -28,7 +28,7 @@ class DiamondWorldPackProvider : AbstractResourcePackProvider("diamond-world", "
     }
 
     override fun openPack(name: String): ResourcePack {
-        val response = request<InputStream>(URL, "GET", handler = HttpResponse.BodyHandlers.ofInputStream()).join()
+        val response = request<InputStream>(URL, "GET", handler = BodyHandlers.ofInputStream()).join()
         val hash = Hashing.sha256().hashString(response.headers().firstValue("last-modified").get(), Charsets.UTF_8).toString()
         val file = Paths.get("server-resource-packs", hash)
 

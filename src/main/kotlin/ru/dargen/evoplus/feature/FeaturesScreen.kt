@@ -24,6 +24,7 @@ import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.v3
 import kotlin.math.sign
+import kotlin.time.Duration.Companion.seconds
 
 object FeaturesScreen {
 
@@ -159,18 +160,29 @@ object FeaturesScreen {
             align = Relative.LeftBottom
             origin = Relative.LeftBottom
 
-            space = 2.0
-            indent = v3()
+            space = 4.0
+            indent = v3(4.0, 4.0)
 
             Social.entries.forEach { social ->
-                +texture(social.identifier) {
+                +rectangle {
                     size = v3(32.0, 32.0)
-                    textureSize = v3(32.0, 32.0)
-                    leftClick { _, state ->
-                        if (state && isHovered) {
-                            social.open()
-                            true
-                        } else false
+
+                    +texture(social.identifier) {
+                        align = Relative.Center
+                        origin = Relative.Center
+                        size = v3(32.0, 32.0)
+                        textureSize = v3(32.0, 32.0)
+                        hover { _, state ->
+                            animate("hover", 0.15.seconds, Easings.CubicOut) {
+                                scale = if (state) v3(.8, .8, .8) else v3(1.0, 1.0, 1.0)
+                            }
+                        }
+                        leftClick { _, state ->
+                            if (state && isHovered) {
+                                social.open()
+                                true
+                            } else false
+                        }
                     }
                 }
             }
