@@ -19,6 +19,7 @@ import net.minecraft.network.message.MessageChain;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import net.minecraft.network.packet.c2s.play.ResourcePackStatusC2SPacket;
 import net.minecraft.network.packet.s2c.play.*;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,6 +35,7 @@ import ru.dargen.evoplus.api.event.inventory.InventoryOpenEvent;
 import ru.dargen.evoplus.api.event.inventory.InventorySlotUpdateEvent;
 import ru.dargen.evoplus.api.event.network.ChangeServerEvent;
 import ru.dargen.evoplus.api.event.network.CustomPayloadEvent;
+import ru.dargen.evoplus.api.event.resourcepack.ResourcePackRequestEvent;
 import ru.dargen.evoplus.api.event.world.ChunkLoadEvent;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.minecraft.Inventories;
@@ -55,6 +57,8 @@ public abstract class ClientPlayNetworkHandlerMixin {
 
     @Shadow
     public abstract void sendPacket(Packet<?> packet);
+
+    @Shadow protected abstract void sendResourcePackStatus(ResourcePackStatusC2SPacket.Status packStatus);
 
     private static final Cache<Integer, InventoryOpenEvent> INVENTORY_OPEN_EVENTS = CacheBuilder.newBuilder()
             .expireAfterAccess(30, TimeUnit.MINUTES)
@@ -197,6 +201,19 @@ public abstract class ClientPlayNetworkHandlerMixin {
     private void onChunkData(ChunkDataS2CPacket packet, CallbackInfo info) {
         val chunk = client.world.getChunk(packet.getX(), packet.getZ());
         EventBus.INSTANCE.fire(new ChunkLoadEvent(chunk));
+    }
+
+    @Inject(method = "onResourcePackSend", at = @At("HEAD"), cancellable = true)
+    private void onResourcePackSend(ResourcePackSendS2CPacket packet, CallbackInfo ci) {
+        var event = new ResourcePackRequestEvent(packet, false);
+
+        if (!EventBus.INSTANCE.fireResult(event)) {
+            ci.cancel();
+            if (event.getResponseAccepted()) {
+                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.ACCEPTED);
+                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.SUCCESSFULLY_LOADED);
+            }
+        }
     }
 
 //    @Inject(method = "onPlayerList", at = @At("TAIL"))

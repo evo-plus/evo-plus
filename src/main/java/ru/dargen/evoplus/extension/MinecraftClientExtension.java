@@ -1,4 +1,4 @@
-package ru.dargen.evoplus;
+package ru.dargen.evoplus.extension;
 
 public interface MinecraftClientExtension {
 

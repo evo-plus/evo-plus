@@ -47,6 +47,8 @@ data object Features {
 
     val List = mutableListOf<Feature>()
 
+    val Initialized get() = List.isNotEmpty()
+
     init {
         on<MinecraftLoadedEvent> {
             load()

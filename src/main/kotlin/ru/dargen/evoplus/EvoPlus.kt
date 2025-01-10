@@ -5,6 +5,8 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.text.Text
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.api.event.EventBus
+import ru.dargen.evoplus.api.event.on
+import ru.dargen.evoplus.api.event.resourcepack.ResourceProvidersInitializeEvent
 import ru.dargen.evoplus.api.keybind.KeyBindings
 import ru.dargen.evoplus.api.render.animation.AnimationRunner
 import ru.dargen.evoplus.api.render.context.Overlay
@@ -12,6 +14,8 @@ import ru.dargen.evoplus.api.render.context.WorldContext
 import ru.dargen.evoplus.api.scheduler.Scheduler
 import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.protocol.EvoPlusProtocol
+import ru.dargen.evoplus.resource.builtin.EvoPlusPackProvider
+import ru.dargen.evoplus.resource.diamondworld.DiamondWorldPackProvider
 import ru.dargen.evoplus.service.EvoPlusService
 import ru.dargen.evoplus.update.UpdateResolver
 
@@ -28,7 +32,7 @@ object EvoPlus : ClientModInitializer {
     val Id by lazy { Container.metadata.id }
     val Version by lazy { Container.metadata.version }
     val VersionString by lazy { Version.friendlyString }
-    val DevEnvironment =java.lang.Boolean.getBoolean("evo-plus.dev")
+    val DevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
 
     override fun onInitializeClient() {
         EventBus
@@ -43,6 +47,11 @@ object EvoPlus : ClientModInitializer {
 
         Features
         EvoPlusService
+
+        on<ResourceProvidersInitializeEvent> {
+            providers += EvoPlusPackProvider()
+            providers += DiamondWorldPackProvider()
+        }
 
         UpdateResolver.schedule()
     }

@@ -11,7 +11,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.MinecraftClientExtension
+import ru.dargen.evoplus.extension.MinecraftClientExtension
 import ru.dargen.evoplus.mixin.MinecraftClientAccessor
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast

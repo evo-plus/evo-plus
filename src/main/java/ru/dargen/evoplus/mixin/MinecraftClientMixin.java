@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.dargen.evoplus.MinecraftClientExtension;
+import ru.dargen.evoplus.extension.MinecraftClientExtension;
 import ru.dargen.evoplus.api.event.EventBus;
 import ru.dargen.evoplus.api.event.game.MinecraftLoadedEvent;
 import ru.dargen.evoplus.api.event.game.PostTickEvent;
