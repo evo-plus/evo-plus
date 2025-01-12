@@ -16,7 +16,7 @@ import ru.dargen.evoplus.api.event.EventBus;
 import ru.dargen.evoplus.api.event.player.PlayerDisplayNameEvent;
 import ru.dargen.evoplus.features.misc.MiscFeature;
 import ru.dargen.evoplus.features.potion.PotionFeature;
-import ru.dargen.evoplus.protocol.EvoPlusProtocol;
+import ru.dargen.evoplus.protocol.Connector;
 import ru.dargen.evoplus.protocol.registry.PotionType;
 import ru.dargen.evoplus.util.format.TimeKt;
 
@@ -30,6 +30,8 @@ public abstract class PlayerListHudMixin {
         val stringBuilder = new StringBuilder();
         val showServerInTab = MiscFeature.INSTANCE.getShowServerInTab();
 
+
+        //TODO: remove from mixin to event
         if (PotionFeature.INSTANCE.getEnabledPotionsInTab()) {
             val potionTimers = PotionFeature.INSTANCE.getPotionTimers();
             if (!potionTimers.isEmpty()) {
@@ -48,9 +50,10 @@ public abstract class PlayerListHudMixin {
             }
         }
 
-        if (showServerInTab)
+        if (showServerInTab) {
             stringBuilder.append(text.getString())
-                    .append("\nТекущий сервер: §e%s".formatted(EvoPlusProtocol.INSTANCE.getServer().toString()));
+                    .append("\nТекущий сервер: §e%s".formatted(Connector.INSTANCE.getServer().getDisplayName()));
+        }
 
         text = Text.of(stringBuilder.toString());
         return instance.wrapLines(text, width);

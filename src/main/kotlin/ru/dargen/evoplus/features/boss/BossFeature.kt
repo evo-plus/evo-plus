@@ -15,9 +15,9 @@ import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ComparedBosses
 import ru.dargen.evoplus.features.misc.Notifies
 import ru.dargen.evoplus.features.share.ShareFeature
-import ru.dargen.evoplus.features.stats.info.holder.StatisticHolder
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
-import ru.dargen.evoplus.protocol.EvoPlusProtocol
+import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.collector.StatisticCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.util.currentMillis
@@ -27,7 +27,6 @@ import ru.dargen.evoplus.util.json.toJson
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
-import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.sendCommand
 import ru.dargen.evoplus.util.minecraft.uncolored
@@ -81,9 +80,9 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
                 Notifies.showText("Босс ${type.displayName}§f захвачен", "кланом $clan.")
             }
             if (CurseMessage) BossCursedPattern.find(text)?.run {
-                val type = StatisticHolder.Location.bossType ?: return@on
+                val type = StatisticCollector.location.bossType ?: return@on
                 val curse = groupValues[1]
-                sendClanMessage("§8[§e${EvoPlusProtocol.Server}§8] §a${type.displayName} §3проклят на $curse")
+                sendClanMessage("§8[§e${Connector.server.displayName}§8] §a${type.displayName} §3проклят на $curse")
             }
         }
 
@@ -103,7 +102,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
                     val type = BossType.valueOfName(groupValues[1]) ?: return@run
                     val health = groupValues[2].toDoubleOrNull() ?: return@run
 
-                    sendClanMessage("§8[§e${EvoPlusProtocol.Server}§8] ${type.displayName}${if (isCursed) " §8[§3Прок§8]" else ""}§8: §e${percent.fix()}% §8(§c${health.fix()}❤§8)")
+                    sendClanMessage("§8[§e${Connector.server.displayName}§8] ${type.displayName}${if (isCursed) " §8[§3Прок§8]" else ""}§8: §e${percent.fix()}% §8(§c${health.fix()}❤§8)")
                 }
             } ?: return@scheduleEvery
         }

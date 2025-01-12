@@ -11,6 +11,7 @@ import ru.dargen.evoplus.api.render.node.state.hbar
 import ru.dargen.evoplus.api.render.node.text
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.features.stats.StatisticFeature
+import ru.dargen.evoplus.protocol.collector.data.ComboData
 import ru.dargen.evoplus.util.format.color
 import ru.dargen.evoplus.util.format.fix
 import ru.dargen.evoplus.util.math.v3

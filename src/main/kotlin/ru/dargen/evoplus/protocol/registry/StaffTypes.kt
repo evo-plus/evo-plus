@@ -6,16 +6,15 @@ import ru.dargen.evoplus.util.minecraft.colored
 import ru.dargen.evoplus.util.minecraft.customItem
 
 data class StaffType(val data: StaffTypes.StaffType) : TypeRegistry.TypeRegistryEntry<Int>(data.modelId) {
+    companion object : OrdinalRegistry<StaffTypes.StaffType, StaffType, StaffTypes>(
+        StaffTypes::class, StaffTypes::getTypes, ::StaffType
+    )
 
     override val holder = StaffHolder(id)
 
     val displayName = data.name.colored()
 
     val displayItem = customItem(Items.WOODEN_HOE, data.modelId)
-
-    companion object : OrdinalRegistry<StaffTypes.StaffType, StaffType, StaffTypes>(
-        StaffTypes::class, StaffTypes::getTypes, ::StaffType
-    )
 
 }
 

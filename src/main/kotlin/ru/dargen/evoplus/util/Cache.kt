@@ -40,3 +40,9 @@ fun <T> newSetCacheExpireAfterWrite(duration: Duration, handler: ((T) -> Unit)? 
         handler?.let { { key, _ -> it(key) } }
     ).asMap()
 )
+fun <T> newSetCacheExpireAfterAccess(duration: Duration, handler: ((T) -> Unit)? = null) = newSetFromMap(
+    newCacheExpireAfterAccess<T, Boolean>(
+        duration,
+        handler?.let { { key, _ -> it(key) } }
+    ).asMap()
+)

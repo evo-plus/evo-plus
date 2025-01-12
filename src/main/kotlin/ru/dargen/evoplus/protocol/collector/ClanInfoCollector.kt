@@ -1,10 +1,9 @@
-package ru.dargen.evoplus.features.stats.info.holder
+package ru.dargen.evoplus.protocol.collector
 
+import pro.diamondworld.protocol.packet.clan.ClanInfo
 import ru.dargen.evoplus.protocol.registry.BossType
-import ru.dargen.evoplus.protocol.info.InfoCollector
-import ru.dargen.evoplus.protocol.info.collect
 
-object ClanHolder : InfoCollector() {
+object ClanInfoCollector : DataCollector<ClanInfo>(ClanInfo::class, ClanInfo::getData) {
 
     val Level by collect("level", 0)
     val Members by collect("members", emptyList<String>())

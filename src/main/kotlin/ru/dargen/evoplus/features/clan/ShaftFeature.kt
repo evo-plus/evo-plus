@@ -3,7 +3,7 @@ package ru.dargen.evoplus.features.clan
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.entity.decoration.DisplayEntity.ItemDisplayEntity
 import net.minecraft.item.Items
-import ru.dargen.evoplus.api.event.evo.ChangeLocationEvent
+import ru.dargen.evoplus.api.event.evo.data.ChangeLocationEvent
 import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.event.world.ChunkLoadEvent
 import ru.dargen.evoplus.api.event.world.ChunkUnloadEvent
@@ -15,8 +15,8 @@ import ru.dargen.evoplus.api.scheduler.async
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.Notifies
-import ru.dargen.evoplus.features.stats.info.holder.StatisticHolder
-import ru.dargen.evoplus.protocol.EvoPlusProtocol
+import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.collector.StatisticCollector
 import ru.dargen.evoplus.util.evo.isBarrel
 import ru.dargen.evoplus.util.evo.isDetonatingBarrel
 import ru.dargen.evoplus.util.format.nounEndings
@@ -52,7 +52,7 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
     var Barrels = 0
         set(value) {
             if (field == 0 && value == 1) {
-                if (BarrelsClanMessage) sendClanMessage("§8[§e${EvoPlusProtocol.Server}§8] §6Обнаружена бочка §8[§e/mine ${StatisticHolder.Location.shaftLevel}§8]")
+                if (BarrelsClanMessage) sendClanMessage("§8[§e${Connector.server.displayName}§8] §6Обнаружена бочка §8[§e/mine ${StatisticCollector.location.level}§8]")
                 if (BarrelsNotify) Notifies.showText("§6Обнаружена бочка")
                 if (BarrelsMessage) printMessage("§6Обнаружена бочка")
             }
@@ -91,7 +91,7 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
 
                         if (WormNotify) Notifies.showText(text)
                         if (WormMessage) printMessage(text)
-                        if (WormClanMessage) sendClanMessage("§8[§e${EvoPlusProtocol.Server}§8] $text §8[§e/mine ${StatisticHolder.Location.shaftLevel}§8]")
+                        if (WormClanMessage) sendClanMessage("§8[§e${Connector.server.displayName}§8] $text §8[§e/mine ${StatisticCollector.location.level}§8]")
                     }
                 }
         }
@@ -106,14 +106,14 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
                 .filter { it in RaidEntityData }
                 .forEach {
                     val previousRaidShaftLevel = RaidShaftLevel
-                    RaidShaftLevel = StatisticHolder.Location.shaftLevel
+                    RaidShaftLevel = StatisticCollector.location.level
 
                     if (previousRaidShaftLevel == RaidShaftLevel) return@scheduleEvery
 
                     val raidBossText = if (it == RaidBossData) "§8[§aСтраж§8] "
                     else ""
 
-                    sendClanMessage("§8[§e${EvoPlusProtocol.Server}§8] §3Обнаружена рейдовая шахта $raidBossText§8[§e/mine $RaidShaftLevel§8]")
+                    sendClanMessage("§8[§e${Connector.server.displayName}§8] §3Обнаружена рейдовая шахта $raidBossText§8[§e/mine $RaidShaftLevel§8]")
                 }
         }
 

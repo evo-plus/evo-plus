@@ -6,25 +6,11 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket
 import net.minecraft.util.Identifier
 import pro.diamondworld.protocol.ProtocolRegistry
-import pro.diamondworld.protocol.packet.ServerInfo
-import pro.diamondworld.protocol.packet.VerificationToken
 import pro.diamondworld.protocol.util.BufUtil
 import pro.diamondworld.protocol.util.ProtocolSerializable
-import ru.dargen.evoplus.Logger
-import ru.dargen.evoplus.api.event.evo.EvoJoinEvent
-import ru.dargen.evoplus.api.event.evo.EvoQuitEvent
-import ru.dargen.evoplus.api.event.fire
-import ru.dargen.evoplus.api.event.network.ChangeServerEvent
 import ru.dargen.evoplus.api.event.network.CustomPayloadEvent
 import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
-import ru.dargen.evoplus.protocol.registry.AbilityType
-import ru.dargen.evoplus.protocol.registry.BossType
-import ru.dargen.evoplus.protocol.registry.FishingSpot
-import ru.dargen.evoplus.protocol.registry.HourlyQuestType
-import ru.dargen.evoplus.protocol.registry.PetType
-import ru.dargen.evoplus.protocol.registry.PotionType
-import ru.dargen.evoplus.protocol.registry.StaffType
 import ru.dargen.evoplus.util.minecraft.Client
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
@@ -38,25 +24,13 @@ object EvoPlusProtocol {
     val Registry = ProtocolRegistry()
     val Handlers = mutableMapOf<String, RawHandler>()
 
-    var Token: String? = null
-    var Server = ServerInfo.EMPTY
-        set(value) {
-            if (value.serverName != field.serverName && "PRISONEVO" in value.serverName) EvoJoinEvent.fire()
-            else if ("PRISONEVO" in field.serverName) EvoQuitEvent.fire()
-
-            if (value != ServerInfo.EMPTY) Logger.info("Connected to DiamondWorld ($value)")
-
-            field = value
-        }
-
     init {
         scheduleEvery(unit = TimeUnit.SECONDS) {
-            if (Server == ServerInfo.EMPTY) {
+            if (Connector.isOnDiamondWorld && !Connector.isOnPrisonEvo) {
                 sendDummy("handshake")
             }
         }
 
-        on<ChangeServerEvent> { Server = ServerInfo.EMPTY }
         on<CustomPayloadEvent> {
             if (!channel.startsWith("dw")) return@on
             val channel = channel.drop(3)
@@ -65,26 +39,8 @@ object EvoPlusProtocol {
 
             cancel()
         }
-
-        listen<ServerInfo> { Server = it }
-        listen<VerificationToken> {
-            Token = it.token
-            Logger.info("Received token: $it")
-        }
-        initRegistries()
     }
 
-    fun initRegistries() {
-        BossType
-        StaffType
-        PotionType
-        PetType
-        FishingSpot
-        AbilityType
-        HourlyQuestType
-    }
-    
-    fun isOnPrisonEvo() = "PRISONEVO" in EvoPlusProtocol.Server.serverName
 }
 
 //listen

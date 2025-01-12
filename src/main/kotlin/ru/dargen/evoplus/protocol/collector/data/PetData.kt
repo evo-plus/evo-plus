@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.stats.info
+package ru.dargen.evoplus.protocol.collector.data
 
 import ru.dargen.evoplus.protocol.registry.PetHolder
 import ru.dargen.evoplus.protocol.registry.PetType

@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.stats.info
+package ru.dargen.evoplus.protocol.collector.data
 
 import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.util.json.deserializer
@@ -7,7 +7,7 @@ import ru.dargen.evoplus.util.json.gson
 class GameLocation(val id: String) {
 
     val isShaft get() = id.startsWith("shaft")
-    val shaftLevel get() = if (isShaft) id.substring(6).toInt() else 0
+    val level get() = if (isShaft) id.substring(6).toInt() else -1
 
     val isBoss get() = id.startsWith("boss")
     val bossType get() = if (isBoss) BossType.valueOf(id.substring(5)) else null
@@ -19,6 +19,10 @@ class GameLocation(val id: String) {
         init {
             gson { deserializer<GameLocation> { element, ctx -> GameLocation(element.asString) } }
         }
+    }
+
+    override fun toString(): String {
+        return "GameLocation($id)"
     }
 
 }

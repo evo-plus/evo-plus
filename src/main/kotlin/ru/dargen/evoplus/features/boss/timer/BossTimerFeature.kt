@@ -5,7 +5,7 @@ import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossTimers
 import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
 import ru.dargen.evoplus.api.event.chat.ChatReceiveEvent
-import ru.dargen.evoplus.api.event.evo.GameEventChangeEvent
+import ru.dargen.evoplus.api.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.render.node.input.button
 import ru.dargen.evoplus.api.render.node.leftClick
@@ -15,7 +15,7 @@ import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
 import ru.dargen.evoplus.features.misc.Notifies
-import ru.dargen.evoplus.features.stats.info.holder.StatisticHolder
+import ru.dargen.evoplus.protocol.collector.StatisticCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.util.currentMillis
@@ -90,7 +90,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         listen<BossTimers> {
             if (PremiumTimers) it.timers
                 .mapKeys { BossType.valueOf(it.key) ?: return@listen }
-                .mapValues { (it.value + currentMillis * if (StatisticHolder.Event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER else 1.0).toLong() }
+                .mapValues { (it.value + currentMillis * if (StatisticCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER else 1.0).toLong() }
                 .mapKeys { it.key.id }
                 .let(Bosses::putAll)
         }
@@ -192,7 +192,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         ?.run {
             val type = BossType.valueOfName(getOrNull(0) ?: return@run null) ?: return@run null
             val delay = getOrNull(1)?.replace("۞", "")?.fromTextTime
-                ?.let { if (StatisticHolder.Event === MYTHICAL_EVENT && type.isRaid) (it / MYTHICAL_EVENT_MULTIPLIER).toLong() else it }
+                ?.let { if (StatisticCollector.event === MYTHICAL_EVENT && type.isRaid) (it / MYTHICAL_EVENT_MULTIPLIER).toLong() else it }
                 ?.takeIf { it > 6000 }
                 ?: return@run null
 

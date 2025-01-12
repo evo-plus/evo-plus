@@ -5,18 +5,18 @@ import net.minecraft.text.Texts
 import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.event.player.PlayerDisplayNameEvent
 import ru.dargen.evoplus.resource.builtin.Symbol
-import ru.dargen.evoplus.service.EvoPlusService
+import ru.dargen.evoplus.service.user.UserService
 
 object PlayerNames {
 
     init {
         on<PlayerDisplayNameEvent> {
-            if (EvoPlusService.isIngame(playerName)) {
+            if (UserService.isActiveUser(playerName)) {
                 displayName = displayName.asUserText()
             }
         }
     }
 
-    fun Text.asUserText() = Texts.join(listOf(Symbol.EP, this), Text.of(" "))
+    private fun Text.asUserText() = Texts.join(listOf(Symbol.EP, this), Text.of(" "))
 
 }

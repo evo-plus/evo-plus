@@ -7,7 +7,7 @@ import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.event.render.StringRenderEvent
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.chat.market.MarketChatTimerWidget
-import ru.dargen.evoplus.protocol.EvoPlusProtocol
+import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
@@ -64,7 +64,7 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
         )
 
         on<ChatSendEvent> {
-            if (!ColorInputs.value || !EvoPlusProtocol.isOnPrisonEvo()) return@on
+            if (!ColorInputs.value || !Connector.isOnPrisonEvo) return@on
 
 //            val message = text
 //            val hasSelector = formatters.any { message.startsWith(it, true) }
@@ -85,7 +85,7 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
         }
 
         on<ChatSendEvent> {
-            if (!text.startsWith("$") || !EvoPlusProtocol.isOnPrisonEvo() || MarketChatTimerWidget.RemainingTime >= currentMillis) return@on
+            if (!text.startsWith("$") || !Connector.isOnPrisonEvo || MarketChatTimerWidget.RemainingTime >= currentMillis) return@on
 
 //            val isExceededLimit = text.length - 1 >= 256
 //            val timerMultiplier = if (isExceededLimit) 2 else 1

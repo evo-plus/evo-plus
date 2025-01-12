@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.stats.combo
+package ru.dargen.evoplus.protocol.collector.data
 
 import pro.diamondworld.protocol.packet.combo.Combo
 import pro.diamondworld.protocol.packet.combo.ComboBlocks

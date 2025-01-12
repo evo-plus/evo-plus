@@ -29,6 +29,7 @@
     "render.hud.InGameHudMixin",
     "render.hud.ChatHudAccessor",
     "render.hud.BossBarHudAccessor",
+    "render.hud.PlayerListHudAccessor",
     "render.hud.PlayerListHudMixin",
     "render.screen.ChatScreenMixin",
     "render.screen.TitleScreenMixin",

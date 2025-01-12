@@ -32,6 +32,8 @@ fun <V : Comparable<V>> Pair<V, V>.max() = maxOf(first, second)
 
 fun <V : Comparable<V>> Pair<V, V>.min() = minOf(first, second)
 
+inline operator fun <reified C> Any?.invoke() = this?.cast<C>()
+
 inline fun <reified C> Any.cast() = this as C
 
 inline fun <reified C> Any?.safeCast() = this as? C

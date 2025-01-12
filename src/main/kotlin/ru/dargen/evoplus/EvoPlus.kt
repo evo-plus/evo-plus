@@ -13,7 +13,7 @@ import ru.dargen.evoplus.api.render.context.Overlay
 import ru.dargen.evoplus.api.render.context.WorldContext
 import ru.dargen.evoplus.api.scheduler.Scheduler
 import ru.dargen.evoplus.feature.Features
-import ru.dargen.evoplus.protocol.EvoPlusProtocol
+import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.resource.builtin.EvoPlusPackProvider
 import ru.dargen.evoplus.resource.diamondworld.DiamondWorldPackProvider
 import ru.dargen.evoplus.service.EvoPlusService
@@ -30,8 +30,7 @@ object EvoPlus : ClientModInitializer {
 
     val Path by lazy { Container.origin.paths.first() }
     val Id by lazy { Container.metadata.id }
-    val Version by lazy { Container.metadata.version }
-    val VersionString by lazy { Version.friendlyString }
+    val VersionString by lazy { Container.metadata.version.friendlyString + (if (DevEnvironment) "-dev" else "") }
     val DevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
 
     override fun onInitializeClient() {
@@ -39,7 +38,7 @@ object EvoPlus : ClientModInitializer {
         Scheduler
         KeyBindings
 
-        EvoPlusProtocol
+        Connector
 
         WorldContext
         Overlay

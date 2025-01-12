@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.api.event.evo
+package ru.dargen.evoplus.api.event.evo.data
 
 import pro.diamondworld.protocol.packet.game.GameEvent
 import ru.dargen.evoplus.api.event.Event
