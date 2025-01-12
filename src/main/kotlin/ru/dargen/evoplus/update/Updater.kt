@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.update
 
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.Logger
 import ru.dargen.evoplus.api.render.Colors
 import ru.dargen.evoplus.api.render.Relative
 import ru.dargen.evoplus.api.render.context.screen
@@ -91,25 +90,22 @@ object Updater {
     private fun update(file: Modrinth.VersionInfo.FileInfo) {
         catch("Error while downloading latest EvoPlus version") {
             val input = Channels.newChannel(URI(file.url).toURL().openStream())
-            val output = FileOutputStream(File("mods", file.filename)).channel
-            output.transferFrom(input, 0, Long.MAX_VALUE)
+            FileOutputStream(File("mods", file.filename)).use {
+                it.channel.transferFrom(input, 0, Long.MAX_VALUE)
+            }
         }
-
-        Logger.info("Downloaded latest EvoPlus version ${file.filename}")
 
         thread(true, true) {
             Thread.sleep(1000)
             EvoPlus.Container.origin.paths.forEach(Path::deleteIfExists)
 
-            Logger.info("Shutting down client")
-
             Client.scheduleStop()
         }
 
-        catch("Error while closing classloader") {
+        try {
             val loader = Updater::class.java.classLoader.parent as URLClassLoader
             loader.close()
-        }
+        } catch(t: Throwable) {}
     }
 
 }

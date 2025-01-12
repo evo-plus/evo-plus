@@ -34,6 +34,8 @@ object EvoPlus : ClientModInitializer {
     val DevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
 
     override fun onInitializeClient() {
+        if (UpdateResolver.isOutdated) return
+
         EventBus
         Scheduler
         KeyBindings
