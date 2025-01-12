@@ -9,9 +9,9 @@ import java.net.URI
 
 enum class Social(val identifier: Identifier, val color: Color, val website: String) {
 
-    DISCORD(texture("icons/gui/discord"), Color(0x5865F2), "https://discord.gg/tkuVE3fdKt"),
-    MODRINTH(texture("icons/gui/modrinth"), Color(0x1BD96A), "https://modrinth.com/mod/evoplus"),
-    GITHUB(texture("icons/gui/github"), Color(0x0), "https://github.com/asyncdargen/evo-plus"),
+    DISCORD(texture("gui/icon/discord"), Color(0x5865F2), "https://discord.gg/tkuVE3fdKt"),
+    MODRINTH(texture("gui/icon/modrinth"), Color(0x1BD96A), "https://modrinth.com/mod/evoplus"),
+    GITHUB(texture("gui/icon/github"), Color(0x0), "https://github.com/asyncdargen/evo-plus"),
     ;
 
     init {

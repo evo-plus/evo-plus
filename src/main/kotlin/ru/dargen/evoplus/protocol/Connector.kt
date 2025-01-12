@@ -52,6 +52,7 @@ object Connector {
                 ?.footer?.string
                 ?.contains("diamondworld.pro") == true
         }
+
         on<ChangeServerEvent> { server = ServerId.Companion.HUB }
         listen<ServerInfo> { server = it.asId() }
 
