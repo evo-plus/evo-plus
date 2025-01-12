@@ -31,7 +31,7 @@ object UserService {
     private fun tryUpdate() {
         if (Connector.isOnDiamondWorld && Connector.token.isWorking) {
             runCatching {
-                UserController.update(Connector.token.token, EvoPlus.VersionString, Connector.server.toString())
+                UserController.update(Connector.token.token, EvoPlus.Version, Connector.server.toString())
             }.onFailure { Logger.error("Error while updating user", it) }
         }
     }

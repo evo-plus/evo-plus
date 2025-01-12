@@ -31,7 +31,7 @@ object FeaturesScreen {
     var SelectedFeature = Features.List.first()
 
     fun open() = screen("features") features@{
-        val label = +text("${EvoPlus.Label} §fv${EvoPlus.VersionString}") {
+        val label = +text("${EvoPlus.Label} §fv${EvoPlus.Version}") {
             scale = v3(1.7, 1.7, 1.7)
             position = v3(-5.0, 5.0)
 

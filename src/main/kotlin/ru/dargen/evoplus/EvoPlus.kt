@@ -30,7 +30,7 @@ object EvoPlus : ClientModInitializer {
 
     val Path by lazy { Container.origin.paths.first() }
     val Id by lazy { Container.metadata.id }
-    val VersionString by lazy { Container.metadata.version.friendlyString + (if (DevEnvironment) "-dev" else "") }
+    val Version by lazy { Container.metadata.version.friendlyString + (if (DevEnvironment) "-dev" else "") }
     val DevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
 
     override fun onInitializeClient() {

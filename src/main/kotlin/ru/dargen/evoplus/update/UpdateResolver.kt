@@ -15,7 +15,7 @@ object UpdateResolver {
 
     var latestVersion: Modrinth.VersionInfo? = null
     val isOutdated
-        get() = !EvoPlus.DevEnvironment && latestVersion != null && latestVersion?.name != EvoPlus.VersionString
+        get() = !EvoPlus.DevEnvironment && latestVersion != null && latestVersion?.name != EvoPlus.Version
 
     init {
         fetchLatestVersion()
