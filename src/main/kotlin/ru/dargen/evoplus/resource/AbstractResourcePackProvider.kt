@@ -22,10 +22,10 @@ abstract class AbstractResourcePackProvider(
         SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES),
         FeatureFlags.DEFAULT_ENABLED_FEATURES
     )
-    open protected val pack get() = ResourcePackProfile.of(
+    protected open val pack get() = ResourcePackProfile.of(
         id, Text.of(name), true,
         this::openPack, metadata,
-        ResourceType.CLIENT_RESOURCES, InsertionPosition.TOP, true, Source
+        ResourceType.CLIENT_RESOURCES, InsertionPosition.TOP, false, Source
     )
 
     override fun register(profileAdder: Consumer<ResourcePackProfile>) = profileAdder.accept(pack)

@@ -2,8 +2,8 @@ package ru.dargen.evoplus.feature.config
 
 import com.google.gson.reflect.TypeToken
 import ru.dargen.evoplus.feature.Features
-import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.catch
+import ru.dargen.evoplus.util.json.Gson
 import kotlin.io.path.exists
 import kotlin.io.path.reader
 import kotlin.io.path.writeText
@@ -16,7 +16,9 @@ class JsonConfig<T>(val name: String, val token: TypeToken<T>, var value: T) : R
 
     fun load() {
         catch("Error while loading config: $name.json") {
-            if (file.exists()) value = Gson.fromJson(file.reader(), token)
+            if (file.exists()) {
+                Gson.fromJson(file.reader(), token)?.let(this::value::set)
+            }
         }
     }
 

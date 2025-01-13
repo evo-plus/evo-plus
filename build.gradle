@@ -7,7 +7,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.0'
 }
 
-version = project.mod_version
+version = project.evo_plus_version
 group = project.maven_group
 archivesBaseName = project.archives_base_name
 
@@ -39,11 +39,9 @@ dependencies {
     //Kotlin
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    //Protocol
-    include(implementation("pro.diamondworld.evoplusprotocol:evoplusprotocol:${project.evo_plus_protocol_version}"))
-
     include(implementation("com.github.ben-manes.caffeine:caffeine:${project.caffeine_version}"))
 
+    include(implementation("pro.diamondworld.evoplusprotocol:evoplusprotocol:${project.evo_plus_protocol_version}"))
     include(implementation("com.github.asyncdargen:rest-client:${project.rest_client_version}"))
     include(implementation("com.github.asyncdargen.crowbar:crowbar-core:${project.crowbar_version}"))
 }

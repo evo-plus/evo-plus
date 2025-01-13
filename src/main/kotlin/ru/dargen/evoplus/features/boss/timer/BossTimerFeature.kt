@@ -180,7 +180,8 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     }
 
     private fun fetchWorldBossData() = Client?.world?.entities
-        ?.map { it.displayName.string.uncolored() }
+        ?.filterNotNull()
+        ?.mapNotNull { it.displayName?.string?.uncolored() }
         ?.sortedByDescending { it.startsWith("Босс") }
         ?.mapNotNull {
             when {

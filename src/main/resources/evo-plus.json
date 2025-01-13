@@ -35,6 +35,7 @@
     "render.screen.TitleScreenMixin",
 
     "entity.EntityAccessor",
+    "entity.ArmorStandEntityMixin",
     "entity.player.PlayerInventoryAccessor",
     "entity.player.PlayerEntityMixin",
 

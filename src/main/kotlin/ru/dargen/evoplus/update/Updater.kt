@@ -49,10 +49,7 @@ object Updater {
                 "",
                 if (version.isHotFix) "Для выхода с обновлением нажмите кнопку \"Обновить\"."
                 else "Для перехода к обновлению нажмите кнопку \"Обновиться\"."
-            ) {
-                scale = v3(1.1, 1.1)
-                isCentered = true
-            }
+            ) { isCentered = true }
 
             +vbox {
                 childrenRelative = .5
@@ -105,7 +102,8 @@ object Updater {
         try {
             val loader = Updater::class.java.classLoader.parent as URLClassLoader
             loader.close()
-        } catch(t: Throwable) {}
+        } catch (t: Throwable) {
+        }
     }
 
 }

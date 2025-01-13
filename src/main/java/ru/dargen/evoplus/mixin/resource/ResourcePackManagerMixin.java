@@ -10,30 +10,24 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.extension.ResourcePackManagerExtension;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.resourcepack.ResourceProvidersInitializeEvent;
+import ru.dargen.evoplus.resource.builtin.EvoPlusPackProvider;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(ResourcePackManager.class)
-public abstract class ResourcePackManagerMixin implements ResourcePackManagerExtension {
+public abstract class ResourcePackManagerMixin {
 
     @Mutable
-    @Shadow @Final private Set<ResourcePackProvider> providers;
+    @Shadow
+    @Final
+    private Set<ResourcePackProvider> providers;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(ResourcePackProvider[] providers, CallbackInfo ci) {
-        var event = new ResourceProvidersInitializeEvent(new HashSet<>(this.providers));
-        EventBus.INSTANCE.fire(event);
-
-        this.providers = ImmutableSet.copyOf(event.getProviders());
-    }
-
-    @Override
-    public void appendProviders(Set<ResourcePackProvider> providers) {
-        this.providers = ImmutableSet.<ResourcePackProvider>builder().addAll(this.providers).addAll(providers).build();
+        this.providers = ImmutableSet.<ResourcePackProvider>builder()
+                .addAll(this.providers)
+                .add(new EvoPlusPackProvider())
+                .build();
     }
 
 }

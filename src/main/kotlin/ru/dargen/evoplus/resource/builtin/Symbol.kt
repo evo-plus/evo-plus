@@ -9,6 +9,6 @@ object Symbol {
     val IconsFont = identifier("icons")
 
     @JvmField
-    val EP = Text.of("\uE000").copy().withFont(IconsFont)
+    val EP = Text.of("\uE558").copy().withFont(IconsFont)
 
 }
