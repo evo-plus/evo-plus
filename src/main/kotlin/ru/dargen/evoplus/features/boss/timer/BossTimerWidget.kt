@@ -5,8 +5,8 @@ import ru.dargen.evoplus.api.render.node.box.vbox
 import ru.dargen.evoplus.api.render.node.item
 import ru.dargen.evoplus.api.render.node.leftClick
 import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.feature.isWidgetEditor
 import ru.dargen.evoplus.feature.widget.WidgetBase
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ShortName
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ShortTimeFormat
 import ru.dargen.evoplus.protocol.registry.BossType

@@ -14,7 +14,7 @@ import ru.dargen.evoplus.api.render.node.text
 import ru.dargen.evoplus.api.render.node.tick
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.isWidgetEditor
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.features.misc.Notifies
 import ru.dargen.evoplus.features.stats.info.holder.HourlyQuestInfoHolder
 import ru.dargen.evoplus.protocol.listen

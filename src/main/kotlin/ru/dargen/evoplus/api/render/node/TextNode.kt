@@ -13,10 +13,11 @@ class TextNode(lines: List<String>) : Node() {
     constructor(line: String) : this(line.split("\n"))
 
     val linesCount get() = lines.size
+    protected var dirty = false
     var lines: List<String> = lines
         set(value) {
             field = value
-            recompute()
+            runCatching { recompute() }.onFailure { dirty = true }
         }
     var text: String
         get() = lines.joinToString("\n")
@@ -43,6 +44,10 @@ class TextNode(lines: List<String>) : Node() {
     }
 
     override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
+        if (dirty) {
+            recompute()
+        }
+
         val height = (TextRenderer.fontHeight - 1.0)
         linesWithWidths.forEachIndexed { index, (line, width) ->
             val x = if (isCentered) size.x.toFloat() / 2f - width / 2f else 0f

@@ -7,7 +7,7 @@ import ru.dargen.evoplus.api.render.Tips
 import ru.dargen.evoplus.api.render.node.*
 import ru.dargen.evoplus.api.render.node.box.hbox
 import ru.dargen.evoplus.api.render.node.box.vbox
-import ru.dargen.evoplus.feature.isWidgetEditor
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.features.misc.RenderFeature
 import ru.dargen.evoplus.features.stats.info.holder.HourlyQuestInfoHolder

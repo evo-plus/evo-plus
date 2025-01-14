@@ -9,7 +9,7 @@ import ru.dargen.evoplus.api.render.node.*
 import ru.dargen.evoplus.api.render.node.box.hbox
 import ru.dargen.evoplus.api.render.node.box.vbox
 import ru.dargen.evoplus.api.scheduler.schedule
-import ru.dargen.evoplus.feature.isWidgetEditor
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3

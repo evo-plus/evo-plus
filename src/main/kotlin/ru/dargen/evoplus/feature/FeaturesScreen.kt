@@ -8,7 +8,6 @@ import ru.dargen.evoplus.api.render.Relative
 import ru.dargen.evoplus.api.render.animation.Easings
 import ru.dargen.evoplus.api.render.animation.animate
 import ru.dargen.evoplus.api.render.context.Overlay.ScaledResolution
-import ru.dargen.evoplus.api.render.context.ScreenContext
 import ru.dargen.evoplus.api.render.context.screen
 import ru.dargen.evoplus.api.render.node.*
 import ru.dargen.evoplus.api.render.node.box.hbox
@@ -19,6 +18,7 @@ import ru.dargen.evoplus.api.render.node.input.input
 import ru.dargen.evoplus.api.render.node.scroll.VScrollViewNode
 import ru.dargen.evoplus.api.render.node.scroll.vScrollView
 import ru.dargen.evoplus.api.scheduler.async
+import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.resource.Social
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
@@ -150,9 +150,7 @@ object FeaturesScreen {
             this@button.label.text = "Виджеты"
 
             on {
-                screen("features-widgets") {
-                    transparent = true
-                }.open()
+                WidgetEditorScreen.open()
             }
         }
 
@@ -211,5 +209,3 @@ object FeaturesScreen {
     }.openIfNoScreen()
 
 }
-
-val isWidgetEditor get() = ScreenContext.current()?.id == "features-widgets"

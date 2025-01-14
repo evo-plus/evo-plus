@@ -6,7 +6,7 @@ import ru.dargen.evoplus.api.render.node.box.hbox
 import ru.dargen.evoplus.api.render.node.box.vbox
 import ru.dargen.evoplus.api.render.node.item
 import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.feature.isWidgetEditor
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.protocol.collector.data.PetData
 import ru.dargen.evoplus.protocol.collector.StatisticCollector

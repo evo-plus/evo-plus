@@ -4,7 +4,7 @@ import ru.dargen.evoplus.api.render.Relative
 import ru.dargen.evoplus.api.render.node.Node
 import ru.dargen.evoplus.api.render.node.box.vbox
 import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.feature.isWidgetEditor
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.features.rune.RuneFeature
 import ru.dargen.evoplus.protocol.registry.AbilityType

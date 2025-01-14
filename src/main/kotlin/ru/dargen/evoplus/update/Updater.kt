@@ -66,7 +66,7 @@ object Updater {
                     }
                     +button("Modrinth") {
                         buttonColor = Social.MODRINTH.color
-                        on { Social.MODRINTH.open() }
+                        on { Social.MODRINTH.open("/version/${version.name}") }
                     }
                 }
 

@@ -9,7 +9,6 @@ import ru.dargen.evoplus.api.render.animation.animate
 import ru.dargen.evoplus.api.render.context.Overlay
 import ru.dargen.evoplus.api.render.node.*
 import ru.dargen.evoplus.api.render.node.box.box
-import ru.dargen.evoplus.feature.isWidgetEditor
 import ru.dargen.evoplus.feature.settings.Setting
 import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.json.asDouble
@@ -45,8 +44,19 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
             } else false
         }
         drag(inOutHandler = {
-            if (it && isWidgetEditor) usePosition()
-            else if (!it && this@Widget.position) useAlign()
+            if (it && isWidgetEditor) {
+                WidgetEditorScreen.selectedWidget = this@Widget
+                usePosition()
+            } else if (!it && this@Widget.position) {
+                if (WidgetEditorScreen.selectedWidget === this@Widget) {
+                    if (WidgetEditorScreen.mode === WidgetEditorScreen.Mode.DELETE) {
+                        this@Widget.enabled = false
+                    }
+                    WidgetEditorScreen.selectedWidget = null
+                }
+
+                useAlign()
+            }
         }) { _, delta ->
             if (isWidgetEditor) {
                 translation = delta / (wholeScale / scale)
@@ -93,7 +103,8 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
         }
     }
 
-    private fun usePosition() = value.apply {
+    fun usePosition() = value.apply {
+        if (this@Widget.position) return@apply
         this@Widget.position = true
 
         position = parent!!.size * align

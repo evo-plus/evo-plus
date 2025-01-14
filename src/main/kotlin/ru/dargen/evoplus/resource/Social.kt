@@ -18,6 +18,6 @@ enum class Social(val identifier: Identifier, val color: Color, val website: Str
         Accessors.unsafe().openField<Boolean>(GraphicsEnvironment::class.java, "headless").staticValue = false
     }
 
-    fun open() = Desktop.getDesktop().browse(URI(website))
+    fun open(append: String = "") = Desktop.getDesktop().browse(URI(website + append))
 
 }
