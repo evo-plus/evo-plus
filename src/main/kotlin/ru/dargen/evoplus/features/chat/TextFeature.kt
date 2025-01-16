@@ -65,6 +65,7 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
 
         on<ChatSendEvent> {
             if (!ColorInputs.value || !Connector.isOnPrisonEvo) return@on
+            if (text.startsWith("@")) return@on
 
             val message = text
             val prefix = formatters.find { message.startsWith(it, true) }?.take(1) ?: ""
