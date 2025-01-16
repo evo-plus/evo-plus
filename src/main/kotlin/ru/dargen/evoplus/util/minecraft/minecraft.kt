@@ -13,6 +13,7 @@ import net.minecraft.util.hit.EntityHitResult
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.extension.MinecraftClientExtension
 import ru.dargen.evoplus.mixin.MinecraftClientAccessor
+import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.Vector3
@@ -66,7 +67,6 @@ fun postToMainThread(runnable: () -> Unit) =
     Client.cast<MinecraftClientAccessor>().renderTaskQueue.add(runnable)
 
 fun forceInMainThread(runnable: () -> Unit) {
-
     if (!MinecraftClient.getInstance().isOnThread) postToMainThread(runnable) else runnable()
 }
 
@@ -86,7 +86,9 @@ fun printHoveredCommandMessage(message: String, hover: String, command: String) 
 fun sendChatMessage(message: String) =
     Player?.networkHandler?.sendChatMessage(message.replace('§', '&'))
 
-fun sendClanMessage(message: String) = sendChatMessage("@$message")
+fun sendClanMessage(message: String) {
+    if (Connector.isOnPrisonEvo) sendChatMessage("@$message")
+}
 
 fun sendCommand(command: String) = Player?.networkHandler?.sendChatCommand(command)
 
