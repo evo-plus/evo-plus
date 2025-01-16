@@ -135,6 +135,7 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
     override fun load(element: JsonElement) {
         val element = element.asObject() ?: return
 
+        enabled = element["enabled"]?.asBoolean ?: enabled
         element["origin"].asObject()?.let {
             value.origin.apply { set(it["x"].asDouble(x), it["y"].asDouble(y), it["z"].asDouble(z)) }
         }
@@ -154,6 +155,7 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
 
     override fun store(): JsonElement = Gson.toJsonTree(
         mapOf(
+            "enabled" to enabled,
             "align" to value.align.toMap(),
             "scale" to value.scale.toMap(),
             "origin" to value.origin.toMap()
