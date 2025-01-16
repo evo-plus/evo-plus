@@ -10,6 +10,7 @@ import ru.dargen.evoplus.api.render.context.Overlay
 import ru.dargen.evoplus.api.render.node.*
 import ru.dargen.evoplus.api.render.node.box.box
 import ru.dargen.evoplus.feature.settings.Setting
+import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.json.asDouble
 import ru.dargen.evoplus.util.json.asObject
@@ -25,6 +26,8 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
         set(enabled) {
             value.enabled = enabled
         }
+
+    private var hoverTimestamp = 0L
 
     override var value: Node = Overlay + box {
         supplier()
@@ -64,13 +67,14 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
                 fixPosition()
             }
         }
+        hover {  _, state -> if (isWidgetEditor) hoverTimestamp = if (state) currentMillis else 0L }
+        preTransform { _, _ -> color = if (isWidgetEditor && isHovered) TransparentWhite else Transparent }
         postRender { matrices, _ ->
-            if (isWidgetEditor && isHovered) Tips.draw(
+            if (isWidgetEditor && isHovered && hoverTimestamp + 1000 <= currentMillis) Tips.draw(
                 matrices, "Для изменения размера используйте колесико мышки.",
                 "Чтобы вернуть размер по умолчанию, нажмите на колесико мышки."
             )
         }
-        preTransform { _, _ -> color = if (isWidgetEditor && isHovered) TransparentWhite else Transparent }
     }
 
     private fun fix() {
@@ -121,8 +125,7 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
 
         val centeredAlign = ((pos - size * origin * scale + size * scale / 2.0) / parent!!.size).fixNaN()
 
-        val origin = Relative.entries
-            .minBy { it.distance(centeredAlign) }
+        val origin = Relative.entries.minBy { it.distance(centeredAlign) }
         pos += (origin - this.origin) * size * scale
 
         this.origin = origin

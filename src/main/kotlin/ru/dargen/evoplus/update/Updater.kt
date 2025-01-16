@@ -66,7 +66,7 @@ object Updater {
                     }
                     +button("Modrinth") {
                         buttonColor = Social.MODRINTH.color
-                        on { Social.MODRINTH.open("/version/${version.name}") }
+                        on { Social.MODRINTH.open() }
                     }
                 }
 
@@ -82,6 +82,8 @@ object Updater {
                 }
             }
         }
+
+        Social.MODRINTH.open()
     }.open()
 
     private fun update(file: Modrinth.VersionInfo.FileInfo) {

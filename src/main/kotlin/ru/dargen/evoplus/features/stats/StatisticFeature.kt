@@ -19,8 +19,8 @@ import ru.dargen.evoplus.features.misc.Notifies
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
 import ru.dargen.evoplus.features.stats.level.LevelWidget
 import ru.dargen.evoplus.features.stats.pet.PetInfoWidget
-import ru.dargen.evoplus.protocol.collector.StatisticCollector.combo
-import ru.dargen.evoplus.protocol.collector.StatisticCollector.data
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector.combo
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector.economic
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.itemStack
@@ -49,7 +49,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
     var BlocksCount = 0
         set(value) {
             field = value
-            BlocksCounterText.text = "${max(data.blocks - field, 0)}"
+            BlocksCounterText.text = "${max(economic.blocks - field, 0)}"
         }
     val BlocksCounterText = text("0") { isShadowed = true }
     val BlocksCounterWidget by widgets.widget("Счетчик блоков", "block-counter") {
@@ -66,7 +66,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
         }
     }
     val ResetBlocksCounter =
-        screen.baseElement("Сбросить счетчик блоков") { button("Сбросить") { on { BlocksCount = data.blocks } } }
+        screen.baseElement("Сбросить счетчик блоков") { button("Сбросить") { on { BlocksCount = economic.blocks } } }
 
     var BlocksPerSecondCounter = mutableMapOf<BlockPos, Long>()
     val BlocksPerSecondWidget by widgets.widget("Счетчик блоков за секунду", "blocks-per-second-counter") {
@@ -115,14 +115,14 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
         }
 
         on<LevelUpdateEvent> {
-            LevelWidget.update(data)
+            LevelWidget.update(economic)
 
             if (NotifyCompleteLevelRequire && level.isCompleted && !previousLevel.isCompleted) {
                 Notifies.showText("§aВы можете повысить уровень!")
             }
 
-            if (BlocksCount == 0) BlocksCount = data.blocks
-            BlocksCounterText.text = "${max(data.blocks - BlocksCount, 0)}"
+            if (BlocksCount == 0) BlocksCount = economic.blocks
+            BlocksCounterText.text = "${max(economic.blocks - BlocksCount, 0)}"
         }
     }
 

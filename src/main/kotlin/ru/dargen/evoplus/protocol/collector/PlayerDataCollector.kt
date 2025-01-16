@@ -12,17 +12,18 @@ import ru.dargen.evoplus.api.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.api.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.api.event.fire
 import ru.dargen.evoplus.protocol.collector.data.ComboData
+import ru.dargen.evoplus.protocol.collector.data.EconomicData
 import ru.dargen.evoplus.protocol.collector.data.GameLocation
 import ru.dargen.evoplus.protocol.collector.data.PetData
-import ru.dargen.evoplus.protocol.collector.data.StatisticData
 import ru.dargen.evoplus.protocol.listen
 
-object StatisticCollector : DataCollector<StatisticInfo>(StatisticInfo::class, StatisticInfo::getData) {
+object PlayerDataCollector : DataCollector<StatisticInfo>(StatisticInfo::class, StatisticInfo::getData) {
 
     val location by collect("gameLocation", GameLocation("spawn")) { ChangeLocationEvent.fire() }
     val pets by collect("pets", emptyList<PetData>())
 
-    val data = StatisticData(this)
+    val economic = EconomicData(this)
+    val statistics by collect("statistic", emptyList<Double>())
     val combo = ComboData()
 
     var event = EventType.NONE
@@ -43,9 +44,9 @@ object StatisticCollector : DataCollector<StatisticInfo>(StatisticInfo::class, S
             ComboUpdateEvent(combo).fire()
         }
         listen<LevelInfo> {
-            val previousLevel = data.nextLevel.copy()
-            data.fetch(it)
-            LevelUpdateEvent(previousLevel, data.nextLevel).fire()
+            val previousLevel = economic.nextLevel.copy()
+            economic.fetch(it)
+            LevelUpdateEvent(previousLevel, economic.nextLevel).fire()
         }
     }
 

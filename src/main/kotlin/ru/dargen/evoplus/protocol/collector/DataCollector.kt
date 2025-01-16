@@ -18,7 +18,9 @@ open class DataCollector<P : ProtocolSerializable>(val packetClass: KClass<P>, v
         listen(packetClass) { accept(extractor(it)) }
     }
 
-    private fun accept(values: Map<String, String>) = collectors.forEach { (name, data) -> values[name]?.let(data::accept) }
+    private fun accept(values: Map<String, String>) {
+        collectors.forEach { (name, data) -> values[name]?.let(data::accept) }
+    }
 
     inline fun <reified T : Any> collect(
         name: String,

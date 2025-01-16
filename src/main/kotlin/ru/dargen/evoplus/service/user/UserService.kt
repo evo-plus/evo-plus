@@ -7,11 +7,16 @@ import ru.dargen.evoplus.api.event.network.ChangeServerEvent
 import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
 import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
+import ru.dargen.evoplus.service.user.model.UserStatisticModel
 import ru.dargen.evoplus.util.collection.takeIfNotEmpty
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.minecraft.PlayerName
+import ru.dargen.evoplus.util.minecraft.isNPCName
+import ru.dargen.evoplus.util.newCacheExpireAfterAccess
 import ru.dargen.evoplus.util.newSetCacheExpireAfterAccess
 import ru.dargen.evoplus.util.rest.controller
+import java.util.concurrent.TimeUnit.MINUTES
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.time.Duration.Companion.minutes
 
@@ -19,15 +24,21 @@ object UserService {
 
     private val UserController = controller<UserController>()
     private val activeUsers = newSetCacheExpireAfterAccess<String>(2.minutes)
+    private val userNames = newCacheExpireAfterAccess<String, String>(1.minutes)
 
     init {
         on<PlayerTokenUpdateEvent> { if (token.isWorking) tryUpdate() }
 
-        on<ChangeServerEvent> { tryFetchActiveUsers() }
-        scheduleEvery(20, 20, unit = SECONDS) { tryFetchActiveUsers() }
+        on<ChangeServerEvent> { tryFetchUserData() }
+        scheduleEvery(1, 1, unit = MINUTES) { tryUpdateStatistic() }
+        scheduleEvery(20, 20, unit = SECONDS) { tryFetchUserData() }
     }
 
     fun isActiveUser(name: String) = name.equals(PlayerName, true) || name.lowercase() in activeUsers
+
+    fun hasDisplayName(player: String) = player in userNames.asMap()
+
+    fun getDisplayName(player: String) = userNames.getIfPresent(player.lowercase())
 
     private fun tryUpdate() {
         if (Connector.isOnDiamondWorld && Connector.token.isWorking) {
@@ -37,9 +48,25 @@ object UserService {
         }
     }
 
-    private fun tryFetchActiveUsers() {
-        if (Connector.isOnDiamondWorld) {
+    private fun tryUpdateStatistic() {
+        if (Connector.isOnPrisonEvo && Connector.token.isWorking) {
+            UserController.updateStatistic(
+                Connector.token.token, Connector.server.id, UserStatisticModel(
+                    PlayerDataCollector.economic.level,
+                    PlayerDataCollector.economic.blocks,
+                    PlayerDataCollector.economic.money,
+                    PlayerDataCollector.economic.shards.toDouble(),
+                    PlayerDataCollector.location.id,
+                    PlayerDataCollector.statistics.joinToString(",")
+                )
+            )
+        }
+    }
+
+    private fun tryFetchUserData() {
+        if (Connector.isOnPrisonEvo) {
             fetchActiveUsers()
+            fetchUsersDisplayNames()
         }
     }
 
@@ -47,7 +74,7 @@ object UserService {
         players: Collection<String> = Client.networkHandler?.playerList?.mapNotNull { it?.profile?.name } ?: emptySet(),
     ) {
         val players = players
-            .filterNot { '§' in it || it.isBlank() }
+            .filterNot { it.isNPCName }
             .filter { !isActiveUser(it).apply { if (this) activeUsers.add(it.lowercase()) } }
             .takeIfNotEmpty() ?: return
 
@@ -56,6 +83,22 @@ object UserService {
             .onSuccess {
                 activeUsers.addAll(it.map(String::lowercase))
                 Logger.info("${it.size + 1}/${players.size} with EvoPlus!")
+            }
+    }
+
+    private fun fetchUsersDisplayNames(
+        players: Collection<String> = Client.networkHandler?.playerList?.mapNotNull { it?.profile?.name } ?: emptySet(),
+    ) {
+        val players = players
+            .filterNot { it.isNPCName }
+            .takeIfNotEmpty() ?: return
+
+        runCatching { UserController.getDisplayNames(players) }
+            .onFailure { Logger.error("Error while fetch users names", it) }
+            .onSuccess {
+                userNames.putAll(
+                    it.map { (player, name) -> player.lowercase() to name.replace("%name%", player) }.toMap()
+                )
             }
     }
 

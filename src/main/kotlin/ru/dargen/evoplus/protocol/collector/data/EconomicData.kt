@@ -3,7 +3,7 @@ package ru.dargen.evoplus.protocol.collector.data
 import pro.diamondworld.protocol.packet.game.LevelInfo
 import ru.dargen.evoplus.protocol.collector.DataCollector
 
-class StatisticData(collector: DataCollector<*>) {
+class EconomicData(collector: DataCollector<*>) {
 
     var level by collector.collect<Int>("level", 1)
     val nextLevel: LevelData = LevelData()

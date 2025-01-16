@@ -11,7 +11,7 @@ import ru.dargen.evoplus.api.event.on
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
 import ru.dargen.evoplus.mixin.render.hud.PlayerListHudAccessor
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
-import ru.dargen.evoplus.protocol.collector.StatisticCollector
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.data.PlayerToken
 import ru.dargen.evoplus.protocol.data.PlayerToken.Companion.parse
 import ru.dargen.evoplus.protocol.data.ServerId
@@ -39,7 +39,7 @@ object Connector {
     var token: PlayerToken = PlayerToken.Invalid()
         private set
 
-    val isOnPrisonEvo get() = server.name == "PRISONEVO"
+    val isOnPrisonEvo get() = isOnDiamondWorld && server.name == "PRISONEVO"
     var isOnDiamondWorld = false
         private set
 
@@ -66,7 +66,7 @@ object Connector {
     }
 
     fun initCollectors() {
-        StatisticCollector
+        PlayerDataCollector
         ClanInfoCollector
     }
 

@@ -10,7 +10,7 @@ import ru.dargen.evoplus.api.render.node.text
 import ru.dargen.evoplus.api.render.node.tick
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.protocol.collector.StatisticCollector
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.util.selector.toSelector
 
 object DevFeature : Feature("dev-env", "DevEnv", Items.COMMAND_BLOCK) {
@@ -40,8 +40,8 @@ object DevFeature : Feature("dev-env", "DevEnv", Items.COMMAND_BLOCK) {
                 text = """
                     Token: ${Connector.token}
                     Server: ${Connector.server}
-                    Location: ${StatisticCollector.location}
-                    Event: ${StatisticCollector.event}
+                    Location: ${PlayerDataCollector.location}
+                    Event: ${PlayerDataCollector.event}
                 """.trimIndent()
             }
         }

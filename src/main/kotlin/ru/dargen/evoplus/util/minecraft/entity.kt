@@ -14,4 +14,6 @@ val Entity.isSink get() = fluidHeight.getDouble(FluidTags.WATER) > .0 || fluidHe
 
 val PlayerInventory.items get() = cast<PlayerInventoryAccessor>().combinedInventory.flatten()
 
-val AbstractClientPlayerEntity.isNPC get() = '§' in gameProfile.name || gameProfile.name.isBlank()
+val String.isNPCName get() = '§' in this || isBlank()
+
+val AbstractClientPlayerEntity.isNPC get() = gameProfile.name.isNPCName

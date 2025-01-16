@@ -140,6 +140,9 @@ object FeaturesScreen {
             }
         }
 
+        +rectangle {
+            size = v3(32.0, 32.0)
+        }
         +button {
             align = Relative.RightBottom
             origin = Relative.RightBottom
@@ -149,9 +152,7 @@ object FeaturesScreen {
 
             this@button.label.text = "Виджеты"
 
-            on {
-                WidgetEditorScreen.open()
-            }
+            on {WidgetEditorScreen.open() }
         }
 
         +hbox {

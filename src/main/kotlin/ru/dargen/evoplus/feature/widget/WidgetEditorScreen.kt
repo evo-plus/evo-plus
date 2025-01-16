@@ -140,10 +140,15 @@ object WidgetEditorScreen {
         }.forEach { widget ->
             addElements(button(widget.name) {
                 on {
-                    widget.enabled = true
-                    widget.usePosition()
-                    widget.value.position = it
-                    widget.value.mouseClick(it, 0, true)
+                    with(widget) {
+                        enabled = true
+                        usePosition()
+                        with(value) {
+                            position = it
+                            origin = Relative.Center
+                            mouseClick(it, 0, true)
+                        }
+                    }
                     hide()
                 }
             })

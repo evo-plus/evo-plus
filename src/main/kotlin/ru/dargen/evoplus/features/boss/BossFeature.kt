@@ -12,12 +12,11 @@ import ru.dargen.evoplus.api.render.node.text
 import ru.dargen.evoplus.api.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ComparedBosses
 import ru.dargen.evoplus.features.misc.Notifies
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.protocol.collector.StatisticCollector
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.util.currentMillis
@@ -28,7 +27,6 @@ import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
-import ru.dargen.evoplus.util.minecraft.sendCommand
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 import java.util.concurrent.TimeUnit
@@ -49,7 +47,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
         +BossDamageText
     }
 
-    val NearTeleport by settings.boolean("Телепорт к ближайшему боссу")
+//    val NearTeleport by settings.boolean("Телепорт к ближайшему боссу")
     val NotifyCapture by settings.boolean("Уведомление о захватах боссов", true)
     val CurseMessage by settings.boolean("Сообщение о проклятие босса в клановый чат")
     val BossLowHealthsMessage by settings.boolean("Сообщение об определённом проценте здоровья босса в клановый чат")
@@ -64,7 +62,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
 
     init {
         FastBossTeleport.on {
-            if (NearTeleport) sendCommand("boss ${ComparedBosses.firstOrNull { it.value > currentMillis }?.key?.level}")
+//            if (NearTeleport) sendCommand("boss ${ComparedBosses.firstOrNull { it.value > currentMillis }?.key?.level}")
         }
 
         listen<BossDamage> {
@@ -80,7 +78,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
                 Notifies.showText("Босс ${type.displayName}§f захвачен", "кланом $clan.")
             }
             if (CurseMessage) BossCursedPattern.find(text)?.run {
-                val type = StatisticCollector.location.bossType ?: return@on
+                val type = PlayerDataCollector.location.bossType ?: return@on
                 val curse = groupValues[1]
                 sendClanMessage("§8[§e${Connector.server.displayName}§8] §a${type.displayName} §3проклят на $curse")
             }
