@@ -46,6 +46,8 @@ object DevFeature : Feature("dev-env", "DevEnv", Items.COMMAND_BLOCK) {
             }
         }
     }
+    val NoInvisibility by settings.boolean("Подсвечивание невидимых существ")
+    val NoBlindness by settings.boolean("Отключение слепоты")
 
     init {
 

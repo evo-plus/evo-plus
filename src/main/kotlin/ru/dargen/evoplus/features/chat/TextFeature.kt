@@ -66,17 +66,6 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
         on<ChatSendEvent> {
             if (!ColorInputs.value || !Connector.isOnPrisonEvo) return@on
 
-//            val message = text
-//            val hasSelector = formatters.any { message.startsWith(it, true) }
-//            val prefix = if (hasSelector) message.take(1) else ""
-//            val colors = buildColorSetting(ColorInputs.mirroring)
-//            val formattedMessage = if (message.startsWith("$") ||
-//                message.contains("куплю", true) ||
-//                message.contains("продам", true)
-//            ) text else message.replace(prefix, "").buildMessage(prefix, colors)
-//
-//            text = formattedMessage
-
             val message = text
             val prefix = formatters.find { message.startsWith(it, true) }?.take(1) ?: ""
             val colors = buildColorSetting(ColorInputs.mirroring)
@@ -86,10 +75,6 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
 
         on<ChatSendEvent> {
             if (!text.startsWith("$") || !Connector.isOnPrisonEvo || MarketChatTimerWidget.RemainingTime >= currentMillis) return@on
-
-//            val isExceededLimit = text.length - 1 >= 256
-//            val timerMultiplier = if (isExceededLimit) 2 else 1
-//            MarketChatTimerWidget.RemainingTime = currentMillis + MarketChatTimerDelay * 60 * 1000 * timerMultiplier
 
             val timerMultiplier = if (text.length - 1 >= 256) 2 else 1
             MarketChatTimerWidget.RemainingTime = currentMillis + MarketChatTimerDelay * 60 * 1000 * timerMultiplier

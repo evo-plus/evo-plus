@@ -35,6 +35,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
 
     private val BossCursedPattern = "Босс проклят! Особенность: ([а-яА-ЯёЁ ]+)".toRegex()
     private val BossCapturePattern = "^Босс (.*) захвачен кланом (.*)!\$".toRegex()
+    private val ClanWavePattern = "Испытание вызова (?:(|\\d+):|)(\\d+)".toRegex()
 
     //    private val BossHealthsPattern = "^[А-Яа-яЁё ]+ \\d+(\\.\\d+)?❤\$".toRegex()
     private val BossHealthsPattern = "^([А-Яа-яЁё ]+) (\\d+(\\.\\d+)?)❤\$".toRegex()
@@ -90,6 +91,8 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
             getFilteredBossBars()?.firstNotNullOfOrNull {
                 if (!BossLowHealthsMessage) return@scheduleEvery
                 val text = it.name.string.uncolored().trim()
+
+                if (ClanWavePattern.containsMatchIn(text)) return@scheduleEvery
 
                 BossHealthsPattern.find(text)?.run {
                     val percent = it.percent.toDouble() * 100.0
