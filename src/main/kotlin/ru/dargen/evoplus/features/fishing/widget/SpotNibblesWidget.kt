@@ -15,9 +15,11 @@ object SpotNibblesWidget : WidgetBase {
 
         asyncTick {
             lines = FishingFeature.Nibbles
-                .takeIf { FishingFeature.NibblesVisibleMode.isVisible()  }.orEmpty()
+                .takeIf { FishingFeature.NibblesVisibleMode.isVisible() }.orEmpty()
                 .mapKeys { FishingSpot.valueOf(it.key) ?: return@asyncTick }
                 .ifEmpty { if (isWidgetEditor) FishingSpot.values.take(5).associateWith { 100.0 } else emptyMap() }
+                .toList()
+                .sortedByDescending { it.second }
                 .map { (spot, nibble) -> "§e${spot.name} §7- §6${nibble.format("###.#")}%" }
         }
     }
