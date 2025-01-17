@@ -4,14 +4,14 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.text.Text
 import org.slf4j.LoggerFactory
-import ru.dargen.evoplus.api.event.EventBus
-import ru.dargen.evoplus.api.keybind.KeyBindings
-import ru.dargen.evoplus.api.render.animation.AnimationRunner
-import ru.dargen.evoplus.api.render.context.Overlay
-import ru.dargen.evoplus.api.render.context.WorldContext
-import ru.dargen.evoplus.api.scheduler.Scheduler
+import ru.dargen.evoplus.event.EventBus
 import ru.dargen.evoplus.feature.Features
+import ru.dargen.evoplus.keybind.KeyBindings
 import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.render.animation.AnimationRunner
+import ru.dargen.evoplus.render.context.Overlay
+import ru.dargen.evoplus.render.context.WorldContext
+import ru.dargen.evoplus.scheduler.Scheduler
 import ru.dargen.evoplus.service.EvoPlusService
 import ru.dargen.evoplus.update.UpdateResolver
 

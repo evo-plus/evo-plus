@@ -223,13 +223,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
             ci.cancel();
         }
     }
-
-    @Inject(method = "onWorldEvent", at = @At("HEAD"), cancellable = true)
-    private void onParticle(ParticleS2CPacket packet, CallbackInfo ci) {
-        if (!EventBus.INSTANCE.fireResult(new ParticleEvent(packet))) {
-            ci.cancel();
-        }
-    }
+    
 
 //    @Inject(method = "onPlayerList", at = @At("TAIL"))
 //    private void onPlayerList(PlayerListS2CPacket packet, CallbackInfo ci) {

@@ -15,6 +15,8 @@ class GameLocation(val id: String) {
     val isWarp get() = !isShaft && !isBoss
     val warp get() = if (isWarp) id else null
 
+    val isFish get() = id == "fish"
+
     companion object {
         init {
             gson { deserializer<GameLocation> { element, ctx -> GameLocation(element.asString) } }

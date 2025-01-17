@@ -12,7 +12,8 @@ class HourlyQuestInfoHolder(type: HourlyQuestType, info: HourlyQuestInfo.HourlyQ
     val lore = type.lore
     val needed = type.needed
     val progress = info.progress
-    val remained = info.remained
 
+    val remained = info.remained
     val timestamp = currentMillis + remained
+
 }

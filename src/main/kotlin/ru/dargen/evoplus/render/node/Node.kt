@@ -89,6 +89,7 @@ abstract class Node {
 
     val resizeHandlers = mutableSetOf<ResizeHandler<Node>>()
     val hoverHandlers = mutableSetOf<HoverHandler<Node>>()
+    val asyncTickHandlers = mutableSetOf<TickHandler<Node>>()
     val preTickHandlers = mutableSetOf<TickHandler<Node>>()
     val postTickHandlers = mutableSetOf<TickHandler<Node>>()
 
@@ -97,10 +98,10 @@ abstract class Node {
 
             val wholeScale = wholeScale
             return (parent?.size?.times(align) ?: Vector3.Mutable())
-                    .plus(translation).plus(position)
-                    .times(wholeScale.x / scale.x, wholeScale.y / scale.y, wholeScale.z / scale.z)
-                    .plus(wholeScale.times(!size).times(origin))
-                    .plus(parent?._wholePosition() ?: Vector3.Zero)
+                .plus(translation).plus(position)
+                .times(wholeScale.x / scale.x, wholeScale.y / scale.y, wholeScale.z / scale.z)
+                .plus(wholeScale.times(!size).times(origin))
+                .plus(parent?._wholePosition() ?: Vector3.Zero)
         }
     val wholeScale get() = (parent?._wholeScale() ?: Vector3.Mutable(1.0)) * scale
     val wholeRotation get() = (parent?.rotation ?: Vector3.Mutable()) + rotation
@@ -110,6 +111,11 @@ abstract class Node {
     val context: RenderContext? get() = parent?.context ?: safeCast<RenderContext>()
 
     //dispatchers
+    fun asyncTick() {
+        asyncTickHandlers.forEach { it() }
+        children.forEach { it.asyncTick() }
+    }
+
     fun preTick() {
         preTickHandlers.forEach { it() }
         children.forEach { it.preTick() }
@@ -139,7 +145,7 @@ abstract class Node {
     fun mouseClick(mouse: Vector3, button: Int, state: Boolean): Boolean {
         if (!enabled) return false
 
-        if (children.any  { it.mouseClick(mouse, button, state) }) {
+        if (children.any { it.mouseClick(mouse, button, state) }) {
             return true
         }
 
@@ -149,7 +155,7 @@ abstract class Node {
     fun mouseWheel(mouse: Vector3, verticalWheel: Double, horizontalWheel: Double): Boolean {
         if (!enabled) return false
 
-        if (children.any  { it.mouseWheel(mouse, verticalWheel, horizontalWheel) }) {
+        if (children.any { it.mouseWheel(mouse, verticalWheel, horizontalWheel) }) {
             return true
         }
 
@@ -169,7 +175,7 @@ abstract class Node {
     fun typeChar(char: Char, code: Int): Boolean {
         if (!enabled) return false
 
-        if (children.any  { it.typeChar(char, code) }) {
+        if (children.any { it.typeChar(char, code) }) {
             return true
         }
 
@@ -305,7 +311,7 @@ infix fun <N : Node> N.leftClick(handler: N.(mouse: Vector3, state: Boolean) -> 
 fun <N : Node> N.drag(
     _button: Int? = null,
     inOutHandler: N.(dragged: Boolean) -> Unit = {},
-    handler: N.(startPosition: Vector3, delta: Vector3) -> Unit = { _, _ -> }
+    handler: N.(startPosition: Vector3, delta: Vector3) -> Unit = { _, _ -> },
 ) = apply {
     var startPosition = Vector3()
     var dragged = false
@@ -371,7 +377,10 @@ infix fun <N : Node> N.preTick(handler: TickHandler<N>) = apply { preTickHandler
 infix fun <N : Node> N.postTick(handler: TickHandler<N>) =
     apply { postTickHandlers.add(handler.cast()) }
 
-infix fun <N : Node> N.tick(handler: TickHandler<N>) = postTick(handler)
+infix fun <N : Node> N.asyncTick(handler: TickHandler<N>) = apply { asyncTickHandlers.add(handler.cast()) }
+
+fun <N : Node> N.tick(async: Boolean = false, handler: TickHandler<N>) =
+    if (async) asyncTick(handler) else postTick(handler)
 
 infix fun <N : Node> N.resize(handler: ResizeHandler<N>) = apply { resizeHandlers.add(handler.cast()) }
 

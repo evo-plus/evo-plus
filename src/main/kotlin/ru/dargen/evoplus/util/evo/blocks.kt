@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.chunk.Chunk
 import ru.dargen.evoplus.render.Colors
 import java.awt.Color
+import kotlin.jvm.optionals.getOrNull
 
 fun BlockState.isBarrel() = Barrel.isBarrel(this)
 fun BlockState.isDetonatingBarrel() = Barrel.isDetonatingBarrel(this)
@@ -18,7 +19,7 @@ fun BlockState.isWallHead() = block === Blocks.PLAYER_WALL_HEAD
 
 fun BlockPos.getPlayerSkullTextureValue(chunk: Chunk) =
     chunk.getBlockEntity(this, BlockEntityType.SKULL)
-        ?.get()?.owner?.properties?.asMap()
+        ?.getOrNull()?.owner?.properties?.asMap()
         ?.get("textures")?.firstOrNull()?.value
 
 fun BlockState.getShard(pos: BlockPos, chunk: Chunk) = Shard.entries.firstOrNull {
