@@ -9,9 +9,9 @@
   "contact": {
     "website": "https://modrinth.com/mod/evoplus",
     "homepage": "https://discord.gg/tkuVE3fdKt",
-    "repo": "https://github.com/asyncdargen/evo-plus",
-    "issues": "https://github.com/asyncdargen/evo-plus",
-    "sources": "https://github.com/asyncdargen/evo-plus"
+    "repo": "https://github.com/evo-plus/evo-plus",
+    "issues": "https://github.com/evo-plus/evo-plus",
+    "sources": "https://github.com/evo-plus/evo-plus"
   },
   "license": "MIT",
   "icon": "pack.png",
@@ -28,7 +28,7 @@
     "evo-plus.json"
   ],
   "depends": {
-    "java": ">=17",
+    "java": ">=${java_version}",
     "minecraft": ">=${minecraft_version}",
     "fabricloader": ">=${loader_version}",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}"

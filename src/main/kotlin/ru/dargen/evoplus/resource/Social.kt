@@ -11,7 +11,7 @@ enum class Social(val identifier: Identifier, val color: Color, val website: Str
 
     DISCORD(texture("gui/icon/social/discord"), Color(0x5865F2), "https://discord.gg/tkuVE3fdKt"),
     MODRINTH(texture("gui/icon/social/modrinth"), Color(0x1BD96A), "https://modrinth.com/mod/evoplus"),
-    GITHUB(texture("gui/icon/social/github"), Color(0x0), "https://github.com/asyncdargen/evo-plus"),
+    GITHUB(texture("gui/icon/social/github"), Color(0x0), "https://github.com/evo-plus/evo-plus"),
     ;
 
     init {
