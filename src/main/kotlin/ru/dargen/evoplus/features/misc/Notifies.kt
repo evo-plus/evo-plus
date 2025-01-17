@@ -1,14 +1,14 @@
 package ru.dargen.evoplus.features.misc
 
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
-import ru.dargen.evoplus.api.render.Colors
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.animation.Easings
-import ru.dargen.evoplus.api.render.animation.animate
-import ru.dargen.evoplus.api.render.node.*
-import ru.dargen.evoplus.api.render.node.box.hbox
-import ru.dargen.evoplus.api.render.node.box.vbox
-import ru.dargen.evoplus.api.scheduler.schedule
+import ru.dargen.evoplus.render.Colors
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.animation.Easings
+import ru.dargen.evoplus.render.animation.animate
+import ru.dargen.evoplus.render.node.*
+import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.box.vbox
+import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.util.math.scale

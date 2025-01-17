@@ -6,11 +6,11 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.input.KeyCharEvent;
-import ru.dargen.evoplus.api.event.input.KeyEvent;
-import ru.dargen.evoplus.api.event.input.KeyReleaseEvent;
-import ru.dargen.evoplus.api.event.input.KeyTypeEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.input.KeyCharEvent;
+import ru.dargen.evoplus.event.input.KeyEvent;
+import ru.dargen.evoplus.event.input.KeyReleaseEvent;
+import ru.dargen.evoplus.event.input.KeyTypeEvent;
 
 @Mixin(Keyboard.class)
 public class KeyboardMixin {

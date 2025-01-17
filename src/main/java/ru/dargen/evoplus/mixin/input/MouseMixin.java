@@ -6,10 +6,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.input.MouseClickEvent;
-import ru.dargen.evoplus.api.event.input.MouseMoveEvent;
-import ru.dargen.evoplus.api.event.input.MouseWheelEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.input.MouseClickEvent;
+import ru.dargen.evoplus.event.input.MouseMoveEvent;
+import ru.dargen.evoplus.event.input.MouseWheelEvent;
 import ru.dargen.evoplus.util.minecraft.MinecraftKt;
 
 @Mixin(Mouse.class)

@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.chat.ChatReceiveEvent;
-import ru.dargen.evoplus.api.event.chat.GameMessageEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.chat.ChatReceiveEvent;
+import ru.dargen.evoplus.event.chat.GameMessageEvent;
 
 import java.time.Instant;
 

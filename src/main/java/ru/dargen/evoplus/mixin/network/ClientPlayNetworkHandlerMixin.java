@@ -27,16 +27,17 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.chat.ChatSendEvent;
-import ru.dargen.evoplus.api.event.inventory.InventoryCloseEvent;
-import ru.dargen.evoplus.api.event.inventory.InventoryFillEvent;
-import ru.dargen.evoplus.api.event.inventory.InventoryOpenEvent;
-import ru.dargen.evoplus.api.event.inventory.InventorySlotUpdateEvent;
-import ru.dargen.evoplus.api.event.network.ChangeServerEvent;
-import ru.dargen.evoplus.api.event.network.CustomPayloadEvent;
-import ru.dargen.evoplus.api.event.resourcepack.ResourcePackRequestEvent;
-import ru.dargen.evoplus.api.event.world.ChunkLoadEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.chat.ChatSendEvent;
+import ru.dargen.evoplus.event.inventory.InventoryCloseEvent;
+import ru.dargen.evoplus.event.inventory.InventoryFillEvent;
+import ru.dargen.evoplus.event.inventory.InventoryOpenEvent;
+import ru.dargen.evoplus.event.inventory.InventorySlotUpdateEvent;
+import ru.dargen.evoplus.event.network.ChangeServerEvent;
+import ru.dargen.evoplus.event.network.CustomPayloadEvent;
+import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent;
+import ru.dargen.evoplus.event.world.ChunkLoadEvent;
+import ru.dargen.evoplus.event.world.ParticleEvent;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.minecraft.Inventories;
 import ru.dargen.evoplus.util.minecraft.TextKt;
@@ -213,6 +214,20 @@ public abstract class ClientPlayNetworkHandlerMixin {
                 sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.ACCEPTED);
                 sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.SUCCESSFULLY_LOADED);
             }
+        }
+    }
+
+    @Inject(method = "onParticle", at = @At("HEAD"), cancellable = true)
+    private void onParticle(ParticleS2CPacket packet, CallbackInfo ci) {
+        if (!EventBus.INSTANCE.fireResult(new ParticleEvent(packet))) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "onWorldEvent", at = @At("HEAD"), cancellable = true)
+    private void onParticle(ParticleS2CPacket packet, CallbackInfo ci) {
+        if (!EventBus.INSTANCE.fireResult(new ParticleEvent(packet))) {
+            ci.cancel();
         }
     }
 

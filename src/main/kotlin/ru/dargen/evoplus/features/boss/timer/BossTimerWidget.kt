@@ -1,10 +1,10 @@
 package ru.dargen.evoplus.features.boss.timer
 
-import ru.dargen.evoplus.api.render.node.box.hbox
-import ru.dargen.evoplus.api.render.node.box.vbox
-import ru.dargen.evoplus.api.render.node.item
-import ru.dargen.evoplus.api.render.node.leftClick
-import ru.dargen.evoplus.api.render.node.text
+import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.box.vbox
+import ru.dargen.evoplus.render.node.item
+import ru.dargen.evoplus.render.node.leftClick
+import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ShortName

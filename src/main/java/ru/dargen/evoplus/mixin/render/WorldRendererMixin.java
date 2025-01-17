@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.render.WorldRenderEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.render.WorldRenderEvent;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {

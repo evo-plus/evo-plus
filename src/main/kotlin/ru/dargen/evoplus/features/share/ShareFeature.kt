@@ -1,8 +1,8 @@
 package ru.dargen.evoplus.features.share
 
 import net.minecraft.item.Items
-import ru.dargen.evoplus.api.event.chat.ChatReceiveEvent
-import ru.dargen.evoplus.api.event.on
+import ru.dargen.evoplus.event.chat.ChatReceiveEvent
+import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.util.PasteApi
 import ru.dargen.evoplus.util.minecraft.uncolored

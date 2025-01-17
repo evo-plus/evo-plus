@@ -5,8 +5,8 @@ import net.minecraft.text.TextVisitFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.render.StringRenderEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.render.StringRenderEvent;
 
 @Mixin(TextVisitFactory.class)
 public abstract class TextVisitFactoryMixin {

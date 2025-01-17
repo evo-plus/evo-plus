@@ -9,11 +9,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.world.block.BlockChangeEvent;
-import ru.dargen.evoplus.api.event.world.block.BlockEntityLoadEvent;
-import ru.dargen.evoplus.api.event.world.block.BlockEntityUnloadEvent;
-import ru.dargen.evoplus.api.event.world.block.BlockEntityUpdateEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.world.block.BlockChangeEvent;
+import ru.dargen.evoplus.event.world.block.BlockEntityLoadEvent;
+import ru.dargen.evoplus.event.world.block.BlockEntityUnloadEvent;
+import ru.dargen.evoplus.event.world.block.BlockEntityUpdateEvent;
 
 @Mixin(WorldChunk.class)
 public class WorldChunkMixin {

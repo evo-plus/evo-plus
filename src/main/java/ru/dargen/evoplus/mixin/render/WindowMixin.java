@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.window.WindowRescaleEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.window.WindowRescaleEvent;
 
 @Mixin(Window.class)
 public class WindowMixin {

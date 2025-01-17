@@ -2,10 +2,10 @@ package ru.dargen.evoplus.service.user
 
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.Logger
-import ru.dargen.evoplus.api.event.evo.data.PlayerTokenUpdateEvent
-import ru.dargen.evoplus.api.event.network.ChangeServerEvent
-import ru.dargen.evoplus.api.event.on
-import ru.dargen.evoplus.api.scheduler.scheduleEvery
+import ru.dargen.evoplus.event.evo.data.PlayerTokenUpdateEvent
+import ru.dargen.evoplus.event.network.ChangeServerEvent
+import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.service.user.model.UserStatisticModel

@@ -1,14 +1,14 @@
 package ru.dargen.evoplus.feature.widget
 
 import com.google.gson.JsonElement
-import ru.dargen.evoplus.api.render.Colors.Transparent
-import ru.dargen.evoplus.api.render.Colors.TransparentWhite
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.Tips
-import ru.dargen.evoplus.api.render.animation.animate
-import ru.dargen.evoplus.api.render.context.Overlay
-import ru.dargen.evoplus.api.render.node.*
-import ru.dargen.evoplus.api.render.node.box.box
+import ru.dargen.evoplus.render.Colors.Transparent
+import ru.dargen.evoplus.render.Colors.TransparentWhite
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.Tips
+import ru.dargen.evoplus.render.animation.animate
+import ru.dargen.evoplus.render.context.Overlay
+import ru.dargen.evoplus.render.node.*
+import ru.dargen.evoplus.render.node.box.box
 import ru.dargen.evoplus.feature.settings.Setting
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.json.Gson

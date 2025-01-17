@@ -1,8 +1,8 @@
 package ru.dargen.evoplus.features.chat.market
 
-import ru.dargen.evoplus.api.render.node.box.hbox
-import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.api.render.node.tick
+import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.render.node.tick
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asShortTextTime

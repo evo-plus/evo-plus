@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.chat.ChatReceiveEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.chat.ChatReceiveEvent;
 
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin {

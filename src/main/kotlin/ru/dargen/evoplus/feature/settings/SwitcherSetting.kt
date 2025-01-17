@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.feature.settings
 
-import ru.dargen.evoplus.api.render.node.input.button
+import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.feature.screen.FeatureBaseElement
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.selector.Selector

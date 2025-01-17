@@ -1,9 +1,9 @@
 package ru.dargen.evoplus.features.rune.widget
 
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.node.Node
-import ru.dargen.evoplus.api.render.node.box.vbox
-import ru.dargen.evoplus.api.render.node.text
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.node.Node
+import ru.dargen.evoplus.render.node.box.vbox
+import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.features.rune.RuneFeature

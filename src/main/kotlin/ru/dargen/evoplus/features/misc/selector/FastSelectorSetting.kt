@@ -5,7 +5,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.item.Item
 import net.minecraft.item.Items
-import ru.dargen.evoplus.api.render.node.input.button
+import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.feature.screen.FeatureBaseElement
 import ru.dargen.evoplus.feature.settings.Setting
 import ru.dargen.evoplus.util.collection.insertAt

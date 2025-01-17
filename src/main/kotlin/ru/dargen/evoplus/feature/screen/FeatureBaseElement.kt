@@ -1,9 +1,9 @@
 package ru.dargen.evoplus.feature.screen
 
-import ru.dargen.evoplus.api.render.Colors
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.node.rectangle
-import ru.dargen.evoplus.api.render.node.text
+import ru.dargen.evoplus.render.Colors
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.node.rectangle
+import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
 

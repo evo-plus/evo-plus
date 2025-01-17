@@ -6,11 +6,11 @@ import pro.diamondworld.protocol.packet.game.GameEvent
 import pro.diamondworld.protocol.packet.game.GameEvent.EventType
 import pro.diamondworld.protocol.packet.game.LevelInfo
 import pro.diamondworld.protocol.packet.statistic.StatisticInfo
-import ru.dargen.evoplus.api.event.evo.data.ChangeLocationEvent
-import ru.dargen.evoplus.api.event.evo.data.ComboUpdateEvent
-import ru.dargen.evoplus.api.event.evo.data.GameEventChangeEvent
-import ru.dargen.evoplus.api.event.evo.data.LevelUpdateEvent
-import ru.dargen.evoplus.api.event.fire
+import ru.dargen.evoplus.event.evo.data.ChangeLocationEvent
+import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
+import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
+import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
+import ru.dargen.evoplus.event.fire
 import ru.dargen.evoplus.protocol.collector.data.ComboData
 import ru.dargen.evoplus.protocol.collector.data.EconomicData
 import ru.dargen.evoplus.protocol.collector.data.GameLocation

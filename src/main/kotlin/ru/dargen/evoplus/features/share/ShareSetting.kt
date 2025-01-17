@@ -1,14 +1,14 @@
 package ru.dargen.evoplus.features.share
 
-import ru.dargen.evoplus.api.render.Colors
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.animation.animate
-import ru.dargen.evoplus.api.render.node.box.hbox
-import ru.dargen.evoplus.api.render.node.input.button
-import ru.dargen.evoplus.api.render.node.input.input
-import ru.dargen.evoplus.api.render.node.rectangle
-import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.api.scheduler.async
+import ru.dargen.evoplus.render.Colors
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.animation.animate
+import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.input.button
+import ru.dargen.evoplus.render.node.input.input
+import ru.dargen.evoplus.render.node.rectangle
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.feature.screen.FeatureScreenElement
 import ru.dargen.evoplus.feature.settings.BooleanSetting
 import ru.dargen.evoplus.util.PasteApi

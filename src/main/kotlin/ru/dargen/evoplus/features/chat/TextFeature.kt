@@ -1,10 +1,10 @@
 package ru.dargen.evoplus.features.chat
 
 import net.minecraft.item.Items
-import ru.dargen.evoplus.api.event.chat.ChatReceiveEvent
-import ru.dargen.evoplus.api.event.chat.ChatSendEvent
-import ru.dargen.evoplus.api.event.on
-import ru.dargen.evoplus.api.event.render.StringRenderEvent
+import ru.dargen.evoplus.event.chat.ChatReceiveEvent
+import ru.dargen.evoplus.event.chat.ChatSendEvent
+import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.event.render.StringRenderEvent
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.chat.market.MarketChatTimerWidget
 import ru.dargen.evoplus.protocol.Connector

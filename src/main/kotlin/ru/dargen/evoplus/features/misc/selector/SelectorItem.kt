@@ -2,11 +2,11 @@ package ru.dargen.evoplus.features.misc.selector
 
 import net.minecraft.item.Item
 import net.minecraft.item.Items
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.animation.animate
-import ru.dargen.evoplus.api.render.node.hover
-import ru.dargen.evoplus.api.render.node.item
-import ru.dargen.evoplus.api.render.node.rectangle
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.animation.animate
+import ru.dargen.evoplus.render.node.hover
+import ru.dargen.evoplus.render.node.item
+import ru.dargen.evoplus.render.node.rectangle
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.customItem

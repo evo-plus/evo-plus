@@ -1,8 +1,8 @@
 package ru.dargen.evoplus.update
 
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.api.render.node.leftClick
-import ru.dargen.evoplus.api.scheduler.scheduleEvery
+import ru.dargen.evoplus.render.node.leftClick
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.features.misc.Notifies
 import ru.dargen.evoplus.util.catch
 import ru.dargen.evoplus.util.minecraft.Client

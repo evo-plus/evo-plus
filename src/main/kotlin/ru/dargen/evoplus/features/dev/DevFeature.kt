@@ -1,13 +1,13 @@
 package ru.dargen.evoplus.features.dev
 
 import net.minecraft.item.Items
-import ru.dargen.evoplus.api.render.context.Overlay
-import ru.dargen.evoplus.api.render.context.RenderContext
-import ru.dargen.evoplus.api.render.context.ScreenContext
-import ru.dargen.evoplus.api.render.context.WorldContext
-import ru.dargen.evoplus.api.render.node.Node
-import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.api.render.node.tick
+import ru.dargen.evoplus.render.context.Overlay
+import ru.dargen.evoplus.render.context.RenderContext
+import ru.dargen.evoplus.render.context.ScreenContext
+import ru.dargen.evoplus.render.context.WorldContext
+import ru.dargen.evoplus.render.node.Node
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.render.node.tick
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector

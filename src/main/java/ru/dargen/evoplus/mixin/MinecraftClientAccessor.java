@@ -15,4 +15,8 @@ public interface MinecraftClientAccessor {
 
     @Accessor("renderTaskQueue")
     Queue<Runnable> getRenderTaskQueue();
+
+    @Invoker("openChatScreen")
+    void openChat(String text);
+
 }

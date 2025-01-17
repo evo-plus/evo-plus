@@ -10,10 +10,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.dargen.evoplus.api.event.EventBus;
-import ru.dargen.evoplus.api.event.interact.AttackEvent;
-import ru.dargen.evoplus.api.event.interact.BlockBreakEvent;
-import ru.dargen.evoplus.api.event.inventory.InventoryClickEvent;
+import ru.dargen.evoplus.event.EventBus;
+import ru.dargen.evoplus.event.interact.AttackEvent;
+import ru.dargen.evoplus.event.interact.BlockBreakEvent;
+import ru.dargen.evoplus.event.inventory.InventoryClickEvent;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {

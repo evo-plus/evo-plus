@@ -2,7 +2,7 @@ package ru.dargen.evoplus.feature.settings
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
-import ru.dargen.evoplus.api.render.node.input.selector.scroll.hScrollSelector
+import ru.dargen.evoplus.render.node.input.selector.scroll.hScrollSelector
 import ru.dargen.evoplus.feature.screen.FeatureBaseElement
 import ru.dargen.evoplus.util.json.asInt
 import ru.dargen.evoplus.util.kotlin.KotlinOpens

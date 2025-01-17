@@ -7,7 +7,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.enums.Instrument
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.chunk.Chunk
-import ru.dargen.evoplus.api.render.Colors
+import ru.dargen.evoplus.render.Colors
 import java.awt.Color
 
 fun BlockState.isBarrel() = Barrel.isBarrel(this)

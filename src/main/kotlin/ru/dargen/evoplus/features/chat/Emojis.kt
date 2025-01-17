@@ -1,14 +1,15 @@
 package ru.dargen.evoplus.features.chat
 
-import ru.dargen.evoplus.api.event.chat.ChatSendEvent
-import ru.dargen.evoplus.api.event.on
-import ru.dargen.evoplus.api.render.Colors
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.Tips
-import ru.dargen.evoplus.api.render.context.Overlay
-import ru.dargen.evoplus.api.render.node.*
-import ru.dargen.evoplus.api.render.node.box.hbox
-import ru.dargen.evoplus.api.render.node.box.vbox
+import ru.dargen.evoplus.event.chat.ChatSendEvent
+import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.render.Colors
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.Tips
+import ru.dargen.evoplus.render.context.Overlay
+import ru.dargen.evoplus.render.hoverColor
+import ru.dargen.evoplus.render.node.*
+import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.box.vbox
 import ru.dargen.evoplus.util.format.readCSV
 import ru.dargen.evoplus.util.format.wrap
 import ru.dargen.evoplus.util.math.v3
@@ -54,12 +55,8 @@ object Emojis {
                         +rectangle {
                             size = v3(11.0, 11.0)
                             color = Colors.TransparentBlack
-                            postRender { matrices, _ ->
-                                if (isHovered) Tips.draw(matrices, data.name)
-                            }
-                            hover { _, state ->
-                                color = if (isHovered && state) Colors.TransparentWhite else Colors.TransparentBlack
-                            }
+                            hoverColor = Colors.TransparentWhite
+                            postRender { matrices, _ -> if (isHovered) Tips.draw(matrices, data.name) }
                             click { _, _, state ->
                                 if (isHovered && state) {
                                     emoji.forEach { CurrentScreen?.charTyped(it, 0) }

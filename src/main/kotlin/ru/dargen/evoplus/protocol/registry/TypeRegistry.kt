@@ -2,8 +2,8 @@ package ru.dargen.evoplus.protocol.registry
 
 import pro.diamondworld.protocol.packet.boss.BossTypes
 import pro.diamondworld.protocol.util.ProtocolSerializable
-import ru.dargen.evoplus.api.event.boss.BossTypesInitEvent
-import ru.dargen.evoplus.api.event.fire
+import ru.dargen.evoplus.event.boss.BossTypesInitEvent
+import ru.dargen.evoplus.event.fire
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import java.util.concurrent.ConcurrentHashMap

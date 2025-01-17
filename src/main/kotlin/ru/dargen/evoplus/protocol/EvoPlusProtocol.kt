@@ -8,9 +8,9 @@ import net.minecraft.util.Identifier
 import pro.diamondworld.protocol.ProtocolRegistry
 import pro.diamondworld.protocol.util.BufUtil
 import pro.diamondworld.protocol.util.ProtocolSerializable
-import ru.dargen.evoplus.api.event.network.CustomPayloadEvent
-import ru.dargen.evoplus.api.event.on
-import ru.dargen.evoplus.api.scheduler.scheduleEvery
+import ru.dargen.evoplus.event.network.CustomPayloadEvent
+import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.minecraft.Client
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass

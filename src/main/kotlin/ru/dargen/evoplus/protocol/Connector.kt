@@ -2,13 +2,13 @@ package ru.dargen.evoplus.protocol
 
 import pro.diamondworld.protocol.packet.ServerInfo
 import pro.diamondworld.protocol.packet.VerificationToken
-import ru.dargen.evoplus.api.event.evo.EvoJoinEvent
-import ru.dargen.evoplus.api.event.evo.EvoQuitEvent
-import ru.dargen.evoplus.api.event.evo.data.PlayerTokenUpdateEvent
-import ru.dargen.evoplus.api.event.fire
-import ru.dargen.evoplus.api.event.network.ChangeServerEvent
-import ru.dargen.evoplus.api.event.on
-import ru.dargen.evoplus.api.scheduler.scheduleEvery
+import ru.dargen.evoplus.event.evo.EvoJoinEvent
+import ru.dargen.evoplus.event.evo.EvoQuitEvent
+import ru.dargen.evoplus.event.evo.data.PlayerTokenUpdateEvent
+import ru.dargen.evoplus.event.fire
+import ru.dargen.evoplus.event.network.ChangeServerEvent
+import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.mixin.render.hud.PlayerListHudAccessor
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector

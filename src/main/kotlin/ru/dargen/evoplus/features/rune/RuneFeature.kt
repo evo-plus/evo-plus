@@ -3,9 +3,9 @@ package ru.dargen.evoplus.features.rune
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.api.scheduler.scheduleEvery
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.Notifies
 import ru.dargen.evoplus.features.rune.widget.AbilityTimerWidget

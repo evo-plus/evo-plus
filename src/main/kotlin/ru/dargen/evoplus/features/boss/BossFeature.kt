@@ -2,14 +2,13 @@ package ru.dargen.evoplus.features.boss
 
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossDamage
-import ru.dargen.evoplus.api.event.chat.ChatReceiveEvent
-import ru.dargen.evoplus.api.event.on
-import ru.dargen.evoplus.api.keybind.Keybinds.FastBossTeleport
-import ru.dargen.evoplus.api.keybind.on
-import ru.dargen.evoplus.api.render.Relative
-import ru.dargen.evoplus.api.render.node.leftClick
-import ru.dargen.evoplus.api.render.node.text
-import ru.dargen.evoplus.api.scheduler.scheduleEvery
+import ru.dargen.evoplus.event.chat.ChatReceiveEvent
+import ru.dargen.evoplus.keybind.Keybinds.FastBossTeleport
+import ru.dargen.evoplus.keybind.on
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.node.leftClick
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.Notifies
@@ -30,6 +29,7 @@ import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 import java.util.concurrent.TimeUnit
+import ru.dargen.evoplus.event.on
 
 object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
 
