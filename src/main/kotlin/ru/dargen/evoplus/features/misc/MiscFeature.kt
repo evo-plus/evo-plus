@@ -1,20 +1,21 @@
 package ru.dargen.evoplus.features.misc
 
-import kotlinx.coroutines.NonCancellable.cancel
 import net.minecraft.item.Items
+import pro.diamondworld.protocol.packet.game.GameEvent
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.EvoJoinEvent
+import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
+import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
-import ru.dargen.evoplus.keybind.Keybinds
-import ru.dargen.evoplus.keybind.on
-import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
 import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting
+import ru.dargen.evoplus.keybind.Keybinds
+import ru.dargen.evoplus.keybind.on
+import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.util.minecraft.CurrentScreen
 import ru.dargen.evoplus.util.minecraft.Player
-import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.util.minecraft.sendCommand
 import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
@@ -23,6 +24,8 @@ import java.util.concurrent.TimeUnit
 object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
+
+    val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = Notifies)
 
     val FastSelector by settings.boolean("Fast-селектор", true)
     val FastSelectorItems by settings.setting(FastSelectorSetting)
@@ -33,11 +36,10 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
     val ResourcePackLoadDisable by settings.boolean("Отключение загрузки РП DiamondWorld", false)
     val ShowServerInTab by settings.boolean("Показывать текущий сервер в табе", true)
 
-    val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = Notifies)
     val CaseNotify by settings.boolean("Уведомления о кейсах", true)
     val LuckyBlockNotify by settings.boolean("Уведомления о лаки-блоках", true)
     val CollectionNotify by settings.boolean("Уведомления о коллекционках", true)
-
+    val EventNotify by settings.boolean("Уведомления о эвенте", true)
 
     init {
         Keybinds.FastSelector.on { if (CurrentScreen == null && FastSelector) FastSelectorScreen.open() }
@@ -55,6 +57,11 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
         }
         on<EvoJoinEvent> { schedule(5, TimeUnit.SECONDS) { thx() } }
 
+        on<GameEventChangeEvent> {
+            if (EventNotify && new !== GameEvent.EventType.NONE && (old === GameEvent.EventType.NONE || old !== new)) {
+                Notifies.showText("§aТекущее событие", new.getName(), delay = 20.0)
+            }
+        }
         on<ResourcePackRequestEvent> {
             if (ResourcePackLoadDisable) {
                 responseAccepted = true
