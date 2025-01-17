@@ -26,7 +26,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
 
     val IngredientHighlight by settings.boolean("Подсветка ингридиентов", true)
     val RecipeText = text("Закрепите рецепт нажатием ПКМ в меню")
-    val RecipeWidget by widgets.widget("Рецепт", "recipe", enabled = false) {
+    val RecipeWidget by widgets.widget("Рецепт зелья", "recipe", enabled = false) {
         align = Relative.LeftCenter
         origin = Relative.LeftCenter
 
@@ -43,7 +43,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
     }
     val BrewingAlertDelay by settings.selector(
         "Задержка перед оповещением при варке по закреп. рецепту (мс)",
-        (100..2000).toSelector()
+        (100..2000).toSelector(1000)
     )
     val SoundAlert by settings.boolean("Звук оповещения")
 
