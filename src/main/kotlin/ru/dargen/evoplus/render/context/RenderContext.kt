@@ -11,6 +11,7 @@ import ru.dargen.evoplus.render.node.RectangleNode
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
+import ru.dargen.evoplus.util.minecraft.Player
 import java.util.concurrent.TimeUnit
 
 @KotlinOpens
@@ -37,7 +38,7 @@ abstract class RenderContext : RectangleNode() {
     fun registerTickHandlers() {
         on<PreTickEvent> { preTick() }
         on<PostTickEvent> { postTick() }
-        scheduleEvery(100, 100, unit = TimeUnit.MILLISECONDS) { asyncTick()}
+        scheduleEvery(100, 100, unit = TimeUnit.MILLISECONDS) { if (Player != null) asyncTick() }
     }
 
     fun allowInput(): Boolean = true
