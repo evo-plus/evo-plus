@@ -16,6 +16,7 @@ class GameLocation(val id: String) {
     val warp get() = if (isWarp) id else null
 
     val isFish get() = id == "fish"
+    val isSpawn get() = id == "spawn"
 
     companion object {
         init {

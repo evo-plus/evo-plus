@@ -5,13 +5,13 @@ import net.minecraft.item.Items
 import net.minecraft.sound.SoundEvents
 import ru.dargen.evoplus.event.inventory.InventoryClickEvent
 import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.features.alchemy.recipe.PotionRecipe
+import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.context.Overlay.unaryPlus
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.alchemy.recipe.PotionRecipe
-import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.*
@@ -24,6 +24,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
 
     var PotionRecipe: PotionRecipe? = null
 
+    val IngredientHighlight by settings.boolean("Подсветка ингридиентов", true)
     val RecipeText = text("Закрепите рецепт нажатием ПКМ в меню")
     val RecipeWidget by widgets.widget("Рецепт", "recipe", enabled = false) {
         align = Relative.LeftCenter
@@ -47,6 +48,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
     val SoundAlert by settings.boolean("Звук оповещения")
 
     init {
+        AlchemyIngredientHighlight
         on<InventoryClickEvent> {
             if (!RecipeWidget.enabled || button != 1) return@on
 

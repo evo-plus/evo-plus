@@ -35,7 +35,7 @@ data object FishQuestWidget : WidgetBase {
             .groupBy { it.type }
             .flatMap { (_, quests) ->
                 quests.mapIndexed { index, info ->
-                    val isCompleted = info.progress > info.needed
+                    val isCompleted = info.progress >= info.needed
                     val isClaimed = info.progress < 0
 
                     val remainTime = (info.timestamp - currentMillis).coerceAtLeast(0L)
