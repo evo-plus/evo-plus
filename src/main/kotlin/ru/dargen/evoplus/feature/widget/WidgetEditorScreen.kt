@@ -1,7 +1,9 @@
 package ru.dargen.evoplus.feature.widget
 
+import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.Tips
 import ru.dargen.evoplus.render.animation.Easings
 import ru.dargen.evoplus.render.animation.animate
 import ru.dargen.evoplus.render.animation.animations
@@ -12,14 +14,15 @@ import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.click
 import ru.dargen.evoplus.render.node.hover
 import ru.dargen.evoplus.render.node.input.button
+import ru.dargen.evoplus.render.node.postRender
 import ru.dargen.evoplus.render.node.rectangle
 import ru.dargen.evoplus.render.node.resize
 import ru.dargen.evoplus.render.node.scroll.vScrollView
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.tick
-import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.render.alpha
+import kotlin.math.PI
 
 val isWidgetEditor get() = ScreenContext.current()?.id == "features-widgets"
 
@@ -49,9 +52,17 @@ object WidgetEditorScreen {
             var waveOut = true
             tick {
                 if ("wave" !in animations) animate("wave", .5, if (waveOut) Easings.BackIn else Easings.BackOut) {
-                    scale = if (waveOut) v3(1.25, 1.25, 1.25) else v3(1.0, 1.0, 1.0)
+                    scale = if (waveOut) v3(1.5, 1.5, 1.5) else v3(1.0, 1.0, 1.0)
+                    rotation = if (isHovered) v3() else v3(z = rotation.z + PI * 2)
                     waveOut = !waveOut
                 }
+            }
+
+            postRender { mat, _ ->
+                if (isHovered) Tips.draw(
+                    mat, "Для удаления, переместите виджет область по центру",
+                    "Для добавления, нажмите на область по центру"
+                )
             }
 
             hover { _, state ->

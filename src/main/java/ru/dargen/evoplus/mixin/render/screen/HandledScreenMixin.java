@@ -23,6 +23,7 @@ public class HandledScreenMixin {
 
     @Inject(method = "drawSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"))
     private void drawItem(MatrixStack matrices, Slot slot, CallbackInfo ci) {
+        //TODO: make with texture and more visible
         if (RenderFeature.INSTANCE.getHighlightAvailableItems() && slot.hasStack() && isHighlightedItem(slot.getStack())) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();

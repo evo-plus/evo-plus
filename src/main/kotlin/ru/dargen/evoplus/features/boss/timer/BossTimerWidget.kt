@@ -1,15 +1,17 @@
 package ru.dargen.evoplus.features.boss.timer
 
-import ru.dargen.evoplus.render.node.box.hbox
-import ru.dargen.evoplus.render.node.box.vbox
-import ru.dargen.evoplus.render.node.item
-import ru.dargen.evoplus.render.node.leftClick
-import ru.dargen.evoplus.render.node.text
+import net.minecraft.client.gui.screen.Screen
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.feature.widget.isWidgetEditor
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ShortName
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ShortTimeFormat
 import ru.dargen.evoplus.protocol.registry.BossType
+import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.box.vbox
+import ru.dargen.evoplus.render.node.item
+import ru.dargen.evoplus.render.node.leftClick
+import ru.dargen.evoplus.render.node.rightClick
+import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asShortTextTime
 import ru.dargen.evoplus.util.format.asTextTime
@@ -51,6 +53,12 @@ object BossTimerWidget : WidgetBase {
                     leftClick { _, state ->
                         if (isHovered && state && !isWidgetEditor && BossTimerFeature.WidgetTeleport) {
                             sendCommand("boss ${type.level}")
+                            true
+                        } else false
+                    }
+                    rightClick {_, state ->
+                        if (isHovered && state && !isWidgetEditor && Screen.hasShiftDown()) {
+                            BossTimerFeature.Bosses.remove(type.id)
                             true
                         } else false
                     }
