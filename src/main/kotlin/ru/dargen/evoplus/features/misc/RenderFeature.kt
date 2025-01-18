@@ -25,6 +25,7 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
     val NoExcessHud by settings.boolean("Отключение ненужных элементов HUD", true)
     val NoExpHud by settings.boolean("Отключение отрисовки опыта и его уровня", true)
     val NoScoreboardNumbers by settings.boolean("Отключение нумерации скорборда", true)
+    val HighlightAvailableItems by settings.boolean("Подсветка доступных предметов", true)
 
     init {
         HealthBars

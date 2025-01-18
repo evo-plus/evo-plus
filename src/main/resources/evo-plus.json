@@ -32,6 +32,7 @@
     "render.hud.PlayerListHudAccessor",
     "render.hud.PlayerListHudMixin",
     "render.screen.ChatScreenMixin",
+    "render.screen.HandledScreenMixin",
     "render.screen.TitleScreenMixin",
 
     "text.MutableTextMixin",
