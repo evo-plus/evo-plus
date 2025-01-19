@@ -24,7 +24,7 @@ object RunesBag {
     private const val MENU_NAME = "\uE962"
 
     private val RunePropertyPattern = "(.*): (.*)".toRegex()
-    private val RunesBagSlots = listOf(11, 13, 15, 18, 26)
+    private val RunesBagSlots = listOf(11, 13, 15, 27, 35)
     private val RuneSetsSlots = listOf(0, 1, 3, 4, 5, 6, 8)
     private var RunesProperties = mapOf<String, RuneProperty>()
     private var SelectedSet = RuneSet(0, "", emptyList())
