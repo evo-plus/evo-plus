@@ -16,4 +16,8 @@ class HourlyQuestInfoHolder(type: HourlyQuestType, info: HourlyQuestInfo.HourlyQ
     val remained = info.remained
     val timestamp = currentMillis + remained
 
+    val isCompleted get() = progress >= needed
+    val isClaimed get() = progress < 0
+    val isAvailable get() = !isClaimed && !isCompleted
+
 }

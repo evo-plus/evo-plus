@@ -35,25 +35,21 @@ data object FishQuestWidget : WidgetBase {
             .groupBy { it.type }
             .flatMap { (_, quests) ->
                 quests.mapIndexed { index, info ->
-                    val isCompleted = info.progress >= info.needed
-                    val isClaimed = info.progress < 0
-                    val isMoreDescription = !isClaimed && !isCompleted
-
                     val remainTime = (info.timestamp - currentMillis).coerceAtLeast(0L)
 
                     val text = buildList {
                         add(" ${(if (info.type == "NETHER") "§c" else "§a")}№${index + 1} §7${remainTime.asShortTextTime} ")
-                        if (isMoreDescription) {
-                            if (FishingFeature.QuestsProgressDescriptionMode.isVisible()) add(" ${info.lore}")
-                            add(" §9Прогресс: ${info.progress}/${info.needed}")
-                        }
+                        if (info.isAvailable && FishingFeature.QuestsProgressDescriptionMode.isVisible()) add(" ${info.lore}")
+
+                        if (info.isCompleted) add(" §aЗаберите награду")
+                        else if (!info.isClaimed) add(" §9Прогресс: ${info.progress}/${info.needed}")
                     }
 
                     hbox {
                         space = 2.0
                         indent = v3()
 
-                        +item(icon(isCompleted, isClaimed)) { scale = scale(.7, .7) }
+                        +item(customItem(Items.PAPER, if (!info.isAvailable) 374 else 372)) { scale = scale(.7, .7) }
                         +text(text) { isShadowed = true }
 
                         recompose()
@@ -62,9 +58,6 @@ data object FishQuestWidget : WidgetBase {
             }.toMutableList()
         node.recompose()
     }
-
-    private fun icon(completed: Boolean, claimed: Boolean) =
-        customItem(Items.PAPER, if (completed) 373 else if (claimed) 374 else 372)
 
     private fun takePreviewQuests() = HourlyQuestType.values
         .filter { FishingFeature.QuestsProgressMode.isVisible(it.type) }
