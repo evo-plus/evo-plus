@@ -37,13 +37,16 @@ data object FishQuestWidget : WidgetBase {
                 quests.mapIndexed { index, info ->
                     val isCompleted = info.progress >= info.needed
                     val isClaimed = info.progress < 0
+                    val isMoreDescription = !isClaimed && !isCompleted
 
                     val remainTime = (info.timestamp - currentMillis).coerceAtLeast(0L)
 
                     val text = buildList {
                         add(" ${(if (info.type == "NETHER") "§c" else "§a")}№${index + 1} §7${remainTime.asShortTextTime} ")
-                        if (FishingFeature.QuestsProgressDescriptionMode.isVisible()) add(" ${info.lore}")
-                        if (!isClaimed && !isCompleted) add(" §9Прогресс: ${info.progress}/${info.needed}")
+                        if (isMoreDescription) {
+                            if (FishingFeature.QuestsProgressDescriptionMode.isVisible()) add(" ${info.lore}")
+                            add(" §9Прогресс: ${info.progress}/${info.needed}")
+                        }
                     }
 
                     hbox {
