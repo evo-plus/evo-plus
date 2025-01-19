@@ -15,7 +15,7 @@ import ru.dargen.evoplus.render.node.postRender
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
 import ru.dargen.evoplus.features.stats.level.LevelWidget
 import ru.dargen.evoplus.features.stats.pet.PetInfoWidget

@@ -1,9 +1,8 @@
 package ru.dargen.evoplus.update
 
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.render.node.leftClick
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.features.misc.Notifies
 import ru.dargen.evoplus.util.catch
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.rest.controller
@@ -32,15 +31,9 @@ object UpdateResolver {
             if (Client?.inGameHud != null && isOutdated) Notifies.showText(
                 "Обнаружена новая версия EvoPlus - ${latestVersion?.friendlyName}",
                 "Нажмите, чтобы обновиться.",
-                delay = 15.0
-            ) {
-                leftClick { _, state ->
-                    if (isHovered && state) {
-                        Updater.openUpdateScreenIfNeed()
-                        true
-                    } else false
-                }
-            }
+                delay = 15.0,
+                action = { Updater.openUpdateScreenIfNeed() }
+            )
         }
 
     }

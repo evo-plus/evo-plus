@@ -7,17 +7,16 @@ import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.render.node.input.button
-import ru.dargen.evoplus.render.node.leftClick
-import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
+import ru.dargen.evoplus.render.node.input.button
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asTextTime
 import ru.dargen.evoplus.util.format.fromTextTime
@@ -203,14 +202,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     fun message(text: String, type: BossType) =
         printHoveredCommandMessage(text, "§aНажмите, чтобы начать телепортацию", "/boss ${type.level}")
 
-    fun notify(type: BossType, vararg text: String) = Notifies.showText(*text) {
-        leftClick { _, state ->
-            if (isHovered && state) {
-                sendCommand("boss ${type.level}")
-                true
-            } else false
-        }
-    }
+    fun notify(type: BossType, vararg text: String) = Notifies.showText(*text){ sendCommand("boss ${type.level}") }
 
 }
 

@@ -14,7 +14,7 @@ import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.util.evo.isBarrel

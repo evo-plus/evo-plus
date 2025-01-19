@@ -11,7 +11,7 @@ import ru.dargen.evoplus.render.node.preTransform
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.WorldEntities

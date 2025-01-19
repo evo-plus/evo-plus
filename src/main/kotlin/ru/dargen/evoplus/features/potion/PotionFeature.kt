@@ -4,7 +4,7 @@ import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.potion.timer.PotionTimerWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.PotionType

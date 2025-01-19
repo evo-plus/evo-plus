@@ -3,21 +3,21 @@ package ru.dargen.evoplus.features.boss
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
-import ru.dargen.evoplus.keybind.Keybinds.FastBossTeleport
-import ru.dargen.evoplus.keybind.on
-import ru.dargen.evoplus.render.Relative
-import ru.dargen.evoplus.render.node.leftClick
-import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.scheduler.scheduleEvery
+import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.share.ShareFeature
+import ru.dargen.evoplus.keybind.Keybinds.FastBossTeleport
+import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.fix
 import ru.dargen.evoplus.util.json.fromJson
@@ -29,7 +29,6 @@ import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 import java.util.concurrent.TimeUnit
-import ru.dargen.evoplus.event.on
 
 object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
 
@@ -48,7 +47,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
         +BossDamageText
     }
 
-//    val NearTeleport by settings.boolean("Телепорт к ближайшему боссу")
+    //    val NearTeleport by settings.boolean("Телепорт к ближайшему боссу")
     val NotifyCapture by settings.boolean("Уведомление о захватах боссов", true)
     val CurseMessage by settings.boolean("Сообщение о проклятие босса в клановый чат")
     val BossLowHealthsMessage by settings.boolean("Сообщение об определённом проценте здоровья босса в клановый чат")
@@ -120,15 +119,9 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
             Notifies.showText(
                 "§6$nick §fотправил вам боссов §7(${shared.size}).",
                 "Нажмите, чтобы принять.",
-                delay = 10.0
-            ) {
-                leftClick { _, state ->
-                    if (isHovered && state) {
-                        BossReceiveScreen.open(shared)
-                        true
-                    } else false
-                }
-            }
+                delay = 10.0,
+                action = { BossReceiveScreen.open(shared) }
+            )
         }
     }
 

@@ -14,7 +14,7 @@ import ru.dargen.evoplus.features.fishing.widget.SpotNibblesWidget
 import ru.dargen.evoplus.features.fishing.widget.quest.FishQuestWidget
 import ru.dargen.evoplus.features.fishing.widget.quest.FishWidgetQuestDescriptionMode
 import ru.dargen.evoplus.features.fishing.widget.quest.FishWidgetQuestMode
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.stats.info.holder.HourlyQuestInfoHolder
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.HourlyQuestType

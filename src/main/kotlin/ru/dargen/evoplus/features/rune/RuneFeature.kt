@@ -7,7 +7,7 @@ import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.rune.widget.AbilityTimerWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.AbilityType

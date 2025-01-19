@@ -9,6 +9,7 @@ import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
 import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting
 import ru.dargen.evoplus.keybind.Keybinds

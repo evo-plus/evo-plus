@@ -4,7 +4,7 @@ import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.staff.StaffTimers
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.Notifies
+import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.StaffType
 import ru.dargen.evoplus.util.collection.concurrentHashMapOf
