@@ -8,15 +8,22 @@ import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.animation.Easings
 import ru.dargen.evoplus.render.animation.animate
 import ru.dargen.evoplus.render.hoverColor
-import ru.dargen.evoplus.render.node.*
+import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.click
+import ru.dargen.evoplus.render.node.hoverOut
+import ru.dargen.evoplus.render.node.leftClick
+import ru.dargen.evoplus.render.node.minus
+import ru.dargen.evoplus.render.node.plus
+import ru.dargen.evoplus.render.node.preTransform
+import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.CurrentScreen
 import java.util.concurrent.TimeUnit
 
-object Notifies : WidgetBase {
+object NotifyWidget : WidgetBase {
 
     //temp, but good
     //TODO: make notify source position based on widget align on screen
@@ -58,7 +65,7 @@ object Notifies : WidgetBase {
         show(delay) {
             +text(*text) { scale = v3(1.1, 1.1, 1.1) }
             leftClick { _, state ->
-                if (isHovered && state) {
+                if (isHovered && state && CurrentScreen != null) {
                     action()
                     true
                 } else false
@@ -83,8 +90,8 @@ object Notifies : WidgetBase {
             if (isHovered) {
                 willHide = true
             } else animate("state", .8, Easings.BackIn) {
-                translation = v3(x = -200 + this@Notifies.node.parent!!.origin.x * 400.0)
-                after { this@Notifies.node - this@hbox }
+                translation = v3(x = -200 + this@NotifyWidget.node.parent!!.origin.x * 400.0)
+                after { this@NotifyWidget.node - this@hbox }
             }
         }
 

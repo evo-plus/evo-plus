@@ -7,7 +7,7 @@ import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.event.interact.BlockBreakEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
 import ru.dargen.evoplus.features.stats.level.LevelWidget
 import ru.dargen.evoplus.features.stats.pet.PetInfoWidget
@@ -117,7 +117,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
             LevelWidget.update(economic)
 
             if (NotifyCompleteLevelRequire && level.isCompleted && !previousLevel.isCompleted) {
-                Notifies.showText("§aВы можете повысить уровень!")
+                NotifyWidget.showText("§aВы можете повысить уровень!")
             }
 
             if (BlocksCount == 0) BlocksCount = economic.blocks

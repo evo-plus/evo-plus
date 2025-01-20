@@ -11,7 +11,7 @@ import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
@@ -20,7 +20,16 @@ import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asTextTime
 import ru.dargen.evoplus.util.format.fromTextTime
-import ru.dargen.evoplus.util.minecraft.*
+import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.minecraft.CurrentScreen
+import ru.dargen.evoplus.util.minecraft.asText
+import ru.dargen.evoplus.util.minecraft.displayName
+import ru.dargen.evoplus.util.minecraft.itemStack
+import ru.dargen.evoplus.util.minecraft.lore
+import ru.dargen.evoplus.util.minecraft.printHoveredCommandMessage
+import ru.dargen.evoplus.util.minecraft.sendClanMessage
+import ru.dargen.evoplus.util.minecraft.sendCommand
+import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 import kotlin.math.absoluteValue
 
@@ -56,7 +65,10 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         "Сохранять в таймере после спавна",
         (0..360 step 5).toSelector()
     ) { "$it сек." }
+    
     val OnlyRaidBosses by settings.boolean("Отображать только рейдовых боссов")
+    val OnlyCapturedBosses by settings.boolean("Отображать только захваченных боссов")
+    
     val InlineMenuTime by settings.boolean("Отображать время до спавна в меню", true)
 
     val SpawnMessage by settings.boolean("Сообщение о спавне", true)
@@ -170,8 +182,8 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         val currentSpawnTime = Bosses[type.id] ?: 0
 
         if ((spawnTime - currentSpawnTime).absoluteValue < 13000) return
-
-        if (UpdateNotify) Notifies.showText(
+        
+        if (UpdateNotify) NotifyWidget.showText(
             "Босс §6${type.displayName} §fобновлен",
             "Возрождение через §6${additionTime.asTextTime}"
         )
@@ -201,8 +213,8 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
 
     fun message(text: String, type: BossType) =
         printHoveredCommandMessage(text, "§aНажмите, чтобы начать телепортацию", "/boss ${type.level}")
-
-    fun notify(type: BossType, vararg text: String) = Notifies.showText(*text){ sendCommand("boss ${type.level}") }
+    
+    fun notify(type: BossType, vararg text: String) = NotifyWidget.showText(*text) { sendCommand("boss ${type.level}") }
 
 }
 

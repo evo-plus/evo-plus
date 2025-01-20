@@ -6,7 +6,7 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.keybind.Keybinds.FastBossTeleport
 import ru.dargen.evoplus.keybind.on
@@ -74,8 +74,8 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
             if (NotifyCapture) BossCapturePattern.find(text)?.run {
                 val type = BossType.valueOfName(groupValues[1]) ?: return@run
                 val clan = groupValues[2]
-
-                Notifies.showText("Босс ${type.displayName}§f захвачен", "кланом $clan.")
+                
+                NotifyWidget.showText("Босс ${type.displayName}§f захвачен", "кланом $clan.")
             }
             if (CurseMessage) BossCursedPattern.find(text)?.run {
                 val type = PlayerDataCollector.location.bossType ?: return@on
@@ -115,8 +115,8 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
             val shared = fromJson<Map<String, Long>>(data)
                 .mapKeys { BossType.valueOf(it.key) ?: return@create }
                 .mapValues { it.value + currentMillis }
-
-            Notifies.showText(
+            
+            NotifyWidget.showText(
                 "§6$nick §fотправил вам боссов §7(${shared.size}).",
                 "Нажмите, чтобы принять.",
                 delay = 10.0,

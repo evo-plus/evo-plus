@@ -9,19 +9,23 @@ import ru.dargen.evoplus.event.world.ChunkLoadEvent
 import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
+import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.notify.Notifies
-import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.util.evo.isBarrel
 import ru.dargen.evoplus.util.evo.isDetonatingBarrel
 import ru.dargen.evoplus.util.format.nounEndings
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.*
+import ru.dargen.evoplus.util.minecraft.WorldEntities
+import ru.dargen.evoplus.util.minecraft.customModelData
+import ru.dargen.evoplus.util.minecraft.forEachBlocks
+import ru.dargen.evoplus.util.minecraft.printMessage
+import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import kotlin.math.max
 
 object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
@@ -53,7 +57,7 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
         set(value) {
             if (field == 0 && value == 1) {
                 if (BarrelsClanMessage) sendClanMessage("§8[§e${Connector.server.displayName}§8] §6Обнаружена бочка §8[§e/mine ${PlayerDataCollector.location.level}§8]")
-                if (BarrelsNotify) Notifies.showText("§6Обнаружена бочка")
+                if (BarrelsNotify) NotifyWidget.showText("§6Обнаружена бочка")
                 if (BarrelsMessage) printMessage("§6Обнаружена бочка")
             }
 
@@ -88,8 +92,8 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
                         val text = "§6Обнаружен${if (size > 1) "о" else ""} $size ${
                             size.nounEndings("червь", "червя", "червей")
                         }"
-
-                        if (WormNotify) Notifies.showText(text)
+                        
+                        if (WormNotify) NotifyWidget.showText(text)
                         if (WormMessage) printMessage(text)
                         if (WormClanMessage) sendClanMessage("§8[§e${Connector.server.displayName}§8] $text §8[§e/mine ${PlayerDataCollector.location.level}§8]")
                     }

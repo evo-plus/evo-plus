@@ -4,14 +4,14 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.entity.Entity
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.item.Items
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.item
 import ru.dargen.evoplus.render.node.postTransform
 import ru.dargen.evoplus.render.node.preTransform
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.WorldEntities
@@ -75,7 +75,7 @@ object GoldenRushFeature : Feature("golden-rush", "Золотая Лихорад
                     if (previousGoldenCrystalAround || !GoldenCrystalAround) return@scheduleEvery
 
                     val text = "§eВозле вас обнаружен Золотой Кристалл"
-                    if (GoldenCrystalNotify) Notifies.showText(text)
+                    if (GoldenCrystalNotify) NotifyWidget.showText(text)
                     if (GoldenCrystalMessage) printMessage(text)
                 }
         }

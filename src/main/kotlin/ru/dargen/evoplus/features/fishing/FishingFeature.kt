@@ -14,7 +14,7 @@ import ru.dargen.evoplus.features.fishing.widget.SpotNibblesWidget
 import ru.dargen.evoplus.features.fishing.widget.quest.FishingQuestWidget
 import ru.dargen.evoplus.features.fishing.widget.quest.FishingWidgetQuestDescriptionMode
 import ru.dargen.evoplus.features.fishing.widget.quest.FishingWidgetQuestMode
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.stats.info.holder.HourlyQuestInfoHolder
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.HourlyQuestType
@@ -99,7 +99,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
 
         on<ChatReceiveEvent> {
             if (HigherBitingNotify) HigherBitingPattern.find(text.uncolored())?.run {
-                Notifies.showText("На локации §6${groupValues[1]}", "повышенный клёв.")
+                NotifyWidget.showText("На локации §6${groupValues[1]}", "повышенный клёв.")
             }
         }
     }

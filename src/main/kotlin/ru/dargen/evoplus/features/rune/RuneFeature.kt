@@ -3,14 +3,14 @@ package ru.dargen.evoplus.features.rune
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
-import ru.dargen.evoplus.render.Relative
-import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.rune.widget.AbilityTimerWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.AbilityType
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.collection.concurrentHashMapOf
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.math.v3
@@ -70,7 +70,7 @@ object RuneFeature : Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
             val remainTime = timestamp - currentMillis
 
             if (remainTime in 0..1000) {
-                if (ReadyNotify) Notifies.showText("§aСпособность \"${type.name}\" готова")
+                if (ReadyNotify) NotifyWidget.showText("§aСпособность \"${type.name}\" готова")
                 if (ReadyMessage) printMessage("§aСпособность \"${type.name}\" готова")
                 Abilities.remove(id)
             }

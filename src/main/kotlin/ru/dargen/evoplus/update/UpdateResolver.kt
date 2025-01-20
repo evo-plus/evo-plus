@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.update
 
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.catch
 import ru.dargen.evoplus.util.minecraft.Client
@@ -27,8 +27,8 @@ object UpdateResolver {
     fun schedule() {
         scheduleEvery(5, 5, unit = TimeUnit.MINUTES) {
             fetchLatestVersion()
-
-            if (Client?.inGameHud != null && isOutdated) Notifies.showText(
+            
+            if (Client?.inGameHud != null && isOutdated) NotifyWidget.showText(
                 "Обнаружена новая версия EvoPlus - ${latestVersion?.friendlyName}",
                 "Нажмите, чтобы обновиться.",
                 delay = 15.0,

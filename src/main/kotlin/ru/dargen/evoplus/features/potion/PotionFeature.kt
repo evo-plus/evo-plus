@@ -2,12 +2,12 @@ package ru.dargen.evoplus.features.potion
 
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
-import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.potion.timer.PotionTimerWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.PotionType
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
@@ -51,7 +51,7 @@ object PotionFeature : Feature("potion", "Зелья", customItem(Items.POTION, 
                 val remainTime = endTime - currentMillis
 
                 if (remainTime < 0) {
-                    if (EnabledNotify) Notifies.showText("$potionName ($quality%)§c закончилось")
+                    if (EnabledNotify) NotifyWidget.showText("$potionName ($quality%)§c закончилось")
                     if (EnabledMessage) printMessage("$potionName ($quality%)§c закончилось")
 
                     PotionTimers.remove(potionType.id)

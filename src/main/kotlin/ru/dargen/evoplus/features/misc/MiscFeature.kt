@@ -9,9 +9,10 @@ import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
 import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting
+import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting.provideDelegate
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.schedule
@@ -25,8 +26,8 @@ import java.util.concurrent.TimeUnit
 object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
-
-    val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = Notifies)
+    
+    val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = NotifyWidget)
 
     val FastSelector by settings.boolean("Fast-селектор", true)
     val FastSelectorItems by settings.setting(FastSelectorSetting)
@@ -51,16 +52,16 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
             if (BoosterMessagePattern.containsMatchIn(text)) thx()
             if (text.startsWith("Вы нашли")) {
-                if (CaseNotify && text.contains("кейс")) Notifies.showText("§6$text")
-                if (CollectionNotify && text.contains("коллекционный предмет")) Notifies.showText("§a$text")
-                if (LuckyBlockNotify && text.contains("лаки-блок")) Notifies.showText("§e$text")
+                if (CaseNotify && text.contains("кейс")) NotifyWidget.showText("§6$text")
+                if (CollectionNotify && text.contains("коллекционный предмет")) NotifyWidget.showText("§a$text")
+                if (LuckyBlockNotify && text.contains("лаки-блок")) NotifyWidget.showText("§e$text")
             }
         }
         on<EvoJoinEvent> { schedule(5, TimeUnit.SECONDS) { thx() } }
 
         on<GameEventChangeEvent> {
             if (EventNotify && new !== GameEvent.EventType.NONE && (old === GameEvent.EventType.NONE || old !== new)) {
-                Notifies.showText("§aТекущее событие", new.getName(), delay = 20.0)
+                NotifyWidget.showText("§aТекущее событие", new.getName(), delay = 20.0)
             }
         }
         on<ResourcePackRequestEvent> {

@@ -18,6 +18,7 @@ import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asShortTextTime
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
+import ru.dargen.evoplus.util.minecraft.CurrentScreen
 import ru.dargen.evoplus.util.minecraft.customItem
 
 data object FishingQuestWidget : WidgetBase {
@@ -64,7 +65,7 @@ data object FishingQuestWidget : WidgetBase {
                         
                         
                         if (descriptionMode === FishingWidgetQuestDescriptionMode.HOVER) postRender { mat, _ ->
-                            if (isHovered && !isWidgetEditor) Tips.draw(mat, info.lore)
+                            if (isHovered && CurrentScreen != null && !isWidgetEditor) Tips.draw(mat, info.lore)
                         }
                         
                         recompose()

@@ -2,11 +2,11 @@ package ru.dargen.evoplus.features.staff
 
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.staff.StaffTimers
-import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.notify.Notifies
+import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.StaffType
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.collection.concurrentHashMapOf
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.customItem
@@ -40,7 +40,7 @@ object StaffFeature : Feature("staff", "Посохи", customItem(Items.WOODEN_H
             val remainTime = timestamp - currentMillis
 
             if (remainTime in 0..1000) {
-                if (ReadyNotify) Notifies.showText("${type.displayName} §aготов")
+                if (ReadyNotify) NotifyWidget.showText("${type.displayName} §aготов")
                 if (ReadyMessage) printMessage("${type.displayName} §aготов")
                 Staffs.remove(id)
             }
