@@ -20,8 +20,6 @@ import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.fix
-import ru.dargen.evoplus.util.json.fromJson
-import ru.dargen.evoplus.util.json.toJson
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
@@ -74,7 +72,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
             if (NotifyCapture) BossCapturePattern.find(text)?.run {
                 val type = BossType.valueOfName(groupValues[1]) ?: return@run
                 val clan = groupValues[2]
-                
+
                 NotifyWidget.showText("Босс ${type.displayName}§f захвачен", "кланом $clan.")
             }
             if (CurseMessage) BossCursedPattern.find(text)?.run {
@@ -107,15 +105,14 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
             } ?: return@scheduleEvery
         }
 
-        ShareFeature.create(
+        ShareFeature.createOf<Map<String, Long>>(
             "bosses", "Таймеры боссов",
-            { toJson(Bosses.mapValues { it.value - currentMillis }) }
-        )
-        { nick, data ->
-            val shared = fromJson<Map<String, Long>>(data)
-                .mapKeys { BossType.valueOf(it.key) ?: return@create }
+            { Bosses.mapValues { it.value - currentMillis } }
+        ) { nick, data ->
+            val shared = data
+                .mapKeys { BossType.valueOf(it.key) ?: return@createOf }
                 .mapValues { it.value + currentMillis }
-            
+
             NotifyWidget.showText(
                 "§6$nick §fотправил вам боссов §7(${shared.size}).",
                 "Нажмите, чтобы принять.",

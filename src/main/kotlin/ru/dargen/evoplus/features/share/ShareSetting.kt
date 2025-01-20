@@ -14,30 +14,30 @@ import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.util.PasteApi
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.sendChatMessage
+import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.sendCommand
 
 class ShareSetting(
     id: String, name: String,
-    val encoder: (nick: String) -> String,
-    val decoder: (nick: String, data: String) -> Unit
+    val encoder: (nick: String?) -> String,
+    val decoder: (nick: String, data: String) -> Unit,
 ) : BooleanSetting(id, name, true) {
-    
+
     override val settingElement = object : FeatureScreenElement {
         override fun create(prompt: FeaturePrompt) = rectangle {
             color = Colors.TransparentBlack
             size = v3(y = 55.0)
-            
+
             +text(prompt.highlightPrompt(name)) {
                 translation = v3(6.6, 15.0)
                 origin = Relative.LeftCenter
             }
-            
+
             +hbox {
                 align = Relative.LeftBottom
                 origin = Relative.LeftCenter
                 translation = v3(y = -20.0)
-                
+
                 val input = +input {
                     this.prompt.text = "Введите ник"
                     maxLength = 16
@@ -45,9 +45,7 @@ class ShareSetting(
                     filter { "[a-zA-Z0-9_]".toRegex().matches(it.toString()) }
                 }
                 +button("В клан") {
-                    on {
-                        async { sendChatMessage("@${generate("clan")}") }
-                    }
+                    on { async { share(null) } }
                 }
                 +button("Игроку") {
                     on {
@@ -60,28 +58,28 @@ class ShareSetting(
                             }
                         } else {
                             val nick = input.content
-                            
+
                             async {
-                                sendCommand("m $nick ${generate(nick)}")
-                                
+                                share(nick)
                                 input.clear()
-                                input.animate("warn", .2) {
-                                    input.color = Colors.Positive
-                                    next("warn", .05) {
-                                        input.color = Colors.Second
-                                    }
+                            }
+                            input.animate("warn", .2) {
+                                input.color = Colors.Positive
+                                next("warn", .05) {
+                                    input.color = Colors.Second
                                 }
                             }
+
                         }
                     }
                 }
             }
-            
+
             +button(value.stringfy()) {
                 align = Relative.RightTop
                 origin = Relative.RightCenter
                 translation = v3(-5.0, 25.0)
-                
+
                 on {
                     value = !value
                     label.text = value.stringfy()
@@ -93,7 +91,11 @@ class ShareSetting(
             return prompt.shouldPass(name)
         }
     }
-    
-    fun generate(nick: String) = "evoplus:$id:${PasteApi.paste(encoder(nick))}"
-    
+
+    fun share(nick: String?) = generate(nick).also { content ->
+        nick?.let { sendCommand("m $it $content") } ?: sendClanMessage(content)
+    }
+
+    fun generate(nick: String?) = "evoplus:$id:${PasteApi.paste(encoder(nick))}"
+
 }

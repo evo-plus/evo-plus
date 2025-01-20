@@ -2,23 +2,24 @@ package ru.dargen.evoplus.mixin.network;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.mojang.brigadier.ParseResults;
 import lombok.val;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.argument.SignedArgumentList;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetworkThreadUtils;
 import net.minecraft.network.encryption.NetworkEncryptionUtils;
 import net.minecraft.network.listener.PacketListener;
-import net.minecraft.network.message.LastSeenMessagesCollector;
-import net.minecraft.network.message.MessageBody;
-import net.minecraft.network.message.MessageChain;
-import net.minecraft.network.message.MessageSignatureData;
+import net.minecraft.network.message.*;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
 import net.minecraft.network.packet.c2s.play.ResourcePackStatusC2SPacket;
 import net.minecraft.network.packet.s2c.play.*;
 import org.spongepowered.asm.mixin.Final;
@@ -29,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.chat.ChatSendEvent;
+import ru.dargen.evoplus.event.chat.CommandEvent;
 import ru.dargen.evoplus.event.inventory.InventoryCloseEvent;
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent;
 import ru.dargen.evoplus.event.inventory.InventoryOpenEvent;
@@ -61,14 +63,17 @@ public abstract class ClientPlayNetworkHandlerMixin {
 
     @Shadow protected abstract void sendResourcePackStatus(ResourcePackStatusC2SPacket.Status packStatus);
 
+    @Shadow protected abstract ParseResults<CommandSource> parse(String command);
+
     private static final Cache<Integer, InventoryOpenEvent> INVENTORY_OPEN_EVENTS = CacheBuilder.newBuilder()
             .expireAfterAccess(30, TimeUnit.MINUTES)
             .build();
 
+    //TODO: make better
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void sendChatMessage(String content, CallbackInfo ci) {
         ci.cancel();
-        ChatSendEvent event = new ChatSendEvent(content);
+        var event = new ChatSendEvent(content);
         if (!EventBus.INSTANCE.fireResult(event)) return;
 
         content = TextKt.composeHex(event.getText());
@@ -78,6 +83,22 @@ public abstract class ClientPlayNetworkHandlerMixin {
         LastSeenMessagesCollector.LastSeenMessages lastSeenMessages = lastSeenMessagesCollector.collect();
         MessageSignatureData messageSignatureData = messagePacker.pack(new MessageBody(content, instant, l, lastSeenMessages.lastSeen()));
         sendPacket(new ChatMessageC2SPacket(content, instant, l, messageSignatureData, lastSeenMessages.update()));
+    }
+
+    @Inject(method = "sendChatCommand", at = @At("HEAD"), cancellable = true)
+    private void sendChatCommand(String content, CallbackInfo ci) {
+        ci.cancel();
+        var event = new CommandEvent(content);
+        if (!EventBus.INSTANCE.fireResult(event)) return;
+
+        Instant instant = Instant.now();
+        long l = NetworkEncryptionUtils.SecureRandomUtil.nextLong();
+        LastSeenMessagesCollector.LastSeenMessages lastSeenMessages = this.lastSeenMessagesCollector.collect();
+        ArgumentSignatureDataMap argumentSignatureDataMap = ArgumentSignatureDataMap.sign(SignedArgumentList.of(parse(event.getCommand())), (value) -> {
+            MessageBody messageBody = new MessageBody(value, instant, l, lastSeenMessages.lastSeen());
+            return this.messagePacker.pack(messageBody);
+        });
+        this.sendPacket(new CommandExecutionC2SPacket(event.getCommand(), instant, l, argumentSignatureDataMap, lastSeenMessages.update()));
     }
 
     @Inject(method = "onEntitySpawn", at = @At("HEAD"), cancellable = true)
