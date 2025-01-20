@@ -7,7 +7,6 @@ import ru.dargen.evoplus.util.minecraft.Player
 enum class FishingWidgetQuestDescriptionMode(val displayName: String, val isVisible: () -> Boolean) {
 
     ENABLED("Всегда", { true }),
-    DISABLED("Никогда", { false }),
     HOVER("При наведении", { false }),
     FISHING("На рыбалке", { PlayerDataCollector.location.isFish }),
     FISH_ROD("С удочкой", { Player?.mainHandStack?.item === Items.FISHING_ROD });

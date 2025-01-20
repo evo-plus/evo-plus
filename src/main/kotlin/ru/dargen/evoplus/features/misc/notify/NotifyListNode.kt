@@ -20,22 +20,22 @@ class NotifyListNode : AbstractGridBoxNode() {
 
         val children = children.filter { it !in nonComposingChildren }
 
-        children.forEachIndexed { index, node ->
-            if (index > 0) {
-                translateY += space
-            }
+        animate("recompose", .15) {
+            children.forEachIndexed { index, node ->
+                if (index > 0) {
+                    translateY += space
+                }
 
-            node.animate("recompose", .15) {
                 node.align = v3(childrenRelative)
                 node.origin = v3(childrenRelative)
                 node.position = v3(indent.x, translateY, .0)
-            }
 
-            if (node.size.x * node.scale.x > maxX) {
-                maxX = node.size.x * node.scale.x
-            }
+                if (node.size.x * node.scale.x > maxX) {
+                    maxX = node.size.x * node.scale.x
+                }
 
-            translateY += node.size.y * node.scale.y
+                translateY += node.size.y * node.scale.y
+            }
         }
 
         if (dependSizeX) {

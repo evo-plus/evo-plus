@@ -47,6 +47,7 @@ data object FishingQuestWidget : WidgetBase {
                         +item(customItem(Items.PAPER, if (!info.isAvailable) 374 else 372)) { scale = scale(.7, .7) }
                         +text {
                             isShadowed = true
+                            //todo: wtf, every frame render tick recomputing elements
                             postRender { mat, _ ->
                                 val descriptionMode = FishingFeature.QuestsProgressDescriptionMode
                                 val remainTime = (info.timestamp - currentMillis).coerceAtLeast(0L)
@@ -56,7 +57,9 @@ data object FishingQuestWidget : WidgetBase {
                                 
                                 val text = buildList {
                                     add(" ${(if (info.type == "NETHER") "§c" else "§a")}№${index + 1} §7${remainTime.asShortTextTime} ")
-                                    if (info.isAvailable && descriptionMode.isVisible()) addAll(info.lore.divideOnLinesWithSpecificWords())
+                                    if (info.isAvailable && descriptionMode.isVisible()) {
+                                        addAll(info.lore.divideOnLinesWithSpecificWords().map(" "::plus))
+                                    }
                                     
                                     if (info.isCompleted) add(" §aЗаберите награду")
                                     else if (!info.isClaimed) add(" §9Прогресс: ${info.progress}/${info.needed}")
