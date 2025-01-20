@@ -10,20 +10,21 @@ import ru.dargen.evoplus.util.math.v3
 @KotlinOpens
 class FeatureBaseElement(val name: String, val element: FeatureScreenElement) : FeatureScreenElement {
 
-    override fun create() = rectangle {
+    override fun create(prompt: FeaturePrompt) = rectangle {
         color = Colors.TransparentBlack
         size = v3(y = 30.0)
-        +text(name) {
+        +text(prompt.highlightPrompt(name)) {
             translation = v3(x = 5.0)
             align = Relative.LeftCenter
             origin = Relative.LeftCenter
         }
-        +element.create().apply {
+        +element.create(prompt).apply {
             translation = v3(x = -5.0)
             align = Relative.RightCenter
             origin = Relative.RightCenter
         }
     }
 
+    override fun search(prompt: FeaturePrompt) = prompt.shouldPass(this.name)
 
 }

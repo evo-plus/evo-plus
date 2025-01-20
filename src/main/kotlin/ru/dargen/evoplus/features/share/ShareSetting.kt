@@ -1,5 +1,8 @@
 package ru.dargen.evoplus.features.share
 
+import ru.dargen.evoplus.feature.screen.FeaturePrompt
+import ru.dargen.evoplus.feature.screen.FeatureScreenElement
+import ru.dargen.evoplus.feature.settings.BooleanSetting
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.animation.animate
@@ -9,8 +12,6 @@ import ru.dargen.evoplus.render.node.input.input
 import ru.dargen.evoplus.render.node.rectangle
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.async
-import ru.dargen.evoplus.feature.screen.FeatureScreenElement
-import ru.dargen.evoplus.feature.settings.BooleanSetting
 import ru.dargen.evoplus.util.PasteApi
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.sendChatMessage
@@ -23,11 +24,11 @@ class ShareSetting(
 ) : BooleanSetting(id, name, true) {
     
     override val settingElement = object : FeatureScreenElement {
-        override fun create() = rectangle {
+        override fun create(prompt: FeaturePrompt) = rectangle {
             color = Colors.TransparentBlack
             size = v3(y = 55.0)
             
-            +text(name) {
+            +text(prompt.highlightPrompt(name)) {
                 translation = v3(6.6, 15.0)
                 origin = Relative.LeftCenter
             }
@@ -38,7 +39,7 @@ class ShareSetting(
                 translation = v3(y = -20.0)
                 
                 val input = +input {
-                    prompt.text = "Введите ник"
+                    this.prompt.text = "Введите ник"
                     maxLength = 16
                     strictSymbols()
                     filter { "[a-zA-Z0-9_]".toRegex().matches(it.toString()) }
@@ -86,6 +87,10 @@ class ShareSetting(
                     label.text = value.stringfy()
                 }
             }
+        }
+
+        override fun search(prompt: FeaturePrompt): Boolean {
+            return prompt.shouldPass(name)
         }
     }
     

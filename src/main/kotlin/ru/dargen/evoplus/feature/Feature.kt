@@ -2,6 +2,7 @@ package ru.dargen.evoplus.feature
 
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import ru.dargen.evoplus.feature.screen.FeaturePrompt
 import ru.dargen.evoplus.feature.screen.FeatureScreenElements
 import ru.dargen.evoplus.feature.settings.SettingsGroup
 import ru.dargen.evoplus.feature.widget.WidgetGroup
@@ -14,7 +15,10 @@ abstract class Feature(id: String, name: String, val icon: ItemStack) {
     val settings = SettingsGroup(id, name, screen)
     val widgets = settings.setting(WidgetGroup(screen))
 
-    val screenSection get() = screen.elementsSection
+    fun lookupSection(prompt: FeaturePrompt) = screen.lookupSection(prompt)
+
+    fun search(prompt: FeaturePrompt) =
+        prompt.shouldPass(name) || screen.searchInSection(prompt)
 
     val id by settings::id
     val name by settings::name

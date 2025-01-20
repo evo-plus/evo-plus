@@ -9,11 +9,19 @@ import ru.dargen.evoplus.util.kotlin.KotlinOpens
 class FeatureScreenElements {
 
     val elements = mutableSetOf<FeatureScreenElement>()
-    val elementsSection
-        get() = vScrollView {
-            box.color = Colors.TransparentBlack
-            addElements(this@FeatureScreenElements.elements.map(FeatureScreenElement::create).filter { it !== DummyNode })
-        }
+
+    fun lookupSection(prompt: FeaturePrompt) = vScrollView {
+        box.color = Colors.TransparentBlack
+
+        addElements(
+            this@FeatureScreenElements.elements
+                .filter { it.search(prompt) }
+                .map { it.create(prompt)}
+                .filter { it !== DummyNode }
+        )
+    }
+
+    fun searchInSection(prompt: FeaturePrompt) = elements.any { it.search(prompt) }
 
     fun element(element: FeatureScreenElement) = elements.add(element)
 

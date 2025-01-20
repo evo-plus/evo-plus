@@ -175,6 +175,7 @@ class InputNode : RectangleNode() {
 
     fun clear() {
         content = ""
+        inputHandler(content)
     }
 
 }

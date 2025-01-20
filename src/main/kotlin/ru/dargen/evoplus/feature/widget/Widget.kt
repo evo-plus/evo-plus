@@ -1,6 +1,8 @@
 package ru.dargen.evoplus.feature.widget
 
 import com.google.gson.JsonElement
+import ru.dargen.evoplus.feature.screen.FeatureScreenElement
+import ru.dargen.evoplus.feature.settings.Setting
 import ru.dargen.evoplus.render.Colors.Transparent
 import ru.dargen.evoplus.render.Colors.TransparentWhite
 import ru.dargen.evoplus.render.Relative
@@ -9,7 +11,6 @@ import ru.dargen.evoplus.render.animation.animate
 import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.node.*
 import ru.dargen.evoplus.render.node.box.box
-import ru.dargen.evoplus.feature.settings.Setting
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.json.asDouble
@@ -20,6 +21,7 @@ import ru.dargen.evoplus.util.math.v3
 @KotlinOpens
 class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node>(id, name) {
 
+    override val settingElement = FeatureScreenElement{DummyNode}
     var position = false
     var enabled
         get() = value.enabled

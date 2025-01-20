@@ -14,7 +14,7 @@ abstract class Setting<T>(var id: String, val name: String) : ReadWriteProperty<
     abstract var value: T
     var handler: SettingHandler<T> = {}
 
-    val settingElement: FeatureScreenElement = FeatureScreenElement.Dummy
+    abstract val settingElement: FeatureScreenElement
 
     infix fun on(handler: SettingHandler<T>) = apply { this.handler = handler }
 

@@ -2,6 +2,8 @@ package ru.dargen.evoplus.feature.settings
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import ru.dargen.evoplus.feature.screen.FeaturePrompt
+import ru.dargen.evoplus.feature.screen.FeatureScreenElement
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.box.hbox
@@ -10,7 +12,6 @@ import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.render.node.input.input
 import ru.dargen.evoplus.render.node.rectangle
 import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.feature.screen.FeatureScreenElement
 import ru.dargen.evoplus.util.math.v3
 import java.awt.Color
 
@@ -73,14 +74,14 @@ class ColorInputSetting(
     }
 
     override val settingElement = object : FeatureScreenElement {
-        override fun create() = rectangle {
+        override fun create(prompt: FeaturePrompt) = rectangle {
             //TODO: исправить отображение кнопки (потому что слава дебил и оно теперь нормально не подгружает)
             fun Boolean.stringfy() = if (this) "§aВключено" else "§cВыключено"
 
             color = Colors.TransparentBlack
             size = v3(y = 60.0)
 
-            +text(name) {
+            +text(prompt.highlightPrompt(name)) {
                 translation = v3(6.6, 15.0)
                 origin = Relative.LeftCenter
             }
@@ -106,6 +107,10 @@ class ColorInputSetting(
                 }
                 +mirrorButton
             }
+        }
+
+        override fun search(prompt: FeaturePrompt): Boolean {
+            return prompt.shouldPass(name)
         }
     }
 }

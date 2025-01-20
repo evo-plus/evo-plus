@@ -10,7 +10,7 @@ import kotlin.io.path.writeText
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class JsonConfig<T>(val name: String, val token: TypeToken<T>, var value: T) : ReadWriteProperty<Any, T> {
+class FeatureConfig<T>(val name: String, val token: TypeToken<T>, var value: T) : ReadWriteProperty<Any, T> {
 
     val file = Features.Folder.resolve("$name.json")
 

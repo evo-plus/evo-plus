@@ -5,7 +5,8 @@ import com.google.gson.reflect.TypeToken
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.event.game.MinecraftLoadedEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.config.JsonConfig
+import ru.dargen.evoplus.feature.config.FeatureConfig
+import ru.dargen.evoplus.feature.screen.FeatureScreen
 import ru.dargen.evoplus.features.alchemy.AlchemyFeature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
@@ -41,9 +42,9 @@ import kotlin.io.path.writeText
 data object Features {
 
     val Folder = Paths.get("evo-plus").createDirectories()
-    val SettingsFile = Folder.resolve("features.json")
+    private val SettingsFile = Folder.resolve("features.json")
 
-    val Configs = mutableListOf<JsonConfig<*>>()
+    val Configs = mutableListOf<FeatureConfig<*>>()
 
     val List = mutableListOf<Feature>()
 
@@ -61,7 +62,7 @@ data object Features {
             scheduleEvery(unit = TimeUnit.MINUTES) { saveConfigs()  }
         }
 
-        MenuKey.on { FeaturesScreen.open() }
+        MenuKey.on { FeatureScreen().openIfNoScreen() }
     }
 
     fun load() {
@@ -113,10 +114,10 @@ data object Features {
         }
     }
 
-    fun saveConfigs() = Configs.forEach(JsonConfig<*>::save)
+    fun saveConfigs() = Configs.forEach(FeatureConfig<*>::save)
 
     inline fun <reified T> config(name: String, value: T) =
-        JsonConfig(name, object : TypeToken<T>() {}, value).apply {
+        FeatureConfig(name, object : TypeToken<T>() {}, value).apply {
             load()
             Configs.add(this)
         }
