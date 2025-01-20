@@ -52,7 +52,7 @@ abstract class Node {
     var color by proxied<Color>(Colors.Transparent)
 
     //node properties
-    var _children = mutableListOf<Node>()
+    var _childrens = mutableListOf<Node>()
         set(value) {
             value.forEach {
                 if (it.parent !== this) it.parent?.removeChildren(it)
@@ -63,7 +63,7 @@ abstract class Node {
             }
             field = value
         }
-    val children get() = _children.toList()
+    val children get() = _childrens.toList()
 
     val enabledChildren get() = children.asSequence().filter(Node::enabled)
     var parent: Node? = null
@@ -250,7 +250,7 @@ abstract class Node {
             child.resize()
 
             child.parent = this
-            this._children.add(child)
+            this._childrens.add(child)
         }
     }
 
@@ -260,7 +260,7 @@ abstract class Node {
         children.forEach {
             it.parent = null
             it.resize()
-            this._children.remove(it)
+            this._childrens.remove(it)
         }
     }
 

@@ -1,13 +1,13 @@
 package ru.dargen.evoplus.features.rune.widget
 
+import ru.dargen.evoplus.feature.widget.WidgetBase
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
+import ru.dargen.evoplus.features.rune.RuneFeature
+import ru.dargen.evoplus.protocol.registry.AbilityType
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.vbox
 import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.feature.widget.isWidgetEditor
-import ru.dargen.evoplus.feature.widget.WidgetBase
-import ru.dargen.evoplus.features.rune.RuneFeature
-import ru.dargen.evoplus.protocol.registry.AbilityType
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.math.v3
 
@@ -19,7 +19,7 @@ object AbilityTimerWidget : WidgetBase {
     }
 
     fun update() {
-        node._children = buildList {
+        node._childrens = buildList {
             AbilityType.values
                 .take(if (RuneFeature.Abilities.isEmpty() && isWidgetEditor) 3 else AbilityType.size)
                 .associateWith { RuneFeature.Abilities[it.id] ?: 0L }

@@ -3,23 +3,36 @@ package ru.dargen.evoplus.feature
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.InputUtil
 import ru.dargen.evoplus.EvoPlus
+import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.animation.Easings
 import ru.dargen.evoplus.render.animation.animate
 import ru.dargen.evoplus.render.context.Overlay.ScaledResolution
 import ru.dargen.evoplus.render.context.screen
-import ru.dargen.evoplus.render.node.*
+import ru.dargen.evoplus.render.node.DummyNode
+import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.box.vbox
+import ru.dargen.evoplus.render.node.delegate
+import ru.dargen.evoplus.render.node.hover
 import ru.dargen.evoplus.render.node.input.InputNode
 import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.render.node.input.input
+import ru.dargen.evoplus.render.node.item
+import ru.dargen.evoplus.render.node.leftClick
+import ru.dargen.evoplus.render.node.minus
+import ru.dargen.evoplus.render.node.plus
+import ru.dargen.evoplus.render.node.preRender
+import ru.dargen.evoplus.render.node.rectangle
+import ru.dargen.evoplus.render.node.resize
 import ru.dargen.evoplus.render.node.scroll.VScrollViewNode
 import ru.dargen.evoplus.render.node.scroll.vScrollView
-import ru.dargen.evoplus.scheduler.async
-import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.render.node.texture
+import ru.dargen.evoplus.render.node.typeKey
 import ru.dargen.evoplus.resource.Social
+import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.v3
@@ -61,8 +74,8 @@ object FeaturesScreen {
 
                 fun VScrollViewNode.update() {
                     val content = search.cast<InputNode>().content
-
-                    box._children = Features.List
+                    
+                    box._childrens = Features.List
                         .filter { if (content.isNotEmpty()) content.lowercase() in it.name.lowercase() else true }
                         .map {
                             hbox {

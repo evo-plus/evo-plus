@@ -1,16 +1,16 @@
 package ru.dargen.evoplus.features.potion.timer
 
+import ru.dargen.evoplus.feature.widget.WidgetBase
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
+import ru.dargen.evoplus.features.potion.PotionFeature
+import ru.dargen.evoplus.features.potion.PotionState
+import ru.dargen.evoplus.protocol.registry.PotionType
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.box.vbox
 import ru.dargen.evoplus.render.node.item
 import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.feature.widget.isWidgetEditor
-import ru.dargen.evoplus.feature.widget.WidgetBase
-import ru.dargen.evoplus.features.potion.PotionFeature
-import ru.dargen.evoplus.features.potion.PotionState
-import ru.dargen.evoplus.protocol.registry.PotionType
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asShortTextTime
 import ru.dargen.evoplus.util.math.scale
@@ -24,7 +24,7 @@ object PotionTimerWidget : WidgetBase {
     }
 
     fun update() {
-        node._children = PotionFeature.ComparedPotionsTimers
+        node._childrens = PotionFeature.ComparedPotionsTimers
             .take(PotionFeature.PotionsCount)
             .associate { it.key to it.value }
             .ifEmpty {

@@ -8,17 +8,20 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.fishing.widget.FishValueWidget
-import ru.dargen.evoplus.features.fishing.widget.FishWidgetVisibleMode
+import ru.dargen.evoplus.features.fishing.widget.FishingValueWidget
+import ru.dargen.evoplus.features.fishing.widget.FishingWidgetVisibleMode
 import ru.dargen.evoplus.features.fishing.widget.SpotNibblesWidget
-import ru.dargen.evoplus.features.fishing.widget.quest.FishQuestWidget
-import ru.dargen.evoplus.features.fishing.widget.quest.FishWidgetQuestDescriptionMode
-import ru.dargen.evoplus.features.fishing.widget.quest.FishWidgetQuestMode
+import ru.dargen.evoplus.features.fishing.widget.quest.FishingQuestWidget
+import ru.dargen.evoplus.features.fishing.widget.quest.FishingWidgetQuestDescriptionMode
+import ru.dargen.evoplus.features.fishing.widget.quest.FishingWidgetQuestMode
 import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.stats.info.holder.HourlyQuestInfoHolder
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.HourlyQuestType
-import ru.dargen.evoplus.util.minecraft.*
+import ru.dargen.evoplus.util.minecraft.InteractionManager
+import ru.dargen.evoplus.util.minecraft.Player
+import ru.dargen.evoplus.util.minecraft.isSink
+import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 
 object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) {
@@ -26,15 +29,14 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
     val HigherBitingPattern = "^На локации \"([\\S\\s]+)\" повышенный клёв!\$".toRegex()
 
     val Nibbles = mutableMapOf<String, Double>()
-    val HourlyQuests = mutableMapOf<Int, HourlyQuestInfoHolder>()
 
     val ExpWidget by widgets.widget(
         "Счёт опыта рыбы", "fish-exp",
-        widget = FishValueWidget("Опыт рыбы", "^Опыта дает питомцу: (\\d+)\$".toRegex())
+        widget = FishingValueWidget("Опыт рыбы", "^Опыта дает питомцу: (\\d+)\$".toRegex())
     )
     val CaloriesWidget by widgets.widget(
         "Счёт калорийности рыбы", "fish-calories",
-        widget = FishValueWidget("Каллорийность рыбы", "^Калорийность: (\\d+)\$".toRegex())
+        widget = FishingValueWidget("Каллорийность рыбы", "^Калорийность: (\\d+)\$".toRegex())
     )
 
     val NibblesWidget by widgets.widget(
@@ -43,19 +45,19 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
     )
     val QuestsProgressWidget by widgets.widget(
         "Прогресс заданий рыбалки", "quests-progress",
-        widget = FishQuestWidget, enabled = false
+        widget = FishingQuestWidget, enabled = false
     )
-
-    val QuestsProgressMode by widgets.switcher("Отображемый тип квестов", FishWidgetQuestMode.entries.toSelector())
+    
+    val QuestsProgressMode by widgets.switcher("Отображемый тип квестов", FishingWidgetQuestMode.entries.toSelector())
     val QuestsProgressDescriptionMode by widgets.switcher(
         "Отображение описания квестов",
-        FishWidgetQuestDescriptionMode.entries.toSelector()
+        FishingWidgetQuestDescriptionMode.entries.toSelector()
     )
-    val QuestsProgressVisibleMode by widgets.switcher("Отображение квестов", FishWidgetVisibleMode.entries.toSelector())
+    val QuestsProgressVisibleMode by widgets.switcher("Отображение квестов", FishingWidgetVisibleMode.entries.toSelector())
 
     val NibblesVisibleMode by widgets.switcher(
         "Отображение клева на территориях",
-        FishWidgetVisibleMode.entries.toSelector()
+        FishingWidgetVisibleMode.entries.toSelector()
     )
 
     val SpotsHighlight by settings.boolean("Подсветка точек клева", true)
@@ -68,6 +70,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
     )
 
     init {
+        FishingQuestWidget.update(FishingQuestWidget.takePreviewQuests())
         FishingSpotsHighlight
 
         //TODO: move to protocol connector
@@ -75,8 +78,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
             Nibbles.putAll(it.nibbles)
         }
         listen<HourlyQuestInfo> { info ->
-            HourlyQuests.clear()
-            HourlyQuests.putAll(info.data.mapValues {
+            FishingQuestWidget.update(info.data.map {
                 HourlyQuestInfoHolder(
                     HourlyQuestType.byOrdinal(it.key)!!,
                     it.value

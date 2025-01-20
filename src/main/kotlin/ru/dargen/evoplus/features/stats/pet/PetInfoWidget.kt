@@ -1,15 +1,15 @@
 package ru.dargen.evoplus.features.stats.pet
 
+import ru.dargen.evoplus.feature.widget.WidgetBase
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
+import ru.dargen.evoplus.protocol.collector.data.PetData
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.box.vbox
 import ru.dargen.evoplus.render.node.item
 import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.feature.widget.isWidgetEditor
-import ru.dargen.evoplus.feature.widget.WidgetBase
-import ru.dargen.evoplus.protocol.collector.data.PetData
-import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.util.format.format
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
@@ -22,7 +22,7 @@ object PetInfoWidget : WidgetBase {
     }
 
     fun update() {
-        node._children = PlayerDataCollector.pets
+        node._childrens = PlayerDataCollector.pets
             .ifEmpty { if (isWidgetEditor) listOf(PetData.random() ?: return, PetData.random() ?: return) else emptyList() }
             .map {
                 val type = it.type

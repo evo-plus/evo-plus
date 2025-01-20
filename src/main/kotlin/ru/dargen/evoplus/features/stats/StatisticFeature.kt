@@ -1,19 +1,11 @@
 package ru.dargen.evoplus.features.stats
 
 import net.minecraft.item.Items
-import net.minecraft.util.math.BlockPos
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
 import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.event.interact.BlockBreakEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.render.Relative
-import ru.dargen.evoplus.render.node.box.hbox
-import ru.dargen.evoplus.render.node.input.button
-import ru.dargen.evoplus.render.node.item
-import ru.dargen.evoplus.render.node.postRender
-import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.Notifies
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
@@ -21,6 +13,13 @@ import ru.dargen.evoplus.features.stats.level.LevelWidget
 import ru.dargen.evoplus.features.stats.pet.PetInfoWidget
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector.combo
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector.economic
+import ru.dargen.evoplus.render.Relative
+import ru.dargen.evoplus.render.node.box.hbox
+import ru.dargen.evoplus.render.node.input.button
+import ru.dargen.evoplus.render.node.item
+import ru.dargen.evoplus.render.node.postRender
+import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.itemStack
@@ -67,8 +66,8 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
     }
     val ResetBlocksCounter =
         screen.baseElement("Сбросить счетчик блоков") { button("Сбросить") { on { BlocksCount = economic.blocks } } }
-
-    var BlocksPerSecondCounter = mutableMapOf<BlockPos, Long>()
+    
+    var BlocksPerSecondCounter = mutableListOf<Long>()
     val BlocksPerSecondWidget by widgets.widget("Счетчик блоков за секунду", "blocks-per-second-counter") {
         origin = Relative.LeftCenter
         align = v3(.87, .60)
@@ -79,7 +78,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
             +text("0") {
                 isShadowed = true
                 postRender { _, _ ->
-                    BlocksPerSecondCounter.entries.removeIf { currentMillis - it.value > 1000 }
+                    BlocksPerSecondCounter.removeIf { currentMillis - it > 1000 }
                     text = "${BlocksPerSecondCounter.size}"
                 }
             }
@@ -99,7 +98,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
         }
 
         on<BlockBreakEvent> {
-            BlocksPerSecondCounter[blockPos] = currentMillis
+            BlocksPerSecondCounter.add(currentMillis)
         }
 
         on<ChatReceiveEvent> {

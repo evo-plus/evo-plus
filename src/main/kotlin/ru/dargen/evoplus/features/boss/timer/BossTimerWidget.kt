@@ -28,7 +28,7 @@ object BossTimerWidget : WidgetBase {
     }
 
     fun update() {
-        node._children = BossTimerFeature.ComparedBosses
+        node._childrens = BossTimerFeature.ComparedBosses
             .filter { (type, _) -> !BossTimerFeature.OnlyRaidBosses || type.isRaid }
             .take(BossTimerFeature.BossesCount)
             .associate { (key, value) -> key to (value - currentMillis) }

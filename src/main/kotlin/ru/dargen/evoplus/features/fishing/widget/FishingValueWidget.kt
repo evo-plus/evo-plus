@@ -12,7 +12,7 @@ import ru.dargen.evoplus.util.minecraft.items
 import ru.dargen.evoplus.util.minecraft.lore
 import kotlin.math.max
 
-class FishValueWidget(val name: String, val pattern: Regex) : WidgetBase {
+class FishingValueWidget(val name: String, val pattern: Regex) : WidgetBase {
 
     override val node = text("$name: 0") {
         isShadowed = true
