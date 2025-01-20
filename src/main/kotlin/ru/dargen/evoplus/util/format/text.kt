@@ -29,7 +29,7 @@ fun Int.nounEndings(vararg nouns: String) =
     nouns[if (this % 100 in 5..19) 2 else Indexes[if (this % 10 < 5) abs(this) % 10 else 5]]
 
 fun String.divideOnStringLinesWithSpecificWords(sizeToDivide: Int = 6, wordsPerLine: Int = 3): String {
-    val words = split("\\s+".toRegex()).filter { sizeToDivide == 0 || it.length >= sizeToDivide }
+    val words = split("\\s+".toRegex())
     
     return buildString {
         var wordCount = 0
@@ -37,7 +37,7 @@ fun String.divideOnStringLinesWithSpecificWords(sizeToDivide: Int = 6, wordsPerL
         words.forEach {
             append(it).append(" ")
             
-            if (++wordCount >= wordsPerLine) {
+            if ((sizeToDivide == 0 || it.length >= sizeToDivide) && ++wordCount >= wordsPerLine) {
                 append("\n")
                 wordCount = 0
             }

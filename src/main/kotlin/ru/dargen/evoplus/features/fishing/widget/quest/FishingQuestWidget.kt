@@ -17,7 +17,6 @@ import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asShortTextTime
 import ru.dargen.evoplus.util.format.divideOnLinesWithSpecificWords
-import ru.dargen.evoplus.util.format.divideOnStringLinesWithSpecificWords
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.CurrentScreen
@@ -57,13 +56,13 @@ data object FishingQuestWidget : WidgetBase {
                                 
                                 val text = buildList {
                                     add(" ${(if (info.type == "NETHER") "§c" else "§a")}№${index + 1} §7${remainTime.asShortTextTime} ")
-                                    if (info.isAvailable && descriptionMode.isVisible()) add(" ${info.lore.divideOnStringLinesWithSpecificWords()}")
+                                    if (info.isAvailable && descriptionMode.isVisible()) addAll(info.lore.divideOnLinesWithSpecificWords())
                                     
                                     if (info.isCompleted) add(" §aЗаберите награду")
                                     else if (!info.isClaimed) add(" §9Прогресс: ${info.progress}/${info.needed}")
                                 }
                                 
-                                this.text = text.joinToString("\n")
+                                lines = text
                             }
                         }
                         
