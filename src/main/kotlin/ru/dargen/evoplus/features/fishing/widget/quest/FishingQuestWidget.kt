@@ -16,6 +16,8 @@ import ru.dargen.evoplus.render.node.postRender
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asShortTextTime
+import ru.dargen.evoplus.util.format.divideOnLinesWithSpecificWords
+import ru.dargen.evoplus.util.format.divideOnStringLinesWithSpecificWords
 import ru.dargen.evoplus.util.math.scale
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.CurrentScreen
@@ -40,20 +42,22 @@ data object FishingQuestWidget : WidgetBase {
             .flatMap { (_, quests) ->
                 quests.mapIndexed { index, info ->
                     hbox {
-                        val descriptionMode = FishingFeature.QuestsProgressDescriptionMode
-                        
                         space = 2.0
                         indent = v3()
                         
                         +item(customItem(Items.PAPER, if (!info.isAvailable) 374 else 372)) { scale = scale(.7, .7) }
                         +text {
                             isShadowed = true
-                            postRender { _, _ ->
+                            postRender { mat, _ ->
+                                val descriptionMode = FishingFeature.QuestsProgressDescriptionMode
                                 val remainTime = (info.timestamp - currentMillis).coerceAtLeast(0L)
+                                
+                                if (descriptionMode === FishingWidgetQuestDescriptionMode.HOVER && isHovered && CurrentScreen != null && !isWidgetEditor)
+                                    Tips.draw(mat, *info.lore.divideOnLinesWithSpecificWords().toTypedArray())
                                 
                                 val text = buildList {
                                     add(" ${(if (info.type == "NETHER") "§c" else "§a")}№${index + 1} §7${remainTime.asShortTextTime} ")
-                                    if (info.isAvailable && descriptionMode.isVisible()) add(" ${info.lore}")
+                                    if (info.isAvailable && descriptionMode.isVisible()) add(" ${info.lore.divideOnStringLinesWithSpecificWords()}")
                                     
                                     if (info.isCompleted) add(" §aЗаберите награду")
                                     else if (!info.isClaimed) add(" §9Прогресс: ${info.progress}/${info.needed}")
@@ -61,11 +65,6 @@ data object FishingQuestWidget : WidgetBase {
                                 
                                 this.text = text.joinToString("\n")
                             }
-                        }
-                        
-                        
-                        if (descriptionMode === FishingWidgetQuestDescriptionMode.HOVER) postRender { mat, _ ->
-                            if (isHovered && CurrentScreen != null && !isWidgetEditor) Tips.draw(mat, info.lore)
                         }
                         
                         recompose()

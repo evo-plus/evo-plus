@@ -28,3 +28,23 @@ fun String.safeSlice(range: IntRange) = safeSlice(range.first, range.last + 1)
 fun Int.nounEndings(vararg nouns: String) =
     nouns[if (this % 100 in 5..19) 2 else Indexes[if (this % 10 < 5) abs(this) % 10 else 5]]
 
+fun String.divideOnStringLinesWithSpecificWords(sizeToDivide: Int = 6, wordsPerLine: Int = 3): String {
+    val words = split("\\s+".toRegex()).filter { sizeToDivide == 0 || it.length >= sizeToDivide }
+    
+    return buildString {
+        var wordCount = 0
+        
+        words.forEach {
+            append(it).append(" ")
+            
+            if (++wordCount >= wordsPerLine) {
+                append("\n")
+                wordCount = 0
+            }
+        }
+    }.trim().toString()
+}
+
+fun String.divideOnLinesWithSpecificWords(sizeToDivide: Int = 6, wordsPerLine: Int = 3) = divideOnStringLinesWithSpecificWords(sizeToDivide, wordsPerLine)
+    .split("\n")
+
