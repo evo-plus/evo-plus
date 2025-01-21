@@ -42,34 +42,11 @@ runClient {
     args "--username=${System.getenv('TEST_NAME')}"
 }
 
-modrinth {
-    token = System.getenv('MODRINTH_TOKEN')
-    projectId = 'evoplus'
-    versionNumber = project.version
-    versionName = project.version
-    changelog = new File('changelog.txt').text.split('\n').collect { "- $it" }.join('\n')
-    versionType = "release"
-    uploadFile = remapJar
-    gameVersions = [project.minecraft_version]
-    loaders = ['fabric']
-    dependencies { project.mod_dependencies.split(',').collect { required.version(it) }}
-}
-
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(project.java_version.toInteger())
-}
-
-kotlin {
-    jvmToolchain(project.java_version.toInteger())
-}
-
-allOpen {
-    annotation('ru.dargen.evoplus.util.kotlin.KotlinOpens')
-}
-
-jar {
-    from('LICENSE')
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(project.java_version.toInteger())
+tasks.withType(JavaCompile)*.options*.encoding = 'UTF-8'
+kotlin.jvmToolchain(project.java_version.toInteger())
+allOpen.annotation('ru.dargen.evoplus.util.kotlin.KotlinOpens')
+jar.from('LICENSE')
 
 processResources {
     inputs.property 'version', version
@@ -81,4 +58,48 @@ processResources {
     }
 }
 
-tasks.withType(JavaCompile)*.options*.encoding = 'UTF-8'
+static def openFile(String name) {
+    return new File(name).text
+}
+
+modrinth {
+    token = System.getenv('MODRINTH_TOKEN')
+    projectId = 'evoplus'
+    versionNumber = project.version
+    versionName = project.version
+    changelog = openFile('release/changelog.txt').split('\n').collect { "- $it" }.join('\n')
+    versionType = 'release'
+    uploadFile = remapJar
+    gameVersions = [project.minecraft_version]
+    loaders = ['fabric']
+    dependencies { project.mod_dependencies.split(',').collect { required.version(it) } }
+}
+
+import groovy.json.JsonOutput
+
+tasks.register('postToDiscord') {
+    doLast {
+        def webhookUrl = System.getenv('RELEASE_WEBHOOK')
+
+        def payload = [
+                username: 'EvoPlus',
+                content : openFile('release/discord.txt')
+                        .replace('{version}', project.version)
+                        .replace('{changelog}', openFile('release/changelog.txt').split('\n').collect { "- $it" }.join('\n'))
+        ]
+
+        def connection = new URL(webhookUrl).openConnection()
+        connection.requestMethod = 'POST'
+        connection.doOutput = true
+        connection.setRequestProperty 'Content-Type', 'application/json'
+
+        connection.outputStream.withWriter('UTF-8') { it << JsonOutput.toJson(payload)}
+
+        println "Discord release message posted ${connection.responseCode}"
+    }
+}
+
+tasks.register('publishAndNotify') {
+    dependsOn tasks.modrinth
+    finalizedBy tasks.postToDiscord
+}
