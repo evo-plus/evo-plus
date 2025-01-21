@@ -15,6 +15,7 @@ import ru.dargen.evoplus.features.clan.ClanFeature
 import ru.dargen.evoplus.features.clan.ShaftFeature
 import ru.dargen.evoplus.features.clicker.AutoClickerFeature
 import ru.dargen.evoplus.features.dev.DevFeature
+import ru.dargen.evoplus.features.dungeon.DungeonFeature
 import ru.dargen.evoplus.features.esp.ESPFeature
 import ru.dargen.evoplus.features.fishing.FishingFeature
 import ru.dargen.evoplus.features.game.GoldenRushFeature
@@ -74,6 +75,7 @@ data object Features {
         BossTimerFeature.register()
         BossFeature.register()
         StaffFeature.register()
+        DungeonFeature.register()
         RuneFeature.register()
         AlchemyFeature.register()
         PotionFeature.register()

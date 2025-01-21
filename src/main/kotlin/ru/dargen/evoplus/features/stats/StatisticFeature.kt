@@ -89,9 +89,6 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
     }
 
     init {
-        ComboWidget.ProgressBar.enabled = ComboProgressBarEnabled
-        LevelWidget.ProgressBar.enabled = LevelProgressBarEnabled
-
         scheduleEvery(unit = TimeUnit.SECONDS) {
             PetInfoWidget.update()
             ComboWidget.update(combo)

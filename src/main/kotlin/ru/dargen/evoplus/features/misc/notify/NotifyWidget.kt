@@ -103,6 +103,8 @@ object NotifyWidget : WidgetBase {
         }
         hoverOut { if (willHide) hide() }
 
+        recompose()
+
         animate("state", .8, Easings.BackOut) {
             scale = v3(1.0, 1.0, 1.0)
             translation = v3(-16.0)
