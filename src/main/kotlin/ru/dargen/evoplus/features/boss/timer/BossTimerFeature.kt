@@ -27,7 +27,6 @@ import ru.dargen.evoplus.util.minecraft.displayName
 import ru.dargen.evoplus.util.minecraft.itemStack
 import ru.dargen.evoplus.util.minecraft.lore
 import ru.dargen.evoplus.util.minecraft.printHoveredCommandMessage
-import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.sendCommand
 import ru.dargen.evoplus.util.minecraft.uncolored
@@ -96,10 +95,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
             if (old === MYTHICAL_EVENT || new === MYTHICAL_EVENT) Bosses.replaceAll { bossId, spawn ->
                 if (BossType.valueOf(bossId)?.isRaid == false) return@replaceAll spawn
                 
-                printMessage(spawn.toString())
-                (if (old === MYTHICAL_EVENT) (spawn * MYTHICAL_EVENT_MULTIPLIER_X1000) / 1000 else (spawn * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000).apply {
-                    printMessage(toString())
-                }
+                (if (old === MYTHICAL_EVENT) (spawn * MYTHICAL_EVENT_MULTIPLIER_X1000) / 1000 else (spawn * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000)
             }
         }
 
