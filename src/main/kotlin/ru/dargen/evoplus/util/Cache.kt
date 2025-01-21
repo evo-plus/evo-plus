@@ -4,14 +4,17 @@ import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.RemovalCause
 import com.github.benmanes.caffeine.cache.Scheduler
 import java.util.Collections.newSetFromMap
+import java.util.concurrent.Executors
 import kotlin.let
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
+private val CacheScheduler = Scheduler.forScheduledExecutorService(Executors.newScheduledThreadPool(1))
+
 typealias ExpireHandler<K, V> = (K, V) -> Unit
 
 fun <K, V> newExpireCacheBuilder(handler: ExpireHandler<K, V>? = null) = Caffeine.newBuilder()
-    .scheduler(Scheduler.systemScheduler())
+    .scheduler(CacheScheduler)
     .removalListener<K, V> { key, value, cause ->
         if (handler !== null && key !== null && value !== null && cause === RemovalCause.EXPIRED) {
             handler(key, value)
