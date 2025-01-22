@@ -60,7 +60,9 @@ object RuneFeature : Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
         }
 
         listen<AbilityTimers> {
-            it.timers.forEach { (id, timestamp) -> Abilities[id] = currentMillis + timestamp + 600 }
+            it.timers
+                .filterValues { it > 1000 }
+                .forEach { (id, timestamp) -> Abilities[id] = currentMillis + timestamp + 600 }
         }
     }
 
