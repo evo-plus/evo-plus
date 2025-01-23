@@ -14,7 +14,12 @@ import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.*
+import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.minecraft.CurrentScreen
+import ru.dargen.evoplus.util.minecraft.CurrentScreenHandler
+import ru.dargen.evoplus.util.minecraft.Player
+import ru.dargen.evoplus.util.minecraft.lore
+import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 
 object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND) {
@@ -23,8 +28,8 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
     private val AlchemyTimePattern = "Время: ([.\\d]+)с".toRegex()
 
     var PotionRecipe: PotionRecipe? = null
-
-    val IngredientHighlight by settings.boolean("Подсветка ингридиентов", true)
+    
+    val IngredientHighlight by settings.boolean("Подсветка ингредиентов", true)
     val RecipeText = text("Закрепите рецепт нажатием ПКМ в меню")
     val RecipeWidget by widgets.widget("Рецепт зелья", "recipe", enabled = false) {
         align = Relative.LeftCenter

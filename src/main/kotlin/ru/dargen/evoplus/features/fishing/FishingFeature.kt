@@ -36,7 +36,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
     )
     val CaloriesWidget by widgets.widget(
         "Счёт калорийности рыбы", "fish-calories",
-        widget = FishingValueWidget("Каллорийность рыбы", "^Калорийность: (\\d+)\$".toRegex())
+        widget = FishingValueWidget("Калорийность рыбы", "^Калорийность: (\\d+)\$".toRegex())
     )
 
     val NibblesWidget by widgets.widget(
@@ -48,7 +48,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
         widget = FishingQuestWidget, enabled = false
     )
     
-    val QuestsProgressMode by widgets.switcher("Отображемый тип квестов", FishingWidgetQuestMode.entries.toSelector())
+    val QuestsProgressMode by widgets.switcher("Отображаемый тип квестов", FishingWidgetQuestMode.entries.toSelector())
     val QuestsProgressDescriptionMode by widgets.switcher(
         "Отображение описания квестов",
         FishingWidgetQuestDescriptionMode.entries.toSelector()
