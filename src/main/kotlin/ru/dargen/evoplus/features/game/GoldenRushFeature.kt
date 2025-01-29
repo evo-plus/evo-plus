@@ -57,11 +57,8 @@ object GoldenRushFeature : Feature("golden-rush", "Золотая Лихорад
     }
 
     val GoldenCrystalNotify by settings.boolean("Уведомление о появлении золотого кристалла")
-    val GoldenCrystalMessage by settings.boolean(
-        "Сообщение о появлении золотого кристалла",
-        true
-    )
-    val GoldenCrystalGlowing by settings.boolean("Подстветка золотого кристалла") on {
+    val GoldenCrystalMessage by settings.boolean("Сообщение о появлении золотого кристалла", true)
+    val GoldenCrystalGlowing by settings.boolean("Подсветка золотого кристалла") on {
         GoldenCrystalEntity?.isGlowing = it
     }
 
