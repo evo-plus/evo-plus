@@ -73,6 +73,8 @@ data object Features {
         RenderFeature.register()
         MiscFeature.register()
         ShareFeature.register()
+
+        FeaturesVigilant.initialize()
     }
 
     fun Feature.register() {

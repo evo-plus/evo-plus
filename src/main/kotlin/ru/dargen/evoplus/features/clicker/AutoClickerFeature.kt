@@ -4,30 +4,26 @@ import net.minecraft.item.Items
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Category
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
+import ru.dargen.evoplus.feature.vigilant.enumSelector
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.util.selector.enumSelector
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
 object AutoClickerFeature : ru.dargen.evoplus.feature.Feature("clicker", "Кликер", icon = Items.WOODEN_SWORD) {
     
     var BindEnabled = true
-    val Mode by settings.switcher(
-        "Режим работы",
-        enumSelector<ClickerMode>()
-    )
-    val Mouse by settings.switcher(
-        "Кнопка мыши",
-        enumSelector<ClickerMouse>()
-    )
+    var Mode = ClickerMode.CLICK
+    var Button = ClickerButton.LEFT
     var CPS = 10
 
-    override fun Category.setup() {
+    override fun FeatureCategory.setup() {
         switch(::BindEnabled, "Статус бинда", "Включает/выключает бинд кликера")
+        enumSelector(::Mode, "Режим работы", "Выбор режима работы кликера")
+        enumSelector(::Button, "Кнопка кликера", "Выбор кнопки кликера")
         slider(::CPS, "КПС", "Клики в секунду", min = 1, max = 20)
     }
 
@@ -60,7 +56,7 @@ object AutoClickerFeature : ru.dargen.evoplus.feature.Feature("clicker", "Кли
             if (remainToClick > 0) return@scheduleEvery
 
             remainToClick = 1000 / CPS
-            Mouse()
+            Button.click()
         }
     }
 }

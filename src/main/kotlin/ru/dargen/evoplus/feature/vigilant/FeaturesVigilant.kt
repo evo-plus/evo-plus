@@ -2,9 +2,12 @@ package ru.dargen.evoplus.feature.vigilant
 
 import gg.essential.universal.UScreen
 import gg.essential.vigilance.Vigilant
+import gg.essential.vigilance.Vigilant.CategoryPropertyBuilder
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.scheduler.after
 import java.io.File
+
+typealias FeatureCategory = CategoryPropertyBuilder
 
 object FeaturesVigilant : Vigilant(File("evo-plus/features.toml"), guiTitle = "EvoPlus ${EvoPlus.Version}") {
 
