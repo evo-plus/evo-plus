@@ -1,9 +1,10 @@
-package ru.dargen.evoplus.feature.settings
+package ru.dargen.evoplus.feature.setting
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import ru.dargen.evoplus.feature.screen.FeatureElement
+import ru.dargen.evoplus.feature.screen.FeatureElementProvider
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
-import ru.dargen.evoplus.feature.screen.FeatureScreenElement
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.box.hbox
@@ -17,7 +18,7 @@ import java.awt.Color
 
 class ColorInputSetting(
     id: String, name: String, value: Boolean
-) : Setting<Boolean>(id, name) {
+) : Setting<Boolean>(id, name), FeatureElementProvider {
 
     override var value: Boolean = value
         set(value) {
@@ -73,8 +74,8 @@ class ColorInputSetting(
         on { inputs.forEach { it.content = "ffffff" } }
     }
 
-    override val settingElement = object : FeatureScreenElement {
-        override fun create(prompt: FeaturePrompt) = rectangle {
+    override val element = object : FeatureElement {
+        override fun createElement(prompt: FeaturePrompt) = rectangle {
             //TODO: исправить отображение кнопки (потому что слава дебил и оно теперь нормально не подгружает)
             fun Boolean.stringfy() = if (this) "§aВключено" else "§cВыключено"
 

@@ -21,15 +21,18 @@ object Emojis {
     private val ChatClassNamePattern = "(class_408|Chat)".toRegex()
 
     /*emoji to data*/
-    val EmojiMap =
+    val EmojiMap = runCatching {
         URL("https://docs.google.com/spreadsheets/d/12pLMaVhot71LSz2Trv7ykm90IgRaw75IBM4Mb0yQTps/export?format=csv&id=12pLMaVhot71LSz2Trv7ykm90IgRaw75IBM4Mb0yQTps")
             .openStream()
             .readCSV()
             .drop(1)
             .associate { (name, id, emoji) -> emoji to EmojiData(id, name, emoji) }
+    }.getOrElse { emptyMap() }
 
     init {
-        on<ChatSendEvent> { text = replaceEmojisByKeys(text) }
+        on<ChatSendEvent> {
+            text = replaceEmojisByKeys(text)
+        }
         Overlay + vbox {
             align = Relative.RightBottom
             origin = Relative.RightBottom

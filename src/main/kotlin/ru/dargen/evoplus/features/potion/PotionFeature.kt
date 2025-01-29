@@ -24,10 +24,16 @@ object PotionFeature : Feature("potion", "Зелья", customItem(Items.POTION, 
 
     val TimerWidget by widgets.widget("Зелья", "potions-timer", enabled = false, widget = PotionTimerWidget)
 
-    val PotionsCount by settings.selector("Кол-во отображаемых зелий", (0..15).toSelector(-1))
+    val PotionsCount by settings.selector(
+        "Кол-во отображаемых зелий",
+        (0..15).toSelector(-1)
+    )
     val EnabledNotify by settings.boolean("Уведомление об окончании", true)
     val EnabledMessage by settings.boolean("Сообщение об окончании")
-    val EnabledPotionsInTab by settings.boolean("Отображать сведения в табе", true)
+    val EnabledPotionsInTab by settings.boolean(
+        "Отображать сведения в табе",
+        true
+    )
 
     init {
         listen<PotionData> { potionData ->

@@ -5,17 +5,20 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.item.Item
 import net.minecraft.item.Items
-import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.feature.screen.FeatureBaseElement
-import ru.dargen.evoplus.feature.settings.Setting
+import ru.dargen.evoplus.feature.screen.FeatureElementProvider
+import ru.dargen.evoplus.feature.setting.Setting
+import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.util.collection.insertAt
 
 object FastSelectorSetting :
-    Setting<MutableList<MutableList<SelectorItem>>>("fast-selector-buttons", "Настройка fast-селектора") {
+    Setting<MutableList<MutableList<SelectorItem>>>("fast-selector-buttons", "Настройка fast-селектора"),
+    FeatureElementProvider
+{
 
     val items get() = value.sumOf { it.size }
-    
-    override val settingElement = FeatureBaseElement(name) {
+
+    override val element = FeatureBaseElement(name) {
         button("Открыть") {
             on { FastSelectorScreen.open(true) }
         }
@@ -56,7 +59,7 @@ object FastSelectorSetting :
 
     fun addItem(
         currentLine: Int, line: Int, index: Int,
-        item: SelectorItem = SelectorItem(Items.PAPER, 0, "command", "Название")
+        item: SelectorItem = SelectorItem(Items.PAPER, 0, "command", "Название"),
     ) = addItem(
         line, if (line !in value.indices) 0
         else (value[line].size * (index / value[currentLine].size.toDouble())).toInt(),
@@ -65,7 +68,7 @@ object FastSelectorSetting :
 
     fun addItem(
         line: Int, index: Int,
-        item: SelectorItem = SelectorItem(Items.PAPER, 0, "Название", "command")
+        item: SelectorItem = SelectorItem(Items.PAPER, 0, "Название", "command"),
     ): SelectorItem {
         if (line !in value.indices) value = value.insertAt(line, mutableListOf()).toMutableList()
         val line = line.coerceAtLeast(0)

@@ -23,9 +23,9 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     include(modImplementation(fabricApi.module("fabric-message-api-v1", project.fabric_version)))
-//    include(modImplementation(fabricApi.module("fabric-command-api-v2", project.fabric_version)))
+    include(modImplementation(fabricApi.module("fabric-command-api-v2", project.fabric_version)))
 
-    //Kotlin
+//    Kotlin
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
     //Other dependencies

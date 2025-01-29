@@ -15,7 +15,7 @@ import ru.dargen.evoplus.util.selector.toSelector
 
 object DevFeature : Feature("dev-env", "DevEnv", Items.COMMAND_BLOCK) {
 
-    val NodeDebugMode by widgets.switcher(
+    val NodeDebugMode by settings.switcher(
         "Тип вывода компонентов",
         NodeDebugModeType.entries.toSelector(),
         nameMapper = { it?.displayName ?: "null" })

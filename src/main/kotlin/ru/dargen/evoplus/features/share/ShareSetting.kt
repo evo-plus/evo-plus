@@ -1,8 +1,9 @@
 package ru.dargen.evoplus.features.share
 
+import ru.dargen.evoplus.feature.screen.FeatureElement
+import ru.dargen.evoplus.feature.screen.FeatureElementProvider
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
-import ru.dargen.evoplus.feature.screen.FeatureScreenElement
-import ru.dargen.evoplus.feature.settings.BooleanSetting
+import ru.dargen.evoplus.feature.setting.BooleanSetting
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.animation.animate
@@ -21,10 +22,10 @@ class ShareSetting(
     id: String, name: String,
     val encoder: (nick: String?) -> String,
     val decoder: (nick: String, data: String) -> Unit,
-) : BooleanSetting(id, name, true) {
+) : BooleanSetting(id, name, true), FeatureElementProvider {
 
-    override val settingElement = object : FeatureScreenElement {
-        override fun create(prompt: FeaturePrompt) = rectangle {
+    override val element = object : FeatureElement {
+        override fun createElement(prompt: FeaturePrompt) = rectangle {
             color = Colors.TransparentBlack
             size = v3(y = 55.0)
 

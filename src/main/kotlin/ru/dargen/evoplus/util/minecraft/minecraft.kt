@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.util.minecraft
 
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
+import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.network.packet.Packet
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.sound.SoundEvent
@@ -27,18 +27,23 @@ val Player get() = Client?.player
 val World get() = Client?.world
 val InteractionManager get() = Client?.interactionManager
 
+val PlayersProfiles
+    get() = Client?.networkHandler?.playerList
+        ?.mapNotNull { it.profile }
+        ?.filter { it.name?.isNPCName == false }
+        .orEmpty()
 val WorldEntities get() = World?.entities?.filterNotNull() ?: emptyList()
 val TargetEntity get() = Client?.crosshairTarget?.safeCast<EntityHitResult>()?.entity
 val TargetBlock get() = Client?.crosshairTarget?.safeCast<BlockHitResult>()?.blockPos
 val LoadedChunks
     get() = buildList {
         val viewDist = Client?.options?.viewDistance?.value ?: return@buildList
-        
+
         for (x in -viewDist..viewDist) {
             for (z in -viewDist..viewDist) {
                 val chunk = World?.chunkManager
                     ?.getWorldChunk(Player!!.x.toInt() / 16 + x, Player!!.z.toInt() / 16 + z) ?: continue
-                
+
                 add(chunk)
             }
         }
@@ -51,7 +56,7 @@ val BlockEntities
 
 val CurrentScreenHandler get() = Player?.currentScreenHandler
 val CurrentScreen get() = Client?.currentScreen
-val CurrentContainer get() = CurrentScreen?.safeCast<GenericContainerScreen>()
+val CurrentContainer get() = CurrentScreen?.safeCast<HandledScreen<*>>()
 
 val WindowInitialized get() = Client.window != null
 val Window get() = Client.window

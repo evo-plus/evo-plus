@@ -12,6 +12,7 @@ import ru.dargen.evoplus.util.math.v3
 class TextureNode : Node() {
 
     lateinit var identifier: Identifier
+    var texture: Int = -1
 
     var textureOffset by proxied(v3())
     var textureSize by proxied(v3(256.0, 256.0))
@@ -23,11 +24,13 @@ class TextureNode : Node() {
     }
 
     override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
-        if (!this::identifier.isInitialized) return
+        if (!this::identifier.isInitialized) {
+            if (texture == -1) return
+            RenderSystem.setShaderTexture(0, texture)
+        } else RenderSystem.setShaderTexture(0, identifier)
 
-        RenderSystem.setShaderTexture(0, identifier)
         if (blend) RenderSystem.enableBlend()
-        
+
         if (repeating) DrawableHelper.drawRepeatingTexture(
             matrices, 0, 0,
             size.x.toInt(), size.y.toInt(),
@@ -47,5 +50,10 @@ fun texture(block: TextureNode.() -> Unit = {}) = TextureNode().apply(block)
 
 fun texture(identifier: Identifier, block: TextureNode.() -> Unit = {}) = texture {
     this.identifier = identifier
+    block()
+}
+
+fun texture(texture: Int, block: TextureNode.() -> Unit = {}) = texture {
+    this.texture = texture
     block()
 }

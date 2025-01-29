@@ -89,7 +89,7 @@ class FeatureScreen : ScreenContext("features", "") {
             fun switchSetting(feature: Feature = SelectedFeature) {
                 SelectedFeature = feature
                 settingsBox._childrens.clear()
-                settingsBox + SelectedFeature.lookupSection(prompt)
+                settingsBox + SelectedFeature.createElement(prompt)
                 selectionLabel.text = feature.name
             }
 
@@ -160,7 +160,7 @@ class FeatureScreen : ScreenContext("features", "") {
             }
         }
 
-        settingsBox = +delegate { +SelectedFeature.lookupSection(prompt) }
+        settingsBox = +delegate { +SelectedFeature.createElement(prompt) }
 
         resize {
             selectorBox.size = v3(

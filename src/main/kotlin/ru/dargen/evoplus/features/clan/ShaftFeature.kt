@@ -49,7 +49,10 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
         align = v3(.5, .9)
         +WormsText
     }
-    val WormNotify by settings.boolean("Уведомление о найденных червях", true)
+    val WormNotify by settings.boolean(
+        "Уведомление о найденных червях",
+        true
+    )
     val WormMessage by settings.boolean("Сообщение о найденных червях")
     val WormClanMessage by settings.boolean("Сообщение о найденных червях в клан чат с указанием шахты")
 
@@ -73,7 +76,10 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
         align = v3(.5, .9)
         +BarrelsText
     }
-    val BarrelsNotify by settings.boolean("Уведомление о найденных бочках", true)
+    val BarrelsNotify by settings.boolean(
+        "Уведомление о найденных бочках",
+        true
+    )
     val BarrelsMessage by settings.boolean("Сообщение о найденных бочках")
     val BarrelsClanMessage by settings.boolean("Сообщение о найденных бочках в клан")
 

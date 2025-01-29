@@ -145,7 +145,7 @@ object WidgetEditorScreen {
         this@selector.removeChildren(base)
 
         Features.List.flatMap {
-            it.widgets.value
+            it.widgets.settings
                 .filterIsInstance<Widget>()
                 .filter { !it.enabled }
         }.forEach { widget ->

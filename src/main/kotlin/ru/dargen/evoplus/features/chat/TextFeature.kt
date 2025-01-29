@@ -21,13 +21,22 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
         widget = MarketChatTimerWidget,
         enabled = false
     )
-    val MarketChatTimerDelay by settings.selector("Задержка торгового чата", (3..5).toSelector()) { "$it мин." }
+    val MarketChatTimerDelay by settings.selector(
+        "Задержка торгового чата",
+        (3..5).toSelector()
+    ) { "$it мин." }
     val NoSpam by settings.boolean("Отключение спам-сообщений")
-    val CopyMessages by settings.boolean("Копировать сообщение из чата (ПКМ)", true)
+    val CopyMessages by settings.boolean(
+        "Копировать сообщение из чата (ПКМ)",
+        true
+    )
     val EmojiMenu by settings.boolean("Меню эмодзи", true)
 
     //    val ReplaceUniqueUsers by settings.boolean("Заменять ники уникальных пользователей EvoPlus", true)
-    val ColorInputs = settings.colorInput("Градиент сообщение в чате (Нужен статус)", id = "gradient")
+    val ColorInputs = settings.colorInput(
+        "Градиент сообщение в чате (Нужен статус)",
+        id = "gradient"
+    )
 
     init {
         Emojis

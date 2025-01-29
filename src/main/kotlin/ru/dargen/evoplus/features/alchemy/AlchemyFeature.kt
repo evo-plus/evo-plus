@@ -24,7 +24,10 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
 
     var PotionRecipe: PotionRecipe? = null
 
-    val IngredientHighlight by settings.boolean("Подсветка ингридиентов", true)
+    val IngredientHighlight by settings.boolean(
+        "Подсветка ингридиентов",
+        true
+    )
     val RecipeText = text("Закрепите рецепт нажатием ПКМ в меню")
     val RecipeWidget by widgets.widget("Рецепт зелья", "recipe", enabled = false) {
         align = Relative.LeftCenter

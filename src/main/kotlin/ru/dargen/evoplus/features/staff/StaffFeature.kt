@@ -18,8 +18,14 @@ object StaffFeature : Feature("staff", "Посохи", customItem(Items.WOODEN_H
 
     val TimerWidget by widgets.widget("Таймер посохов", "staff-timer", widget = StaffTimerWidget)
 
-    var ReadyNotify by settings.boolean("Уведомление при окончании задержки", true)
-    var ReadyMessage by settings.boolean("Сообщение при окончании задержки", true)
+    var ReadyNotify by settings.boolean(
+        "Уведомление при окончании задержки",
+        true
+    )
+    var ReadyMessage by settings.boolean(
+        "Сообщение при окончании задержки",
+        true
+    )
 
     init {
         listen<StaffTimers> {

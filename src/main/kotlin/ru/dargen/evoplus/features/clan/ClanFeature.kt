@@ -20,8 +20,14 @@ object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
     private val BossCapturePattern =
         "\\[Клан] Клан (\\S+) начал захват вашего босса ([\\s\\S]+)\\. Защитите его\\.".toRegex()
 
-    val BossCaptureNotify by settings.boolean("Уведомление о захвате вашего босса", true)
-    val InlineMenuClanScores by settings.boolean("Отображать базовое К.О. боссов для захвата в меню", true)
+    val BossCaptureNotify by settings.boolean(
+        "Уведомление о захвате вашего босса",
+        true
+    )
+    val InlineMenuClanScores by settings.boolean(
+        "Отображать базовое К.О. боссов для захвата в меню",
+        true
+    )
 
     init {
 //        listen<ClanInfo> { ClanHolder.accept(it.data) }

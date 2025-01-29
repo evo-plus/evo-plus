@@ -85,7 +85,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     val AutoReset by settings.boolean("Автоматический сброс таймеров при рестарте", true)
 
     init {
-        screen.baseElement("Сбросить таймеры") { button("Сбросить") { on { Bosses.clear() } } }
+        settings.baseElement("Сбросить таймеры") { button("Сбросить") { on { Bosses.clear() } } }
 
         on<ChatReceiveEvent> {
             if (AutoReset && text == "Перезагрузка сервера") Bosses.clear()

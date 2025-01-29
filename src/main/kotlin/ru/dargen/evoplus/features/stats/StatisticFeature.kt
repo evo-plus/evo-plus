@@ -43,7 +43,10 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
     val LevelProgressBarEnabled by settings.boolean("Шкала прогресса уровня") on {
         LevelWidget.ProgressBar.enabled = it
     }
-    val NotifyCompleteLevelRequire by settings.boolean("Уведомлять при выполнении требований", true)
+    val NotifyCompleteLevelRequire by settings.boolean(
+        "Уведомлять при выполнении требований",
+        true
+    )
 
     var BlocksCount = 0
         set(value) {
@@ -65,7 +68,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
         }
     }
     val ResetBlocksCounter =
-        screen.baseElement("Сбросить счетчик блоков") { button("Сбросить") { on { BlocksCount = economic.blocks } } }
+        settings.baseElement("Сбросить счетчик блоков") { button("Сбросить") { on { BlocksCount = economic.blocks } } }
     
     var BlocksPerSecondCounter = mutableListOf<Long>()
     val BlocksPerSecondWidget by widgets.widget("Счетчик блоков за секунду", "blocks-per-second-counter") {

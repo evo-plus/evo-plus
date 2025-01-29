@@ -174,6 +174,8 @@ class InputNode : RectangleNode() {
     fun strictSymbols() = filter { SharedConstants.isValidChar(it) }
 
     fun clear() {
+        if (content.isEmpty()) return
+        
         content = ""
         inputHandler(content)
     }

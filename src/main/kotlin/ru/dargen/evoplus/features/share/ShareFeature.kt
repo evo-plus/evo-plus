@@ -6,8 +6,6 @@ import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.util.PasteApi
 import ru.dargen.evoplus.util.json.Gson
-import ru.dargen.evoplus.util.minecraft.command
-import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.CompletableFuture
 
@@ -20,10 +18,10 @@ object ShareFeature : Feature("share", "Поделиться", Items.SCULK_SENSO
     val shares = mutableMapOf<String, ShareSetting>()
 
     init {
-        command("share", "send", usage = "<тип> [игрок]", argumentsCount = 2) { (type, player) ->
-            shares[type.lowercase()]!!.share(player)
-            printMessage("§aВы поделились $type с $player")
-        }
+//        command("share", "send", usage = "<тип> [игрок]", argumentsCount = 2) { (type, player) ->
+//            shares[type.lowercase()]!!.share(player)
+//            printMessage("§aВы поделились $type с $player")
+//        }
         //TODO: make with brigadier
         on<ChatReceiveEvent> {
             val text = text.uncolored()

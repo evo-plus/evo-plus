@@ -8,9 +8,9 @@ import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
 
 @KotlinOpens
-class FeatureBaseElement(val name: String, val element: FeatureScreenElement) : FeatureScreenElement {
+class FeatureBaseElement(val name: String, val element: FeatureElement) : FeatureElement {
 
-    override fun create(prompt: FeaturePrompt) = rectangle {
+    override fun createElement(prompt: FeaturePrompt) = rectangle {
         color = Colors.TransparentBlack
         size = v3(y = 30.0)
         +text(prompt.highlightPrompt(name)) {
@@ -18,7 +18,7 @@ class FeatureBaseElement(val name: String, val element: FeatureScreenElement) : 
             align = Relative.LeftCenter
             origin = Relative.LeftCenter
         }
-        +element.create(prompt).apply {
+        +element.createElement(prompt).apply {
             translation = v3(x = -5.0)
             align = Relative.RightCenter
             origin = Relative.RightCenter

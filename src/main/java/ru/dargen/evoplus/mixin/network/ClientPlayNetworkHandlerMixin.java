@@ -22,15 +22,18 @@ import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
 import net.minecraft.network.packet.c2s.play.ResourcePackStatusC2SPacket;
 import net.minecraft.network.packet.s2c.play.*;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.chat.ChatSendEvent;
 import ru.dargen.evoplus.event.chat.CommandEvent;
+import ru.dargen.evoplus.event.chat.TitleEvent;
 import ru.dargen.evoplus.event.inventory.InventoryCloseEvent;
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent;
 import ru.dargen.evoplus.event.inventory.InventoryOpenEvent;
@@ -40,6 +43,7 @@ import ru.dargen.evoplus.event.network.CustomPayloadEvent;
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent;
 import ru.dargen.evoplus.event.world.ChunkLoadEvent;
 import ru.dargen.evoplus.event.world.ParticleEvent;
+import ru.dargen.evoplus.event.world.WorldMapEvent;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.minecraft.Inventories;
 import ru.dargen.evoplus.util.minecraft.TextKt;
@@ -208,7 +212,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "onCustomPayload", cancellable = true)
+    @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
     public void onCustomPayload(CustomPayloadS2CPacket packet, CallbackInfo ci) {
         if (packet.getChannel().toString().equals("minecraft:brand")) {
             EventBus.INSTANCE.fire(ChangeServerEvent.INSTANCE);
@@ -244,7 +248,25 @@ public abstract class ClientPlayNetworkHandlerMixin {
             ci.cancel();
         }
     }
-    
+
+    @Inject(method = "onMapUpdate", at = @At("HEAD"), cancellable = true)
+    private void onParticle(MapUpdateS2CPacket packet, CallbackInfo ci) {
+        if (!EventBus.INSTANCE.fireResult(new WorldMapEvent(packet.getId(), packet))) {
+            ci.cancel();
+        }
+    }
+
+    @Redirect(method = "onTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/TitleS2CPacket;getTitle()Lnet/minecraft/text/Text;"))
+    private Text onTitle(TitleS2CPacket instance) {
+        return EventBus.INSTANCE.fire(new TitleEvent(instance.getTitle(), false)).getTitle();
+    }
+
+    @Redirect(method = "onSubtitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/SubtitleS2CPacket;getSubtitle()Lnet/minecraft/text/Text;"))
+    private Text onTitle(SubtitleS2CPacket instance) {
+        return EventBus.INSTANCE.fire(new TitleEvent(instance.getSubtitle(), true)).getTitle();
+    }
+
+
 
 //    @Inject(method = "onPlayerList", at = @At("TAIL"))
 //    private void onPlayerList(PlayerListS2CPacket packet, CallbackInfo ci) {

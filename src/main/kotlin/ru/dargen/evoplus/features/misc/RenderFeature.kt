@@ -10,11 +10,23 @@ import ru.dargen.evoplus.util.selector.toSelector
 object RenderFeature : Feature("render", "Визуализация", Items.REDSTONE) {
 
     val FullBright by settings.boolean("Полная яркость", true)
-    val HealthRender by settings.switcher("Режим отображения здоровья", enumSelector<HealthRenderMode>())
+    val HealthRender by settings.switcher(
+        "Режим отображения здоровья",
+        enumSelector<HealthRenderMode>()
+    )
     
-    val HealthBarsRender by settings.boolean("Отображать полоску здоровья игроков", true) on (HealthBars::updateRender)
-    val HealthBarsY by settings.selector("Сдвиг полоски здоровья игроков", (0..50).toSelector()) { "${it?.div(10.0)?.fix(1)}" }
-    val HealthCountRender by settings.boolean("Отображать единицы здоровья игроков", true)
+    val HealthBarsRender by settings.boolean(
+        "Отображать полоску здоровья игроков",
+        true
+    ) on (HealthBars::updateRender)
+    val HealthBarsY by settings.selector(
+        "Сдвиг полоски здоровья игроков",
+        (0..50).toSelector()
+    ) { "${it?.div(10.0)?.fix(1)}" }
+    val HealthCountRender by settings.boolean(
+        "Отображать единицы здоровья игроков",
+        true
+    )
 
     val NoBlockParticles by settings.boolean("Отключение эффектов блока")
     val NoFire by settings.boolean("Отключение огня")
@@ -22,10 +34,22 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
     val NoFalling by settings.boolean("Отключение падающих блоков")
     val NoDamageShake by settings.boolean("Отключение покачивания камеры при ударе")
     val NoHandShake by settings.boolean("Отключение покачивания руки")
-    val NoExcessHud by settings.boolean("Отключение ненужных элементов HUD", true)
-    val NoExpHud by settings.boolean("Отключение отрисовки опыта и его уровня", true)
-    val NoScoreboardNumbers by settings.boolean("Отключение нумерации скорборда", true)
-    val HighlightAvailableItems by settings.boolean("Подсветка доступных предметов", true)
+    val NoExcessHud by settings.boolean(
+        "Отключение ненужных элементов HUD",
+        true
+    )
+    val NoExpHud by settings.boolean(
+        "Отключение отрисовки опыта и его уровня",
+        true
+    )
+    val NoScoreboardNumbers by settings.boolean(
+        "Отключение нумерации скорборда",
+        true
+    )
+    val HighlightAvailableItems by settings.boolean(
+        "Подсветка доступных предметов",
+        true
+    )
 
     init {
         HealthBars

@@ -9,6 +9,7 @@ import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidget
+import ru.dargen.evoplus.features.fishing.widget.FishingValueWidgetVisibleMode
 import ru.dargen.evoplus.features.fishing.widget.FishingWidgetVisibleMode
 import ru.dargen.evoplus.features.fishing.widget.SpotNibblesWidget
 import ru.dargen.evoplus.features.fishing.widget.quest.FishingQuestWidget
@@ -48,16 +49,21 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
         widget = FishingQuestWidget, enabled = false
     )
     
-    val QuestsProgressMode by widgets.switcher("Отображемый тип квестов", FishingWidgetQuestMode.entries.toSelector())
-    val QuestsProgressDescriptionMode by widgets.switcher(
+    val QuestsProgressMode by settings.switcher("Отображемый тип квестов", FishingWidgetQuestMode.entries.toSelector())
+    val QuestsProgressDescriptionMode by settings.switcher(
         "Отображение описания квестов",
         FishingWidgetQuestDescriptionMode.entries.toSelector()
     )
-    val QuestsProgressVisibleMode by widgets.switcher("Отображение квестов", FishingWidgetVisibleMode.entries.toSelector())
+    val QuestsProgressVisibleMode by settings.switcher("Отображение квестов", FishingWidgetVisibleMode.entries.toSelector())
 
-    val NibblesVisibleMode by widgets.switcher(
+    val NibblesVisibleMode by settings.switcher(
         "Отображение клева на территориях",
         FishingWidgetVisibleMode.entries.toSelector()
+    )
+
+    val ValueVisibleMode by settings.switcher(
+        "Отображение опыта и ккал. рыбы",
+        FishingValueWidgetVisibleMode.entries.toSelector()
     )
 
     val SpotsHighlight by settings.boolean("Подсветка точек клева", true)

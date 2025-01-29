@@ -1,9 +1,10 @@
-package ru.dargen.evoplus.feature.settings
+package ru.dargen.evoplus.feature.setting
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
-import ru.dargen.evoplus.render.node.input.selector.scroll.hScrollSelector
 import ru.dargen.evoplus.feature.screen.FeatureBaseElement
+import ru.dargen.evoplus.feature.screen.FeatureElementProvider
+import ru.dargen.evoplus.render.node.input.selector.scroll.hScrollSelector
 import ru.dargen.evoplus.util.json.asInt
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.selector.Selector
@@ -13,7 +14,7 @@ import ru.dargen.evoplus.util.selector.observable
 class SelectorSetting<T>(
     id: String, name: String, selector: Selector<T>,
     var nameMapper: Selector<T>.(T?) -> String = { it.toString() }
-) : Setting<T>(id, name) {
+) : Setting<T>(id, name), FeatureElementProvider {
 
     val selector: Selector<T> = selector.observable().observe { handler(selected) }
 
@@ -22,7 +23,8 @@ class SelectorSetting<T>(
         set(value) {
             selector.select(value)
         }
-    override val settingElement = FeatureBaseElement(name) {
+    
+    override val element = FeatureBaseElement(name) {
         hScrollSelector<T> {
             this@hScrollSelector.selector = this@SelectorSetting.selector
             nameMapper = this@SelectorSetting.nameMapper

@@ -1,10 +1,9 @@
 package ru.dargen.evoplus.feature.widget
 
+import ru.dargen.evoplus.feature.setting.group.SettingGroup
 import ru.dargen.evoplus.render.node.Node
-import ru.dargen.evoplus.feature.screen.FeatureScreenElements
-import ru.dargen.evoplus.feature.settings.SettingsGroup
 
-class WidgetGroup(screen: FeatureScreenElements) : SettingsGroup("widgets", "Виджеты", screen) {
+class WidgetGroup : SettingGroup("widgets", "Виджеты") {
 
     fun widget(
         name: String, id: String = "",

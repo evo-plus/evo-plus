@@ -39,12 +39,27 @@ object RuneFeature : Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
 
         +ActiveRunesText
     }
-    var ReadyNotify by settings.boolean("Уведомление при окончании задержки способностей", true)
-    var ReadyMessage by settings.boolean("Сообщение при окончании задержки способностей", true)
+    var ReadyNotify by settings.boolean(
+        "Уведомление при окончании задержки способностей",
+        true
+    )
+    var ReadyMessage by settings.boolean(
+        "Сообщение при окончании задержки способностей",
+        true
+    )
 
-    val RunesBagProperties by settings.boolean("Отображение статистики сета рун (в мешке)", true)
-    val RunesBagSet by settings.boolean("Отображать активный сет рун (в мешке)", true)
-    val RunesSetSwitch by settings.boolean("Смена сетов рун через A-D и 1-7 (в мешке)", true)
+    val RunesBagProperties by settings.boolean(
+        "Отображение статистики сета рун (в мешке)",
+        true
+    )
+    val RunesBagSet by settings.boolean(
+        "Отображать активный сет рун (в мешке)",
+        true
+    )
+    val RunesSetSwitch by settings.boolean(
+        "Смена сетов рун через A-D и 1-7 (в мешке)",
+        true
+    )
 
     init {
         scheduleEvery(period = 2) {

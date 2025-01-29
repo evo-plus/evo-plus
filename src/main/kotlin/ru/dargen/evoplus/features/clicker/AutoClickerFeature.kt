@@ -18,9 +18,18 @@ import kotlin.math.max
 object AutoClickerFeature : Feature("clicker", "Кликер", Items.WOODEN_SWORD) {
     
     val BindEnabled by settings.boolean("Статус бинда")
-    val Mode by settings.switcher("Режим работы", enumSelector<ClickerMode>())
-    val Mouse by settings.switcher("Кнопка мыши", enumSelector<ClickerMouse>())
-    val CPS by settings.selector("Кликов в секунду", (1..20).toSelector()) { "$it" }
+    val Mode by settings.switcher(
+        "Режим работы",
+        enumSelector<ClickerMode>()
+    )
+    val Mouse by settings.switcher(
+        "Кнопка мыши",
+        enumSelector<ClickerMouse>()
+    )
+    val CPS by settings.selector(
+        "Кликов в секунду",
+        (1..20).toSelector()
+    ) { "$it" }
 
     private var enabled = false
     private var remainToClick = 0

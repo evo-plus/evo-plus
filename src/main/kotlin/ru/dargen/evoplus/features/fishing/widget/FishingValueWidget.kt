@@ -3,8 +3,11 @@ package ru.dargen.evoplus.features.fishing.widget
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.item.ItemStack
 import ru.dargen.evoplus.feature.widget.WidgetBase
+import ru.dargen.evoplus.feature.widget.isWidgetEditor
+import ru.dargen.evoplus.features.fishing.FishingFeature
 import ru.dargen.evoplus.render.node.asyncTick
 import ru.dargen.evoplus.render.node.text
+import ru.dargen.evoplus.render.node.tick
 import ru.dargen.evoplus.util.kotlin.invoke
 import ru.dargen.evoplus.util.minecraft.CurrentScreen
 import ru.dargen.evoplus.util.minecraft.Player
@@ -16,6 +19,8 @@ class FishingValueWidget(val name: String, val pattern: Regex) : WidgetBase {
 
     override val node = text("$name: 0") {
         isShadowed = true
+
+        tick { render = isWidgetEditor || FishingFeature.ValueVisibleMode.isVisible() }
 
         asyncTick {
             val value = max(
