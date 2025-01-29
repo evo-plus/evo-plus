@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.rune
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.rune.widget.AbilityTimerWidget
 import ru.dargen.evoplus.protocol.listen
@@ -17,7 +16,7 @@ import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
-object RuneFeature : Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
+object RuneFeature : ru.dargen.evoplus.feature.Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
 
     val Abilities = concurrentHashMapOf<String, Long>()
 

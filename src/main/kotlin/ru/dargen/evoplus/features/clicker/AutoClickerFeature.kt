@@ -3,21 +3,19 @@ package ru.dargen.evoplus.features.clicker
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
+import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Category
 import ru.dargen.evoplus.keybind.Keybinds
+import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.keybind.boundKey
-import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.util.selector.enumSelector
-import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.util.selector.toSelector
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
-object AutoClickerFeature : Feature("clicker", "Кликер", Items.WOODEN_SWORD) {
+object AutoClickerFeature : ru.dargen.evoplus.feature.Feature("clicker", "Кликер", icon = Items.WOODEN_SWORD) {
     
-    val BindEnabled by settings.boolean("Статус бинда")
+    var BindEnabled = true
     val Mode by settings.switcher(
         "Режим работы",
         enumSelector<ClickerMode>()
@@ -26,10 +24,12 @@ object AutoClickerFeature : Feature("clicker", "Кликер", Items.WOODEN_SWOR
         "Кнопка мыши",
         enumSelector<ClickerMouse>()
     )
-    val CPS by settings.selector(
-        "Кликов в секунду",
-        (1..20).toSelector()
-    ) { "$it" }
+    var CPS = 10
+
+    override fun Category.setup() {
+        switch(::BindEnabled, "Статус бинда", "Включает/выключает бинд кликера")
+        slider(::CPS, "КПС", "Клики в секунду", min = 1, max = 20)
+    }
 
     private var enabled = false
     private var remainToClick = 0

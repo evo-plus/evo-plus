@@ -6,7 +6,6 @@ import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
 import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.event.interact.BlockBreakEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
 import ru.dargen.evoplus.features.stats.level.LevelWidget
@@ -27,7 +26,7 @@ import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
-object StatisticFeature : Feature("statistic", "Статистика", Items.PAPER) {
+object StatisticFeature : ru.dargen.evoplus.feature.Feature("statistic", "Статистика", Items.PAPER) {
 
     val ActivePetsWidget by widgets.widget("Активные питомцы", "active-pets", widget = PetInfoWidget)
 

@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.staff
 
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.staff.StaffTimers
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.StaffType
@@ -12,7 +11,7 @@ import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
-object StaffFeature : Feature("staff", "Посохи", customItem(Items.WOODEN_HOE, 4)) {
+object StaffFeature : ru.dargen.evoplus.feature.Feature("staff", "Посохи", customItem(Items.WOODEN_HOE, 4)) {
 
     val Staffs = concurrentHashMapOf<Int, Long>()
 

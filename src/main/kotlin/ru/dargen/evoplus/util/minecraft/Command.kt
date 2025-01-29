@@ -12,7 +12,7 @@ fun command(
     on<CommandEvent> {
         if (name.lowercase() in aliases) {
             cancel()
-            if (argumentsCount != args.size) {
+            if (argumentsCount != -1 && argumentsCount != args.size) {
                 printMessage("Использование: /${aliases.first()} $usage")
             } else runCatching { block(args) }.onFailure { printMessage("Использование: /${aliases.first()} $usage") }
         }

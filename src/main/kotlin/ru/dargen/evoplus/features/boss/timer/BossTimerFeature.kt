@@ -7,7 +7,6 @@ import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
@@ -36,7 +35,7 @@ import kotlin.math.absoluteValue
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
 private const val MYTHICAL_EVENT_MULTIPLIER_X1000 = (MYTHICAL_EVENT_MULTIPLIER * 1000).toLong()
 
-object BossTimerFeature : Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
+object BossTimerFeature : ru.dargen.evoplus.feature.Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
 
     val AlertedBosses = mutableSetOf<String>()
     val PreAlertedBosses = mutableSetOf<String>()

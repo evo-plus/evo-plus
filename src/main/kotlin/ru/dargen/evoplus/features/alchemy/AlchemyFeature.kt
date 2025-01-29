@@ -5,7 +5,6 @@ import net.minecraft.item.Items
 import net.minecraft.sound.SoundEvents
 import ru.dargen.evoplus.event.inventory.InventoryClickEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.alchemy.recipe.PotionRecipe
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.render.Relative
@@ -17,7 +16,7 @@ import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.*
 import ru.dargen.evoplus.util.selector.toSelector
 
-object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND) {
+object AlchemyFeature : ru.dargen.evoplus.feature.Feature("alchemy", "Алхимия", Items.BREWING_STAND) {
 
     private val AlchemyPotionListTitle = "넉"
     private val AlchemyTimePattern = "Время: ([.\\d]+)с".toRegex()
@@ -50,7 +49,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
     init {
         AlchemyIngredientHighlight
         on<InventoryClickEvent> {
-            if (!RecipeWidget.enabled || button != 1) return@on
+//            if (!RecipeWidget.enabled || button != 1) return@on
 
             val screen = CurrentScreen as? GenericContainerScreen ?: return@on
             val title = screen.title.string.uncolored()

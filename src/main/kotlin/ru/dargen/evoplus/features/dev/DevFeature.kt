@@ -1,6 +1,8 @@
 package ru.dargen.evoplus.features.dev
 
 import net.minecraft.item.Items
+import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.context.RenderContext
 import ru.dargen.evoplus.render.context.ScreenContext
@@ -8,12 +10,9 @@ import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.tick
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.util.selector.toSelector
 
-object DevFeature : Feature("dev-env", "DevEnv", Items.COMMAND_BLOCK) {
+object DevFeature : ru.dargen.evoplus.feature.Feature("dev-env", "DevEnv", icon=  Items.COMMAND_BLOCK) {
 
     val NodeDebugMode by settings.switcher(
         "Тип вывода компонентов",

@@ -2,7 +2,6 @@ package ru.dargen.evoplus.feature.screen
 
 import net.minecraft.client.util.InputUtil
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.render.Colors
@@ -33,7 +32,6 @@ import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.texture
 import ru.dargen.evoplus.render.node.typeKey
 import ru.dargen.evoplus.resource.Social
-import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.v3
 import kotlin.time.Duration.Companion.seconds
@@ -86,7 +84,7 @@ class FeatureScreen : ScreenContext("features", "") {
             indent = v3()
             space = 1.0
 
-            fun switchSetting(feature: Feature = SelectedFeature) {
+            fun switchSetting(feature: ru.dargen.evoplus.feature.Feature = SelectedFeature) {
                 SelectedFeature = feature
                 settingsBox._childrens.clear()
                 settingsBox + SelectedFeature.createElement(prompt)
@@ -201,7 +199,7 @@ class FeatureScreen : ScreenContext("features", "") {
                 box.scale = v3(1.0, 1.0, 1.0)
             }
         }
-        destroy { async(Features::saveSettings) }
+//        destroy { async(Features::saveSettings) }
 
         typeKey(InputUtil.GLFW_KEY_F) {
             if (net.minecraft.client.gui.screen.Screen.hasControlDown()) {

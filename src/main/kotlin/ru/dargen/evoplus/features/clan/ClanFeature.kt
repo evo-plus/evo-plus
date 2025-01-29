@@ -4,7 +4,6 @@ import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
@@ -15,7 +14,7 @@ import ru.dargen.evoplus.util.minecraft.displayName
 import ru.dargen.evoplus.util.minecraft.lore
 import ru.dargen.evoplus.util.minecraft.uncolored
 
-object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
+object ClanFeature : ru.dargen.evoplus.feature.Feature("clan", "Клан", Items.SHIELD) {
 
     private val BossCapturePattern =
         "\\[Клан] Клан (\\S+) начал захват вашего босса ([\\s\\S]+)\\. Защитите его\\.".toRegex()

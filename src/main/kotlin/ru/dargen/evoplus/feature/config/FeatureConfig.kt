@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.feature.config
 
 import com.google.gson.reflect.TypeToken
-import ru.dargen.evoplus.feature.Features
+import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.util.catch
 import ru.dargen.evoplus.util.json.Gson
 import kotlin.io.path.exists
@@ -12,7 +12,7 @@ import kotlin.reflect.KProperty
 
 class FeatureConfig<T>(val name: String, val token: TypeToken<T>, var value: T) : ReadWriteProperty<Any, T> {
 
-    val file = Features.Folder.resolve("$name.json")
+    val file = EvoPlus.Folder.resolve("$name.json")
 
     fun load() {
         catch("Error while loading config: $name.json") {

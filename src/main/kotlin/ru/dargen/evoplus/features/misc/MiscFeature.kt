@@ -8,7 +8,6 @@ import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
 import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting
@@ -23,7 +22,7 @@ import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
 
 
-object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
+object MiscFeature : ru.dargen.evoplus.feature.Feature("misc", "Прочее", Items.REPEATER) {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
     

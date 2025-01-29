@@ -5,7 +5,6 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.chat.ChatSendEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.render.StringRenderEvent
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.chat.market.MarketChatTimerWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.util.currentMillis
@@ -13,7 +12,7 @@ import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 import kotlin.math.ceil
 
-object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
+object TextFeature : ru.dargen.evoplus.feature.Feature("text", "Текст", Items.WRITABLE_BOOK) {
 
     val MarketChatTimer by widgets.widget(
         "Таймер торгового чата",

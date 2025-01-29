@@ -3,13 +3,12 @@ package ru.dargen.evoplus.features.share
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.util.PasteApi
 import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.CompletableFuture
 
-object ShareFeature : Feature("share", "Поделиться", Items.SCULK_SENSOR) {
+object ShareFeature : ru.dargen.evoplus.feature.Feature("share", "Поделиться", Items.SCULK_SENSOR) {
 
     private val OutgoingSharePattern = "^ЛС \\| Я »(?:| .) \\w+: evoplus:\\w+:\\w+\$".toRegex()
     private val IncomingSharePattern = "^ЛС \\|(?:| .) (\\w+) » Я: evoplus:(\\w+):(\\w+)\$".toRegex()

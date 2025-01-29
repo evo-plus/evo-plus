@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.potion
 
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.potion.timer.PotionTimerWidget
 import ru.dargen.evoplus.protocol.listen
@@ -13,7 +12,7 @@ import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.selector.toSelector
 
-object PotionFeature : Feature("potion", "Зелья", customItem(Items.POTION, 3)) {
+object PotionFeature : ru.dargen.evoplus.feature.Feature("potion", "Зелья", customItem(Items.POTION, 3)) {
 
     val PotionTimers = mutableMapOf<Int, PotionState>()
     val ComparedPotionsTimers

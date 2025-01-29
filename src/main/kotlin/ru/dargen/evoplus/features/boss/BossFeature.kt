@@ -4,7 +4,6 @@ import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
@@ -28,7 +27,7 @@ import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 import java.util.concurrent.TimeUnit
 
-object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
+object BossFeature : ru.dargen.evoplus.feature.Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
 
     private val BossCursedPattern = "Босс проклят! Особенность: ([а-яА-ЯёЁ ]+)".toRegex()
     private val BossCapturePattern = "^Босс (.*) захвачен кланом (.*)!\$".toRegex()

@@ -9,7 +9,6 @@ import ru.dargen.evoplus.event.world.ChunkLoadEvent
 import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
@@ -28,7 +27,7 @@ import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import kotlin.math.max
 
-object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
+object ShaftFeature : ru.dargen.evoplus.feature.Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
 
     var RaidShaftLevel = 0
     val RaidBossData = 101218

@@ -7,7 +7,6 @@ import pro.diamondworld.protocol.packet.fishing.quest.HourlyQuestInfo
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidget
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidgetVisibleMode
 import ru.dargen.evoplus.features.fishing.widget.FishingWidgetVisibleMode
@@ -25,7 +24,7 @@ import ru.dargen.evoplus.util.minecraft.isSink
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 
-object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) {
+object FishingFeature : ru.dargen.evoplus.feature.Feature("fishing", "Рыбалка", Items.FISHING_ROD) {
 
     val HigherBitingPattern = "^На локации \"([\\S\\s]+)\" повышенный клёв!\$".toRegex()
 
