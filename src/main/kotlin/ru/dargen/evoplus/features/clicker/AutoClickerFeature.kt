@@ -3,14 +3,13 @@ package ru.dargen.evoplus.features.clicker
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
+import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.keybind.Keybinds
+import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.keybind.boundKey
-import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.util.selector.enumSelector
-import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.util.selector.toSelector
 import java.util.concurrent.TimeUnit
 import kotlin.math.max

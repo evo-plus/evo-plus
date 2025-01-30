@@ -18,11 +18,6 @@ object ShareFeature : Feature("share", "Поделиться", Items.SCULK_SENSO
     val shares = mutableMapOf<String, ShareSetting>()
 
     init {
-//        command("share", "send", usage = "<тип> [игрок]", argumentsCount = 2) { (type, player) ->
-//            shares[type.lowercase()]!!.share(player)
-//            printMessage("§aВы поделились $type с $player")
-//        }
-        //TODO: make with brigadier
         on<ChatReceiveEvent> {
             val text = text.uncolored()
 

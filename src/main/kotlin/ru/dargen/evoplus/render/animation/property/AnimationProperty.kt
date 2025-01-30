@@ -1,8 +1,8 @@
 package ru.dargen.evoplus.render.animation.property
 
-import ru.dargen.evoplus.render.animation.target.AnimationTargetType
 import ru.dargen.evoplus.render.animation.AnimationContext
 import ru.dargen.evoplus.render.animation.target.AnimationTarget
+import ru.dargen.evoplus.render.animation.target.AnimationTargetType
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import kotlin.properties.ReadWriteProperty

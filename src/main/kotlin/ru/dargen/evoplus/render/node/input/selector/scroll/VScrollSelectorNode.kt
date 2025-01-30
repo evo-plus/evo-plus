@@ -6,9 +6,9 @@ import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.node.drag
 import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.util.minecraft.MousePosition
 import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.math.v3
+import ru.dargen.evoplus.util.minecraft.MousePosition
 
 class VScrollSelectorNode<T> : AbstractScrollSelectorNode<T>() {
 

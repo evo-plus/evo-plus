@@ -5,9 +5,9 @@ import ru.dargen.evoplus.Logger
 import ru.dargen.evoplus.event.evo.data.PlayerTokenUpdateEvent
 import ru.dargen.evoplus.event.network.ChangeServerEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
+import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.service.user.model.UserStatisticModel
 import ru.dargen.evoplus.util.collection.takeIfNotEmpty
 import ru.dargen.evoplus.util.minecraft.Client

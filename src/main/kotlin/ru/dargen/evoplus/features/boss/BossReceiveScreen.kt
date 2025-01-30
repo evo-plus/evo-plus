@@ -1,5 +1,7 @@
 package ru.dargen.evoplus.features.boss
 
+import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
+import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.render.context.receive.receiveScreen
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.input.button
@@ -7,8 +9,6 @@ import ru.dargen.evoplus.render.node.input.toggle
 import ru.dargen.evoplus.render.node.leftClick
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.tick
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
-import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.util.format.asTextTime
 import ru.dargen.evoplus.util.math.v3
 

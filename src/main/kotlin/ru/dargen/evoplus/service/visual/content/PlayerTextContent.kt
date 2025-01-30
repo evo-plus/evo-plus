@@ -1,15 +1,10 @@
 package ru.dargen.evoplus.service.visual.content
 
-import net.minecraft.text.LiteralTextContent
-import net.minecraft.text.MutableText
-import net.minecraft.text.StringVisitable
-import net.minecraft.text.Style
-import net.minecraft.text.Text
-import net.minecraft.text.TextContent
+import net.minecraft.text.*
 import ru.dargen.evoplus.extension.MutableTextExtension
 import ru.dargen.evoplus.util.kotlin.invoke
 import ru.dargen.evoplus.util.kotlin.safeCast
-import java.util.Optional
+import java.util.*
 
 data class PlayerTextContent(val options: PlayerContentOptions, val player: String, val text: String) : TextContent {
 

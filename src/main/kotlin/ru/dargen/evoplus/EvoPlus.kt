@@ -1,11 +1,16 @@
 package ru.dargen.evoplus
 
+import com.mojang.brigadier.CommandDispatcher
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.text.Text
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.event.EventBus
 import ru.dargen.evoplus.feature.Features
+import ru.dargen.evoplus.features.command.EvoPlusCommand
+import ru.dargen.evoplus.features.command.ShareCommand
 import ru.dargen.evoplus.keybind.KeyBindings
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.render.animation.AnimationRunner
@@ -44,6 +49,11 @@ object EvoPlus : ClientModInitializer {
         EvoPlusService
 
         UpdateResolver.schedule()
+
+        ClientCommandRegistrationCallback.EVENT.register { dispatcher: CommandDispatcher<FabricClientCommandSource>, _ ->
+            EvoPlusCommand.register(dispatcher)
+            ShareCommand.register(dispatcher)
+        }
     }
 
 }
