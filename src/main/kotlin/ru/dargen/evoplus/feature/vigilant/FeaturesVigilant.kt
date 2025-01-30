@@ -11,7 +11,8 @@ typealias FeatureCategory = CategoryPropertyBuilder
 
 object FeaturesVigilant : Vigilant(File("evo-plus/features.toml"), guiTitle = "EvoPlus ${EvoPlus.Version}") {
 
-    private fun displayScreen() = UScreen.displayScreen(gui())
+    private val gui by lazy { gui() }
+    private fun displayScreen() = UScreen.displayScreen(gui)
 
     fun open(after: Int? = null) = after?.let { after(after) { displayScreen() } } ?: displayScreen()
 

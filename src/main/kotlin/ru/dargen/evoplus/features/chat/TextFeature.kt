@@ -5,11 +5,11 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.chat.ChatSendEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.render.StringRenderEvent
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.chat.market.MarketChatTimerWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.uncolored
-import ru.dargen.evoplus.util.selector.toSelector
 import kotlin.math.ceil
 
 object TextFeature : ru.dargen.evoplus.feature.Feature("text", "Текст", Items.WRITABLE_BOOK) {
@@ -20,22 +20,24 @@ object TextFeature : ru.dargen.evoplus.feature.Feature("text", "Текст", Ite
         widget = MarketChatTimerWidget,
         enabled = false
     )
-    val MarketChatTimerDelay by settings.selector(
-        "Задержка торгового чата",
-        (3..5).toSelector()
-    ) { "$it мин." }
-    val NoSpam by settings.boolean("Отключение спам-сообщений")
-    val CopyMessages by settings.boolean(
-        "Копировать сообщение из чата (ПКМ)",
-        true
-    )
-    val EmojiMenu by settings.boolean("Меню эмодзи", true)
-
+    var MarketChatTimerDelay = 3
+    var NoSpam = false
+    var CopyMessages = true
+    var EmojiMenu = true
     //    val ReplaceUniqueUsers by settings.boolean("Заменять ники уникальных пользователей EvoPlus", true)
     val ColorInputs = settings.colorInput(
         "Градиент сообщение в чате (Нужен статус)",
         id = "gradient"
     )
+
+    override fun FeatureCategory.setup() {
+        slider(::MarketChatTimerDelay, "Задержка торгового чата",
+            "Время задержки между сообщениями в торговом чате", min = 3, max = 5)
+        switch(::NoSpam, "Отключение спам-сообщений", "Отключает ненужные сообщения в чате")
+        switch(::CopyMessages, "Копировние сообщений",
+            "Позволяет копировать сообщения из чата правым кликом")
+        switch(::EmojiMenu, "Меню эмоджи", "Отображать список эмоджи в чате")
+    }
 
     init {
         Emojis

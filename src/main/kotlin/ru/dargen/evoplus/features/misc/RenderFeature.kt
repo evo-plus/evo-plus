@@ -1,54 +1,58 @@
 package ru.dargen.evoplus.features.misc
 
 import net.minecraft.item.Items
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
+import ru.dargen.evoplus.feature.vigilant.enumSelector
 import ru.dargen.evoplus.features.misc.render.HealthBars
-import ru.dargen.evoplus.util.format.fix
-import ru.dargen.evoplus.util.selector.enumSelector
-import ru.dargen.evoplus.util.selector.toSelector
 
-object RenderFeature : ru.dargen.evoplus.feature.Feature("render", "Визуализация", Items.REDSTONE) {
+object RenderFeature : Feature("render", "Визуализация", Items.REDSTONE) {
 
-    val FullBright by settings.boolean("Полная яркость", true)
-    val HealthRender by settings.switcher(
-        "Режим отображения здоровья",
-        enumSelector<HealthRenderMode>()
-    )
+    var FullBright = true
+    var HealthRender = HealthRenderMode.DEFAULT
     
-    val HealthBarsRender by settings.boolean(
-        "Отображать полоску здоровья игроков",
-        true
-    ) on (HealthBars::updateRender)
-    val HealthBarsY by settings.selector(
-        "Сдвиг полоски здоровья игроков",
-        (0..50).toSelector()
-    ) { "${it?.div(10.0)?.fix(1)}" }
-    val HealthCountRender by settings.boolean(
-        "Отображать единицы здоровья игроков",
-        true
-    )
+    var HealthBarsRender = true
+    var HealthBarsY = 0f
+    var HealthCountRender = true
 
-    val NoBlockParticles by settings.boolean("Отключение эффектов блока")
-    val NoFire by settings.boolean("Отключение огня")
-    val NoStrikes by settings.boolean("Отключение молний")
-    val NoFalling by settings.boolean("Отключение падающих блоков")
-    val NoDamageShake by settings.boolean("Отключение покачивания камеры при ударе")
-    val NoHandShake by settings.boolean("Отключение покачивания руки")
-    val NoExcessHud by settings.boolean(
-        "Отключение ненужных элементов HUD",
-        true
-    )
-    val NoExpHud by settings.boolean(
-        "Отключение отрисовки опыта и его уровня",
-        true
-    )
-    val NoScoreboardNumbers by settings.boolean(
-        "Отключение нумерации скорборда",
-        true
-    )
-    val HighlightAvailableItems by settings.boolean(
-        "Подсветка доступных предметов",
-        true
-    )
+    var NoBlockParticles = false
+    var NoFire = false 
+    var NoStrikes = false
+    var NoFalling = false
+    var NoDamageShake = false
+    var NoHandShake = false
+    var NoExcessHud = true 
+    var NoExpHud = true
+    var NoScoreboardNumbers = true
+    var HighlightAvailableItems = true
+
+
+    override fun FeatureCategory.setup() {
+        switch(::FullBright, "Полная яркость", "Максимальная яркость освещения")
+        enumSelector(::HealthRender, "Режим отображения здоровья", "Выбор способа отображения здоровья")
+
+        switch(::HighlightAvailableItems, "Подсветка доступных предметов", "Показывает подсветку доступных предметов")
+
+        subcategory("No Render") {
+            switch(::NoBlockParticles, "Отключение эффектов блока", "Убирает частицы разрушения блоков")
+            switch(::NoStrikes, "Отключение молний", "Убирает эффект молний")
+            switch(::NoFalling, "Отключение падающих блоков", "Убирает эффект падающих блоков")
+            switch(::NoDamageShake, "Отключение покачивания камеры при ударе", "Убирает эффект покачивания камеры при ударе")
+            switch(::NoHandShake, "Отключение покачивания руки", "Убирает эффект покачивания руки")
+
+            switch(::NoFire, "Отключение огня", "Убирает эффект огня на экране")
+            switch(::NoExpHud, "Отключение отрисовки опыта и его уровня", "Убирает эффект отрисовки опыта и его уровня")
+            switch(::NoScoreboardNumbers, "Отключение нумерации скорборда", "Убирает нумерацию скорборда")
+            switch(::NoExcessHud, "Отключение ненужных элементов HUD", "Убирает все лишние элементы HUD")
+        }
+
+        subcategory("Полоска здоровья") {
+            switch(::HealthBarsRender, "Отображать полоску здоровья игроков", "Показывает полоску здоровья над игроками", action = HealthBars::updateRender)
+            decimalSlider(::HealthBarsY, "Сдвиг полоски здоровья игроков", "Регулировка высоты полоски здоровья", min = 0F, max = 5f)
+            switch(::HealthCountRender, "Отображать единицы здоровья игроков", "Показывает числовое значение здоровья")
+        }
+    }
+
 
     init {
         HealthBars

@@ -5,6 +5,8 @@ import net.minecraft.item.Items
 import net.minecraft.sound.SoundEvents
 import ru.dargen.evoplus.event.inventory.InventoryClickEvent
 import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.alchemy.recipe.PotionRecipe
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.render.Relative
@@ -14,21 +16,22 @@ import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.*
-import ru.dargen.evoplus.util.selector.toSelector
 
-object AlchemyFeature : ru.dargen.evoplus.feature.Feature("alchemy", "Алхимия", Items.BREWING_STAND) {
+object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND) {
 
     private val AlchemyPotionListTitle = "넉"
     private val AlchemyTimePattern = "Время: ([.\\d]+)с".toRegex()
 
     var PotionRecipe: PotionRecipe? = null
 
-    val IngredientHighlight by settings.boolean("Подсветка ингредиентов", true)
+    var IngredientHighlight = true
+    var BrewingAlertDelay = 1000
+    var SoundAlert = false
+
     val RecipeText = text("Закрепите рецепт нажатием ПКМ в меню")
     val RecipeWidget by widgets.widget("Рецепт зелья", "recipe", enabled = false) {
         align = Relative.LeftCenter
         origin = Relative.LeftCenter
-
         +RecipeText
     }
     val AlertText = +text {
@@ -40,11 +43,13 @@ object AlchemyFeature : ru.dargen.evoplus.feature.Feature("alchemy", "Алхим
 
         translation.y += 100
     }
-    val BrewingAlertDelay by settings.selector(
-        "Задержка перед оповещением при варке по закреп. рецепту (мс)",
-        (100..2000).toSelector(1000)
-    )
-    val SoundAlert by settings.boolean("Звук оповещения")
+
+    override fun FeatureCategory.setup() {
+        switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты на локации")
+        slider(::BrewingAlertDelay, "Время задержки перед оповещением",
+            "Задержка перед оповещением при варке (мс)", min = 100, max = 2000)
+        switch(::SoundAlert, "Звук оповещения", "Проигрывать звук при оповещении")
+    }
 
     init {
         AlchemyIngredientHighlight

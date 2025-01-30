@@ -2,6 +2,7 @@ package ru.dargen.evoplus.features.potion
 
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.potion.timer.PotionTimerWidget
 import ru.dargen.evoplus.protocol.listen
@@ -10,7 +11,6 @@ import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
-import ru.dargen.evoplus.util.selector.toSelector
 
 object PotionFeature : ru.dargen.evoplus.feature.Feature("potion", "Зелья", customItem(Items.POTION, 3)) {
 
@@ -23,16 +23,17 @@ object PotionFeature : ru.dargen.evoplus.feature.Feature("potion", "Зелья",
 
     val TimerWidget by widgets.widget("Зелья", "potions-timer", enabled = false, widget = PotionTimerWidget)
 
-    val PotionsCount by settings.selector(
-        "Кол-во отображаемых зелий",
-        (0..15).toSelector(-1)
-    )
-    val EnabledNotify by settings.boolean("Уведомление об окончании", true)
-    val EnabledMessage by settings.boolean("Сообщение об окончании")
-    val EnabledPotionsInTab by settings.boolean(
-        "Отображать сведения в табе",
-        true
-    )
+    var PotionsCount = 15
+    var EnabledNotify = true
+    var EnabledMessage = false
+    var EnabledPotionsInTab  = true
+
+    override fun FeatureCategory.setup() {
+        slider(::PotionsCount, "Кол-во отображаемых зелий", "Максимальное количество зелий в списке", max = 15)
+        switch(::EnabledNotify, "Уведомление", "Уведомлять когда зелье заканчивается")
+        switch(::EnabledMessage, "Сообщение", "Отправлять сообщение в чат когда зелье заканчивается")
+        switch(::EnabledPotionsInTab, "Отображение в табе", "Показывать информацию о зельях в табе")
+    }
 
     init {
         listen<PotionData> { potionData ->

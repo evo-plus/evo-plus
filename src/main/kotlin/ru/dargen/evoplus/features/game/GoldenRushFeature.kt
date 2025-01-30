@@ -4,6 +4,8 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.entity.Entity
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.item.Items
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.item
@@ -21,13 +23,17 @@ import ru.dargen.evoplus.util.minecraft.printMessage
 
 private val GoldenCrystalItem = customItem(Items.PAPER, 271)
 
-object GoldenRushFeature : ru.dargen.evoplus.feature.Feature("golden-rush", "Золотая Лихорадка", Items.GOLD_INGOT) {
+object GoldenRushFeature : Feature("golden-rush", "Золотой Кристалл", GoldenCrystalItem) {
 
     var GoldenCrystalEntity: Entity? = null
         set(value) {
             field = value
             field?.isGlowing = GoldenCrystalGlowing
         }
+    var GoldenCrystalNotify = false
+    var GoldenCrystalMessage = true
+    var GoldenCrystalGlowing = false
+
     var GoldenCrystalAround = false
         set(value) {
             field = value
@@ -55,10 +61,13 @@ object GoldenRushFeature : ru.dargen.evoplus.feature.Feature("golden-rush", "З�
         }
     }
 
-    val GoldenCrystalNotify by settings.boolean("Уведомление о появлении золотого кристалла")
-    val GoldenCrystalMessage by settings.boolean("Сообщение о появлении золотого кристалла", true)
-    val GoldenCrystalGlowing by settings.boolean("Подсветка золотого кристалла") on {
-        GoldenCrystalEntity?.isGlowing = it
+    override fun FeatureCategory.setup() {
+        switch(::GoldenCrystalNotify, "Уведомление",
+            "Уведомлять при появлении кристалла")
+        switch(::GoldenCrystalMessage, "Сообщение",
+            "Отправлять сообщение в чат при появлении кристалла")
+        switch(::GoldenCrystalGlowing, "Подсветка",
+            "Подсвечивать золотой кристалл") { GoldenCrystalEntity?.isGlowing = it }
     }
 
     init {

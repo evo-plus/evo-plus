@@ -1,22 +1,18 @@
 package ru.dargen.evoplus
 
-import gg.essential.universal.UScreen
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.event.EventBus
 import ru.dargen.evoplus.feature.Features
-import ru.dargen.evoplus.feature.vigilant.FeaturesVigilant
 import ru.dargen.evoplus.keybind.KeyBindings
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.render.animation.AnimationRunner
 import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.scheduler.Scheduler
-import ru.dargen.evoplus.scheduler.after
 import ru.dargen.evoplus.service.EvoPlusService
 import ru.dargen.evoplus.update.UpdateResolver
-import ru.dargen.evoplus.util.minecraft.command
 import java.nio.file.Paths
 import kotlin.io.path.createDirectories
 
@@ -47,12 +43,6 @@ object EvoPlus : ClientModInitializer {
 
         Features
         EvoPlusService
-
-        command("mda") {
-            after(1) {
-                UScreen.displayScreen(FeaturesVigilant.gui())
-            }
-        }
 
         UpdateResolver.schedule()
     }
