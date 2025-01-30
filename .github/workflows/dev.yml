@@ -1,0 +1,38 @@
+name: Build and deploy dev version
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Prepare Gradle
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Prepare version
+        run: echo "VERSION=$(grep '^evo_plus_version=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+
+      - name: Prepare build timestamp
+        run: echo "BUILD_TIME=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+
+      - name: Append commit SHA to version
+        run: echo "evo_Plus_version=${VERSION}-${alpha}" > gradle.properties
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: evo-plus-${{ env.VERSION }}-${{ env.BUILD_TIME }}
+          path: build/libs/*.jar
