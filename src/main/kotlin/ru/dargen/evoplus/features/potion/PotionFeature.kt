@@ -2,6 +2,7 @@ package ru.dargen.evoplus.features.potion
 
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
+import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.potion.timer.PotionTimerWidget
@@ -12,7 +13,7 @@ import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
-object PotionFeature : ru.dargen.evoplus.feature.Feature("potion", "Зелья", customItem(Items.POTION, 3)) {
+object PotionFeature : Feature("potion", "Зелья", customItem(Items.POTION, 3)) {
 
     val PotionTimers = mutableMapOf<Int, PotionState>()
     val ComparedPotionsTimers
@@ -29,9 +30,9 @@ object PotionFeature : ru.dargen.evoplus.feature.Feature("potion", "Зелья",
     var EnabledPotionsInTab  = true
 
     override fun FeatureCategory.setup() {
-        slider(::PotionsCount, "Кол-во отображаемых зелий", "Максимальное количество зелий в списке", max = 15)
-        switch(::EnabledNotify, "Уведомление", "Уведомлять когда зелье заканчивается")
-        switch(::EnabledMessage, "Сообщение", "Отправлять сообщение в чат когда зелье заканчивается")
+        slider(::PotionsCount, "Кол-во отображаемых зелий", "Максимальное количество отображаемых зелий в списке", max = 15)
+        switch(::EnabledNotify, "Уведомление", "Уведомлять когда время действия зелья заканчивается")
+        switch(::EnabledMessage, "Сообщение", "Отправлять сообщение в чат когда время действия зелья заканчивается")
         switch(::EnabledPotionsInTab, "Отображение в табе", "Показывать информацию о зельях в табе")
     }
 

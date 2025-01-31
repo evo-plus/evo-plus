@@ -63,9 +63,9 @@ object GoldenRushFeature : Feature("golden-rush", "Золотой Кристал
 
     override fun FeatureCategory.setup() {
         switch(::GoldenCrystalNotify, "Уведомление",
-            "Уведомлять при появлении кристалла")
+            "Уведомлять при появлении золотого кристалла")
         switch(::GoldenCrystalMessage, "Сообщение",
-            "Отправлять сообщение в чат при появлении кристалла")
+            "Отправлять сообщение в чат при появлении золотого кристалла")
         switch(::GoldenCrystalGlowing, "Подсветка",
             "Подсвечивать золотой кристалл") { GoldenCrystalEntity?.isGlowing = it }
     }

@@ -45,9 +45,9 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
     }
 
     override fun FeatureCategory.setup() {
-        switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты на локации")
+        switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации")
         slider(::BrewingAlertDelay, "Время задержки перед оповещением",
-            "Задержка перед оповещением при варке (мс)", min = 100, max = 2000)
+            "Задержка перед оповещением при варке зелья (мс)", min = 100, max = 2000)
         switch(::SoundAlert, "Звук оповещения", "Проигрывать звук при оповещении")
     }
 

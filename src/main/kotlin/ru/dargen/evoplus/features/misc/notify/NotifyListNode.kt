@@ -4,7 +4,6 @@ import ru.dargen.evoplus.render.animation.animate
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.AbstractGridBoxNode
 import ru.dargen.evoplus.util.math.v3
-import kotlin.sequences.forEach
 
 class NotifyListNode : AbstractGridBoxNode() {
 

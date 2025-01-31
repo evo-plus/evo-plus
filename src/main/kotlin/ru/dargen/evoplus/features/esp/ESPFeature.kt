@@ -12,33 +12,39 @@ import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityUpdateEvent
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.plus
 import ru.dargen.evoplus.render.node.world.cubeOutline
 import ru.dargen.evoplus.scheduler.async
-import ru.dargen.evoplus.util.evo.getBarrel
-import ru.dargen.evoplus.util.evo.getLuckyBlock
-import ru.dargen.evoplus.util.evo.getShard
-import ru.dargen.evoplus.util.evo.isHead
-import ru.dargen.evoplus.util.evo.isWallHead
+import ru.dargen.evoplus.util.evo.*
 import ru.dargen.evoplus.util.math.v3
 import java.awt.Color
 
-object ESPFeature : ru.dargen.evoplus.feature.Feature("esp", "Подсветка", Items.SEA_LANTERN) {
+object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
 
     private val LuckyBlocks = mutableMapOf<BlockPos, Node>()
     private val Shards = mutableMapOf<BlockPos, Node>()
     private val Barrels = mutableMapOf<BlockPos, Node>()
 
-    val LuckyBlocksEsp by settings.boolean("Подсвечивание лаки-блоков") on { state ->
-        LuckyBlocks.values.forEach { it.enabled = state }
-    }
-    val ShardsEsp by settings.boolean("Подсвечивание осколков") on { state ->
-        Shards.values.forEach { it.enabled = state }
-    }
-    val BarrelsEsp by settings.boolean("Подсвечивание бочек") on { state ->
-        Barrels.values.forEach { it.enabled = state }
+    var LuckyBlocksEsp = false
+    var ShardsEsp = false
+    var BarrelsEsp = false
+
+    override fun FeatureCategory.setup() {
+        switch(::LuckyBlocksEsp, "Подсвечивание лаки-блоков", "Подсвечивает лаки-блоки в шахтах") { state ->
+            LuckyBlocks.values.forEach { it.enabled = state }
+        }
+
+        switch(::ShardsEsp, "Подсвечивание осколков", "Подсвечивает золотые и алмазные осколки на шахтах и боссах") { state ->
+            Shards.values.forEach { it.enabled = state }
+        }
+
+        switch(::BarrelsEsp, "Подсвечивание бочек", "Подсвечивает бочки в шахтах") { state ->
+            Barrels.values.forEach { it.enabled = state }
+        }
     }
 
     init {
@@ -76,7 +82,7 @@ object ESPFeature : ru.dargen.evoplus.feature.Feature("esp", "Подсветка
 
     private fun tryToRecognizeBlock(chunk: WorldChunk, blockEntity: BlockEntity) {
         if (!ShardsEsp && !LuckyBlocksEsp && !BarrelsEsp) return
-        
+
         val pos = blockEntity.pos
         if (pos in Shards || pos in LuckyBlocks || pos in Barrels) return
 
@@ -85,7 +91,7 @@ object ESPFeature : ru.dargen.evoplus.feature.Feature("esp", "Подсветка
 
     private fun recognizeBlock(chunk: Chunk, blockPos: BlockPos, blockState: BlockState) {
         if (!ShardsEsp && !LuckyBlocksEsp && !BarrelsEsp) return
-        
+
         val shard = blockState.getShard(blockPos, chunk)
         val luckyBlock = blockState.getLuckyBlock(blockPos, chunk)
         val barrel = blockState.getBarrel()
@@ -119,7 +125,7 @@ object ESPFeature : ru.dargen.evoplus.feature.Feature("esp", "Подсветка
         isBarrel: Boolean = true
     ) {
         if (!ShardsEsp && !LuckyBlocksEsp && !BarrelsEsp) return
-        
+
         if (isShard) Shards.remove(blockPos)?.let { WorldContext.removeChildren(it) }
         if (isLuckyBlock) LuckyBlocks.remove(blockPos)?.let { WorldContext.removeChildren(it) }
         if (isBarrel) Barrels.remove(blockPos)?.let { WorldContext.removeChildren(it) }

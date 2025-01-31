@@ -3,6 +3,8 @@ package ru.dargen.evoplus.features.rune
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.rune.widget.AbilityTimerWidget
 import ru.dargen.evoplus.protocol.listen
@@ -16,7 +18,7 @@ import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
-object RuneFeature : ru.dargen.evoplus.feature.Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
+object RuneFeature : Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
 
     val Abilities = concurrentHashMapOf<String, Long>()
 
@@ -38,27 +40,23 @@ object RuneFeature : ru.dargen.evoplus.feature.Feature("rune", "Руны", custo
 
         +ActiveRunesText
     }
-    var ReadyNotify by settings.boolean(
-        "Уведомление при окончании задержки способностей",
-        true
-    )
-    var ReadyMessage by settings.boolean(
-        "Сообщение при окончании задержки способностей",
-        true
-    )
 
-    val RunesBagProperties by settings.boolean(
-        "Отображение статистики сета рун (в мешке)",
-        true
-    )
-    val RunesBagSet by settings.boolean(
-        "Отображать активный сет рун (в мешке)",
-        true
-    )
-    val RunesSetSwitch by settings.boolean(
-        "Смена сетов рун через A-D и 1-7 (в мешке)",
-        true
-    )
+    var ReadyNotify = true
+    var ReadyMessage = true
+    var RunesBagProperties = true
+    var RunesBagSet = true
+    var RunesSetSwitch = true
+
+    override fun FeatureCategory.setup() {
+        switch(::ReadyNotify, "Уведомление при окончании задержки способностей", "Отображение уведомления при окончании задержки способностей")
+        switch(::ReadyMessage, "Сообщение при окончании задержки способностей", "Отображение сообщения при окончании задержки способностей")
+
+        subcategory("Сет рун") {
+            switch(::RunesBagProperties, "Статистика сета рун", "Отображение статистики сета рун в мешке")
+            switch(::RunesBagSet, "Активный сет рун", "Отображать активный сет рун в мешке")
+            switch(::RunesSetSwitch, "Смена сетов рун", "Смена сетов рун через A-D и 1-7 в мешке")
+        }
+    }
 
     init {
         scheduleEvery(period = 2) {

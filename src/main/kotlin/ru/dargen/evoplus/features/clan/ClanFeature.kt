@@ -4,6 +4,8 @@ import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
 import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
@@ -14,19 +16,18 @@ import ru.dargen.evoplus.util.minecraft.displayName
 import ru.dargen.evoplus.util.minecraft.lore
 import ru.dargen.evoplus.util.minecraft.uncolored
 
-object ClanFeature : ru.dargen.evoplus.feature.Feature("clan", "Клан", Items.SHIELD) {
+object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
 
     private val BossCapturePattern =
         "\\[Клан] Клан (\\S+) начал захват вашего босса ([\\s\\S]+)\\. Защитите его\\.".toRegex()
 
-    val BossCaptureNotify by settings.boolean(
-        "Уведомление о захвате вашего босса",
-        true
-    )
-    val InlineMenuClanScores by settings.boolean(
-        "Отображать базовое К.О. боссов для захвата в меню",
-        true
-    )
+    var BossCaptureNotify = true
+    var InlineMenuClanScores = true
+
+    override fun FeatureCategory.setup() {
+        switch(::BossCaptureNotify, "Уведомление о захвате вашего босса", "Уведомляет о перехвате вашего босса")
+        switch(::InlineMenuClanScores, "Отображение К.О. для захвата босса в меню", "Отображает базовое К.О. для захвата босса в меню")
+    }
 
     init {
 //        listen<ClanInfo> { ClanHolder.accept(it.data) }

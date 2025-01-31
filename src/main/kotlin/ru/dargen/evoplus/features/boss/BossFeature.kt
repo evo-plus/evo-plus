@@ -4,11 +4,11 @@ import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
-import ru.dargen.evoplus.keybind.Keybinds.FastBossTeleport
-import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
@@ -24,46 +24,40 @@ import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
-import ru.dargen.evoplus.util.selector.toSelector
 import java.util.concurrent.TimeUnit
 
-object BossFeature : ru.dargen.evoplus.feature.Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
+object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
 
     private val BossCursedPattern = "Босс проклят! Особенность: ([а-яА-ЯёЁ ]+)".toRegex()
     private val BossCapturePattern = "^Босс (.*) захвачен кланом (.*)!\$".toRegex()
     private val ClanWavePattern = "Испытание вызова (?:(|\\d+):|)(\\d+)".toRegex()
 
-    //    private val BossHealthsPattern = "^[А-Яа-яЁё ]+ \\d+(\\.\\d+)?❤\$".toRegex()
     private val BossHealthsPattern = "^([А-Яа-яЁё ]+) (\\d+(\\.\\d+)?)❤\$".toRegex()
     val BossMenuPattern = "[넼넽넾]".toRegex()
 
     val BossDamageText = text("???? [??]: ??\uE35E") { isShadowed = true }
+
     val BossDamageWidget by widgets.widget("Урон по боссу", "boss-damage") {
         origin = Relative.CenterBottom
         align = v3(.58, .9)
         +BossDamageText
     }
 
-    //    val NearTeleport by settings.boolean("Телепорт к ближайшему боссу")
-    val NotifyCapture by settings.boolean(
-        "Уведомление о захватах боссов",
-        true
-    )
-    val CurseMessage by settings.boolean("Сообщение о проклятие босса в клановый чат")
-    val BossLowHealthsMessage by settings.boolean("Сообщение об определённом проценте здоровья босса в клановый чат")
-    val BossHealthsPercent by settings.selector(
-        "Оповещать о здоровье босса при меньше, чем",
-        (5..100).toSelector()
-    ) { "$it%" }
-    val BossHealthsCooldown by settings.selector(
-        "Оповещать о здоровье босса раз в",
-        (5..60).toSelector()
-    ) { "$it сек." }
+    var NotifyCapture = true
+    var CurseMessage = false
+    var BossLowHealthsMessage = false
+    var BossHealthsPercent = 50
+    var BossHealthsCooldown = 15
+
+    override fun FeatureCategory.setup() {
+        switch(::NotifyCapture, "Уведомление о захватах боссов", "Уведомляет о захвате боссов")
+        switch(::CurseMessage, "Сообщение о проклятие босса", "Отправляет сообщение о проклятии босса в клановый чат")
+        switch(::BossLowHealthsMessage, "Сообщение об проценте здоровья босса", "Отправляет сообщение о определённом проценте здоровья босса в клановый чат")
+        slider(::BossHealthsPercent, "Оповещать о здоровье босса", "Процент здоровья босса, при котором отправляется сообщение в клановый чат", min = 5, max = 100)
+        slider(::BossHealthsCooldown, "Оповещать о здоровье босса", "Частота отправки сообщения о здоровье босса в клановый чат (в секундах)", min = 5, max = 60)
+    }
 
     init {
-        FastBossTeleport.on {
-//            if (NearTeleport) sendCommand("boss ${ComparedBosses.firstOrNull { it.value > currentMillis }?.key?.level}")
-        }
 
         listen<BossDamage> {
             val type = BossType.valueOf(it.id) ?: return@listen

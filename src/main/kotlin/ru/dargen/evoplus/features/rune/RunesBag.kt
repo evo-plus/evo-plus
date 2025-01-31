@@ -10,9 +10,9 @@ import ru.dargen.evoplus.event.inventory.InventorySlotUpdateEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.render.ScreenRenderEvent
 import ru.dargen.evoplus.keybind.Keybinds
+import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.scheduler.schedule
-import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.util.minecraft.*
 import ru.dargen.evoplus.util.render.TextRenderer
 import ru.dargen.evoplus.util.render.drawText

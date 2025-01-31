@@ -1,6 +1,9 @@
 package ru.dargen.evoplus.features.dev
 
 import net.minecraft.item.Items
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
+import ru.dargen.evoplus.feature.vigilant.enumSelector
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.render.context.Overlay
@@ -10,14 +13,9 @@ import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.tick
-import ru.dargen.evoplus.util.selector.toSelector
 
-object DevFeature : ru.dargen.evoplus.feature.Feature("dev-env", "DevEnv", icon=  Items.COMMAND_BLOCK) {
+object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
 
-    val NodeDebugMode by settings.switcher(
-        "Тип вывода компонентов",
-        NodeDebugModeType.entries.toSelector(),
-        nameMapper = { it?.displayName ?: "null" })
     val NodeDebugWidget by widgets.widget("Вывод компонентов", "node-debug") {
         +text {
             tick {
@@ -46,10 +44,15 @@ object DevFeature : ru.dargen.evoplus.feature.Feature("dev-env", "DevEnv", icon=
         }
     }
 
+    var NodeDebugMode = NodeDebugModeType.TOTAL
+
+    override fun FeatureCategory.setup() {
+        enumSelector(::NodeDebugMode, "Тип вывода компонентов")
+    }
+
     init {
 
     }
-
 
     enum class NodeDebugModeType(val displayName: String, val totalizer: RenderContext.() -> Map<Class<*>, Int>) {
 

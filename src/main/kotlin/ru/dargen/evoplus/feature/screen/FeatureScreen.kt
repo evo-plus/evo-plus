@@ -2,6 +2,7 @@ package ru.dargen.evoplus.feature.screen
 
 import net.minecraft.client.util.InputUtil
 import ru.dargen.evoplus.EvoPlus
+import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.render.Colors
@@ -11,26 +12,15 @@ import ru.dargen.evoplus.render.animation.animate
 import ru.dargen.evoplus.render.context.Overlay.ScaledResolution
 import ru.dargen.evoplus.render.context.ScreenContext
 import ru.dargen.evoplus.render.hoverColor
-import ru.dargen.evoplus.render.node.Node
+import ru.dargen.evoplus.render.node.*
 import ru.dargen.evoplus.render.node.box.VBoxNode
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.box.vbox
-import ru.dargen.evoplus.render.node.delegate
-import ru.dargen.evoplus.render.node.hover
 import ru.dargen.evoplus.render.node.input.InputNode
 import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.render.node.input.input
-import ru.dargen.evoplus.render.node.item
-import ru.dargen.evoplus.render.node.leftClick
-import ru.dargen.evoplus.render.node.plus
-import ru.dargen.evoplus.render.node.preRender
-import ru.dargen.evoplus.render.node.rectangle
-import ru.dargen.evoplus.render.node.resize
 import ru.dargen.evoplus.render.node.scroll.VScrollViewNode
 import ru.dargen.evoplus.render.node.scroll.vScrollView
-import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.render.node.texture
-import ru.dargen.evoplus.render.node.typeKey
 import ru.dargen.evoplus.resource.Social
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.v3
@@ -84,7 +74,7 @@ class FeatureScreen : ScreenContext("features", "") {
             indent = v3()
             space = 1.0
 
-            fun switchSetting(feature: ru.dargen.evoplus.feature.Feature = SelectedFeature) {
+            fun switchSetting(feature: Feature = SelectedFeature) {
                 SelectedFeature = feature
                 settingsBox._childrens.clear()
                 settingsBox + SelectedFeature.createElement(prompt)

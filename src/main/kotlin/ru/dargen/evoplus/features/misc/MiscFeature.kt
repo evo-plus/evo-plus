@@ -8,10 +8,10 @@ import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
-import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting
-import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting.provideDelegate
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.schedule
@@ -22,37 +22,45 @@ import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
 
 
-object MiscFeature : ru.dargen.evoplus.feature.Feature("misc", "Прочее", Items.REPEATER) {
+object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
     
     val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = NotifyWidget)
 
-    val FastSelector by settings.boolean("Fast-селектор", true)
-    val FastSelectorItems by settings.setting(FastSelectorSetting)
+    var FastSelector = true
 
-    val AutoSprint by settings.boolean("Авто-спринт", true) on { if (!it) Player?.isSprinting = false }
-    val AutoThanks by settings.boolean("Авто /thx", true)
+    var AutoSprint = true
+    var AutoThanks = true
+    var ResourcePackLoadDisable = false
 
-    val ResourcePackLoadDisable by settings.boolean(
-        "Отключение загрузки РП DiamondWorld",
-        false
-    )
-    val ShowServerInTab by settings.boolean(
-        "Показывать текущий сервер в табе",
-        true
-    )
+    var CaseNotify = true
+    var LuckyBlockNotify = true
+    var CollectionNotify = true
+    var EventNotify = true
 
-    val CaseNotify by settings.boolean("Уведомления о кейсах", true)
-    val LuckyBlockNotify by settings.boolean(
-        "Уведомления о лаки-блоках",
-        true
-    )
-    val CollectionNotify by settings.boolean(
-        "Уведомления о коллекционках",
-        true
-    )
-    val EventNotify by settings.boolean("Уведомления о эвенте", true)
+    var ShowServerInTab = true
+
+    override fun FeatureCategory.setup() {
+        subcategory("Fast-селектор") {
+            switch(::FastSelector, "Fast-селектор", "Включение/отключение открытия Fast-селектора по нажатию на клавишу")
+            button("Настройка Fast-селектора", "Настройка предметов, которые будут отображаться в Fast-селекторе", "Настроить") { FastSelectorScreen.open(true) }
+        }
+
+        subcategory("Автоматические функции") {
+            switch(::AutoSprint, "Авто-спринт", "Включение автоматического спринта") { if (!it) Player?.isSprinting = false }
+            switch(::AutoThanks, "Авто /thx", "Включение автоматического выполнения команды /thx")
+            switch(::ResourcePackLoadDisable, "Авто-загрузка РП DiamondWorld", "Отключение автоматической загрузки ресурс-пака DiamondWorld")
+        }
+
+        subcategory("Уведомления") {
+            switch(::CaseNotify, "Уведомления о кейсах", "Уведомлять о найденных кейсах")
+            switch(::LuckyBlockNotify, "Уведомления о лаки-блоках", "Уведомлять о найденных лаки-блоках")
+            switch(::CollectionNotify, "Уведомления о коллекционках", "Уведомлять о найденных коллекционных предметах")
+            switch(::EventNotify, "Уведомления о эвенте", "Уведомлять о начале эвента")
+        }
+        switch(::ShowServerInTab, "Текущий сервер", "Показывать текущий сервер и зеркало в табе")
+    }
 
     init {
         Keybinds.FastSelector.on { if (CurrentScreen == null && FastSelector) FastSelectorScreen.open() }

@@ -7,6 +7,9 @@ import pro.diamondworld.protocol.packet.fishing.quest.HourlyQuestInfo
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
+import ru.dargen.evoplus.feature.vigilant.enumSelector
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidget
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidgetVisibleMode
 import ru.dargen.evoplus.features.fishing.widget.FishingWidgetVisibleMode
@@ -22,9 +25,8 @@ import ru.dargen.evoplus.util.minecraft.InteractionManager
 import ru.dargen.evoplus.util.minecraft.Player
 import ru.dargen.evoplus.util.minecraft.isSink
 import ru.dargen.evoplus.util.minecraft.uncolored
-import ru.dargen.evoplus.util.selector.toSelector
 
-object FishingFeature : ru.dargen.evoplus.feature.Feature("fishing", "Рыбалка", Items.FISHING_ROD) {
+object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) {
 
     val HigherBitingPattern = "^На локации \"([\\S\\s]+)\" повышенный клёв!\$".toRegex()
 
@@ -47,32 +49,30 @@ object FishingFeature : ru.dargen.evoplus.feature.Feature("fishing", "Рыбал
         "Прогресс заданий рыбалки", "quests-progress",
         widget = FishingQuestWidget, enabled = false
     )
-    
-    val QuestsProgressMode by settings.switcher("Отображаемый тип квестов", FishingWidgetQuestMode.entries.toSelector())
-    val QuestsProgressDescriptionMode by settings.switcher(
-        "Отображение описания квестов",
-        FishingWidgetQuestDescriptionMode.entries.toSelector()
-    )
-    val QuestsProgressVisibleMode by settings.switcher("Отображение квестов", FishingWidgetVisibleMode.entries.toSelector())
 
-    val NibblesVisibleMode by settings.switcher(
-        "Отображение клева на территориях",
-        FishingWidgetVisibleMode.entries.toSelector()
-    )
+    var SpotsHighlight = true
+    var HigherBitingNotify = true
+    var AutoHookDelay = 1
 
-    val ValueVisibleMode by settings.switcher(
-        "Отображение опыта и ккал. рыбы",
-        FishingValueWidgetVisibleMode.entries.toSelector()
-    )
+    var QuestsProgressVisibleMode = FishingWidgetVisibleMode.ENABLED
+    var QuestsProgressMode = FishingWidgetQuestMode.ALL
+    var QuestsProgressDescriptionMode = FishingWidgetQuestDescriptionMode.ENABLED
+    var NibblesVisibleMode = FishingWidgetVisibleMode.ENABLED
+    var ValueVisibleMode = FishingValueWidgetVisibleMode.ENABLED
 
-    val SpotsHighlight by settings.boolean("Подсветка точек клева", true)
+    override fun FeatureCategory.setup() {
+        switch(::SpotsHighlight, "Подсветка точек клева", "Подсвечивает точки клева на локации")
+        switch(::HigherBitingNotify, "Уведомления о повышенном клёве", "Уведомляет о повышенном клёве на локациях")
+        slider(::AutoHookDelay, "Автоматическая удочка", "Автоматически подбирает удочку (тик = 50 мс)", min = -1, max = 40, increment = 2)
 
-    val HigherBitingNotify by settings.boolean("Уведомления о повышенном клёве", true)
-
-    val AutoHookDelay by settings.selector(
-        "Автоматическая удочка (задержка - тик = 50 мс)",
-        (-1..40).toSelector(2), nameMapper = { if (it == -1) "отключена" else "$it" }
-    )
+        subcategory("Настройки виджетов") {
+            enumSelector(::QuestsProgressVisibleMode, "Отображение квестов", "Отображает виджет квестов рыбалки при определённых условиях")
+            enumSelector(::QuestsProgressMode, "Отображаемый тип квестов", "Отображает задания рыбалки при определённых условиях")
+            enumSelector(::QuestsProgressDescriptionMode, "Отображение описания квестов", "Отображает описание заданий рыбалки при определённых условиях")
+            enumSelector(::NibblesVisibleMode, "Клёв на территориях", "Отображает виджет процента клёва на локациях при определённых условиях")
+            enumSelector(::ValueVisibleMode, "Отображение опыта и калорийности рыбы", "Отображает виджеты количества опыта и калорийности рыбы")
+        }
+    }
 
     init {
         FishingQuestWidget.update(FishingQuestWidget.takePreviewQuests())

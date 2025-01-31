@@ -7,6 +7,8 @@ import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
@@ -14,28 +16,17 @@ import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
-import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asTextTime
 import ru.dargen.evoplus.util.format.fromTextTime
-import ru.dargen.evoplus.util.minecraft.Client
-import ru.dargen.evoplus.util.minecraft.CurrentScreen
-import ru.dargen.evoplus.util.minecraft.asText
-import ru.dargen.evoplus.util.minecraft.displayName
-import ru.dargen.evoplus.util.minecraft.itemStack
-import ru.dargen.evoplus.util.minecraft.lore
-import ru.dargen.evoplus.util.minecraft.printHoveredCommandMessage
-import ru.dargen.evoplus.util.minecraft.sendClanMessage
-import ru.dargen.evoplus.util.minecraft.sendCommand
-import ru.dargen.evoplus.util.minecraft.uncolored
-import ru.dargen.evoplus.util.selector.toSelector
+import ru.dargen.evoplus.util.minecraft.*
 import kotlin.math.absoluteValue
 
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
 private const val MYTHICAL_EVENT_MULTIPLIER_X1000 = (MYTHICAL_EVENT_MULTIPLIER * 1000).toLong()
 
-object BossTimerFeature : ru.dargen.evoplus.feature.Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
+object BossTimerFeature : Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
 
     val AlertedBosses = mutableSetOf<String>()
     val PreAlertedBosses = mutableSetOf<String>()
@@ -50,42 +41,72 @@ object BossTimerFeature : ru.dargen.evoplus.feature.Feature("boss-timer", "Та�
 
     val TimerWidget by widgets.widget("Таймер боссов", "boss-timer", widget = BossTimerWidget)
 
-    val WidgetTeleport by settings.boolean("Телепорт по клику в виджете")
-    val PremiumTimers by settings.boolean("Покупной таймер")
+    var PremiumTimer = false
+    var WidgetTeleport = false
 
-    val MinLevel by settings.selector("Мин. уровень босса", (0..520).toSelector())
-    val MaxLevel by settings.selector("Макс. уровень босса", (0..520).toSelector(-1))
-    val BossesCount by settings.selector("Кол-во отображаемых боссов", (0..60).toSelector(-1))
+    var MinLevel = 0
+    var MaxLevel = 520
+    var BossesCount = 60
 
-    val ShortName by settings.boolean("Сокращение имени босса")
-    val ShortTimeFormat by settings.boolean("Сокращенный формат времени")
+    var ShortName = false
+    var ShortTimeFormat = false
+    var InlineMenuTime = true
+    var PostSpawnShowTime = 0
+    var AutoReset = true
 
-    val PreSpawnAlertTime by settings.selector("Предупреждать о боссе за", (0..360 step 5).toSelector()) { "$it сек." }
-    val PostSpawnShowTime by settings.selector(
-        "Сохранять в таймере после спавна",
-        (0..360 step 5).toSelector()
-    ) { "$it сек." }
-    
-    val OnlyRaidBosses by settings.boolean("Отображать только рейдовых боссов")
-    val OnlyCapturedBosses by settings.boolean("Отображать только захваченных боссов")
-    
-    val InlineMenuTime by settings.boolean("Отображать время до спавна в меню", true)
+    var PreSpawnNotify = true
+    var SpawnNotify = true
+    var UpdateNotify = true
 
-    val SpawnMessage by settings.boolean("Сообщение о спавне", true)
-    val PreSpawnMessage by settings.boolean("Сообщение до спавна", true)
+    var PreSpawnAlertTime = 0
+    var PreSpawnMessage = false
+    var SpawnMessage = false
+    var PreSpawnClanMessage = false
+    var SpawnClanMessage = false
 
-    val SpawnClanMessage by settings.boolean("Сообщение о спавне в клановый чат", false)
-    val PreSpawnClanMessage by settings.boolean("Сообщение до спавна в клановый чат", false)
+    var OnlyRaidBosses = false
+    var OnlyCapturedBosses = false
 
-    val PreSpawnNotify by settings.boolean("Уведомление до спавна", true)
-    val SpawnNotify by settings.boolean("Уведомление о спавне", true)
-    val UpdateNotify by settings.boolean("Уведомление об обновлении времени", true)
+    override fun FeatureCategory.setup() {
+        switch(::PremiumTimer, "Покупной таймер")
+        switch(::WidgetTeleport, "Телепорт по клику в виджете", "Телепортирует к определённому боссу по клику в виджете")
 
-    val AutoReset by settings.boolean("Автоматический сброс таймеров при рестарте", true)
+        subcategory("Настройки виджета") {
+            slider(::MinLevel, "Мин. уровень босса", "Минимальный уровень босса, которые будут отображаться в виджете", min = 0, max = 520, increment = 5)
+            slider(::MaxLevel, "Макс. уровень босса", "Максимальный уровень босса, которые будут отображаться в виджете", min = 0, max = 520, increment = 5)
+            slider(::BossesCount, "Кол-во отображаемых боссов", "Количество отображаемых боссов в виджете", min = 0, max = 60)
+        }
+
+        subcategory("Отображение") {
+            switch(::ShortName, "Сокращение имени босса", "Сокращённый формат имени босса в виджете (Лавовый монстр [360] -> [360])")
+            switch(::ShortTimeFormat, "Сокращенный формат времени", "Сокращённый формат времени в виджете (1ч 30мин 15сек -> 1:30:15)")
+            switch(::InlineMenuTime, "Время до спавна в меню", "Отображает время до спавна босса в меню (/bosses)")
+            slider(::PostSpawnShowTime, "Сохранять в таймере после спавна", "Сохраняет в виджете информацию о боссе после его респавна", min = 0, max = 360, increment = 5)
+            switch(::AutoReset, "Сброс таймеров при рестарте", "Автоматический сброс таймеров при рестарте сервера")
+        }
+
+        subcategory("Уведомления") {
+            switch(::PreSpawnNotify, "Уведомление до спавна")
+            switch(::SpawnNotify, "Уведомление о спавне")
+            switch(::UpdateNotify, "Уведомление об обновлении времени")
+        }
+
+        subcategory("Сообщения") {
+            slider(::PreSpawnAlertTime, "Предупреждать о боссе", "Отправляет сообщение до респавна босса (в секундах)", min = 0, max = 360, increment = 5)
+            switch(::PreSpawnMessage, "Сообщение до спавна")
+            switch(::SpawnMessage, "Сообщение о спавне")
+            switch(::PreSpawnClanMessage, "Сообщение до спавна в клановый чат")
+            switch(::SpawnClanMessage, "Сообщение о спавне в клановый чат")
+        }
+
+        subcategory("Фильтры") {
+            switch(::OnlyRaidBosses, "Отображать только рейдовых боссов", "Отображает только рейдовых боссов в виджете")
+            switch(::OnlyCapturedBosses, "Отображать только захваченных боссов", "Отображает только захваченных кланом боссов в виджете")
+        }
+        button("Сбросить таймеры", buttonText = "Сбросить") { Bosses.clear() }
+    }
 
     init {
-        settings.baseElement("Сбросить таймеры") { button("Сбросить") { on { Bosses.clear() } } }
-
         on<ChatReceiveEvent> {
             if (AutoReset && text == "Перезагрузка сервера") Bosses.clear()
         }
@@ -99,7 +120,7 @@ object BossTimerFeature : ru.dargen.evoplus.feature.Feature("boss-timer", "Та�
         }
 
         listen<BossTimers> {
-            if (PremiumTimers) it.timers
+            if (PremiumTimer) it.timers
                 .mapKeys { BossType.valueOf(it.key) ?: return@listen }
                 .mapValues { (it.value + currentMillis * if (PlayerDataCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER_X1000 else 1000) / 1000 }
                 .mapKeys { it.key.id }
@@ -107,7 +128,7 @@ object BossTimerFeature : ru.dargen.evoplus.feature.Feature("boss-timer", "Та�
         }
 
         scheduleEvery(period = 10) {
-            if (!PremiumTimers) fillBossData()
+            if (!PremiumTimer) fillBossData()
 
             fillInventory()
             updateBosses()

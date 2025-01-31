@@ -6,6 +6,8 @@ import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
 import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.event.interact.BlockBreakEvent
 import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
 import ru.dargen.evoplus.features.stats.level.LevelWidget
@@ -14,7 +16,6 @@ import ru.dargen.evoplus.protocol.collector.PlayerDataCollector.combo
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector.economic
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.box.hbox
-import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.render.node.item
 import ru.dargen.evoplus.render.node.postRender
 import ru.dargen.evoplus.render.node.text
@@ -26,26 +27,13 @@ import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
-object StatisticFeature : ru.dargen.evoplus.feature.Feature("statistic", "Статистика", Items.PAPER) {
+object StatisticFeature : Feature("statistic", "Статистика", Items.PAPER) {
 
-    val ActivePetsWidget by widgets.widget("Активные питомцы", "active-pets", widget = PetInfoWidget)
-
-    private val ComboTimerPattern =
-        "Комбо закончится через (\\d+) секунд\\. Продолжите копать, чтобы не потерять его\\.".toRegex()
-
-    val ComboCounterWidget by widgets.widget("Счетчик комбо", "combo-counter", widget = ComboWidget)
-    val ComboProgressBarEnabled by settings.boolean("Шкала прогресса комбо") on {
-        ComboWidget.ProgressBar.enabled = it
-    }
+    private val ComboTimerPattern = "Комбо закончится через (\\d+) секунд\\. Продолжите копать, чтобы не потерять его\\.".toRegex()
 
     val LevelRequireWidget by widgets.widget("Требования на уровень", "level-require", widget = LevelWidget)
-    val LevelProgressBarEnabled by settings.boolean("Шкала прогресса уровня") on {
-        LevelWidget.ProgressBar.enabled = it
-    }
-    val NotifyCompleteLevelRequire by settings.boolean(
-        "Уведомлять при выполнении требований",
-        true
-    )
+    val ComboCounterWidget by widgets.widget("Счетчик комбо", "combo-counter", widget = ComboWidget)
+    val ActivePetsWidget by widgets.widget("Активные питомцы", "active-pets", widget = PetInfoWidget)
 
     var BlocksCount = 0
         set(value) {
@@ -66,9 +54,7 @@ object StatisticFeature : ru.dargen.evoplus.feature.Feature("statistic", "Ста
             }
         }
     }
-    val ResetBlocksCounter =
-        settings.baseElement("Сбросить счетчик блоков") { button("Сбросить") { on { BlocksCount = economic.blocks } } }
-    
+
     var BlocksPerSecondCounter = mutableListOf<Long>()
     val BlocksPerSecondWidget by widgets.widget("Счетчик блоков за секунду", "blocks-per-second-counter") {
         origin = Relative.LeftCenter
@@ -88,6 +74,17 @@ object StatisticFeature : ru.dargen.evoplus.feature.Feature("statistic", "Ста
                 scale = v3(.7, .7, .7)
             }
         }
+    }
+
+    var NotifyCompleteLevelRequire = true
+    var LevelProgressBarEnabled = true
+    var ComboProgressBarEnabled = true
+
+    override fun FeatureCategory.setup() {
+        switch(::NotifyCompleteLevelRequire, "Уведомлять при выполнении требований", "Включение/отключение уведомлений при выполнении требований на уровень")
+        switch(::LevelProgressBarEnabled, "Шкала прогресса уровня", "Включение/отключение виджета шкалы прогресса уровня")
+        switch(::ComboProgressBarEnabled, "Шкала прогресса комбо", "Включение/отключение виджета шкалы прогресса комбо")
+        button("Сбросить счетчик блоков") { BlocksCount = economic.blocks }
     }
 
     init {

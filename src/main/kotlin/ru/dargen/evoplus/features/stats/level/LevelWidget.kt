@@ -1,6 +1,9 @@
 package ru.dargen.evoplus.features.stats.level
 
 import net.minecraft.item.Items
+import ru.dargen.evoplus.feature.widget.WidgetBase
+import ru.dargen.evoplus.features.stats.StatisticFeature
+import ru.dargen.evoplus.protocol.collector.data.EconomicData
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.Node
@@ -9,9 +12,6 @@ import ru.dargen.evoplus.render.node.box.vbox
 import ru.dargen.evoplus.render.node.item
 import ru.dargen.evoplus.render.node.state.hbar
 import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.feature.widget.WidgetBase
-import ru.dargen.evoplus.features.stats.StatisticFeature
-import ru.dargen.evoplus.protocol.collector.data.EconomicData
 import ru.dargen.evoplus.util.format.color
 import ru.dargen.evoplus.util.format.format
 import ru.dargen.evoplus.util.math.v3

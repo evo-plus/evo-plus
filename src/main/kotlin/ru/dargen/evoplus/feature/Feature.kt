@@ -41,7 +41,7 @@ abstract class Feature(
 
     final inline fun <reified T> config(name: String = id, value: T) = Features.config(name, value)
 
-    protected fun FeatureCategory.subcategory(category: ru.dargen.evoplus.feature.Feature) = category.setupInternal(this)
+    protected fun FeatureCategory.subcategory(category: Feature) = category.setupInternal(this)
 
     override fun search(prompt: FeaturePrompt) = TODO()
     override fun createElement(prompt: FeaturePrompt) = TODO()

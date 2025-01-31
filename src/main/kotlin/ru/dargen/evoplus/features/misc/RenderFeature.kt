@@ -33,7 +33,7 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
 
         switch(::HighlightAvailableItems, "Подсветка доступных предметов", "Показывает подсветку доступных предметов")
 
-        subcategory("No Render") {
+        subcategory("Отключение рендера") {
             switch(::NoBlockParticles, "Отключение эффектов блока", "Убирает частицы разрушения блоков")
             switch(::NoStrikes, "Отключение молний", "Убирает эффект молний")
             switch(::NoFalling, "Отключение падающих блоков", "Убирает эффект падающих блоков")
@@ -52,7 +52,6 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
             switch(::HealthCountRender, "Отображать единицы здоровья игроков", "Показывает числовое значение здоровья")
         }
     }
-
 
     init {
         HealthBars

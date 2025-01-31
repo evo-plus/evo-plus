@@ -9,6 +9,8 @@ import ru.dargen.evoplus.event.world.ChunkLoadEvent
 import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
+import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
@@ -20,19 +22,22 @@ import ru.dargen.evoplus.util.evo.isBarrel
 import ru.dargen.evoplus.util.evo.isDetonatingBarrel
 import ru.dargen.evoplus.util.format.nounEndings
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.WorldEntities
-import ru.dargen.evoplus.util.minecraft.customModelData
-import ru.dargen.evoplus.util.minecraft.forEachBlocks
-import ru.dargen.evoplus.util.minecraft.printMessage
-import ru.dargen.evoplus.util.minecraft.sendClanMessage
+import ru.dargen.evoplus.util.minecraft.*
 import kotlin.math.max
 
-object ShaftFeature : ru.dargen.evoplus.feature.Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
+object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
+
+    var WormNotify = true
+    var WormMessage = false
+    var WormClanMessage = false
+    var BarrelsNotify = true
+    var BarrelsMessage = false
+    var BarrelsClanMessage = false
+    var RaidClanMessage = false
 
     var RaidShaftLevel = 0
     val RaidBossData = 101218
     val RaidEntityData = intArrayOf(100857, 100880, 100889, RaidBossData)
-    val RaidClanMessage by settings.boolean("Сообщение о начатом рейде в клан чат с указанием шахты")
 
     var Worms = 0
         set(value) {
@@ -48,12 +53,6 @@ object ShaftFeature : ru.dargen.evoplus.feature.Feature("shaft", "Шахта", I
         align = v3(.5, .9)
         +WormsText
     }
-    val WormNotify by settings.boolean(
-        "Уведомление о найденных червях",
-        true
-    )
-    val WormMessage by settings.boolean("Сообщение о найденных червях")
-    val WormClanMessage by settings.boolean("Сообщение о найденных червях в клан чат с указанием шахты")
 
     var Barrels = 0
         set(value) {
@@ -75,12 +74,16 @@ object ShaftFeature : ru.dargen.evoplus.feature.Feature("shaft", "Шахта", I
         align = v3(.5, .9)
         +BarrelsText
     }
-    val BarrelsNotify by settings.boolean(
-        "Уведомление о найденных бочках",
-        true
-    )
-    val BarrelsMessage by settings.boolean("Сообщение о найденных бочках")
-    val BarrelsClanMessage by settings.boolean("Сообщение о найденных бочках в клан")
+
+    override fun FeatureCategory.setup() {
+        switch(::WormNotify, "Уведомление о найденных червях", "Показывает уведомление о найденных червях")
+        switch(::WormMessage, "Сообщение о найденных червях", "Показывает сообщение о найденных червях")
+        switch(::WormClanMessage, "Сообщение о найденных червях в клан чат с указанием шахты", "Показывает сообщение о найденных червях в клан чат с указанием шахты")
+        switch(::BarrelsNotify, "Уведомление о найденных бочках", "Показывает уведомление о найденных бочках")
+        switch(::BarrelsMessage, "Сообщение о найденных бочках", "Показывает сообщение о найденных бочках")
+        switch(::BarrelsClanMessage, "Сообщение о найденных бочках в клан чат", "Показывает сообщение о найденных бочках в клан чат")
+        switch(::RaidClanMessage, "Сообщение о начатом рейде в клан чат с указанием шахты", "Показывает сообщение о начатом рейде в клан чат с указанием шахты")
+    }
 
     init {
         scheduleEvery(period = 10) {
