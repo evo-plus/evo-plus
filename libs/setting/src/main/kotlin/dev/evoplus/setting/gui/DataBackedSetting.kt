@@ -84,9 +84,7 @@ class DataBackedSetting(
             height = ChildBasedMaxSizeConstraint() + 2.pixels
         }
 
-        component.observe {
-            data.setValue(it)
-        }
+        component.observe { data.setValue(it) }
         component childOf boundingBox
         component.setupParentListeners(this)
     }

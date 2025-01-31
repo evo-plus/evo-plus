@@ -49,7 +49,7 @@ object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
 
     override fun CategoryBuilder.setup() {
         selector(::NodeDebugMode, "Тип вывода компонентов")
-        button("Виджеты") { after(1) {WidgetEditorScreen.open()} }
+        button("Виджеты") { after(1) { WidgetEditorScreen.open() } }
     }
 
     init {

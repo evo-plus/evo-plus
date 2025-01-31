@@ -23,13 +23,13 @@ data class Property<A>(
     fun isHidden(): Boolean = false
 
     fun setValue(value: Any?) {
+        if (observeInit || this.value.initialized) {
+            observer.invoke(value)
+        }
+
         if (value == null) {
             println("null value assigned to property $id")
             return
-        }
-
-        if (observeInit || this.value.initialized) {
-            observer.invoke(value)
         }
 
         this.value.initialized = true
@@ -44,7 +44,7 @@ abstract class PropertyValue {
 
     abstract val id: String
 
-    var initialized = false
+    open var initialized = false
     open val writeDataToFile = true
 
     inline fun <reified T> getAs() = getValue() as T
@@ -66,6 +66,8 @@ class KPropertyBackedPropertyValue<T>(internal val property: KMutableProperty0<T
 }
 
 class EmptyPropertyValue : PropertyValue() {
+
+    override var initialized = true
     override val writeDataToFile = false
     override val id = "ignored"
 

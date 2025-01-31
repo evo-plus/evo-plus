@@ -33,7 +33,7 @@ abstract class Feature(
 
     protected fun CategoryBuilder.subcategory(category: Feature) = category.setupInternal(this)
 
-    override fun search(prompt: FeaturePrompt) = TODO()
-    override fun createElement(prompt: FeaturePrompt) = TODO()
+    override fun search(prompt: FeaturePrompt) = true
+    override fun createElement(prompt: FeaturePrompt) = settings.createElement(prompt)
 
 }

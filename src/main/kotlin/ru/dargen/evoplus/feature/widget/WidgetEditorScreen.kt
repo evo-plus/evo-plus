@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.feature.widget
 
 import ru.dargen.evoplus.feature.Features
+import ru.dargen.evoplus.feature.screen.FeatureScreen
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.Tips
@@ -20,6 +21,7 @@ import ru.dargen.evoplus.render.node.resize
 import ru.dargen.evoplus.render.node.scroll.vScrollView
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.tick
+import ru.dargen.evoplus.scheduler.after
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.render.alpha
 import kotlin.math.PI
@@ -82,6 +84,7 @@ object WidgetEditorScreen {
                 } else false
             }
         }
+        destroy { after(1) { FeatureScreen().open()} }
     }.open()
 
     private fun ScreenContext.deleter(base: Node) = +rectangle {

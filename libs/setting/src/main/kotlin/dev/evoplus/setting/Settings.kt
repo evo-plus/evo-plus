@@ -349,7 +349,7 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
             hidden: Boolean = false, subscribe: Boolean = false,
             text: String = "Нажать",
             observeInit: Boolean = false, action: () -> Unit = {},
-        ) = property<Nothing, ButtonPropertyAttr>(
+        ) = property<Nothing?, ButtonPropertyAttr>(
             EmptyPropertyValue(), id = id,
             name = name, description = description,
             hidden = hidden, subscribe = subscribe,
