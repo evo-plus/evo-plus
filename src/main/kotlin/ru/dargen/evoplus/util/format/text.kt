@@ -8,7 +8,7 @@ val Boolean.color get() = if (this) "§a" else "§c"
 
 val FixDoublePattern = "\\.?0?0?0?0\$".toRegex()
 fun String.reduceFloatingZero() = if ('.' in this) replace(FixDoublePattern, "") else this
-fun Double.fix(floating: Int = 2) = "%.${floating}f".format(this)
+fun Number.fix(floating: Int = 2) = "%.${floating}f".format(this)
     .replace(",", ".")
     .reduceFloatingZero()
 

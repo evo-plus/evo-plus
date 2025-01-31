@@ -1,13 +1,13 @@
 package ru.dargen.evoplus.feature
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.screen.FeatureElement
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
 import ru.dargen.evoplus.feature.setting.group.SettingGroup
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
-import ru.dargen.evoplus.feature.vigilant.FeaturesVigilant
+import ru.dargen.evoplus.feature.settings.FeaturesSettings
 import ru.dargen.evoplus.feature.widget.WidgetGroup
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.minecraft.itemStack
@@ -25,12 +25,12 @@ abstract class Feature(
     val settings: SettingGroup = SettingGroup(id, name)
     val widgets = WidgetGroup().apply(settings.value::add)
 
-    protected /*abstract*/ fun FeatureCategory.setup() {}
+    protected /*abstract*/ fun CategoryBuilder.setup() {}
 
-    final fun setupInternal(category: FeatureCategory?) {
-        category?.subcategory(name) {
+    final fun setupInternal(category: CategoryBuilder?) {
+        category?.subcategory(id, name) {
             setup()
-        } ?: FeaturesVigilant.category(name) {
+        } ?: FeaturesSettings.category(id, name) {
             setup()
             //TODO: remove after migration
             button("Test") {
@@ -41,7 +41,7 @@ abstract class Feature(
 
     final inline fun <reified T> config(name: String = id, value: T) = Features.config(name, value)
 
-    protected fun FeatureCategory.subcategory(category: Feature) = category.setupInternal(this)
+    protected fun CategoryBuilder.subcategory(category: Feature) = category.setupInternal(this)
 
     override fun search(prompt: FeaturePrompt) = TODO()
     override fun createElement(prompt: FeaturePrompt) = TODO()

@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.features.esp
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.item.Items
@@ -13,7 +14,6 @@ import ru.dargen.evoplus.event.world.block.BlockChangeEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityUpdateEvent
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.plus
@@ -33,7 +33,7 @@ object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
     var ShardsEsp = false
     var BarrelsEsp = false
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::LuckyBlocksEsp, "Подсвечивание лаки-блоков", "Подсвечивает лаки-блоки в шахтах") { state ->
             LuckyBlocks.values.forEach { it.enabled = state }
         }

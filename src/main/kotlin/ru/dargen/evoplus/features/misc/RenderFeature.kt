@@ -1,9 +1,9 @@
 package ru.dargen.evoplus.features.misc
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
-import ru.dargen.evoplus.feature.vigilant.enumSelector
+import ru.dargen.evoplus.feature.settings.enumSelector
 import ru.dargen.evoplus.features.misc.render.HealthBars
 
 object RenderFeature : Feature("render", "Визуализация", Items.REDSTONE) {
@@ -27,13 +27,13 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
     var HighlightAvailableItems = true
 
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::FullBright, "Полная яркость", "Максимальная яркость освещения")
         enumSelector(::HealthRender, "Режим отображения здоровья", "Выбор способа отображения здоровья")
 
         switch(::HighlightAvailableItems, "Подсветка доступных предметов", "Показывает подсветку доступных предметов")
 
-        subcategory("Отключение рендера") {
+        subcategory("render", "Рендер") {
             switch(::NoBlockParticles, "Отключение эффектов блока", "Убирает частицы разрушения блоков")
             switch(::NoStrikes, "Отключение молний", "Убирает эффект молний")
             switch(::NoFalling, "Отключение падающих блоков", "Убирает эффект падающих блоков")
@@ -46,9 +46,9 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
             switch(::NoExcessHud, "Отключение ненужных элементов HUD", "Убирает все лишние элементы HUD")
         }
 
-        subcategory("Полоска здоровья") {
+        subcategory("health-bar", "Полоска здоровья") {
             switch(::HealthBarsRender, "Отображать полоску здоровья игроков", "Показывает полоску здоровья над игроками", action = HealthBars::updateRender)
-            decimalSlider(::HealthBarsY, "Сдвиг полоски здоровья игроков", "Регулировка высоты полоски здоровья", min = 0F, max = 5f)
+            decimalSlider(::HealthBarsY, "Сдвиг полоски здоровья игроков", "Регулировка высоты полоски здоровья", range = 0f..5f)
             switch(::HealthCountRender, "Отображать единицы здоровья игроков", "Показывает числовое значение здоровья")
         }
     }

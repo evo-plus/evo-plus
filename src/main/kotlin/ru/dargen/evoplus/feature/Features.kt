@@ -5,7 +5,7 @@ import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.event.game.MinecraftLoadedEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.config.FeatureConfig
-import ru.dargen.evoplus.feature.vigilant.FeaturesVigilant
+import ru.dargen.evoplus.feature.settings.FeaturesSettings
 import ru.dargen.evoplus.features.alchemy.AlchemyFeature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
@@ -47,7 +47,7 @@ data object Features {
             scheduleEvery(unit = TimeUnit.MINUTES) { saveConfigs()  }
         }
 
-        MenuKey.on { FeaturesVigilant.open() }
+        MenuKey.on { FeaturesSettings.open() }
     }
 
     fun load() {
@@ -74,7 +74,7 @@ data object Features {
         MiscFeature.register()
         ShareFeature.register()
 
-        FeaturesVigilant.initialize()
+        FeaturesSettings.initialize()
     }
 
     fun Feature.register() {

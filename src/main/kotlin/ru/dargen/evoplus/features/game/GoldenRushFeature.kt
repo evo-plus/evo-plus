@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
+import dev.evoplus.setting.Settings.CategoryBuilder
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.item
@@ -61,7 +61,7 @@ object GoldenRushFeature : Feature("golden-rush", "Золотой Кристал
         }
     }
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::GoldenCrystalNotify, "Уведомление",
             "Уведомлять при появлении золотого кристалла")
         switch(::GoldenCrystalMessage, "Сообщение",

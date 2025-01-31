@@ -5,17 +5,19 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '2.1.0'
     id 'org.jetbrains.kotlin.plugin.allopen' version '2.1.0'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.0'
 }
 
 version = project.evo_plus_version
-group = project.maven_group
 
-repositories {
-    mavenCentral()
-    maven { url 'https://gitlab.diamondworld.pro/api/v4/projects/104/packages/maven' }
-    maven { url "https://repo.essential.gg/repository/maven-public" }
-    maven { url 'https://jitpack.io' }
+allprojects {
+    group = project.maven_group
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://gitlab.diamondworld.pro/api/v4/projects/104/packages/maven' }
+        maven { url "https://repo.essential.gg/repository/maven-public" }
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
@@ -38,9 +40,9 @@ dependencies {
     include(implementation("com.github.asyncdargen.crowbar:crowbar-core:${project.crowbar_version}"))
 
     // Essential UI
-    include(implementation("gg.essential:elementa:676"))
-    include(implementation("gg.essential:vigilance:306"))
-    include(modImplementation("gg.essential:universalcraft-1.19.4-fabric:369"))
+    include(implementation(project(':libs:setting')))
+    include(implementation("gg.essential:elementa:${project.elementa_version}"))
+    include(modImplementation("gg.essential:universalcraft-${project.universalcraft_version}"))
 
     // Lombok
     compileOnly(annotationProcessor('org.projectlombok:lombok:1.18.24'))

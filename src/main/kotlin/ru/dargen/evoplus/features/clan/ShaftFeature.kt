@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.features.clan
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.entity.decoration.DisplayEntity.ItemDisplayEntity
 import net.minecraft.item.Items
@@ -10,7 +11,6 @@ import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
@@ -75,7 +75,7 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
         +BarrelsText
     }
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::WormNotify, "Уведомление о найденных червях", "Показывает уведомление о найденных червях")
         switch(::WormMessage, "Сообщение о найденных червях", "Показывает сообщение о найденных червях")
         switch(::WormClanMessage, "Сообщение о найденных червях в клан чат с указанием шахты", "Показывает сообщение о найденных червях в клан чат с указанием шахты")

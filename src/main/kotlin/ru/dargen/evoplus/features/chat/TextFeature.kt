@@ -1,12 +1,12 @@
 package ru.dargen.evoplus.features.chat
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.chat.ChatSendEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.render.StringRenderEvent
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.chat.market.MarketChatTimerWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.util.currentMillis
@@ -30,9 +30,9 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
         id = "gradient"
     )
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         slider(::MarketChatTimerDelay, "Задержка торгового чата",
-            "Время задержки между сообщениями в торговом чате", min = 3, max = 5)
+            "Время задержки между сообщениями в торговом чате", range = 3..5)
         switch(::NoSpam, "Отключение спам-сообщений", "Отключает ненужные сообщения в чате")
         switch(::CopyMessages, "Копировние сообщений",
             "Позволяет копировать сообщения из чата правым кликом")

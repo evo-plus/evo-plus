@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.features.misc
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.game.GameEvent
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
@@ -9,7 +10,6 @@ import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
 import ru.dargen.evoplus.keybind.Keybinds
@@ -41,19 +41,19 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
     var ShowServerInTab = true
 
-    override fun FeatureCategory.setup() {
-        subcategory("Fast-селектор") {
+    override fun CategoryBuilder.setup() {
+        subcategory("selector", "Fast-селектор") {
             switch(::FastSelector, "Fast-селектор", "Включение/отключение открытия Fast-селектора по нажатию на клавишу")
             button("Настройка Fast-селектора", "Настройка предметов, которые будут отображаться в Fast-селекторе", "Настроить") { FastSelectorScreen.open(true) }
         }
 
-        subcategory("Автоматические функции") {
+        subcategory("auto", "Автоматические функции") {
             switch(::AutoSprint, "Авто-спринт", "Включение автоматического спринта") { if (!it) Player?.isSprinting = false }
             switch(::AutoThanks, "Авто /thx", "Включение автоматического выполнения команды /thx")
             switch(::ResourcePackLoadDisable, "Авто-загрузка РП DiamondWorld", "Отключение автоматической загрузки ресурс-пака DiamondWorld")
         }
 
-        subcategory("Уведомления") {
+        subcategory("notify", "Уведомления") {
             switch(::CaseNotify, "Уведомления о кейсах", "Уведомлять о найденных кейсах")
             switch(::LuckyBlockNotify, "Уведомления о лаки-блоках", "Уведомлять о найденных лаки-блоках")
             switch(::CollectionNotify, "Уведомления о коллекционках", "Уведомлять о найденных коллекционных предметах")

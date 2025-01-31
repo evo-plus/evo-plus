@@ -1,9 +1,9 @@
 package ru.dargen.evoplus.features.staff
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.staff.StaffTimers
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.StaffType
@@ -22,7 +22,7 @@ object StaffFeature : Feature("staff", "Посохи", customItem(Items.WOODEN_H
     var ReadyNotify = true
     var ReadyMessage = true
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::ReadyNotify, "Уведомление", "Уведомлять когда посох готов к использованию")
         switch(::ReadyMessage, "Сообщение", "Отправляет сообщение в чат когда посох готов")
     }

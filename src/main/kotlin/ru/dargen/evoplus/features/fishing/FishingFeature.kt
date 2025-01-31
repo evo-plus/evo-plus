@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.features.fishing
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import net.minecraft.util.Hand
 import pro.diamondworld.protocol.packet.fishing.SpotNibbles
@@ -8,8 +9,7 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
-import ru.dargen.evoplus.feature.vigilant.enumSelector
+import ru.dargen.evoplus.feature.settings.enumSelector
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidget
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidgetVisibleMode
 import ru.dargen.evoplus.features.fishing.widget.FishingWidgetVisibleMode
@@ -60,12 +60,12 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
     var NibblesVisibleMode = FishingWidgetVisibleMode.ENABLED
     var ValueVisibleMode = FishingValueWidgetVisibleMode.ENABLED
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::SpotsHighlight, "Подсветка точек клева", "Подсвечивает точки клева на локации")
         switch(::HigherBitingNotify, "Уведомления о повышенном клёве", "Уведомляет о повышенном клёве на локациях")
-        slider(::AutoHookDelay, "Автоматическая удочка", "Автоматически подбирает удочку (тик = 50 мс)", min = -1, max = 40, increment = 2)
+        slider(::AutoHookDelay, "Автоматическая удочка", "Автоматически подбирает удочку (тик = 50 мс)", range = -1..40)
 
-        subcategory("Настройки виджетов") {
+        subcategory("widget", "Настройки виджетов") {
             enumSelector(::QuestsProgressVisibleMode, "Отображение квестов", "Отображает виджет квестов рыбалки при определённых условиях")
             enumSelector(::QuestsProgressMode, "Отображаемый тип квестов", "Отображает задания рыбалки при определённых условиях")
             enumSelector(::QuestsProgressDescriptionMode, "Отображение описания квестов", "Отображает описание заданий рыбалки при определённых условиях")

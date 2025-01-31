@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.features.stats
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
@@ -7,7 +8,6 @@ import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.event.interact.BlockBreakEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
 import ru.dargen.evoplus.features.stats.level.LevelWidget
@@ -80,7 +80,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
     var LevelProgressBarEnabled = true
     var ComboProgressBarEnabled = true
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::NotifyCompleteLevelRequire, "Уведомлять при выполнении требований", "Включение/отключение уведомлений при выполнении требований на уровень")
         switch(::LevelProgressBarEnabled, "Шкала прогресса уровня", "Включение/отключение виджета шкалы прогресса уровня")
         switch(::ComboProgressBarEnabled, "Шкала прогресса комбо", "Включение/отключение виджета шкалы прогресса комбо")

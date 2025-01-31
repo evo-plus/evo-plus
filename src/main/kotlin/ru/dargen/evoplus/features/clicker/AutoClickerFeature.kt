@@ -1,12 +1,12 @@
 package ru.dargen.evoplus.features.clicker
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
-import ru.dargen.evoplus.feature.vigilant.enumSelector
+import ru.dargen.evoplus.feature.settings.enumSelector
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.keybind.on
@@ -27,11 +27,11 @@ object AutoClickerFeature : Feature("clicker", "Кликер", icon = Items.WOOD
     var Button = ClickerButton.LEFT
     var CPS = 10
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::BindEnabled, "Статус бинда", "Включает/выключает бинд кликера")
         enumSelector(::Mode, "Режим работы", "Выбор режима работы кликера")
         enumSelector(::Button, "Кнопка кликера", "Выбор кнопки мыши кликера")
-        slider(::CPS, "КПС", "Определённое значение кликов в секунду", min = 1, max = 20)
+        slider(::CPS, "КПС", "Определённое значение кликов в секунду", range = 1..20)
     }
 
     init {

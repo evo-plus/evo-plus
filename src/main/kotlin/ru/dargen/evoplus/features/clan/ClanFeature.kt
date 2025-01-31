@@ -1,11 +1,11 @@
 package ru.dargen.evoplus.features.clan
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
@@ -24,7 +24,7 @@ object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
     var BossCaptureNotify = true
     var InlineMenuClanScores = true
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::BossCaptureNotify, "Уведомление о захвате вашего босса", "Уведомляет о перехвате вашего босса")
         switch(::InlineMenuClanScores, "Отображение К.О. для захвата босса в меню", "Отображает базовое К.О. для захвата босса в меню")
     }

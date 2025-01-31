@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.features.boss.timer
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossTimers
@@ -8,7 +9,6 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
@@ -67,43 +67,79 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     var OnlyRaidBosses = false
     var OnlyCapturedBosses = false
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::PremiumTimer, "Покупной таймер")
-        switch(::WidgetTeleport, "Телепорт по клику в виджете", "Телепортирует к определённому боссу по клику в виджете")
+        switch(
+            ::WidgetTeleport,
+            "Телепорт по клику в виджете",
+            "Телепортирует к определённому боссу по клику в виджете"
+        )
 
-        subcategory("Настройки виджета") {
-            slider(::MinLevel, "Мин. уровень босса", "Минимальный уровень босса, которые будут отображаться в виджете", min = 0, max = 520, increment = 5)
-            slider(::MaxLevel, "Макс. уровень босса", "Максимальный уровень босса, которые будут отображаться в виджете", min = 0, max = 520, increment = 5)
-            slider(::BossesCount, "Кол-во отображаемых боссов", "Количество отображаемых боссов в виджете", min = 0, max = 60)
+        subcategory("widget", "Настройки виджета") {
+            slider(
+                ::MinLevel,
+                "Мин. уровень босса",
+                "Минимальный уровень босса, которые будут отображаться в виджете",
+                range = 0..520 step 5
+            )
+            slider(
+                ::MaxLevel,
+                "Макс. уровень босса",
+                "Максимальный уровень босса, которые будут отображаться в виджете",
+                range = 0..520 step 5
+            )
+            slider(
+                ::BossesCount,
+                "Кол-во отображаемых боссов",
+                "Количество отображаемых боссов в виджете",
+                range = 0..60
+            )
         }
 
-        subcategory("Отображение") {
-            switch(::ShortName, "Сокращение имени босса", "Сокращённый формат имени босса в виджете (Лавовый монстр [360] -> [360])")
-            switch(::ShortTimeFormat, "Сокращенный формат времени", "Сокращённый формат времени в виджете (1ч 30мин 15сек -> 1:30:15)")
+        subcategory("visual", "Отображение") {
+            switch(
+                ::ShortName,
+                "Сокращение имени босса",
+                "Сокращённый формат имени босса в виджете (Лавовый монстр [360] -> [360])"
+            )
+            switch(
+                ::ShortTimeFormat,
+                "Сокращенный формат времени",
+                "Сокращённый формат времени в виджете (1ч 30мин 15сек -> 1:30:15)"
+            )
             switch(::InlineMenuTime, "Время до спавна в меню", "Отображает время до спавна босса в меню (/bosses)")
-            slider(::PostSpawnShowTime, "Сохранять в таймере после спавна", "Сохраняет в виджете информацию о боссе после его респавна", min = 0, max = 360, increment = 5)
+            slider(
+                ::PostSpawnShowTime,
+                "Сохранять в таймере после спавна",
+                "Сохраняет в виджете информацию о боссе после его респавна",
+                range = 0..360 step 5
+            )
             switch(::AutoReset, "Сброс таймеров при рестарте", "Автоматический сброс таймеров при рестарте сервера")
         }
 
-        subcategory("Уведомления") {
+        subcategory("notify", "Уведомления") {
             switch(::PreSpawnNotify, "Уведомление до спавна")
             switch(::SpawnNotify, "Уведомление о спавне")
             switch(::UpdateNotify, "Уведомление об обновлении времени")
         }
 
-        subcategory("Сообщения") {
-            slider(::PreSpawnAlertTime, "Предупреждать о боссе", "Отправляет сообщение до респавна босса (в секундах)", min = 0, max = 360, increment = 5)
+        subcategory("message", "Сообщения") {
+            slider(::PreSpawnAlertTime, "Предупреждать о боссе", "Отправляет сообщение до респавна босса (в секундах)", range = 0..360 step 5)
             switch(::PreSpawnMessage, "Сообщение до спавна")
             switch(::SpawnMessage, "Сообщение о спавне")
             switch(::PreSpawnClanMessage, "Сообщение до спавна в клановый чат")
             switch(::SpawnClanMessage, "Сообщение о спавне в клановый чат")
         }
 
-        subcategory("Фильтры") {
+        subcategory("filter", "Фильтры") {
             switch(::OnlyRaidBosses, "Отображать только рейдовых боссов", "Отображает только рейдовых боссов в виджете")
-            switch(::OnlyCapturedBosses, "Отображать только захваченных боссов", "Отображает только захваченных кланом боссов в виджете")
+            switch(
+                ::OnlyCapturedBosses,
+                "Отображать только захваченных боссов",
+                "Отображает только захваченных кланом боссов в виджете"
+            )
         }
-        button("Сбросить таймеры", buttonText = "Сбросить") { Bosses.clear() }
+        button("Сбросить таймеры", text = "Сбросить") { Bosses.clear() }
     }
 
     init {
@@ -114,7 +150,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         on<GameEventChangeEvent> {
             if (old === MYTHICAL_EVENT || new === MYTHICAL_EVENT) Bosses.replaceAll { bossId, spawn ->
                 if (BossType.valueOf(bossId)?.isRaid == false) return@replaceAll spawn
-                
+
                 (if (old === MYTHICAL_EVENT) (spawn * MYTHICAL_EVENT_MULTIPLIER_X1000) / 1000 else (spawn * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000)
             }
         }
@@ -203,7 +239,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         val currentSpawnTime = Bosses[type.id] ?: 0
 
         if ((spawnTime - currentSpawnTime).absoluteValue < 13000) return
-        
+
         if (UpdateNotify) NotifyWidget.showText(
             "Босс §6${type.displayName} §fобновлен",
             "Возрождение через §6${additionTime.asTextTime}"
@@ -234,7 +270,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
 
     fun message(text: String, type: BossType) =
         printHoveredCommandMessage(text, "§aНажмите, чтобы начать телепортацию", "/boss ${type.level}")
-    
+
     fun notify(type: BossType, vararg text: String) = NotifyWidget.showText(*text) { sendCommand("boss ${type.level}") }
 
 }

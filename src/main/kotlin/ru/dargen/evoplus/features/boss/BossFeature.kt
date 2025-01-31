@@ -1,11 +1,11 @@
 package ru.dargen.evoplus.features.boss
 
+import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.vigilant.FeatureCategory
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
@@ -46,15 +46,15 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
     var NotifyCapture = true
     var CurseMessage = false
     var BossLowHealthsMessage = false
-    var BossHealthsPercent = 50
+    var BossHealthsPercent = .5f
     var BossHealthsCooldown = 15
 
-    override fun FeatureCategory.setup() {
+    override fun CategoryBuilder.setup() {
         switch(::NotifyCapture, "Уведомление о захватах боссов", "Уведомляет о захвате боссов")
         switch(::CurseMessage, "Сообщение о проклятие босса", "Отправляет сообщение о проклятии босса в клановый чат")
         switch(::BossLowHealthsMessage, "Сообщение об проценте здоровья босса", "Отправляет сообщение о определённом проценте здоровья босса в клановый чат")
-        slider(::BossHealthsPercent, "Оповещать о здоровье босса", "Процент здоровья босса, при котором отправляется сообщение в клановый чат", min = 5, max = 100)
-        slider(::BossHealthsCooldown, "Оповещать о здоровье босса", "Частота отправки сообщения о здоровье босса в клановый чат (в секундах)", min = 5, max = 60)
+        percentSlider(::BossHealthsPercent, "Оповещать о здоровье босса", "Процент здоровья босса, при котором отправляется сообщение в клановый чат")
+        slider(::BossHealthsCooldown, "Оповещать о здоровье босса", "Частота отправки сообщения о здоровье босса в клановый чат (в секундах)", range = 5..60)
     }
 
     init {
@@ -88,7 +88,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
                 if (ClanWavePattern.containsMatchIn(text)) return@scheduleEvery
 
                 BossHealthsPattern.find(text)?.run {
-                    val percent = it.percent.toDouble() * 100.0
+                    val percent = it.percent
 
                     if (percent >= BossHealthsPercent) return@run
 
