@@ -45,7 +45,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Setting
     } childOf this
 
     private val searchBar by Searchbar().constrain {
-        x = 25.percent + SettingsGui.dividerWidth.pixels + 10.pixel
+        x = 25.percent + SettingsGui.dividerWidth.pixels + 13.pixel
         y = CenterConstraint()
         height = 17.pixels
     } childOf this
@@ -63,7 +63,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Setting
             height = 10.pixels
         }
     }.constrain {
-        x = 6.pixels(alignOpposite = true)
+        x = 13.pixels(alignOpposite = true)
         y = CenterConstraint()
         width = 17.pixels
         height = 17.pixels
