@@ -3,6 +3,7 @@ package ru.dargen.evoplus.features.dev
 import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.render.context.Overlay
@@ -47,6 +48,7 @@ object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
 
     override fun CategoryBuilder.setup() {
         selector(::NodeDebugMode, "Тип вывода компонентов")
+        button("Виджеты") { WidgetEditorScreen.open() }
     }
 
     init {
