@@ -13,6 +13,7 @@ import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.tick
+import ru.dargen.evoplus.scheduler.after
 
 object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
 
@@ -48,7 +49,7 @@ object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
 
     override fun CategoryBuilder.setup() {
         selector(::NodeDebugMode, "Тип вывода компонентов")
-        button("Виджеты") { WidgetEditorScreen.open() }
+        button("Виджеты") { after(1) {WidgetEditorScreen.open()} }
     }
 
     init {
