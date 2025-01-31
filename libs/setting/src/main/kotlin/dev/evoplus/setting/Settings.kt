@@ -1,6 +1,5 @@
 package dev.evoplus.setting
 
-import gg.essential.universal.UI18n
 import dev.evoplus.setting.gui.SettingsGui
 import dev.evoplus.setting.property.Category
 import dev.evoplus.setting.property.EmptyPropertyValue
@@ -14,8 +13,10 @@ import dev.evoplus.setting.property.attr.ColorPropertyAttr
 import dev.evoplus.setting.property.attr.DecimalPropertyAttr
 import dev.evoplus.setting.property.attr.FloatRange
 import dev.evoplus.setting.property.attr.NumberPropertyAttr
+import dev.evoplus.setting.property.attr.SelectorPropertyAttr
 import dev.evoplus.setting.property.attr.TextPropertyAttr
 import dev.evoplus.setting.property.data.CategoryData
+import gg.essential.universal.UI18n
 import java.awt.Color
 import java.nio.file.Path
 import kotlin.concurrent.fixedRateTimer
@@ -312,21 +313,33 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
             observeInit = observeInit, action = action
         )
 
-        fun selector(
-            field: KMutableProperty0<Int>,
-            name: String = field.name, description: String = "", id: String? = null,
-            options: List<String> = listOf(),
-            triggerActionOnInitialization: Boolean = true, hidden: Boolean = false,
-            action: ((Int) -> Unit)? = null,
-        ) {
-//            property(
-//                field, PropertyType.Selector,
-//                name, description, id = id,
-//                options = options,
-//                triggerActionOnInitialization = triggerActionOnInitialization, hidden = hidden,
-//                action = action
-//            )
-        }
+        fun <T> selector(
+            field: KMutableProperty0<T>,
+            name: String, description: String? = null, id: String? = null,
+            hidden: Boolean = false, subscribe: Boolean = false,
+            options: List<T> = listOf(), toString: (T) -> String = { it.toString() },
+            observeInit: Boolean = true, action: (T) -> Unit = {},
+        ) = property(
+            value = field, id = id,
+            name = name, description = description,
+            hidden = hidden, subscribe = subscribe,
+            type = PropertyType.Selector, attr = SelectorPropertyAttr(options, toString),
+            observeInit = observeInit, action = action
+        )
+
+        inline fun <reified E : Enum<E>> selector(
+            field: KMutableProperty0<E>,
+            name: String, description: String? = null, id: String? = null,
+            hidden: Boolean = false, subscribe: Boolean = false,
+            noinline toString: (E) -> String = { it.toString() },
+            observeInit: Boolean = true, noinline action: (E) -> Unit = {},
+        ) = selector(
+            field = field,
+            name = name, description = description, id = id,
+            subscribe = subscribe, hidden = hidden,
+            options = enumValues<E>().toList(), toString = toString,
+            observeInit = observeInit, action = action
+        )
 
         fun button(
             name: String, description: String? = null, id: String? = null,

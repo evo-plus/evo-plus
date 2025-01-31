@@ -9,7 +9,6 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.settings.enumSelector
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidget
 import ru.dargen.evoplus.features.fishing.widget.FishingValueWidgetVisibleMode
 import ru.dargen.evoplus.features.fishing.widget.FishingWidgetVisibleMode
@@ -66,11 +65,11 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
         slider(::AutoHookDelay, "Автоматическая удочка", "Автоматически подбирает удочку (тик = 50 мс)", range = -1..40)
 
         subcategory("widget", "Настройки виджетов") {
-            enumSelector(::QuestsProgressVisibleMode, "Отображение квестов", "Отображает виджет квестов рыбалки при определённых условиях")
-            enumSelector(::QuestsProgressMode, "Отображаемый тип квестов", "Отображает задания рыбалки при определённых условиях")
-            enumSelector(::QuestsProgressDescriptionMode, "Отображение описания квестов", "Отображает описание заданий рыбалки при определённых условиях")
-            enumSelector(::NibblesVisibleMode, "Клёв на территориях", "Отображает виджет процента клёва на локациях при определённых условиях")
-            enumSelector(::ValueVisibleMode, "Отображение опыта и калорийности рыбы", "Отображает виджеты количества опыта и калорийности рыбы")
+            selector(::QuestsProgressVisibleMode, "Отображение квестов", "Отображает виджет квестов рыбалки при определённых условиях")
+            selector(::QuestsProgressMode, "Отображаемый тип квестов", "Отображает задания рыбалки при определённых условиях")
+            selector(::QuestsProgressDescriptionMode, "Отображение описания квестов", "Отображает описание заданий рыбалки при определённых условиях")
+            selector(::NibblesVisibleMode, "Клёв на территориях", "Отображает виджет процента клёва на локациях при определённых условиях")
+            selector(::ValueVisibleMode, "Отображение опыта и калорийности рыбы", "Отображает виджеты количества опыта и калорийности рыбы")
         }
     }
 

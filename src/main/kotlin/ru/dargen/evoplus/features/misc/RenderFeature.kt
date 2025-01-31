@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.misc
 import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.settings.enumSelector
 import ru.dargen.evoplus.features.misc.render.HealthBars
 
 object RenderFeature : Feature("render", "Визуализация", Items.REDSTONE) {
@@ -29,7 +28,7 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
 
     override fun CategoryBuilder.setup() {
         switch(::FullBright, "Полная яркость", "Максимальная яркость освещения")
-        enumSelector(::HealthRender, "Режим отображения здоровья", "Выбор способа отображения здоровья")
+        selector(::HealthRender, "Режим отображения здоровья", "Выбор способа отображения здоровья")
 
         switch(::HighlightAvailableItems, "Подсветка доступных предметов", "Показывает подсветку доступных предметов")
 

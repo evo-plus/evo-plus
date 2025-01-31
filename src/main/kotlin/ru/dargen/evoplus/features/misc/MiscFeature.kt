@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
-    
+
     val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = NotifyWidget)
 
     var FastSelector = true
@@ -43,14 +43,28 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
     override fun CategoryBuilder.setup() {
         subcategory("selector", "Fast-селектор") {
-            switch(::FastSelector, "Fast-селектор", "Включение/отключение открытия Fast-селектора по нажатию на клавишу")
-            button("Настройка Fast-селектора", "Настройка предметов, которые будут отображаться в Fast-селекторе", "Настроить") { FastSelectorScreen.open(true) }
+            switch(
+                ::FastSelector,
+                "Fast-селектор",
+                "Включение/отключение открытия Fast-селектора по нажатию на клавишу"
+            )
+            button(
+                "Настройка Fast-селектора",
+                "Настройка предметов, которые будут отображаться в Fast-селекторе",
+                text = "Настроить"
+            ) { FastSelectorScreen.open(true) }
         }
 
         subcategory("auto", "Автоматические функции") {
-            switch(::AutoSprint, "Авто-спринт", "Включение автоматического спринта") { if (!it) Player?.isSprinting = false }
+            switch(::AutoSprint, "Авто-спринт", "Включение автоматического спринта") {
+                if (!it) Player?.isSprinting = false
+            }
             switch(::AutoThanks, "Авто /thx", "Включение автоматического выполнения команды /thx")
-            switch(::ResourcePackLoadDisable, "Авто-загрузка РП DiamondWorld", "Отключение автоматической загрузки ресурс-пака DiamondWorld")
+            switch(
+                ::ResourcePackLoadDisable,
+                "Авто-загрузка РП DiamondWorld",
+                "Отключение автоматической загрузки ресурс-пака DiamondWorld"
+            )
         }
 
         subcategory("notify", "Уведомления") {

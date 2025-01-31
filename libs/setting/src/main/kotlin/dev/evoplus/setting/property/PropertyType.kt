@@ -15,6 +15,7 @@ import dev.evoplus.setting.property.attr.ButtonPropertyAttr
 import dev.evoplus.setting.property.attr.ColorPropertyAttr
 import dev.evoplus.setting.property.attr.DecimalPropertyAttr
 import dev.evoplus.setting.property.attr.NumberPropertyAttr
+import dev.evoplus.setting.property.attr.SelectorPropertyAttr
 import dev.evoplus.setting.property.attr.TextPropertyAttr
 
 abstract class PropertyType<A>(val type: Class<*>) {
@@ -73,11 +74,12 @@ abstract class PropertyType<A>(val type: Class<*>) {
         }
     }
 
-//    data object Selector : PropertyType(Int::class.java) {
-//        override fun createComponent(data: Property): SettingComponent {
-//            return SelectorComponent(data.getValue(), data.attributesExt.options.toList())
-//        }
-//    }
+    data object Selector : PropertyType<SelectorPropertyAttr<*>>(Int::class.java) {
+        override fun createComponent(value: PropertyValue, attr: SelectorPropertyAttr<*>): SettingComponent {
+            @Suppress("UNCHECKED_CAST")
+            return SelectorComponent((attr as SelectorPropertyAttr<Any>).indexOf(value.getAs()), attr)
+        }
+    }
 
     data object Button : PropertyType<ButtonPropertyAttr>(Nothing::class.java) {
         override fun createComponent(value: PropertyValue, attr: ButtonPropertyAttr): SettingComponent {

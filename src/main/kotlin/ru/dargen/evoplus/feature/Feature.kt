@@ -4,14 +4,13 @@ import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import ru.dargen.evoplus.FeaturesSettings
 import ru.dargen.evoplus.feature.screen.FeatureElement
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
 import ru.dargen.evoplus.feature.setting.group.SettingGroup
-import ru.dargen.evoplus.feature.settings.FeaturesSettings
 import ru.dargen.evoplus.feature.widget.WidgetGroup
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.minecraft.itemStack
-import ru.dargen.evoplus.util.minecraft.printMessage
 
 
 @KotlinOpens
@@ -25,18 +24,10 @@ abstract class Feature(
     val settings: SettingGroup = SettingGroup(id, name)
     val widgets = WidgetGroup().apply(settings.value::add)
 
-    protected /*abstract*/ fun CategoryBuilder.setup() {}
+    protected fun CategoryBuilder.setup() {}
 
     final fun setupInternal(category: CategoryBuilder?) {
-        category?.subcategory(id, name) {
-            setup()
-        } ?: FeaturesSettings.category(id, name) {
-            setup()
-            //TODO: remove after migration
-            button("Test") {
-                printMessage("Feature called $name")
-            }
-        }
+        category?.subcategory(id, name) { setup() } ?: FeaturesSettings.category(id, name) { setup() }
     }
 
     final inline fun <reified T> config(name: String = id, value: T) = Features.config(name, value)

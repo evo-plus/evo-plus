@@ -53,8 +53,8 @@ object ShareFeature : Feature("share", "Поделиться", Items.SCULK_SENSO
         encoder: (nick: String?) -> String,
         decoder: (nick: String, data: String) -> Unit,
     ) {
-        shares[id] = ShareSetting(id, name, encoder, decoder)
-        settings.setting(ShareSetting(id, name, encoder, decoder))
+//        shares[id] = ShareSetting(id, name, encoder, decoder)
+//        settings.setting(ShareSetting(id, name, encoder, decoder))
     }
 
 }

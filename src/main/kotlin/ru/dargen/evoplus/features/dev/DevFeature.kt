@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.dev
 import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.settings.enumSelector
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.render.context.Overlay
@@ -47,7 +46,7 @@ object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
     var NodeDebugMode = NodeDebugModeType.TOTAL
 
     override fun CategoryBuilder.setup() {
-        enumSelector(::NodeDebugMode, "Тип вывода компонентов")
+        selector(::NodeDebugMode, "Тип вывода компонентов")
     }
 
     init {

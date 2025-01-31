@@ -1,5 +1,11 @@
 package dev.evoplus.setting.gui
 
+import dev.evoplus.setting.Settings
+import dev.evoplus.setting.gui.common.IconButton
+import dev.evoplus.setting.gui.settings.*
+import dev.evoplus.setting.property.data.CategoryData
+import dev.evoplus.setting.utils.onLeftClick
+import dev.evoplus.setting.utils.scrollGradient
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.WindowScreen
@@ -13,14 +19,10 @@ import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.ScissorEffect
+import gg.essential.elementa.state.toConstraint
+import gg.essential.elementa.utils.withAlpha
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
-import dev.evoplus.setting.Settings
-import dev.evoplus.setting.property.data.CategoryData
-import dev.evoplus.setting.gui.common.IconButton
-import dev.evoplus.setting.gui.settings.*
-import dev.evoplus.setting.utils.onLeftClick
-import dev.evoplus.setting.utils.scrollGradient
 
 class SettingsGui(private val config: Settings) : WindowScreen(
     version = ElementaVersion.V2,
@@ -35,6 +37,7 @@ class SettingsGui(private val config: Settings) : WindowScreen(
 
     private val container by UIContainer().constrain {
         x = CenterConstraint()
+        color = SettingPalette.mainBackground.map { it.withAlpha(1f) }.toConstraint()
         y = CenterConstraint()
         width = 85.percent
         height = 75.percent

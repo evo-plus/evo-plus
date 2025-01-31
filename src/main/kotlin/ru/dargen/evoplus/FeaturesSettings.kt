@@ -1,8 +1,7 @@
-package ru.dargen.evoplus.feature.settings
+package ru.dargen.evoplus
 
 import gg.essential.universal.UScreen
 import dev.evoplus.setting.Settings
-import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.scheduler.after
 import kotlin.io.path.Path
 
