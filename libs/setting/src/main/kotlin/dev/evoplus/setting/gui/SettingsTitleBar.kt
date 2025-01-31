@@ -1,5 +1,9 @@
 package dev.evoplus.setting.gui
 
+import dev.evoplus.setting.Settings
+import dev.evoplus.setting.gui.common.IconButton
+import dev.evoplus.setting.utils.onLeftClick
+import dev.evoplus.setting.utils.state
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIText
@@ -7,7 +11,6 @@ import gg.essential.elementa.components.Window
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
-import dev.evoplus.setting.Settings
 
 class SettingsTitleBar(private val gui: SettingsGui, private val config: Settings, window: Window) :
     UIContainer() {
@@ -47,6 +50,25 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Setting
         height = 17.pixels
     } childOf this
 
+    private val subscribeOnly by IconButton(
+        SettingPalette.SUBSCRIBE.state(),
+        tooltipText = "Функционал от подписки".state(),
+        enabled = config.guiPreferences.subscribe.state(),
+        buttonText = "".state(),
+        iconShadow = true.state(),
+        textShadow = true.state()
+    ).apply {
+        icon.constrain {
+            width = 10.pixels
+            height = 10.pixels
+        }
+    }.constrain {
+        x = 6.pixels(alignOpposite = true)
+        y = CenterConstraint()
+        width = 17.pixels
+        height = 17.pixels
+    } childOf this
+
     init {
         constrain {
             width = 100.percent
@@ -55,6 +77,12 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Setting
 
         searchBar.textContent.onSetValue {
             gui.selectCategory(config.searchProperties(it))
+        }
+        subscribeOnly.onLeftClick {
+            this as IconButton
+            config.guiPreferences.subscribe = !config.guiPreferences.subscribe
+            rebindEnabled(config.guiPreferences.subscribe.state())
+            gui.update()
         }
     }
 }

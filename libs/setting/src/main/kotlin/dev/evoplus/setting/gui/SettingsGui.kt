@@ -19,7 +19,6 @@ import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.ScissorEffect
-import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.utils.withAlpha
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
@@ -35,9 +34,8 @@ class SettingsGui(private val config: Settings) : WindowScreen(
         height = 100.percent
     } childOf window
 
-    private val container by UIContainer().constrain {
+    private val container by UIBlock(SettingPalette.mainBackground.map { it.withAlpha(1f) }).constrain {
         x = CenterConstraint()
-        color = SettingPalette.mainBackground.map { it.withAlpha(1f) }.toConstraint()
         y = CenterConstraint()
         width = 85.percent
         height = 75.percent
@@ -91,7 +89,7 @@ class SettingsGui(private val config: Settings) : WindowScreen(
         x = SiblingConstraint() boundTo middleDivider
         width = FillConstraint(useSiblings = false)
         height = 100.percent
-    } effect(ScissorEffect()) childOf bottomContainer
+    } effect (ScissorEffect()) childOf bottomContainer
 
     private val bottomDivider by UIBlock(SettingPalette.dividerDark).constrain {
         y = SiblingConstraint()
@@ -116,25 +114,18 @@ class SettingsGui(private val config: Settings) : WindowScreen(
         height = AspectConstraint()
     } childOf window
 
-    private val categories = config.getCategories()
-    private var currentCategory = SettingsCategory(categories.first()) childOf content
+    private lateinit var categories: Map<String, CategoryData>
+    private lateinit var currentCategory: SettingsCategory
 
     init {
         backButton.onActiveClick { restorePreviousScreen() }
 
-        window.onLeftClick {
-            currentCategory.closePopups()
-        }
+        window.onLeftClick { currentCategory.closePopups() }
 
         sidebarScroller.setVerticalScrollBarComponent(sidebarVerticalScrollbar, true)
         sidebarScroller.setHorizontalScrollBarComponent(sidebarHorizontalScrollbar, true)
 
-        categories.forEach { category ->
-            val label = CategoryLabel(this, category)
-            label childOf sidebarScroller
-        }
-
-        sidebarScroller.childrenOfType<CategoryLabel>().firstOrNull()?.select()
+        update()
 
         fun UIComponent.click(): Unit =
             mouseClick(getLeft() + (getRight() - getLeft()) / 2.0, getTop() + (getBottom() - getTop()) / 2.0, 0)
@@ -157,16 +148,19 @@ class SettingsGui(private val config: Settings) : WindowScreen(
                     } else if (keyCode == UKeyboard.KEY_RIGHT) {
                         child.component.incrementBy(.05f)
                     }
+
                     is NumberComponent -> if (keyCode == UKeyboard.KEY_UP) {
                         child.component.increment()
                     } else if (keyCode == UKeyboard.KEY_DOWN) {
                         child.component.decrement()
                     }
+
                     is SwitchComponent -> when (keyCode) {
                         UKeyboard.KEY_LEFT -> if (child.component.enabled.get()) child.component.click()
                         UKeyboard.KEY_RIGHT -> if (!child.component.enabled.get()) child.component.click()
                         UKeyboard.KEY_ENTER -> child.component.click()
                     }
+
                     is CheckboxComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.click()
                     is ButtonComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.click()
                     is SelectorComponent -> if (keyCode == UKeyboard.KEY_UP) {
@@ -180,6 +174,26 @@ class SettingsGui(private val config: Settings) : WindowScreen(
         }
     }
 
+    fun update() {
+        if (::currentCategory.isInitialized) {
+            content.removeChild(currentCategory)
+        }
+
+        categories = config.getCategoriesData()
+        currentCategory = SettingsCategory(categories.getOrElse(config.guiPreferences.selected) {
+            categories.values.firstOrNull() ?: CategoryData.Empty
+        }) childOf content
+
+        sidebarScroller.clearChildren()
+        categories.values.forEach { category ->
+            val label = CategoryLabel(this, category)
+            label childOf sidebarScroller
+            if (currentCategory.category === category) {
+                label.select()
+            }
+        }
+    }
+
     fun selectCategory(category: CategoryData) {
         val newCategory = SettingsCategory(category) childOf content
 
@@ -188,7 +202,9 @@ class SettingsGui(private val config: Settings) : WindowScreen(
         newCategory.unhide()
         newCategory.scrollToTop()
         currentCategory = newCategory
-
+        categories.filter { it.value === category }
+            .keys.firstOrNull()
+            ?.let { config.guiPreferences.selected = it }
         sidebarScroller.childrenOfType<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
     }
 
@@ -198,7 +214,6 @@ class SettingsGui(private val config: Settings) : WindowScreen(
     }
 
     companion object {
-        const val animTime = .5f
         internal const val dividerWidth = 3f
     }
 }

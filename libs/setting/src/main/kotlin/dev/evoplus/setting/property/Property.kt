@@ -4,12 +4,14 @@ import dev.evoplus.setting.Settings
 import dev.evoplus.setting.property.data.PropertyItem
 import kotlin.reflect.KMutableProperty0
 
+fun <P : Property<*>> P.subscribe() = apply { meta.subscribe = true }
+
 data class Property<A>(
     val id: String, val type: PropertyType<A>,
     val meta: PropertyMeta, val attr: A,
     val value: PropertyValue,
 
-    val observer: (Any?) -> Unit, val observeInit: Boolean =  false,
+    val observer: (Any?) -> Unit, val observeInit: Boolean = false,
 
     private val instance: Settings,
 ) {

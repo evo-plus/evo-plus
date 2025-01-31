@@ -4,9 +4,13 @@ import dev.evoplus.setting.gui.*
 import dev.evoplus.setting.property.Property
 import dev.evoplus.setting.property.PropertyMeta
 
-class CategoryData(val meta: PropertyMeta, val items: List<CategoryItem>) {
+open class CategoryData(val meta: PropertyMeta, val items: List<CategoryItem>) {
+
+    val isNotEmpty get() = items.filter { it !is DividerItem }.isNotEmpty()
 
     override fun toString() = "Category \"${meta.name}\"\n ${items.joinToString(separator = "\n") { "\t$it" }}"
+
+    data object Empty : CategoryData(PropertyMeta("", ""), emptyList())
 
 }
 

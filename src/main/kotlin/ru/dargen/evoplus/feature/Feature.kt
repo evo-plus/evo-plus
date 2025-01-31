@@ -4,7 +4,6 @@ import dev.evoplus.setting.Settings.CategoryBuilder
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import ru.dargen.evoplus.FeaturesSettings
 import ru.dargen.evoplus.feature.screen.FeatureElement
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
 import ru.dargen.evoplus.feature.setting.group.SettingGroup

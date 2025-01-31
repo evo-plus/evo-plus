@@ -1,18 +1,21 @@
 package dev.evoplus.setting.gui
 
-import gg.essential.elementa.components.SVGComponent
+import dev.evoplus.setting.gui.common.EssentialTooltip
+import dev.evoplus.setting.gui.elementa.GuiScaleOffsetConstraint
+import dev.evoplus.setting.gui.settings.SettingComponent
+import dev.evoplus.setting.property.Property
+import dev.evoplus.setting.utils.hoveredState
+import dev.evoplus.setting.utils.state
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIWrappedText
+import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
-import dev.evoplus.setting.gui.elementa.GuiScaleOffsetConstraint
-import dev.evoplus.setting.gui.settings.SettingComponent
-import dev.evoplus.setting.property.Property
 
 class DataBackedSetting(
     internal val data: Property<*>,
@@ -41,9 +44,18 @@ class DataBackedSetting(
 
 
     init {
-        SVGComponent.ofResource("/assets/evo-plus/textures/gui/settings/x.svg").constrain {
-//            x = SiblingConstraint(5f)
-        } childOf textBoundingBox
+        if (data.meta.subscribe) {
+            val icon = SettingPalette.SUBSCRIBE.create().constrain {
+                y = 3.pixels()
+                x = 3.pixels(alignOpposite = true)
+                width = 10.pixel
+                height = 10.pixel
+            } childOf boundingBox
+            EssentialTooltip(this, belowComponent = true).constrain {
+                x = CenterConstraint() boundTo icon
+                y = SiblingConstraint(5f) boundTo icon
+            }.bindVisibility(icon.hoveredState()).bindLine("Требуется подписка".state())
+        }
         UIWrappedText(
             data.meta.localizedName,
             shadowColor = SettingPalette.getTextShadowLight()

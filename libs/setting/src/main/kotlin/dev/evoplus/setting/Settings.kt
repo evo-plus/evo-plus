@@ -1,6 +1,7 @@
 package dev.evoplus.setting
 
 import dev.evoplus.setting.gui.SettingsGui
+import dev.evoplus.setting.gui.SettingsGuiPreferences
 import dev.evoplus.setting.property.Category
 import dev.evoplus.setting.property.EmptyPropertyValue
 import dev.evoplus.setting.property.KPropertyBackedPropertyValue
@@ -27,6 +28,8 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
 
     val localizedName get() = UI18n.i18n(name)
 
+    internal val guiPreferences = SettingsGuiPreferences()
+
     protected val categories = mutableMapOf<String, Category>()
     protected val enabledCategories get() = categories.filterNot { it.value.meta.hidden }
 
@@ -34,6 +37,7 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
 
     fun initialize() {
         loadData()
+        guiPreferences.selected = enabledCategories.keys.first()
     }
 
     fun loadData() {
@@ -51,16 +55,15 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
     }
 
     fun gui() = SettingsGui(this)
-
-    fun getCategories(): List<CategoryData> {
-        return enabledCategories.values.map(Category::createData).sortedBy { it.meta.name }
-    }
+    fun getCategoriesData() = enabledCategories
+        .mapValues { it.value.createData(guiPreferences.subscribe) }
+        .filter { it.value.isNotEmpty }
 
     fun searchCategories(term: String) = enabledCategories.values.filter { it.meta.search(term) }
 
     fun searchProperties(term: String) = CategoryData(
         PropertyMeta(""), enabledCategories.values.flatMap {
-            it.searchProperties(term).run {
+            it.searchProperties(term).filter { guiPreferences.subscribe || !it.meta.subscribe }.run {
                 if (isEmpty()) emptyList()
                 else listOf(it.createDividerItem()) + map(Property<*>::createItem)
             }
@@ -164,10 +167,10 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
             id: String?, meta: PropertyMeta,
             type: PropertyType<A>, attr: A,
             observeInit: Boolean = true, action: (T) -> Unit = {},
-        ) {
+        ): Property<A> {
             val id = id ?: value.id
-            val property = Property(id, type, meta, attr, value, { action(it as T) }, observeInit, this@Settings)
-            properties.add(property)
+            return Property(id, type, meta, attr, value, { action(it as T) }, observeInit, this@Settings)
+                .apply(properties::add)
         }
 
         fun <T, A> property(
@@ -244,7 +247,7 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
             observeInit = observeInit, action = action
         )
 
-        fun percentSlider(
+        fun percent(
             field: KMutableProperty0<Float>,
             name: String, description: String? = null, id: String? = null,
             hidden: Boolean = false, subscribe: Boolean = false,
@@ -285,7 +288,7 @@ abstract class Settings(val file: Path, val name: String = "Settings") {
             observeInit = observeInit, action = action
         )
 
-        fun decimalSlider(
+        fun decimal(
             field: KMutableProperty0<Float>,
             name: String, description: String? = null, id: String? = null,
             hidden: Boolean = false, subscribe: Boolean = false,

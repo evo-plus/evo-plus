@@ -1,5 +1,11 @@
 package dev.evoplus.setting.gui.common
 
+import dev.evoplus.setting.gui.SettingPalette
+import dev.evoplus.setting.gui.common.shadow.ShadowIcon
+import dev.evoplus.setting.utils.*
+import dev.evoplus.setting.utils.ImageFactory
+import dev.evoplus.setting.utils.and
+import dev.evoplus.setting.utils.hoveredState
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.CenterConstraint
@@ -11,12 +17,6 @@ import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
-import dev.evoplus.setting.gui.SettingPalette
-import dev.evoplus.setting.gui.common.shadow.ShadowIcon
-import dev.evoplus.setting.utils.*
-import dev.evoplus.setting.utils.ImageFactory
-import dev.evoplus.setting.utils.and
-import dev.evoplus.setting.utils.hoveredState
 import java.awt.Color
 
 internal class IconButton (
@@ -53,7 +53,7 @@ internal class IconButton (
 
     private val hovered = hoveredState()
 
-    private val icon by ShadowIcon(iconState, iconShadowState).constrain {
+    val icon by ShadowIcon(iconState, iconShadowState).constrain {
         //x constraint set in init
         y = CenterConstraint()
     }.rebindPrimaryColor(SettingPalette.getTextColor(hovered, enabledState)) childOf this

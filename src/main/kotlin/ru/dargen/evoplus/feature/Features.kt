@@ -5,7 +5,6 @@ import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.event.game.MinecraftLoadedEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.config.FeatureConfig
-import ru.dargen.evoplus.FeaturesSettings
 import ru.dargen.evoplus.features.alchemy.AlchemyFeature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature

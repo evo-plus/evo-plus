@@ -47,7 +47,7 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
 
         subcategory("health-bar", "Полоска здоровья") {
             switch(::HealthBarsRender, "Отображать полоску здоровья игроков", "Показывает полоску здоровья над игроками", action = HealthBars::updateRender)
-            decimalSlider(::HealthBarsY, "Сдвиг полоски здоровья игроков", "Регулировка высоты полоски здоровья", range = 0f..5f)
+            decimal(::HealthBarsY, "Сдвиг полоски здоровья игроков", "Регулировка высоты полоски здоровья", range = 0f..5f)
             switch(::HealthCountRender, "Отображать единицы здоровья игроков", "Показывает числовое значение здоровья")
         }
     }

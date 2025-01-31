@@ -7,7 +7,7 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.toConstraint
 
-class SettingsCategory(category: CategoryData) : UIContainer() {
+class SettingsCategory(val category: CategoryData) : UIContainer() {
 
     internal val scroller by ScrollComponent(
         "Настройки не найдены ;(",
@@ -43,7 +43,6 @@ class SettingsCategory(category: CategoryData) : UIContainer() {
         }
 
         val categoryItemsSettingsObjects: ArrayList<DataBackedSetting> = ArrayList()
-        val dividerItemsSettingsObjects: ArrayList<Divider> = ArrayList()
 
         category.items.forEach {
             val settingsObject = it.toSettingsObject()
@@ -54,36 +53,15 @@ class SettingsCategory(category: CategoryData) : UIContainer() {
                     if (settingsObject.data.isHidden()) {
                         settingsObject.hide(true)
                     }
-                } else if (settingsObject is Divider) {
-                    var flag = false
-                    var flag2 = false
-                    for (item in category.items) {
-//                        if (item is PropertyItem && item.subcategory == settingsObject.name) {
-//                            if (!item.data.isHidden()) {
-//                                flag2 = true
-//                                break
-//                            }
-//                        }
-                    }
-                    if (flag) {
-                        dividerItemsSettingsObjects.add(settingsObject)
-                        if (!flag2) {
-                            settingsObject.hide(true)
-                            settingsObject.hidden = true
-                        }
-                    }
                 }
             }
         }
 
         scroller.setVerticalScrollBarComponent(scrollBar, true)
 
-        scroller.onMouseScroll {
-            closePopups()
-        }
+        scroller.onMouseScroll { closePopups() }
     }
 
-    @JvmOverloads
     fun closePopups(instantly: Boolean = false) {
         scroller.childrenOfType<Setting>().forEach {
             it.closePopups(instantly)
