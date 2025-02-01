@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.staff
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.staff.StaffTimers
 import ru.dargen.evoplus.feature.Feature
@@ -27,7 +27,7 @@ object StaffFeature : Feature("staff", "Посохи", customItem(Items.WOODEN_H
         switch(::ReadyMessage, "Сообщение", "Отправляет сообщение в чат когда посох готов")
     }
 
-    init {
+    override fun initialize() {
         listen<StaffTimers> {
             it.timers
                 .filterValues { it > 2000 }

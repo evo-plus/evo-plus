@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.esp
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.item.Items
@@ -47,7 +47,7 @@ object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
         }
     }
 
-    init {
+    override fun initialize() {
         on<ChunkLoadEvent> {
             //TODO: make more better than async
             async {

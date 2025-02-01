@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.clan
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.entity.decoration.DisplayEntity.ItemDisplayEntity
 import net.minecraft.item.Items
@@ -85,7 +85,7 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
         switch(::RaidClanMessage, "Сообщение о начатом рейде в клан чат с указанием шахты", "Показывает сообщение о начатом рейде в клан чат с указанием шахты")
     }
 
-    init {
+    override fun initialize() {
         scheduleEvery(period = 10) {
             if (!WormsWidget.enabled) return@scheduleEvery
 

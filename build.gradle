@@ -40,7 +40,7 @@ dependencies {
     include(implementation("com.github.asyncdargen.crowbar:crowbar-core:${project.crowbar_version}"))
 
     // Essential UI
-    include(implementation(project(':libs:setting')))
+    include(implementation(project(':features')))
     include(implementation("gg.essential:elementa:${project.elementa_version}"))
     include(modImplementation("gg.essential:universalcraft-${project.universalcraft_version}"))
 

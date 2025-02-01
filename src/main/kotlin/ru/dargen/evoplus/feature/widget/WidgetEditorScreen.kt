@@ -147,7 +147,7 @@ object WidgetEditorScreen {
         mode = Mode.CREATE
         this@selector.removeChildren(base)
 
-        Features.List.flatMap {
+        Features.Features.flatMap {
             it.widgets.settings
                 .filterIsInstance<Widget>()
                 .filter { !it.enabled }

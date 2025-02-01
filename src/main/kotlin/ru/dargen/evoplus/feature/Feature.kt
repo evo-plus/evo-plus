@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.feature
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -24,6 +24,10 @@ abstract class Feature(
     val widgets = WidgetGroup().apply(settings.value::add)
 
     protected fun CategoryBuilder.setup() {}
+
+    fun preInitialize() {}
+
+    fun initialize() {}
 
     final fun setupInternal(category: CategoryBuilder?) {
         category?.subcategory(id, name) { setup() } ?: FeaturesSettings.category(id, name) { setup() }

@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.boss
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
@@ -57,7 +57,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
         slider(::BossHealthsCooldown, "Оповещать о здоровье босса", "Частота отправки сообщения о здоровье босса в клановый чат (в секундах)", range = 5..60)
     }
 
-    init {
+    override fun initialize() {
 
         listen<BossDamage> {
             val type = BossType.valueOf(it.id) ?: return@listen

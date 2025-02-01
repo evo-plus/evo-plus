@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.misc
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.game.GameEvent
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
@@ -76,7 +76,7 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
         switch(::ShowServerInTab, "Текущий сервер", "Показывать текущий сервер и зеркало в табе")
     }
 
-    init {
+    override fun initialize() {
         Keybinds.FastSelector.on { if (CurrentScreen == null && FastSelector) FastSelectorScreen.open() }
 
         on<PostTickEvent> { Player?.apply { if (AutoSprint && forwardSpeed > 0) isSprinting = true } }

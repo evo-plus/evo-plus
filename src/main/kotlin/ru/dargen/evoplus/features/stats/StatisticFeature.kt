@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.stats
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
@@ -87,7 +87,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
         button("Сбросить счетчик блоков") { BlocksCount = economic.blocks }
     }
 
-    init {
+    override fun initialize() {
         scheduleEvery(unit = TimeUnit.SECONDS) {
             PetInfoWidget.update()
             ComboWidget.update(combo)

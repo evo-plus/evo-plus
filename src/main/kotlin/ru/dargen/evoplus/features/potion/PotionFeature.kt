@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.potion
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
 import ru.dargen.evoplus.feature.Feature
@@ -36,7 +36,7 @@ object PotionFeature : Feature("potion", "Зелья", customItem(Items.POTION, 
         switch(::EnabledPotionsInTab, "Отображение в табе", "Показывать информацию о зельях в табе")
     }
 
-    init {
+    override fun initialize() {
         listen<PotionData> { potionData ->
             PotionTimers.putAll(potionData.data
                 .filterValues { it.remained > 0 && it.quality > 0 }

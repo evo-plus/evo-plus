@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.rune
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
@@ -58,7 +58,7 @@ object RuneFeature : Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
         }
     }
 
-    init {
+    override fun initialize() {
         scheduleEvery(period = 2) {
             updateAbilities()
 

@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.alchemy
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.item.Items
 import net.minecraft.sound.SoundEvents
@@ -51,7 +51,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
         switch(::SoundAlert, "Звук оповещения", "Проигрывать звук при оповещении")
     }
 
-    init {
+    override fun initialize() {
         AlchemyIngredientHighlight
         on<InventoryClickEvent> {
 //            if (!RecipeWidget.enabled || button != 1) return@on

@@ -1,0 +1,11 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    compileOnly "gg.essential:elementa:${project.elementa_version}"
+    compileOnly 'gg.essential:universalcraft-standalone:355'
+    compileOnly 'com.google.code.gson:gson:2.10'
+
+    testImplementation 'com.google.code.gson:gson:2.10'
+    testImplementation "gg.essential:elementa:${project.elementa_version}"
+    testImplementation 'gg.essential:universalcraft-standalone:355'
+}

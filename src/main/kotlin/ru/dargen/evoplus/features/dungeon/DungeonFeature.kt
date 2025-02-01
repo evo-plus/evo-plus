@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.dungeon
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.world.WorldMapEvent
@@ -18,7 +18,7 @@ object DungeonFeature : Feature("dungeon", "Данжи", customItem(Items.PAPER,
             "Подсвечивает разрушаемые декорации в данже")
     }
 
-    init {
+    override fun initialize() {
         DungeonDecorationHighlight
         on<WorldMapEvent> {
             if (PlayerDataCollector.location.isDungeon) {

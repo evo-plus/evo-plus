@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.clan
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
@@ -29,7 +29,7 @@ object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
         switch(::InlineMenuClanScores, "Отображение К.О. для захвата босса в меню", "Отображает базовое К.О. для захвата босса в меню")
     }
 
-    init {
+    override fun initialize() {
 //        listen<ClanInfo> { ClanHolder.accept(it.data) }
 
         on<ChatReceiveEvent> {

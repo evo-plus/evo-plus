@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.fishing
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import net.minecraft.util.Hand
 import pro.diamondworld.protocol.packet.fishing.SpotNibbles
@@ -73,7 +73,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
         }
     }
 
-    init {
+    override fun initialize() {
         FishingQuestWidget.update(FishingQuestWidget.takePreviewQuests())
         FishingSpotsHighlight
 

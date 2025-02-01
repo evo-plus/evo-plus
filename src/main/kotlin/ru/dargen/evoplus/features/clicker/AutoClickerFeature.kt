@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.features.clicker
 
-import dev.evoplus.setting.Settings.CategoryBuilder
-import dev.evoplus.setting.property.subscribe
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.subscribe
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
@@ -34,7 +34,7 @@ object AutoClickerFeature : Feature("clicker", "Кликер", icon = Items.WOOD
         slider(::CPS, "КПС", "Определённое значение кликов в секунду", range = 1..20).subscribe()
     }
 
-    init {
+    override fun initialize() {
         Keybinds.AutoClicker.on {
             if (!BindEnabled || Mode !== ClickerMode.CLICK) return@on
             enabled = !enabled

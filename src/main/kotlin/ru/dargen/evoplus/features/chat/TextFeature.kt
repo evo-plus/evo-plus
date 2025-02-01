@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.chat
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.chat.ChatSendEvent
@@ -39,7 +39,7 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
         switch(::EmojiMenu, "Меню эмоджи", "Отображать список эмоджи в чате")
     }
 
-    init {
+    override fun initialize() {
         Emojis
 
         on<ChatReceiveEvent> {

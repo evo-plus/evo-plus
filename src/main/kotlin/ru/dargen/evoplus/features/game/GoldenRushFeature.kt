@@ -1,11 +1,11 @@
 package ru.dargen.evoplus.features.game
 
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.entity.Entity
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
-import dev.evoplus.setting.Settings.CategoryBuilder
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.render.node.box.hbox
 import ru.dargen.evoplus.render.node.item
@@ -70,7 +70,7 @@ object GoldenRushFeature : Feature("golden-rush", "Золотой Кристал
             "Подсвечивать золотой кристалл") { GoldenCrystalEntity?.isGlowing = it }
     }
 
-    init {
+    override fun initialize() {
         scheduleEvery(period = 10) {
             WorldEntities
                 .filterIsInstance<ArmorStandEntity>()

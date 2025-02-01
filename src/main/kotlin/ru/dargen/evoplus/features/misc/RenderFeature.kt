@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.misc
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.render.HealthBars
@@ -52,7 +52,7 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
         }
     }
 
-    init {
+    override fun initialize() {
         HealthBars
     }
 

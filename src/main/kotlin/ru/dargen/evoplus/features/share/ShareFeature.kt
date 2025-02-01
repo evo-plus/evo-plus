@@ -17,7 +17,7 @@ object ShareFeature : Feature("share", "Поделиться", Items.SCULK_SENSO
 
     val shares = mutableMapOf<String, ShareSetting>()
 
-    init {
+    override fun initialize() {
         on<ChatReceiveEvent> {
             val text = text.uncolored()
 

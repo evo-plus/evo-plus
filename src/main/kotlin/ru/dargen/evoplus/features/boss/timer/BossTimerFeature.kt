@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.boss.timer
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossTimers
@@ -142,7 +142,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         button("Сбросить таймеры", text = "Сбросить") { Bosses.clear() }
     }
 
-    init {
+    override fun initialize() {
         on<ChatReceiveEvent> {
             if (AutoReset && text == "Перезагрузка сервера") Bosses.clear()
         }

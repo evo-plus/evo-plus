@@ -29,7 +29,7 @@ import kotlin.time.Duration.Companion.seconds
 class FeatureScreen : ScreenContext("features", "") {
 
     companion object {
-        private var SelectedFeature = Features.List.first()
+        private var SelectedFeature = Features.Features.first()
     }
 
     val content = +rectangle {
@@ -82,7 +82,7 @@ class FeatureScreen : ScreenContext("features", "") {
             }
 
             fun VScrollViewNode.update() {
-                box._childrens = Features.List
+                box._childrens = Features.Features
                     .filter { it.search(prompt) }
                     .map {
                         hbox {
@@ -116,7 +116,7 @@ class FeatureScreen : ScreenContext("features", "") {
                     on {
                         this@FeatureScreen.prompt = FeaturePrompt(content.takeUnless(String::isBlank))
                         if (!SelectedFeature.search(this@FeatureScreen.prompt)) {
-                            Features.List.firstOrNull { it.search(this@FeatureScreen.prompt) }
+                            Features.Features.firstOrNull { it.search(this@FeatureScreen.prompt) }
                                 ?.let { switchSetting(it) }
                         }
                         selector.update()

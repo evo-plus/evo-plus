@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.dev
 
-import dev.evoplus.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
@@ -52,9 +52,6 @@ object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
         button("Виджеты") { after(1) { WidgetEditorScreen.open() } }
     }
 
-    init {
-
-    }
 
     enum class NodeDebugModeType(val displayName: String, val totalizer: RenderContext.() -> Map<Class<*>, Int>) {
 

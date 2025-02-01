@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.feature
 
-import dev.evoplus.setting.Settings
+import dev.evoplus.feature.setting.Settings
 import gg.essential.universal.UScreen
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.scheduler.after
