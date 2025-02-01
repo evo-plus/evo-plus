@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.features.fishing
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.subscription
 import net.minecraft.item.Items
 import net.minecraft.util.Hand
 import pro.diamondworld.protocol.packet.fishing.SpotNibbles
@@ -60,9 +61,9 @@ object FishingFeature : Feature("fishing", "Рыбалка") {
     var ValueVisibleMode = FishingValueWidgetVisibleMode.ENABLED
 
     override fun CategoryBuilder.setup() {
-        switch(::SpotsHighlight, "Подсветка точек клева", "Подсвечивает точки клева на локации")
+        switch(::SpotsHighlight, "Подсветка точек клева", "Подсвечивает точки клева на локации").subscription()
         switch(::HigherBitingNotify, "Уведомления о повышенном клёве", "Уведомляет о повышенном клёве на локациях")
-        slider(::AutoHookDelay, "Автоматическая удочка", "Автоматически подбирает удочку (тик = 50 мс)", range = -1..40)
+        slider(::AutoHookDelay, "Автоматическая удочка", "Автоматически подбирает удочку (тик = 50 мс)", range = -1..40).subscription()
 
         subcategory("widget", "Настройки виджетов") {
             selector(::QuestsProgressVisibleMode, "Отображение квестов", "Отображает виджет квестов рыбалки при определённых условиях")

@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.features.stats
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.subscription
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
@@ -83,7 +84,7 @@ object StatisticFeature : Feature("statistic", "Статистика") {
     override fun CategoryBuilder.setup() {
         subcategory("statistic-widget", "Виджеты") {
             switch(::LevelProgressBarEnabled, "Шкала прогресса уровня", "Включение/отключение виджета шкалы прогресса уровня")
-            switch(::ComboProgressBarEnabled, "Шкала прогресса комбо", "Включение/отключение виджета шкалы прогресса комбо")
+            switch(::ComboProgressBarEnabled, "Шкала прогресса комбо", "Включение/отключение виджета шкалы прогресса комбо").subscription()
         }
         switch(::NotifyCompleteLevelRequire, "Уведомлять при выполнении требований", "Включение/отключение уведомлений при выполнении требований на уровень")
         button("Сбросить счетчик блоков") { BlocksCount = economic.blocks }

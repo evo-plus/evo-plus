@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.features.shaft
 
 import dev.evoplus.feature.setting.Settings
+import dev.evoplus.feature.setting.property.subscription
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.entity.decoration.DisplayEntity
 import net.minecraft.item.Items
@@ -82,11 +83,11 @@ object ShaftFeature : Feature("shaft", "Шахта") {
     override fun Settings.CategoryBuilder.setup() {
         switch(::WormNotify, "Уведомление о найденных червях", "Показывает уведомление о найденных червях")
         switch(::WormMessage, "Сообщение о найденных червях", "Показывает сообщение о найденных червях")
-        switch(::WormClanMessage, "Сообщение о найденных червях в клан чат с указанием шахты", "Показывает сообщение о найденных червях в клан чат с указанием шахты")
+        switch(::WormClanMessage, "Найденные черви в клан чат с указанием шахты", "Показывает сообщение о найденных червях в клан чат с указанием шахты").subscription()
         switch(::BarrelsNotify, "Уведомление о найденных бочках", "Показывает уведомление о найденных бочках")
         switch(::BarrelsMessage, "Сообщение о найденных бочках", "Показывает сообщение о найденных бочках")
-        switch(::BarrelsClanMessage, "Сообщение о найденных бочках в клан чат", "Показывает сообщение о найденных бочках в клан чат")
-        switch(::RaidClanMessage, "Сообщение о начатом рейде в клан чат с указанием шахты", "Показывает сообщение о начатом рейде в клан чат с указанием шахты")
+        switch(::BarrelsClanMessage, "Найденные бочки в клан чат", "Показывает сообщение о найденных бочках в клан чат")
+        switch(::RaidClanMessage, "Рейд в клан чат с указанием шахты", "Показывает сообщение о начатом рейде в клан чат с указанием шахты")
     }
 
     override fun initialize() {

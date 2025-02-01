@@ -50,10 +50,10 @@ class SettingsTitleBar(private val gui: SettingsGui, private val settings: Setti
         height = 17.pixels
     } childOf this
 
-    private val subscribeOnly by IconButton(
-        SettingPalette.SUBSCRIBE.state(),
+    private val subscriptionOnly by IconButton(
+        SettingPalette.SUBSCRIPTION.state(),
         tooltipText = "Функционал от подписки".state(),
-        enabled = settings.guiPreferences.subscribe.state(),
+        enabled = settings.guiPreferences.subscription.state(),
         buttonText = "".state(),
         iconShadow = true.state(),
         textShadow = true.state()
@@ -78,10 +78,10 @@ class SettingsTitleBar(private val gui: SettingsGui, private val settings: Setti
         searchBar.textContent.onSetValue {
             gui.selectCategory(settings.searchProperties(it))
         }
-        subscribeOnly.onLeftClick {
+        subscriptionOnly.onLeftClick {
             this as IconButton
-            settings.guiPreferences.subscribe = !settings.guiPreferences.subscribe
-            rebindEnabled(settings.guiPreferences.subscribe.state())
+            settings.guiPreferences.subscription = !settings.guiPreferences.subscription
+            rebindEnabled(settings.guiPreferences.subscription.state())
             gui.update()
         }
     }

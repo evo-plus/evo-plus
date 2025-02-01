@@ -4,7 +4,7 @@ import gg.essential.universal.UI18n
 
 data class PropertyMeta(
     val name: String, val description: String? = null,
-    var hidden: Boolean = false, var subscribe: Boolean = false,
+    var hidden: Boolean = false, var subscription: Boolean = false,
 ) {
 
     val searchTags = emptyList<String>()

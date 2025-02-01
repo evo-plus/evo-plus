@@ -67,12 +67,12 @@ abstract class Settings(
     fun gui() = SettingsGui(this)
 
     internal fun getCategoriesData() = enabledCategories
-        .mapValues { it.value.createData(guiPreferences.subscribe) }
+        .mapValues { it.value.createData(guiPreferences.subscription) }
         .filter { it.value.isNotEmpty }
 
     internal fun searchProperties(term: String) = CategoryData(
         PropertyMeta(""), enabledCategories.values.flatMap {
-            it.searchProperties(term).filter { guiPreferences.subscribe || !it.meta.subscribe }.run {
+            it.searchProperties(term).filter { guiPreferences.subscription || !it.meta.subscription }.run {
                 if (isEmpty()) emptyList()
                 else listOf(it.createDividerItem()) + map(Property<*, *>::createItem)
             }
@@ -82,10 +82,10 @@ abstract class Settings(
     fun category(
         id: String,
         name: String, description: String? = null,
-        hidden: Boolean = false, subscribe: Boolean = false,
+        hidden: Boolean = false, subscription: Boolean = false,
         block: CategoryBuilder.() -> Unit,
     ): Category {
-        val category = CategoryBuilder(id, PropertyMeta(name, description, hidden, subscribe)).apply(block).build()
+        val category = CategoryBuilder(id, PropertyMeta(name, description, hidden, subscription)).apply(block).build()
         categories[id] = category
         return category
     }
@@ -110,12 +110,12 @@ abstract class Settings(
         fun subcategory(
             id: String,
             name: String, description: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             block: CategoryBuilder.() -> Unit,
         ) {
             require(root) { "Only root categories support subcategories yet" }
             categories[id] =
-                CategoryBuilder(id, PropertyMeta(name, description, hidden, subscribe), false).apply(block)
+                CategoryBuilder(id, PropertyMeta(name, description, hidden, subscription), false).apply(block)
         }
 
         fun <T, A> property(
@@ -137,32 +137,32 @@ abstract class Settings(
         fun <T, A> property(
             value: PropertyValue<T>,
             id: String?, name: String, description: String?,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             type: PropertyType<T, A>, attr: A,
             observeInit: Boolean = true, action: (T) -> Unit = {},
-        ) = property(value, id, PropertyMeta(name, description, hidden, subscribe), type, attr, observeInit, action)
+        ) = property(value, id, PropertyMeta(name, description, hidden, subscription), type, attr, observeInit, action)
 
         fun <T, A> property(
             value: KMutableProperty0<T>,
             id: String?, name: String, description: String?,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             type: PropertyType<T, A>, attr: A,
             observeInit: Boolean = true, action: (T) -> Unit = {},
         ) = property(
             KPropertyValue(value),
-            id, name, description, hidden, subscribe,
+            id, name, description, hidden, subscription,
             type, attr, observeInit, action
         )
 
         fun checkbox(
             field: KMutableProperty0<Boolean>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             observeInit: Boolean = true, action: (Boolean) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.CheckBox, attr = null,
             observeInit = observeInit, action = action
         )
@@ -170,12 +170,12 @@ abstract class Settings(
         fun switch(
             field: KMutableProperty0<Boolean>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             observeInit: Boolean = true, action: (Boolean) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Switch, attr = null,
             observeInit = observeInit, action = action
         )
@@ -183,13 +183,13 @@ abstract class Settings(
         fun text(
             field: KMutableProperty0<String>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             placeholder: String = "", protected: Boolean = false,
             observeInit: Boolean = true, action: (String) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Text, attr = TextPropertyAttr(placeholder, protected),
             observeInit = observeInit, action = action
         )
@@ -197,13 +197,13 @@ abstract class Settings(
         fun paragraph(
             field: KMutableProperty0<String>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             placeholder: String = "", protected: Boolean = false,
             observeInit: Boolean = true, action: (String) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Text, attr = TextPropertyAttr(placeholder, protected),
             observeInit = observeInit, action = action
         )
@@ -211,12 +211,12 @@ abstract class Settings(
         fun percent(
             field: KMutableProperty0<Float>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             observeInit: Boolean = true, action: (Float) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.PercentSlider, attr = null,
             observeInit = observeInit, action = action
         )
@@ -224,13 +224,13 @@ abstract class Settings(
         fun slider(
             field: KMutableProperty0<Int>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             range: IntProgression = 0..100,
             observeInit: Boolean = true, action: (Int) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Slider, attr = NumberPropertyAttr(range),
             observeInit = observeInit, action = action
         )
@@ -238,13 +238,13 @@ abstract class Settings(
         fun number(
             field: KMutableProperty0<Int>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             range: IntProgression = 0..100,
             observeInit: Boolean = true, action: (Int) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Slider, attr = NumberPropertyAttr(range),
             observeInit = observeInit, action = action
         )
@@ -252,13 +252,13 @@ abstract class Settings(
         fun decimal(
             field: KMutableProperty0<Float>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             range: FloatRange = 0f..10f, decimals: Int = 1,
             observeInit: Boolean = true, action: (Float) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.DecimalSlider, attr = DecimalPropertyAttr(range, decimals),
             observeInit = observeInit, action = action
         )
@@ -266,13 +266,13 @@ abstract class Settings(
         fun color(
             field: KMutableProperty0<Color>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             alpha: Boolean = false,
             observeInit: Boolean = true, action: (Color) -> Unit = {},
         ) = property(
             value = field, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Color, attr = ColorPropertyAttr(alpha),
             observeInit = observeInit, action = action
         )
@@ -281,13 +281,13 @@ abstract class Settings(
         fun <T> selector(
             field: KMutableProperty0<T>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             options: List<T> = listOf(), toString: (T) -> String = { it.toString() },
             observeInit: Boolean = true, action: (T) -> Unit = {},
         ) = property<Any, SelectorPropertyAttr<*>>(
             value = field as KMutableProperty0<Any>, id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Selector, attr = SelectorPropertyAttr(options, toString),
             observeInit = observeInit, action = { action(it as T) }
         )
@@ -295,26 +295,26 @@ abstract class Settings(
         inline fun <reified E : Enum<E>> selector(
             field: KMutableProperty0<E>,
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             noinline toString: (E) -> String = { it.toString() },
             observeInit: Boolean = true, noinline action: (E) -> Unit = {},
         ) = selector(
             field = field,
             name = name, description = description, id = id,
-            subscribe = subscribe, hidden = hidden,
+            subscription = subscription, hidden = hidden,
             options = enumValues<E>().toList(), toString = toString,
             observeInit = observeInit, action = action
         )
 
         fun button(
             name: String, description: String? = null, id: String? = null,
-            hidden: Boolean = false, subscribe: Boolean = false,
+            hidden: Boolean = false, subscription: Boolean = false,
             text: String = "Нажать",
             observeInit: Boolean = false, action: () -> Unit = {},
         ) = property<Nothing, ButtonPropertyAttr>(
             EmptyPropertyValue(), id = id,
             name = name, description = description,
-            hidden = hidden, subscribe = subscribe,
+            hidden = hidden, subscription = subscription,
             type = PropertyType.Button, attr = ButtonPropertyAttr(text, action),
             observeInit = observeInit
         )

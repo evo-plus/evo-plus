@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.features.alchemy
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.subscription
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.sound.SoundEvents
 import ru.dargen.evoplus.event.inventory.InventoryClickEvent
@@ -43,7 +44,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия") {
 
     override fun CategoryBuilder.setup() {
         subcategory("alchemy-highlight", "Подсветка") {
-            switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации")
+            switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации").subscription()
         }
 
         subcategory("alchemy-notify", "Настройки оповещений") {

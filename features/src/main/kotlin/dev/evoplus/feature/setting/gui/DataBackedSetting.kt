@@ -44,8 +44,8 @@ class DataBackedSetting(
 
 
     init {
-        if (data.meta.subscribe) {
-            val icon = SettingPalette.SUBSCRIBE.create().constrain {
+        if (data.meta.subscription) {
+            val icon = SettingPalette.SUBSCRIPTION.create().constrain {
                 y = 3.pixels()
                 x = 3.pixels(alignOpposite = true)
                 width = 10.pixel

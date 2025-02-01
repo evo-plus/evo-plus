@@ -5,7 +5,7 @@ import dev.evoplus.feature.setting.Settings
 import dev.evoplus.feature.setting.property.data.PropertyItem
 import dev.evoplus.feature.setting.property.serializer.PropertySerializer
 
-fun <P : Property<*, *>> P.subscribe() = apply { meta.subscribe = true }
+fun <P : Property<*, *>> P.subscription() = apply { meta.subscription = true }
 
 data class Property<V, A>(
     val id: String, val type: PropertyType<V, A>,

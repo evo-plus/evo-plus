@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.features.potion
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.subscription
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
 import ru.dargen.evoplus.feature.Feature
@@ -31,12 +32,12 @@ object PotionFeature : Feature("potion", "Зелья") {
 
   override fun CategoryBuilder.setup() {
       subcategory("potion-settings", "Настройки отображения") {
-          slider(::PotionsCount, "Количество отображаемых зелий", "Максимальное количество отображаемых зелий в списке", range = 0..15)
+          slider(::PotionsCount, "Количество отображаемых зелий", "Максимальное количество отображаемых зелий в списке", range = 0..15).subscription()
           switch(::EnabledPotionsInTab, "Отображение в табе", "Показывать информацию о зельях в табе")
 
       }
       subcategory("potion-notify", "Уведомления") {
-          switch(::EnabledNotify, "Уведомление", "Уведомлять, когда время действия зелья заканчивается")
+          switch(::EnabledNotify, "Уведомление", "Уведомлять, когда время действия зелья заканчивается").subscription()
           switch(::EnabledMessage, "Сообщение", "Отправлять сообщение в чат, когда время действия зелья заканчивается")
       }
   }

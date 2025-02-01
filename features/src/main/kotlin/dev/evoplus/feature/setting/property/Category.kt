@@ -16,12 +16,12 @@ data class Category(
 
     internal fun createDividerItem() = DividerItem(meta)
 
-    internal fun createItems(subscribe: Boolean = false) =
-        enabledProperties.values.filter { subscribe || !it.meta.subscribe }.map(Property<*, *>::createItem)
+    internal fun createItems(subscription: Boolean = false) =
+        enabledProperties.values.filter { subscription || !it.meta.subscription }.map(Property<*, *>::createItem)
 
-    internal fun createData(subscribe: Boolean = false) = CategoryData(
+    internal fun createData(subscription: Boolean = false) = CategoryData(
         meta,
-        createItems(subscribe) + categories.values.flatMap { listOf(it.createDividerItem()) + it.createItems(subscribe) }
+        createItems(subscription) + categories.values.flatMap { listOf(it.createDividerItem()) + it.createItems(subscription) }
     )
 
 }

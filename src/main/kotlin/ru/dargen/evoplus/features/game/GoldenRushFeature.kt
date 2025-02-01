@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.features.game
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.subscription
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.entity.Entity
 import net.minecraft.entity.decoration.ArmorStandEntity
@@ -67,7 +68,7 @@ object GoldenRushFeature : Feature("golden-rush", "Золотой Кристал
         switch(::GoldenCrystalMessage, "Сообщение",
             "Отправлять сообщение в чат при появлении золотого кристалла")
         switch(::GoldenCrystalGlowing, "Подсветка",
-            "Подсвечивать золотой кристалл") { GoldenCrystalEntity?.isGlowing = it }
+            "Подсвечивать золотой кристалл") { GoldenCrystalEntity?.isGlowing = it }.subscription()
     }
 
     override fun initialize() {
