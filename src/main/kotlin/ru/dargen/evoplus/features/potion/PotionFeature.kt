@@ -29,12 +29,17 @@ object PotionFeature : Feature("potion", "Зелья") {
     var EnabledMessage = false
     var EnabledPotionsInTab  = true
 
-    override fun CategoryBuilder.setup() {
-        slider(::PotionsCount, "Кол-во отображаемых зелий", "Максимальное количество отображаемых зелий в списке", range = 0..15)
-        switch(::EnabledNotify, "Уведомление", "Уведомлять когда время действия зелья заканчивается")
-        switch(::EnabledMessage, "Сообщение", "Отправлять сообщение в чат когда время действия зелья заканчивается")
-        switch(::EnabledPotionsInTab, "Отображение в табе", "Показывать информацию о зельях в табе")
-    }
+  override fun CategoryBuilder.setup() {
+      subcategory("potion-settings", "Настройки отображения") {
+          slider(::PotionsCount, "Количество отображаемых зелий", "Максимальное количество отображаемых зелий в списке", range = 0..15)
+          switch(::EnabledPotionsInTab, "Отображение в табе", "Показывать информацию о зельях в табе")
+
+      }
+      subcategory("potion-notify", "Уведомления") {
+          switch(::EnabledNotify, "Уведомление", "Уведомлять, когда время действия зелья заканчивается")
+          switch(::EnabledMessage, "Сообщение", "Отправлять сообщение в чат, когда время действия зелья заканчивается")
+      }
+  }
 
     override fun initialize() {
         listen<PotionData> { potionData ->

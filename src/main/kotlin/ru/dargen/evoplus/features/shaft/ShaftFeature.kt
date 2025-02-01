@@ -1,8 +1,8 @@
-package ru.dargen.evoplus.features.clan
+package ru.dargen.evoplus.features.shaft
 
-import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.Settings
 import net.minecraft.entity.decoration.ArmorStandEntity
-import net.minecraft.entity.decoration.DisplayEntity.ItemDisplayEntity
+import net.minecraft.entity.decoration.DisplayEntity
 import net.minecraft.item.Items
 import ru.dargen.evoplus.event.evo.data.ChangeLocationEvent
 import ru.dargen.evoplus.event.on
@@ -22,7 +22,11 @@ import ru.dargen.evoplus.util.evo.isBarrel
 import ru.dargen.evoplus.util.evo.isDetonatingBarrel
 import ru.dargen.evoplus.util.format.nounEndings
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.*
+import ru.dargen.evoplus.util.minecraft.WorldEntities
+import ru.dargen.evoplus.util.minecraft.customModelData
+import ru.dargen.evoplus.util.minecraft.forEachBlocks
+import ru.dargen.evoplus.util.minecraft.printMessage
+import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import kotlin.math.max
 
 object ShaftFeature : Feature("shaft", "Шахта") {
@@ -75,7 +79,7 @@ object ShaftFeature : Feature("shaft", "Шахта") {
         +BarrelsText
     }
 
-    override fun CategoryBuilder.setup() {
+    override fun Settings.CategoryBuilder.setup() {
         switch(::WormNotify, "Уведомление о найденных червях", "Показывает уведомление о найденных червях")
         switch(::WormMessage, "Сообщение о найденных червях", "Показывает сообщение о найденных червях")
         switch(::WormClanMessage, "Сообщение о найденных червях в клан чат с указанием шахты", "Показывает сообщение о найденных червях в клан чат с указанием шахты")
@@ -100,7 +104,7 @@ object ShaftFeature : Feature("shaft", "Шахта") {
                         val text = "§6Обнаружен${if (size > 1) "о" else ""} $size ${
                             size.nounEndings("червь", "червя", "червей")
                         }"
-                        
+
                         if (WormNotify) NotifyWidget.showText(text)
                         if (WormMessage) printMessage(text)
                         if (WormClanMessage) sendClanMessage("§8[§e${Connector.server.displayName}§8] $text §8[§e/mine ${PlayerDataCollector.location.level}§8]")
@@ -112,7 +116,7 @@ object ShaftFeature : Feature("shaft", "Шахта") {
             if (!RaidClanMessage) return@scheduleEvery
 
             WorldEntities
-                .filterIsInstance<ItemDisplayEntity>()
+                .filterIsInstance<DisplayEntity.ItemDisplayEntity>()
                 .filter { it.itemStack.item == Items.LEATHER_HORSE_ARMOR }
                 .mapNotNull { it.itemStack.customModelData }
                 .filter { it in RaidEntityData }
@@ -155,7 +159,8 @@ object ShaftFeature : Feature("shaft", "Шахта") {
                 return@on
             }
 
-            if ((oldState?.isBarrel() == true) && (!newState.isBarrel() && !newState.isDetonatingBarrel())) Barrels = max(Barrels - 1, 0)
+            if ((oldState?.isBarrel() == true) && (!newState.isBarrel() && !newState.isDetonatingBarrel())) Barrels =
+                max(Barrels - 1, 0)
         }
     }
 }

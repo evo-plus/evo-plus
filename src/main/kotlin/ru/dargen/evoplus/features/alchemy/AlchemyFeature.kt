@@ -42,10 +42,15 @@ object AlchemyFeature : Feature("alchemy", "Алхимия") {
 //    }
 
     override fun CategoryBuilder.setup() {
-        switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации")
-        slider(::BrewingAlertDelay, "Время задержки перед оповещением",
-            "Задержка перед оповещением при варке зелья (мс)", range = 100..2000)
-        switch(::SoundAlert, "Звук оповещения", "Проигрывать звук при оповещении")
+        subcategory("alchemy-highlight", "Подсветка") {
+            switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации")
+        }
+
+        subcategory("alchemy-notify", "Настройки оповещений") {
+            slider(::BrewingAlertDelay, "Время задержки перед оповещением",
+                "Задержка перед оповещением при варке зелья (мс)", range = 100..2000)
+            switch(::SoundAlert, "Звук оповещения", "Проигрывать звук при оповещении")
+        }
     }
 
     override fun initialize() {

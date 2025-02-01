@@ -25,8 +25,13 @@ object ClanFeature : Feature("clan", "Клан") {
     var InlineMenuClanScores = true
 
     override fun CategoryBuilder.setup() {
-        switch(::BossCaptureNotify, "Уведомление о захвате вашего босса", "Уведомляет о перехвате вашего босса")
-        switch(::InlineMenuClanScores, "Отображение К.О. для захвата босса в меню", "Отображает базовое К.О. для захвата босса в меню")
+        subcategory("clan-notify", "Уведомления") {
+            switch(::BossCaptureNotify, "Захват вашего босса", "Уведомляет о перехвате вашего босса")
+        }
+
+        subcategory("clan-visual", "Визуализация") {
+            switch(::InlineMenuClanScores, "К.О. для захвата босса в меню", "Отображает базовое кол-во К.О. для захвата босса в меню")
+        }
     }
 
     override fun initialize() {
