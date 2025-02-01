@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.features.dev
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
-import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.protocol.Connector
@@ -15,7 +14,7 @@ import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.render.node.tick
 import ru.dargen.evoplus.scheduler.after
 
-object DevFeature : Feature("dev-env", "DevEnv", icon = Items.COMMAND_BLOCK) {
+object DevFeature : Feature("dev-env", "DevEnv") {
 
     val NodeDebugWidget by widgets.widget("Вывод компонентов", "node-debug") {
         +text {

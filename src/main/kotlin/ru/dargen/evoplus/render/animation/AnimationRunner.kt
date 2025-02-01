@@ -17,7 +17,7 @@ object AnimationRunner {
 
     init {
         thread(isDaemon = true, name = "Animation-Thread") {
-            while (true) catch("Error while running animations") {
+            while (true) runCatching/*catch("Error while running animations")*/ {
                 run()
 
                 val delay = if (WindowInitialized) Client.currentFps.fix(10, 200).rateDelay else 50

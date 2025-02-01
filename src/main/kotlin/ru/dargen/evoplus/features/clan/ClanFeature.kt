@@ -16,7 +16,7 @@ import ru.dargen.evoplus.util.minecraft.displayName
 import ru.dargen.evoplus.util.minecraft.lore
 import ru.dargen.evoplus.util.minecraft.uncolored
 
-object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
+object ClanFeature : Feature("clan", "Клан") {
 
     private val BossCapturePattern =
         "\\[Клан] Клан (\\S+) начал захват вашего босса ([\\s\\S]+)\\. Защитите его\\.".toRegex()

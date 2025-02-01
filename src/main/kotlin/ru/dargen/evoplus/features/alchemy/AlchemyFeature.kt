@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.alchemy
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
-import net.minecraft.item.Items
 import net.minecraft.sound.SoundEvents
 import ru.dargen.evoplus.event.inventory.InventoryClickEvent
 import ru.dargen.evoplus.event.on
@@ -10,14 +9,12 @@ import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.alchemy.recipe.PotionRecipe
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.render.Relative
-import ru.dargen.evoplus.render.context.Overlay.unaryPlus
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.kotlin.cast
-import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.*
 
-object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND) {
+object AlchemyFeature : Feature("alchemy", "Алхимия") {
 
     private val AlchemyPotionListTitle = "넉"
     private val AlchemyTimePattern = "Время: ([.\\d]+)с".toRegex()
@@ -34,15 +31,15 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
         origin = Relative.LeftCenter
         +RecipeText
     }
-    val AlertText = +text {
-        enabled = false
-
-        align = Relative.CenterTop
-        origin = Relative.CenterTop
-        scale = v3(3.5, 3.5, 3.5)
-
-        translation.y += 100
-    }
+//    val AlertText = +text {
+//        enabled = false
+//
+//        align = Relative.CenterTop
+//        origin = Relative.CenterTop
+//        scale = v3(3.5, 3.5, 3.5)
+//
+//        translation.y += 100
+//    }
 
     override fun CategoryBuilder.setup() {
         switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации")
@@ -89,13 +86,13 @@ object AlchemyFeature : Feature("alchemy", "Алхимия", Items.BREWING_STAND
                         ?.toDoubleOrNull()
                 } ?: return@scheduleEvery
 
-            val nearestAlert = PotionRecipe?.getNearestAlert(BrewingAlertDelay / 1000.0, time) ?: run {
-                AlertText.enabled = false
-                return@scheduleEvery
-            }
-
-            AlertText.enabled = true
-            AlertText.lines = listOf("§c$nearestAlert")
+//            val nearestAlert = PotionRecipe?.getNearestAlert(BrewingAlertDelay / 1000.0, time) ?: run {
+//                AlertText.enabled = false
+//                return@scheduleEvery
+//            }
+//
+//            AlertText.enabled = true
+//            AlertText.lines = listOf("§c$nearestAlert")
 
             if (SoundAlert) repeat(5) { Player?.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f) }
         }

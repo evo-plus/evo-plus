@@ -27,7 +27,7 @@ import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
-object StatisticFeature : Feature("statistic", "Статистика", Items.PAPER) {
+object StatisticFeature : Feature("statistic", "Статистика") {
 
     private val ComboTimerPattern = "Комбо закончится через (\\d+) секунд\\. Продолжите копать, чтобы не потерять его\\.".toRegex()
 

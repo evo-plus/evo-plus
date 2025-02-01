@@ -23,7 +23,7 @@ import ru.dargen.evoplus.util.minecraft.printMessage
 
 private val GoldenCrystalItem = customItem(Items.PAPER, 271)
 
-object GoldenRushFeature : Feature("golden-rush", "Золотой Кристалл", GoldenCrystalItem) {
+object GoldenRushFeature : Feature("golden-rush", "Золотой Кристалл") {
 
     var GoldenCrystalEntity: Entity? = null
         set(value) {

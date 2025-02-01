@@ -58,7 +58,7 @@ val CurrentScreenHandler get() = Player?.currentScreenHandler
 val CurrentScreen get() = Client?.currentScreen
 val CurrentContainer get() = CurrentScreen?.safeCast<HandledScreen<*>>()
 
-val WindowInitialized get() = Client.window != null
+val WindowInitialized get() = Client?.window != null
 val Window get() = Client.window
 
 val MousePosition

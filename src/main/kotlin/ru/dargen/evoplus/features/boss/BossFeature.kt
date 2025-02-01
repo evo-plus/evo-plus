@@ -26,7 +26,7 @@ import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
 
-object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
+object BossFeature : Feature("boss", "Боссы") {
 
     private val BossCursedPattern = "Босс проклят! Особенность: ([а-яА-ЯёЁ ]+)".toRegex()
     private val BossCapturePattern = "^Босс (.*) захвачен кланом (.*)!\$".toRegex()

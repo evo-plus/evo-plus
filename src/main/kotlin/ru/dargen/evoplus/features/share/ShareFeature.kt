@@ -9,7 +9,7 @@ import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.CompletableFuture
 
-object ShareFeature : Feature("share", "Поделиться", Items.SCULK_SENSOR) {
+object ShareFeature : Feature("share", "Поделиться") {
 
     private val OutgoingSharePattern = "^ЛС \\| Я »(?:| .) \\w+: evoplus:\\w+:\\w+\$".toRegex()
     private val IncomingSharePattern = "^ЛС \\|(?:| .) (\\w+) » Я: evoplus:(\\w+):(\\w+)\$".toRegex()

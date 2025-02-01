@@ -27,7 +27,7 @@ data object Features {
 
     init {
         on<MinecraftLoadedEvent> {
-            Features.forEach { it.initialize() }
+            Features.forEach { it.initializeInternal() }
         }
 
         Runtime.getRuntime().addShutdownHook(thread(false) {
@@ -50,8 +50,8 @@ data object Features {
 
         FeaturesSettings.initialize()
 
-        Features.forEach(Feature::preInitialize)
-loadSettings()
+        Features.forEach(Feature::preInitializeInternal)
+        loadSettings()
     }
 
     fun saveSettings() {

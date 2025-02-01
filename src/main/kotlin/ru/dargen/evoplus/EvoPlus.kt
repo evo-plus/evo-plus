@@ -50,10 +50,6 @@ object EvoPlus : ClientModInitializer {
     val DevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
 
     override fun onInitializeClient() {
-        EventBus
-        Scheduler
-        KeyBindings
-
         Connector
 
         WorldContext
@@ -61,9 +57,16 @@ object EvoPlus : ClientModInitializer {
         AnimationRunner
 
         EvoPlusService
-        setupFeatures()
 
         UpdateResolver.schedule()
+    }
+
+    fun onPreInitializeClient() {
+        EventBus
+        Scheduler
+        KeyBindings
+
+        setupFeatures()
     }
 
     private fun setupFeatures() = Features.setup {

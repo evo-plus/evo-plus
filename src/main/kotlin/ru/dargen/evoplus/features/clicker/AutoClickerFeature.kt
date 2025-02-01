@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.clicker
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import dev.evoplus.feature.setting.property.subscribe
-import net.minecraft.item.Items
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.on
@@ -14,7 +13,7 @@ import ru.dargen.evoplus.scheduler.scheduleEvery
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
-object AutoClickerFeature : Feature("clicker", "Кликер", icon = Items.WOODEN_SWORD) {
+object AutoClickerFeature : Feature("clicker", "Кликер") {
 
     private var enabled = false
     private var remainToClick = 0

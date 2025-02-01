@@ -26,7 +26,7 @@ import kotlin.math.absoluteValue
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
 private const val MYTHICAL_EVENT_MULTIPLIER_X1000 = (MYTHICAL_EVENT_MULTIPLIER * 1000).toLong()
 
-object BossTimerFeature : Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
+object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
 
     val AlertedBosses = mutableSetOf<String>()
     val PreAlertedBosses = mutableSetOf<String>()

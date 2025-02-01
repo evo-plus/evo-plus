@@ -5,7 +5,7 @@ import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.render.HealthBars
 
-object RenderFeature : Feature("render", "Визуализация", Items.REDSTONE) {
+object RenderFeature : Feature("render", "Визуализация") {
 
     var FullBright = true
     var HealthRender = HealthRenderMode.DEFAULT

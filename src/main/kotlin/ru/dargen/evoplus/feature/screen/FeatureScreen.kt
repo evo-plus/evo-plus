@@ -88,7 +88,6 @@ class FeatureScreen : ScreenContext("features", "") {
                         hbox {
                             dependSizeX = false
                             size = v3(130.0, 20.0)
-                            +item(it.icon)
                             +text(it.name)
                             preRender { _, _ ->
                                 color = if (SelectedFeature != it) Colors.Primary else Colors.Primary.darker()

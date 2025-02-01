@@ -23,7 +23,7 @@ import ru.dargen.evoplus.util.evo.*
 import ru.dargen.evoplus.util.math.v3
 import java.awt.Color
 
-object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
+object ESPFeature : Feature("esp", "Подсветка") {
 
     private val LuckyBlocks = mutableMapOf<BlockPos, Node>()
     private val Shards = mutableMapOf<BlockPos, Node>()

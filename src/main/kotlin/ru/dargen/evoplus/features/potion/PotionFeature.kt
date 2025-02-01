@@ -13,7 +13,7 @@ import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
-object PotionFeature : Feature("potion", "Зелья", customItem(Items.POTION, 3)) {
+object PotionFeature : Feature("potion", "Зелья") {
 
     val PotionTimers = mutableMapOf<Int, PotionState>()
     val ComparedPotionsTimers

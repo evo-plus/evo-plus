@@ -25,7 +25,7 @@ import ru.dargen.evoplus.util.minecraft.Player
 import ru.dargen.evoplus.util.minecraft.isSink
 import ru.dargen.evoplus.util.minecraft.uncolored
 
-object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) {
+object FishingFeature : Feature("fishing", "Рыбалка") {
 
     val HigherBitingPattern = "^На локации \"([\\S\\s]+)\" повышенный клёв!\$".toRegex()
 

@@ -18,7 +18,7 @@ import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
-object RuneFeature : Feature("rune", "Руны", customItem(Items.PAPER, 445)) {
+object RuneFeature : Feature("rune", "Руны") {
 
     val Abilities = concurrentHashMapOf<String, Long>()
 

@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting
 import java.util.function.Consumer
 
 abstract class AbstractResourcePackProvider(
-    val id: String, val name: String, val description: String,
+    val id: String, val name: String, description: String,
 ) : ResourcePackProvider {
 
     private val metadata = Metadata(

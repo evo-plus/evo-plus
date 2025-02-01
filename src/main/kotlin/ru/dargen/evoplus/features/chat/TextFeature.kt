@@ -13,7 +13,7 @@ import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.uncolored
 import kotlin.math.ceil
 
-object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
+object TextFeature : Feature("text", "Текст") {
 
     val MarketChatTimer by widgets.widget(
         "Таймер торгового чата",

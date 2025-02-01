@@ -25,7 +25,7 @@ import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.*
 import kotlin.math.max
 
-object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
+object ShaftFeature : Feature("shaft", "Шахта") {
 
     var WormNotify = true
     var WormMessage = false
@@ -87,7 +87,7 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
 
     override fun initialize() {
         scheduleEvery(period = 10) {
-            if (!WormsWidget.enabled) return@scheduleEvery
+            /*if (!WormsWidget.enabled) */return@scheduleEvery
 
             WorldEntities
                 .filterIsInstance<ArmorStandEntity>()

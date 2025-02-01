@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import ru.dargen.evoplus.EvoPlus;
 import ru.dargen.evoplus.extension.MinecraftClientExtension;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.game.MinecraftLoadedEvent;
@@ -57,6 +58,8 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     @Nullable
     public Screen currentScreen;
 
+    @Shadow protected abstract boolean canExecute(Runnable task);
+
     @Inject(method = "onResolutionChanged", at = @At("RETURN"))
     private void onResolutionChanged(CallbackInfo ci) {
         Window window = MinecraftKt.getWindow();
@@ -79,6 +82,16 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     @Inject(method = "tick", at = @At("RETURN"))
     private void onEndTick(CallbackInfo info) {
         EventBus.INSTANCE.fire(PostTickEvent.INSTANCE);
+    }
+
+    @Inject(method = "<init>", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/util/thread/ReentrantThreadExecutor;<init>(Ljava/lang/String;)V"))
+    private void preInit(CallbackInfo info) {
+        try {
+            EvoPlus.INSTANCE.onPreInitializeClient();
+            System.out.println("pre ini");
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
