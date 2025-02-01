@@ -39,6 +39,9 @@ dependencies {
     include(implementation("com.github.asyncdargen:rest-client:${project.rest_client_version}"))
     include(implementation("com.github.asyncdargen.crowbar:crowbar-core:${project.crowbar_version}"))
 
+    // Discord RPC
+    include(implementation("io.github.vyfor:kpresence:${project.kpresence_version}"))
+
     // Essential UI
     include(implementation(project(':features')))
     include(implementation("gg.essential:elementa:${project.elementa_version}"))

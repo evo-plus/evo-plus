@@ -8,6 +8,7 @@ import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.features.misc.discord.DiscordRPCFeature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.resource.ResourcePackFeature
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
@@ -41,6 +42,7 @@ object MiscFeature : Feature("misc", "Прочее") {
 
     override fun CategoryBuilder.setup() {
         include(ResourcePackFeature)
+        include(DiscordRPCFeature)
 
         subcategory("selector", "Fast-селектор") {
             switch(
