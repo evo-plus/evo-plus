@@ -10,7 +10,7 @@ import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
 import ru.dargen.evoplus.features.chat.TextFeature
 import ru.dargen.evoplus.features.clan.ClanFeature
-import ru.dargen.evoplus.features.clan.ShaftFeature
+import ru.dargen.evoplus.features.shaft.ShaftFeature
 import ru.dargen.evoplus.features.clicker.AutoClickerFeature
 import ru.dargen.evoplus.features.dev.DevFeature
 import ru.dargen.evoplus.features.dungeon.DungeonFeature

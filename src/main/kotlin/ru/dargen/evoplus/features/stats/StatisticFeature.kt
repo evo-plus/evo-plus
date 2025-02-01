@@ -81,9 +81,11 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
     var ComboProgressBarEnabled = true
 
     override fun CategoryBuilder.setup() {
+        subcategory("statistic-widget", "Виджеты") {
+            switch(::LevelProgressBarEnabled, "Шкала прогресса уровня", "Включение/отключение виджета шкалы прогресса уровня")
+            switch(::ComboProgressBarEnabled, "Шкала прогресса комбо", "Включение/отключение виджета шкалы прогресса комбо")
+        }
         switch(::NotifyCompleteLevelRequire, "Уведомлять при выполнении требований", "Включение/отключение уведомлений при выполнении требований на уровень")
-        switch(::LevelProgressBarEnabled, "Шкала прогресса уровня", "Включение/отключение виджета шкалы прогресса уровня")
-        switch(::ComboProgressBarEnabled, "Шкала прогресса комбо", "Включение/отключение виджета шкалы прогресса комбо")
         button("Сбросить счетчик блоков") { BlocksCount = economic.blocks }
     }
 
