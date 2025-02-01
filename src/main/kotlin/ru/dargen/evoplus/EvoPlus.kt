@@ -67,10 +67,10 @@ object EvoPlus : ClientModInitializer {
     }
 
     private fun setupFeatures() = Features.setup {
-        if (DevEnvironment) {
+//        if (DevEnvironment) {
             add(DevFeature)
-        }
-
+//        }
+//
         add(AutoClickerFeature)
         add(ESPFeature)
         add(BossTimerFeature)

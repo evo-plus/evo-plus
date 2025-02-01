@@ -315,8 +315,8 @@ abstract class Settings(
             EmptyPropertyValue(), id = id,
             name = name, description = description,
             hidden = hidden, subscribe = subscribe,
-            type = PropertyType.Button, attr = ButtonPropertyAttr(text),
-            observeInit = observeInit, action = { action() }
+            type = PropertyType.Button, attr = ButtonPropertyAttr(text, action),
+            observeInit = observeInit
         )
 
     }

@@ -1,5 +1,8 @@
 package dev.evoplus.feature.setting.gui.settings
 
+import dev.evoplus.feature.setting.gui.ExpandingClickEffect
+import dev.evoplus.feature.setting.gui.SettingPalette
+import dev.evoplus.feature.setting.utils.onLeftClick
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.constraints.CenterConstraint
@@ -12,11 +15,8 @@ import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.utils.withAlpha
 import gg.essential.universal.UI18n
 import gg.essential.universal.USound
-import dev.evoplus.feature.setting.gui.ExpandingClickEffect
-import dev.evoplus.feature.setting.gui.SettingPalette
-import dev.evoplus.feature.setting.utils.onLeftClick
 
-class ButtonComponent(placeholder: String) : SettingComponent() {
+class ButtonComponent(placeholder: String, action: () -> Unit) : SettingComponent() {
 
     private var textState: State<String> = BasicState(placeholder)
     private var listener: () -> Unit = textState.onSetValue { text.setText(textState.get()) }
@@ -61,7 +61,7 @@ class ButtonComponent(placeholder: String) : SettingComponent() {
             }
         }.onLeftClick {
             USound.playButtonPress()
-            observer(null)
+            action()
         }
     }
 

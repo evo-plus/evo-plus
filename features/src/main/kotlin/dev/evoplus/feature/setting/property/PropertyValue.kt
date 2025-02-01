@@ -42,6 +42,8 @@ class EmptyPropertyValue : PropertyValue<Nothing>() {
 
     override fun getValue() = throw IllegalStateException()
 
-    override fun setValue(value: Nothing) = throw IllegalStateException()
+    override fun setValue(value: Nothing){
+
+    }
 
 }

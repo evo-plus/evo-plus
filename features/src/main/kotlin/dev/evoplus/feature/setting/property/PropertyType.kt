@@ -133,7 +133,7 @@ abstract class PropertyType<V, A> {
 
     data object Button : PropertyType<Nothing, ButtonPropertyAttr>() {
         override fun createComponent(value: Value<Nothing>, attr: ButtonPropertyAttr): SettingComponent {
-            return ButtonComponent(attr.text)
+            return ButtonComponent(attr.text, attr.action)
         }
 
         override fun createSerializer(value: Value<Nothing>, data: ButtonPropertyAttr): PropertySerializer<Nothing> {
