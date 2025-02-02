@@ -7,7 +7,7 @@ import ru.dargen.evoplus.util.minecraft.Player
 enum class FishingWidgetVisibleMode(val displayName: String, val isVisible: () -> Boolean) {
 
     ENABLED("Всегда", {true}),
-    FISHING("На рыбалке", { PlayerDataCollector.location.isFish }),
+    FISHING("На рыбалке", { PlayerDataCollector.location.warp == "fish" }),
     FISH_ROD("С удочкой", { Player?.mainHandStack?.item === Items.FISHING_ROD });
 
     override fun toString() = displayName

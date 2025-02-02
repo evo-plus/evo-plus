@@ -88,7 +88,6 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     private void preInit(CallbackInfo info) {
         try {
             EvoPlus.INSTANCE.onPreInitializeClient();
-            System.out.println("pre ini");
         } catch (Throwable t) {
             t.printStackTrace();
         }

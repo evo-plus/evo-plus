@@ -9,9 +9,8 @@ import io.github.vyfor.kpresence.rpc.ActivityType
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
+import ru.dargen.evoplus.protocol.Connector.isOnDiamondWorld
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.util.minecraft.PlayerName
 import java.util.concurrent.TimeUnit
 
 object DiscordRPCFeature : Feature(name = "Discord RPC") {
@@ -20,15 +19,15 @@ object DiscordRPCFeature : Feature(name = "Discord RPC") {
     private val Client = RichClient(1297251096191828060L)
 
     private var enabled = true
-    private var showName = true
-    private var showLevel = true
-    private var showServer = true
+    private var nameStrategy = DiscordNameFormat.NAME_WITH_LEVEL
+    private var locationStrategy = DiscordLocationFormat.SERVER_ALL
+    private var locationHoverStrategy = DiscordLocationFormat.SERVER_ALL
 
     override fun CategoryBuilder.setup() {
         switch(::enabled, "Отображение", "Управляет отображением статуса в Discord", observeInit = false) { toggle() }
-        switch(::showName, "Отображать имя", "Включает отображение имени в Discord")
-        switch(::showLevel, "Отображать уровень", "Включает отображение уровня в Discord")
-        switch(::showServer, "Отображать сервер", "Включает отображение сервера в Discord")
+        selector(::nameStrategy, "Имя", "Вид отображения имени")
+        selector(::locationStrategy, "Местоположение", "Вид отображения местоположения")
+        selector(::locationHoverStrategy, "Местоположение при наведении", "Вид отображения местоположения при наведении")
     }
 
     override fun initialize() {
@@ -55,21 +54,20 @@ object DiscordRPCFeature : Feature(name = "Discord RPC") {
 
     private fun update() = Client.update {
         type = ActivityType.GAME
-        if (showName) {
-            state = PlayerName
-            if (Connector.isOnPrisonEvo && showLevel) state += " [${PlayerDataCollector.economic.level} ур.]"
-        }
-        details = when {
-            Connector.isOnPrisonEvo -> if (showServer) Connector.server.displayName else "PrisonEvo"
-            Connector.isOnDiamondWorld -> if (showServer) Connector.server.displayName else "DiamondWorld"
-            else -> "В меню"
-        }
+        state = nameStrategy.line()
+        details = locationStrategy.line()
 
+        party { id = "${Connector.server}" }
         timestamps { start = Timestamp }
 
         assets {
             largeImage = "logo"
             largeText = "EvoPlus ${EvoPlus.Version}"
+
+            if (isOnDiamondWorld) {
+                smallImage = "https://cdn.discordapp.com/icons/442373850953547780/875421c28a47b3fbb1f4c9c1639e8246.webp?size=512"
+                smallText = locationHoverStrategy.line()
+            }
         }
 
         button("Скачать EvoPlus", "https://modrinth.com/mod/evoplus")
