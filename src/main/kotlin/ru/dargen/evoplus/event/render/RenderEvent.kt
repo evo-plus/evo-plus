@@ -14,5 +14,14 @@ class WorldRenderEvent(
     matrices: MatrixStack,
     tickDelta: Float,
     val camera: Camera,
-    val bufferBuilderStorage: BufferBuilderStorage
-) : RenderEvent(matrices, tickDelta)
+    val bufferBuilderStorage: BufferBuilderStorage,
+) : RenderEvent(matrices, tickDelta) {
+
+    class Absolute(
+        matrices: MatrixStack,
+        tickDelta: Float,
+        camera: Camera,
+        bufferBuilderStorage: BufferBuilderStorage,
+    ) : WorldRenderEvent(matrices, tickDelta, camera, bufferBuilderStorage)
+
+}

@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.misc.render
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
-import gg.essential.elementa.utils.withAlpha
 import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.render.entity.EntityRenderDispatcher
 import net.minecraft.client.util.math.MatrixStack
@@ -17,6 +16,7 @@ import ru.dargen.evoplus.util.render.drawWorldText
 import ru.dargen.evoplus.util.render.normalize3DScale
 import ru.dargen.evoplus.util.render.push
 
+//TODO: maybe remove for npcs
 object HealthBar : Feature(name = "Полоса здоровья") {
 
     private var enabled = true
@@ -24,14 +24,22 @@ object HealthBar : Feature(name = "Полоса здоровья") {
     private var showHealth = true
 
     override fun CategoryBuilder.setup() {
-        switch(::enabled, "Полоска здоровья игроков", "Показывает полоску здоровья над игроками")
+        switch(
+            ::enabled,
+            "Отображение",
+            "Показывает полоску здоровья над игроками"
+        )
         decimal(
             ::offset,
-            "Сдвиг полоски здоровья игроков",
-            "Регулировка высоты полоски здоровья над игроком",
+            "Сдвиг полоски",
+            "Регулирует высоту полоски здоровья над игроком",
             range = 0f..5f
         )
-        switch(::showHealth, "Здоровья игроков", "Показывает числовое значение здоровья над игроком")
+        switch(
+            ::showHealth,
+            "Здоровье игрока",
+            "Показывает числовое значение здоровья над игроком"
+        )
     }
 
     override fun initialize() {
@@ -41,7 +49,8 @@ object HealthBar : Feature(name = "Полоса здоровья") {
     }
 
     private var Color = ColorProgression(Colors.Green, Colors.Red)
-    private var SneakColor = Color.map(java.awt.Color::darker).map { it.withAlpha(63) }
+
+    //    private var SneakColor = Color.map(java.awt.Color::darker).map { it.withAlpha(63) }
     private const val INDENT = 1.5f
     private const val WIDTH = 54f
     private const val HEIGHT = 8f
@@ -65,7 +74,7 @@ object HealthBar : Feature(name = "Полоса здоровья") {
                 -(WIDTH / 2f), INDENT,
                 WIDTH / 2f, HEIGHT + INDENT,
                 zLevel = 0.01f,
-                color = (if (isSneaky) SneakColor else Color).at((health / maxHealth).toDouble())
+                color = /*(if (isSneaky) SneakColor else Color)*/Color.at((health / maxHealth).toDouble())
             )
             if (showHealth) {
                 val text = "${health.toInt()} HP"
@@ -79,4 +88,5 @@ object HealthBar : Feature(name = "Полоса здоровья") {
             RenderSystem.disableDepthTest()
         }
     }
+
 }
