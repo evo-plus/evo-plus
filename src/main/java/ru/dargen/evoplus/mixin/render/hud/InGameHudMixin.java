@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.render.OverlayRenderEvent;
+import ru.dargen.evoplus.features.chat.TextFeature;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.mixin.HeartType;
 
@@ -113,6 +114,11 @@ public abstract class InGameHudMixin {
 
     private void drawHeart(MatrixStack matrices, HeartType type, int x, int y, int v, boolean blinking, boolean halfHeart) {
         InGameHud.drawTexture(matrices, x, y, type.getU(halfHeart, blinking), v, 9, 9);
+    }
+
+    @Inject(method = "clear", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;clear(Z)V"), cancellable = true)
+    private void onClear(CallbackInfo info) {
+        if (TextFeature.INSTANCE.getKeepHistory()) info.cancel();
     }
 
 }

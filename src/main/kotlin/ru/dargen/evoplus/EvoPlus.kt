@@ -1,6 +1,9 @@
 package ru.dargen.evoplus
 
+import com.mojang.brigadier.CommandDispatcher
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.fabricmc.loader.api.FabricLoader
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.event.EventBus
@@ -12,6 +15,8 @@ import ru.dargen.evoplus.features.chat.TextFeature
 import ru.dargen.evoplus.features.clan.ClanFeature
 import ru.dargen.evoplus.features.shaft.ShaftFeature
 import ru.dargen.evoplus.features.clicker.AutoClickerFeature
+import ru.dargen.evoplus.features.misc.command.EvoPlusCommand
+import ru.dargen.evoplus.features.misc.command.ShareCommand
 import ru.dargen.evoplus.features.dev.DevFeature
 import ru.dargen.evoplus.features.dungeon.DungeonFeature
 import ru.dargen.evoplus.features.esp.ESPFeature
@@ -59,6 +64,11 @@ object EvoPlus : ClientModInitializer {
         EvoPlusService
 
         UpdateResolver.schedule()
+
+        ClientCommandRegistrationCallback.EVENT.register { dispatcher: CommandDispatcher<FabricClientCommandSource>, _ ->
+            EvoPlusCommand.register(dispatcher)
+            ShareCommand.register(dispatcher)
+        }
     }
 
     fun onPreInitializeClient() {
