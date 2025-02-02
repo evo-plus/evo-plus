@@ -25,6 +25,8 @@
     "render.InGameOverlayRendererMixin",
     "render.GameRendererMixin",
     "render.entity.EntityRendererMixin",
+    "render.entity.EntityRendererAccessor",
+    "render.entity.PlayerEntityRendererMixin",
     "render.hud.ChatHudMixin",
     "render.hud.InGameHudMixin",
     "render.hud.ChatHudAccessor",

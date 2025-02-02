@@ -22,7 +22,7 @@ fun Color.decompose() = rgb.decomposeColor()
 
 fun Color.decomposeFloat() = rgb.decomposeColorFloat()
 
-private fun Int.fixCC() = fix(0, 255)
+fun Int.fixCC() = fix(0, 255)
 
 fun Color.progressTo(destination: Color, progress: Double) = Color(
     red.progressTo(destination.red, progress).fixCC(),
