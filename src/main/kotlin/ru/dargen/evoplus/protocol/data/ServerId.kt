@@ -13,6 +13,13 @@ data class ServerId(val name: String, val id: Int, val mirror: Int) {
             else -> toString()
         }
 
+    val shortDisplayName get() = when (name) {
+        "HUB" -> "Хаб"
+        "PRISONEVO" -> "PrisonEvo"
+        "UNKNOWN" -> "Где?"
+        else -> toString()
+    }
+
     override fun toString() = "$name-$id-$mirror"
 
     companion object {
