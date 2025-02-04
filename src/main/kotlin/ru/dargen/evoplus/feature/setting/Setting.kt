@@ -1,15 +1,7 @@
 package ru.dargen.evoplus.feature.setting
 
 import com.google.gson.JsonElement
-import ru.dargen.evoplus.feature.screen.FeaturePrompt
-import ru.dargen.evoplus.feature.screen.FeatureElement
-import ru.dargen.evoplus.render.Colors
-import ru.dargen.evoplus.render.Relative
-import ru.dargen.evoplus.render.node.Node
-import ru.dargen.evoplus.render.node.rectangle
-import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
-import ru.dargen.evoplus.util.math.v3
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

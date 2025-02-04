@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.potion
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import dev.evoplus.feature.setting.property.subscription
-import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.potion.PotionData
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
@@ -11,7 +10,6 @@ import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.PotionType
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
-import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
 object PotionFeature : Feature("potion", "Зелья") {

@@ -11,16 +11,9 @@ import ru.dargen.evoplus.render.animation.animations
 import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.context.ScreenContext
 import ru.dargen.evoplus.render.context.screen
-import ru.dargen.evoplus.render.node.Node
-import ru.dargen.evoplus.render.node.click
-import ru.dargen.evoplus.render.node.hover
+import ru.dargen.evoplus.render.node.*
 import ru.dargen.evoplus.render.node.input.button
-import ru.dargen.evoplus.render.node.postRender
-import ru.dargen.evoplus.render.node.rectangle
-import ru.dargen.evoplus.render.node.resize
 import ru.dargen.evoplus.render.node.scroll.vScrollView
-import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.render.node.tick
 import ru.dargen.evoplus.scheduler.after
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.render.alpha

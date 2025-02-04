@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.features.clan
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
-import net.minecraft.item.Items
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
 import ru.dargen.evoplus.event.on

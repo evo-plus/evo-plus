@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent;
-import ru.dargen.evoplus.features.chat.TextFeature;
+import ru.dargen.evoplus.features.text.TextFeature;
 
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin {

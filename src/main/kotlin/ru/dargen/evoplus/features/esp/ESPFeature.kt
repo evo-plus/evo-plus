@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.esp
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.item.Items
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.WorldChunk

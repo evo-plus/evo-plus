@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.boss.timer
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
-import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossTimers
 import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent

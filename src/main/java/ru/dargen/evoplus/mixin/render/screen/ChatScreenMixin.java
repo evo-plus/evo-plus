@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.dargen.evoplus.features.chat.TextFeature;
+import ru.dargen.evoplus.features.text.TextFeature;
 import ru.dargen.evoplus.mixin.render.hud.ChatHudAccessor;
 import ru.dargen.evoplus.util.mixin.ChatCopyUtil;
 

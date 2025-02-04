@@ -6,7 +6,6 @@ import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.render.TextRenderer
 import ru.dargen.evoplus.util.render.drawText
 import ru.dargen.evoplus.util.render.drawWorldText
-import kotlin.onFailure
 
 @KotlinOpens
 class TextNode(lines: List<String>) : Node() {

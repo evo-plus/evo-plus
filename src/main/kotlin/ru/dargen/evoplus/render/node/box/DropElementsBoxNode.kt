@@ -3,12 +3,7 @@ package ru.dargen.evoplus.render.node.box
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.hoverColor
-import ru.dargen.evoplus.render.node.RectangleNode
-import ru.dargen.evoplus.render.node.leftClick
-import ru.dargen.evoplus.render.node.plus
-import ru.dargen.evoplus.render.node.rectangle
-import ru.dargen.evoplus.render.node.text
-import ru.dargen.evoplus.render.node.tick
+import ru.dargen.evoplus.render.node.*
 import ru.dargen.evoplus.util.math.v3
 
 class DropElementsBoxNode : RectangleNode() {
