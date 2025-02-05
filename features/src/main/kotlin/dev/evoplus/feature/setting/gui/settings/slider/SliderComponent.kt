@@ -1,11 +1,11 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.slider
 
+import dev.evoplus.feature.setting.gui.SettingPalette
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.toConstraint
-import dev.evoplus.feature.setting.gui.SettingPalette
 import kotlin.math.roundToInt
 
 class SliderComponent(initialValue: Int, min: Int, max: Int, step: Int) : AbstractSliderComponent() {
@@ -19,7 +19,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int, step: Int) : Abstra
 
     override val slider by Slider((initialValue.toFloat() - min) / (max - min)).constrain {
         x = SiblingConstraint()
-        width = 60.pixels
+        width = 85.pixels
         height = 12.pixels
     } childOf this
 

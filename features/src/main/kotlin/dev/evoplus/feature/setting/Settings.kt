@@ -10,6 +10,7 @@ import dev.evoplus.feature.setting.property.Property
 import dev.evoplus.feature.setting.property.PropertyMeta
 import dev.evoplus.feature.setting.property.PropertyType
 import dev.evoplus.feature.setting.property.PropertyValue
+import dev.evoplus.feature.setting.property.attr.BindPropertyAttr
 import dev.evoplus.feature.setting.property.attr.ButtonPropertyAttr
 import dev.evoplus.feature.setting.property.attr.ColorPropertyAttr
 import dev.evoplus.feature.setting.property.attr.DecimalPropertyAttr
@@ -18,6 +19,8 @@ import dev.evoplus.feature.setting.property.attr.NumberPropertyAttr
 import dev.evoplus.feature.setting.property.attr.SelectorPropertyAttr
 import dev.evoplus.feature.setting.property.attr.TextPropertyAttr
 import dev.evoplus.feature.setting.property.data.CategoryData
+import dev.evoplus.feature.setting.property.value.Bind
+import dev.evoplus.feature.setting.property.value.SwitchColor
 import dev.evoplus.feature.setting.utils.SettingsFile
 import gg.essential.universal.UI18n
 import java.awt.Color
@@ -274,6 +277,34 @@ abstract class Settings(
             name = name, description = description,
             hidden = hidden, subscription = subscription,
             type = PropertyType.Color, attr = ColorPropertyAttr(alpha),
+            observeInit = observeInit, action = action
+        )
+
+        fun bind(
+            field: KMutableProperty0<Bind>,
+            name: String, description: String? = null, id: String? = null,
+            hidden: Boolean = false, subscription: Boolean = false,
+            allowed: List<Bind.Type> = Bind.Type.entries,
+            observeInit: Boolean = true, action: (Bind) -> Unit = {},
+        ) = property(
+            value = field, id = id,
+            name = name, description = description,
+            hidden = hidden, subscription = subscription,
+            type = PropertyType.Bind, attr = BindPropertyAttr(allowed),
+            observeInit = observeInit, action = action
+        )
+
+        fun switchColor(
+            field: KMutableProperty0<SwitchColor>,
+            name: String, description: String? = null, id: String? = null,
+            hidden: Boolean = false, subscription: Boolean = false,
+            alpha: Boolean = false,
+            observeInit: Boolean = true, action: (SwitchColor) -> Unit = {},
+        ) = property(
+            value = field, id = id,
+            name = name, description = description,
+            hidden = hidden, subscription = subscription,
+            type = PropertyType.SwitchColor, attr = ColorPropertyAttr(alpha),
             observeInit = observeInit, action = action
         )
 

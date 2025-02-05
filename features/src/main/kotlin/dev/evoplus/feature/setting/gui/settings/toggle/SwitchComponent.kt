@@ -1,5 +1,11 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.toggle
 
+import dev.evoplus.feature.setting.gui.SettingPalette
+import dev.evoplus.feature.setting.gui.settings.SettingComponent
+import dev.evoplus.feature.setting.utils.*
+import dev.evoplus.feature.setting.utils.and
+import dev.evoplus.feature.setting.utils.bindParent
+import dev.evoplus.feature.setting.utils.pollingState
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.AspectConstraint
@@ -10,11 +16,6 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
-import dev.evoplus.feature.setting.gui.SettingPalette
-import dev.evoplus.feature.setting.utils.*
-import dev.evoplus.feature.setting.utils.and
-import dev.evoplus.feature.setting.utils.bindParent
-import dev.evoplus.feature.setting.utils.pollingState
 import java.awt.Color
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {

@@ -1,9 +1,9 @@
 package ru.dargen.evoplus.features.esp
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.value.SwitchColor
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.item.Items
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.WorldChunk
@@ -14,6 +14,7 @@ import ru.dargen.evoplus.event.world.block.BlockChangeEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityUpdateEvent
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.plus
@@ -29,13 +30,13 @@ object ESPFeature : Feature("esp", "Подсветка") {
     private val Shards = mutableMapOf<BlockPos, Node>()
     private val Barrels = mutableMapOf<BlockPos, Node>()
 
-    var LuckyBlocksEsp = false
+    var LuckyBlocksEsp = SwitchColor(true, Colors.Red)
     var ShardsEsp = false
     var BarrelsEsp = false
 
     override fun CategoryBuilder.setup() {
-        switch(::LuckyBlocksEsp, "Подсвечивание лаки-блоков", "Подсвечивает лаки-блоки в шахтах") { state ->
-            LuckyBlocks.values.forEach { it.enabled = state }
+        switchColor(::LuckyBlocksEsp, "Подсвечивание лаки-блоков", "Подсвечивает лаки-блоки в шахтах") { state ->
+            LuckyBlocks.values.forEach { it.enabled = state.enabled }
         }
 
         switch(::ShardsEsp, "Подсвечивание осколков", "Подсвечивает золотые и алмазные осколки на шахтах и боссах") { state ->
@@ -81,7 +82,7 @@ object ESPFeature : Feature("esp", "Подсветка") {
     }
 
     private fun tryToRecognizeBlock(chunk: WorldChunk, blockEntity: BlockEntity) {
-        if (!ShardsEsp && !LuckyBlocksEsp && !BarrelsEsp) return
+        if (!ShardsEsp && !LuckyBlocksEsp.enabled && !BarrelsEsp) return
 
         val pos = blockEntity.pos
         if (pos in Shards || pos in LuckyBlocks || pos in Barrels) return
@@ -90,7 +91,7 @@ object ESPFeature : Feature("esp", "Подсветка") {
     }
 
     private fun recognizeBlock(chunk: Chunk, blockPos: BlockPos, blockState: BlockState) {
-        if (!ShardsEsp && !LuckyBlocksEsp && !BarrelsEsp) return
+        if (!ShardsEsp && !LuckyBlocksEsp.enabled && !BarrelsEsp) return
 
         val shard = blockState.getShard(blockPos, chunk)
         val luckyBlock = blockState.getLuckyBlock(blockPos, chunk)
@@ -107,10 +108,10 @@ object ESPFeature : Feature("esp", "Подсветка") {
 
             luckyBlock != null -> when {
                 blockState.isHead() -> LuckyBlocks[blockPos.mutableCopy()] =
-                    blockPos.mutableCopy().renderLittleCube(luckyBlock.color).apply { enabled = LuckyBlocksEsp }
+                    blockPos.mutableCopy().renderLittleCube(luckyBlock.color).apply { enabled = LuckyBlocksEsp.enabled }
 
                 blockState.isWallHead() -> LuckyBlocks[blockPos.mutableCopy()] =
-                    blockPos.mutableCopy().renderWallLittleCube(luckyBlock.color).apply { enabled = LuckyBlocksEsp }
+                    blockPos.mutableCopy().renderWallLittleCube(luckyBlock.color).apply { enabled = LuckyBlocksEsp.enabled }
             }
 
             barrel != null -> Barrels[blockPos.mutableCopy()] =
@@ -124,7 +125,7 @@ object ESPFeature : Feature("esp", "Подсветка") {
         isLuckyBlock: Boolean = true,
         isBarrel: Boolean = true
     ) {
-        if (!ShardsEsp && !LuckyBlocksEsp && !BarrelsEsp) return
+        if (!ShardsEsp && !LuckyBlocksEsp.enabled && !BarrelsEsp) return
 
         if (isShard) Shards.remove(blockPos)?.let { WorldContext.removeChildren(it) }
         if (isLuckyBlock) LuckyBlocks.remove(blockPos)?.let { WorldContext.removeChildren(it) }

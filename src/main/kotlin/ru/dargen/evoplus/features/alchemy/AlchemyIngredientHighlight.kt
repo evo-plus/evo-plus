@@ -2,6 +2,7 @@ package ru.dargen.evoplus.features.alchemy
 
 import net.minecraft.entity.boss.BossBar
 import net.minecraft.particle.ParticleTypes
+import org.joml.Vector3f
 import ru.dargen.evoplus.feature.render.highligh.ParticleHighlighter
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.render.Colors
@@ -16,8 +17,8 @@ object AlchemyIngredientHighlight : ParticleHighlighter(AlchemyFeature::Ingredie
     override val color = Colors.Red
     override val particles = listOf(ParticleTypes.HAPPY_VILLAGER)
 
-    override fun createHighlight(x: Double, y: Double, z: Double, size: Double, color: Color): Box {
-        return super.createHighlight(x, y, z, 1.5, color)
+    override fun createHighlight(x: Double, y: Double, z: Double, size: Vector3f, color: Color): Box {
+        return super.createHighlight(x, y, z, Vector3f(1.5f), color)
     }
 
     public override fun shouldProcess() = Client?.inGameHud?.bossBarHud

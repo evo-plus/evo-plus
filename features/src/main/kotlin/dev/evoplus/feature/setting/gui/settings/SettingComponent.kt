@@ -1,11 +1,11 @@
 package dev.evoplus.feature.setting.gui.settings
 
+import dev.evoplus.feature.setting.gui.DataBackedSetting
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
-import dev.evoplus.feature.setting.gui.DataBackedSetting
 
 abstract class SettingComponent : UIContainer() {
 

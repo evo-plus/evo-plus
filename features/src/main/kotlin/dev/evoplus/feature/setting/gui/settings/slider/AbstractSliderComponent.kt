@@ -1,6 +1,7 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.slider
 
-import gg.essential.elementa.UIComponent
+import dev.evoplus.feature.setting.gui.settings.SettingComponent
+import dev.evoplus.feature.setting.utils.onLeftClick
 import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.animation.Animations
@@ -8,7 +9,6 @@ import gg.essential.elementa.dsl.animate
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.USound
-import dev.evoplus.feature.setting.utils.onLeftClick
 
 abstract class AbstractSliderComponent : SettingComponent() {
 
@@ -20,22 +20,6 @@ abstract class AbstractSliderComponent : SettingComponent() {
         constrain {
             width = ChildBasedSizeConstraint()
             height = ChildBasedMaxSizeConstraint()
-        }
-    }
-
-    override fun setupParentListeners(parent: UIComponent) {
-        parent.onMouseEnter {
-            slider.animate {
-                setWidthAnimation(Animations.OUT_EXP, .25f, 85.pixels())
-            }
-            expanded = true
-        }.onMouseLeave {
-            if (!mouseHeld) {
-                slider.animate {
-                    setWidthAnimation(Animations.OUT_EXP, .25f, 60.pixels())
-                }
-                expanded = false
-            }
         }
     }
 

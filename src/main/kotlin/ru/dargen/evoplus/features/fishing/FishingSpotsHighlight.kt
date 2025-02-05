@@ -14,11 +14,8 @@ object FishingSpotsHighlight : ParticleHighlighter(FishingFeature::SpotsHighligh
         ParticleTypes.BUBBLE_COLUMN_UP, ParticleTypes.LAVA
     )
 
-    override fun highlight(x: Double, y: Double, z: Double, size: Double, color: Color): Box {
-        val size = size.toFloat()
-        return super.highlight(x, y + .8, z, size.toDouble(), color).apply {
-            this.size = Vector3f(size * 2.4f, size / 2f, size * 2.4f)
-        }
+    override fun highlight(x: Double, y: Double, z: Double, size: Vector3f, color: Color): Box {
+        return super.highlight(x, y + .8, z, Vector3f(size.x * 2.4f, size.y / 2f, size.z * 2.4f), color)
     }
 
     override fun shouldProcess() = PlayerDataCollector.location.warp == "fish"

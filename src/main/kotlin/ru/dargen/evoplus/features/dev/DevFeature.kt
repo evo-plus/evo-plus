@@ -1,6 +1,8 @@
 package ru.dargen.evoplus.features.dev
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.value.Bind
+import gg.essential.universal.UKeyboard
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.protocol.Connector
@@ -15,6 +17,7 @@ import ru.dargen.evoplus.render.node.tick
 import ru.dargen.evoplus.scheduler.after
 
 object DevFeature : Feature("dev-env", "DevEnv") {
+
 
     val NodeDebugWidget by widgets.widget("Вывод компонентов", "node-debug") {
         +text {
@@ -45,10 +48,12 @@ object DevFeature : Feature("dev-env", "DevEnv") {
     }
 
     var NodeDebugMode = NodeDebugModeType.TOTAL
+    var bind = Bind.key(UKeyboard.KEY_J)
 
     override fun CategoryBuilder.setup() {
         selector(::NodeDebugMode, "Тип вывода компонентов")
         button("Виджеты") { after(1) { WidgetEditorScreen.open() } }
+        bind(::bind, "test", "test")
     }
 
 

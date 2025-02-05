@@ -1,4 +1,4 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.slider
 
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.CenterConstraint

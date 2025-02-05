@@ -1,5 +1,7 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.slider
 
+import dev.evoplus.feature.setting.gui.SettingPalette
+import dev.evoplus.feature.setting.utils.onLeftClick
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.AspectConstraint
@@ -9,8 +11,6 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
-import dev.evoplus.feature.setting.gui.SettingPalette
-import dev.evoplus.feature.setting.utils.onLeftClick
 
 class Slider(initialValue: Float) : UIContainer() {
 

@@ -5,7 +5,7 @@ import dev.evoplus.feature.setting.PropertyGson
 import java.lang.reflect.Type
 
 
-class GsonPropertySerializer<V>(val type: Type) : PropertySerializer<V> {
+class TreePropertySerializer<V>(val type: Type) : PropertySerializer<V> {
 
     override fun serialize(value: V) = value.runCatching(PropertyGson::toJsonTree)
 

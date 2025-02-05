@@ -1,4 +1,4 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.toggle
 
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.constraints.AspectConstraint
@@ -8,6 +8,7 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
 import dev.evoplus.feature.setting.gui.SettingPalette
+import dev.evoplus.feature.setting.gui.settings.SettingComponent
 import dev.evoplus.feature.setting.utils.onLeftClick
 
 class CheckboxComponent(initialValue: Boolean) : SettingComponent() {

@@ -4,6 +4,8 @@ fun square(value: Double) = value * value
 
 fun Double.progressTo(destination: Double, progress: Double) = this + (destination - this) * progress
 
+fun Float.progressTo(destination: Float, progress: Double) = (this + (destination - this) * progress).toFloat()
+
 fun Int.progressTo(destination: Int, progress: Double) = (this + (destination - this) * progress).toInt()
 
 fun <N> N.fix(min: N, max: N) where N : Number, N : Comparable<N> = when {

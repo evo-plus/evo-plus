@@ -3,6 +3,9 @@ package dev.evoplus.feature.setting.gui
 import dev.evoplus.feature.setting.Settings
 import dev.evoplus.feature.setting.gui.common.IconButton
 import dev.evoplus.feature.setting.gui.settings.*
+import dev.evoplus.feature.setting.gui.settings.slider.AbstractSliderComponent
+import dev.evoplus.feature.setting.gui.settings.toggle.CheckboxComponent
+import dev.evoplus.feature.setting.gui.settings.toggle.SwitchComponent
 import dev.evoplus.feature.setting.property.data.CategoryData
 import dev.evoplus.feature.setting.utils.onLeftClick
 import dev.evoplus.feature.setting.utils.scrollGradient

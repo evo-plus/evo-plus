@@ -1,4 +1,4 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.color
 
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
@@ -12,6 +12,8 @@ import gg.essential.universal.USound
 import dev.evoplus.feature.setting.gui.SettingPalette
 import dev.evoplus.feature.setting.gui.common.input.UITextInput
 import dev.evoplus.feature.setting.gui.common.shadow.ShadowIcon
+import dev.evoplus.feature.setting.gui.settings.ColorPicker
+import dev.evoplus.feature.setting.gui.settings.SettingComponent
 import dev.evoplus.feature.setting.utils.onLeftClick
 import java.awt.Color
 

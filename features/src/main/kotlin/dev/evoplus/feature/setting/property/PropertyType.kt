@@ -1,16 +1,19 @@
 package dev.evoplus.feature.setting.property
 
 import dev.evoplus.feature.setting.gui.settings.ButtonComponent
-import dev.evoplus.feature.setting.gui.settings.CheckboxComponent
-import dev.evoplus.feature.setting.gui.settings.ColorComponent
-import dev.evoplus.feature.setting.gui.settings.DecimalSliderComponent
 import dev.evoplus.feature.setting.gui.settings.NumberComponent
-import dev.evoplus.feature.setting.gui.settings.PercentSliderComponent
 import dev.evoplus.feature.setting.gui.settings.SelectorComponent
 import dev.evoplus.feature.setting.gui.settings.SettingComponent
-import dev.evoplus.feature.setting.gui.settings.SliderComponent
-import dev.evoplus.feature.setting.gui.settings.SwitchComponent
-import dev.evoplus.feature.setting.gui.settings.TextComponent
+import dev.evoplus.feature.setting.gui.settings.color.ColorComponent
+import dev.evoplus.feature.setting.gui.settings.color.SwitchColorComponent
+import dev.evoplus.feature.setting.gui.settings.input.BindComponent
+import dev.evoplus.feature.setting.gui.settings.input.TextComponent
+import dev.evoplus.feature.setting.gui.settings.slider.DecimalSliderComponent
+import dev.evoplus.feature.setting.gui.settings.slider.PercentSliderComponent
+import dev.evoplus.feature.setting.gui.settings.slider.SliderComponent
+import dev.evoplus.feature.setting.gui.settings.toggle.CheckboxComponent
+import dev.evoplus.feature.setting.gui.settings.toggle.SwitchComponent
+import dev.evoplus.feature.setting.property.attr.BindPropertyAttr
 import dev.evoplus.feature.setting.property.attr.ButtonPropertyAttr
 import dev.evoplus.feature.setting.property.attr.ColorPropertyAttr
 import dev.evoplus.feature.setting.property.attr.DecimalPropertyAttr
@@ -19,14 +22,18 @@ import dev.evoplus.feature.setting.property.attr.SelectorPropertyAttr
 import dev.evoplus.feature.setting.property.attr.TextPropertyAttr
 import dev.evoplus.feature.setting.property.serializer.ColorPropertySerializer
 import dev.evoplus.feature.setting.property.serializer.EmptyPropertySerializer
-import dev.evoplus.feature.setting.property.serializer.GsonPropertySerializer
 import dev.evoplus.feature.setting.property.serializer.PropertySerializer
 import dev.evoplus.feature.setting.property.serializer.TextPropertySerializer
+import dev.evoplus.feature.setting.property.serializer.TreePropertySerializer
+import dev.evoplus.feature.setting.property.value.Bind
+import dev.evoplus.feature.setting.property.value.SwitchColor
 import java.awt.Color
 
 private typealias JColor = Color
 private typealias Serializer<T> = PropertySerializer<T>
 private typealias Value<T> = PropertyValue<T>
+private typealias SwitchColorData = SwitchColor
+private typealias BindData = Bind
 
 abstract class PropertyType<V, A> {
 
@@ -36,7 +43,7 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<Boolean>, data: Any?): Serializer<Boolean> {
-            return GsonPropertySerializer(Boolean::class.java)
+            return TreePropertySerializer(Boolean::class.java)
         }
     }
 
@@ -46,7 +53,7 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<Boolean>, data: Any?): Serializer<Boolean> {
-            return GsonPropertySerializer(Boolean::class.java)
+            return TreePropertySerializer(Boolean::class.java)
         }
     }
 
@@ -56,7 +63,7 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<Int>, data: NumberPropertyAttr): Serializer<Int> {
-            return GsonPropertySerializer(Int::class.java)
+            return TreePropertySerializer(Int::class.java)
         }
     }
 
@@ -66,7 +73,7 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<Int>, data: NumberPropertyAttr): Serializer<Int> {
-            return GsonPropertySerializer(Int::class.java)
+            return TreePropertySerializer(Int::class.java)
         }
     }
 
@@ -76,7 +83,7 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<Float>, data: DecimalPropertyAttr): Serializer<Float> {
-            return GsonPropertySerializer(Float::class.java)
+            return TreePropertySerializer(Float::class.java)
         }
     }
 
@@ -86,7 +93,17 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<Float>, data: Any?): Serializer<Float> {
-            return GsonPropertySerializer(Float::class.java)
+            return TreePropertySerializer(Float::class.java)
+        }
+    }
+
+    data object Bind : PropertyType<BindData, BindPropertyAttr>() {
+        override fun createComponent(value: Value<BindData>, attr: BindPropertyAttr): SettingComponent {
+            return BindComponent(value.getValue(), attr.types)
+        }
+
+        override fun createSerializer(value: Value<BindData>, data: BindPropertyAttr): Serializer<BindData> {
+            return TreePropertySerializer(BindData::class.java)
         }
     }
 
@@ -120,6 +137,16 @@ abstract class PropertyType<V, A> {
         }
     }
 
+    data object SwitchColor : PropertyType<SwitchColorData, ColorPropertyAttr>() {
+        override fun createComponent(value: Value<SwitchColorData>, attr: ColorPropertyAttr): SettingComponent {
+            return SwitchColorComponent(value.getValue().enabled, value.getValue().color, attr.alpha)
+        }
+
+        override fun createSerializer(value: Value<SwitchColorData>, data: ColorPropertyAttr): PropertySerializer<SwitchColorData> {
+            return TreePropertySerializer(SwitchColorData::class.java)
+        }
+    }
+
     data object Selector : PropertyType<Any, SelectorPropertyAttr<*>>() {
         override fun createComponent(value: Value<Any>, attr: SelectorPropertyAttr<*>): SettingComponent {
             @Suppress("UNCHECKED_CAST")
@@ -127,7 +154,7 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<Any>, data: SelectorPropertyAttr<*>): PropertySerializer<Any> {
-            return GsonPropertySerializer(value.type)
+            return TreePropertySerializer(value.type)
         }
     }
 

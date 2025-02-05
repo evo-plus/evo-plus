@@ -1,4 +1,4 @@
-package dev.evoplus.feature.setting.gui.settings
+package dev.evoplus.feature.setting.gui.settings.input
 
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIImage
@@ -12,6 +12,7 @@ import dev.evoplus.feature.setting.gui.common.input.AbstractTextInput
 import dev.evoplus.feature.setting.gui.common.input.UIMultilineTextInput
 import dev.evoplus.feature.setting.gui.common.input.UIPasswordInput
 import dev.evoplus.feature.setting.gui.common.input.UITextInput
+import dev.evoplus.feature.setting.gui.settings.SettingComponent
 import dev.evoplus.feature.setting.utils.onLeftClick
 
 class TextComponent(

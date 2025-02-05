@@ -1,5 +1,8 @@
 package dev.evoplus.feature.setting.gui.settings
 
+import dev.evoplus.feature.setting.gui.SettingPalette
+import dev.evoplus.feature.setting.gui.settings.slider.Slider
+import dev.evoplus.feature.setting.utils.onLeftClick
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
@@ -9,8 +12,6 @@ import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
 import gg.essential.universal.USound
-import dev.evoplus.feature.setting.gui.SettingPalette
-import dev.evoplus.feature.setting.utils.onLeftClick
 import java.awt.Color
 import java.util.*
 import kotlin.math.roundToInt

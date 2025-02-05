@@ -35,4 +35,4 @@ class AnimationProperty<T : Any>(
 }
 
 inline fun <reified T : Any> proxied(initial: T) =
-    AnimationProperty(AnimationTargetType.forClass(T::class.java), initial)
+    AnimationProperty(AnimationTargetType.forType(T::class.java), initial)

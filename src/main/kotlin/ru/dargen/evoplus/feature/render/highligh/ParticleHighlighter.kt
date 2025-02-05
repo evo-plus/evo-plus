@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.feature.render.highligh
 
 import net.minecraft.particle.ParticleType
+import org.joml.Vector3f
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.world.ParticleEvent
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
@@ -15,7 +16,7 @@ abstract class ParticleHighlighter(val enabled: () -> Boolean, expire: Duration 
     init {
         on<ParticleEvent> {
             if (enabled() && shouldProcess() && packet.parameters.type in particles) with(packet) {
-                createHighlight(x, y, z, offsetX * 2.0)
+                createHighlight(x, y, z, Vector3f(offsetX * 2f))
             }
         }
     }
