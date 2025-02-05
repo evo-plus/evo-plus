@@ -9,12 +9,7 @@ import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.render.entity.RenderPlayerLabelEvent
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.render.Colors
-import ru.dargen.evoplus.util.render.ColorProgression
-import ru.dargen.evoplus.util.render.TextRenderer
-import ru.dargen.evoplus.util.render.drawRectangle
-import ru.dargen.evoplus.util.render.drawWorldText
-import ru.dargen.evoplus.util.render.normalize3DScale
-import ru.dargen.evoplus.util.render.push
+import ru.dargen.evoplus.util.render.*
 
 //TODO: maybe remove for npcs
 object HealthBar : Feature(name = "Полоса здоровья") {

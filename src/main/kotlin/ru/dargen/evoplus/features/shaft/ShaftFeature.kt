@@ -23,11 +23,7 @@ import ru.dargen.evoplus.util.evo.isBarrel
 import ru.dargen.evoplus.util.evo.isDetonatingBarrel
 import ru.dargen.evoplus.util.format.nounEndings
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.WorldEntities
-import ru.dargen.evoplus.util.minecraft.customModelData
-import ru.dargen.evoplus.util.minecraft.forEachBlocks
-import ru.dargen.evoplus.util.minecraft.printMessage
-import ru.dargen.evoplus.util.minecraft.sendClanMessage
+import ru.dargen.evoplus.util.minecraft.*
 import kotlin.math.max
 
 object ShaftFeature : Feature("shaft", "Шахта") {

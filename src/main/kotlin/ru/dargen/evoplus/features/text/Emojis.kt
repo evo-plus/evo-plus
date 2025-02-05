@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.chat
+package ru.dargen.evoplus.features.text
 
 import ru.dargen.evoplus.event.chat.ChatSendEvent
 import ru.dargen.evoplus.event.on

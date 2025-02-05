@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.render.OverlayRenderEvent;
-import ru.dargen.evoplus.features.chat.TextFeature;
+import ru.dargen.evoplus.features.text.TextFeature;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.mixin.HeartType;
 

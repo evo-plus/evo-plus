@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.fishing
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import dev.evoplus.feature.setting.property.subscription
-import net.minecraft.item.Items
 import net.minecraft.util.Hand
 import pro.diamondworld.protocol.packet.fishing.SpotNibbles
 import pro.diamondworld.protocol.packet.fishing.quest.HourlyQuestInfo

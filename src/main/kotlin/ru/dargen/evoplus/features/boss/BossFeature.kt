@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.features.boss
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
-import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on

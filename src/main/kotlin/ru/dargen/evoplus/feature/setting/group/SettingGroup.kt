@@ -6,11 +6,7 @@ import ru.dargen.evoplus.feature.screen.FeatureBaseElement
 import ru.dargen.evoplus.feature.screen.FeatureElement
 import ru.dargen.evoplus.feature.screen.FeatureElementProvider
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
-import ru.dargen.evoplus.feature.setting.BooleanSetting
-import ru.dargen.evoplus.feature.setting.ColorInputSetting
-import ru.dargen.evoplus.feature.setting.SelectorSetting
-import ru.dargen.evoplus.feature.setting.Setting
-import ru.dargen.evoplus.feature.setting.SwitcherSetting
+import ru.dargen.evoplus.feature.setting.*
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.DropElementsBoxNode
 import ru.dargen.evoplus.util.json.isNull

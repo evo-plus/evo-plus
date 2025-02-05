@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.features.rune
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
-import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
 import ru.dargen.evoplus.feature.Feature
@@ -15,7 +14,6 @@ import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.collection.concurrentHashMapOf
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.printMessage
 
 object RuneFeature : Feature("rune", "Руны") {

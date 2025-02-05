@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.chat
+package ru.dargen.evoplus.features.text
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
@@ -6,7 +6,7 @@ import ru.dargen.evoplus.event.chat.ChatSendEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.render.StringRenderEvent
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.chat.market.MarketChatTimerWidget
+import ru.dargen.evoplus.features.text.market.MarketChatTimerWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.uncolored
@@ -54,7 +54,6 @@ object TextFeature : Feature("text", "Текст") {
                 "Сохранение истории чата после перезахода",
                 "Сохраняет всю историю вашего чата после перезахода на сервер"
             )
-
             slider(
                 ::LongerChat,
                 "Увеличение истории чата",

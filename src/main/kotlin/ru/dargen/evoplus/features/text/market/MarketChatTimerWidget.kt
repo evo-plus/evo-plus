@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.chat.market
+package ru.dargen.evoplus.features.text.market
 
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.render.node.box.hbox
