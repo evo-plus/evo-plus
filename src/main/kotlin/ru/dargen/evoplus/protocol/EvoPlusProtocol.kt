@@ -35,9 +35,10 @@ object EvoPlusProtocol {
             if (!channel.startsWith("dw")) return@on
             val channel = channel.drop(3)
 
-            Handlers[channel]?.invoke(payload)
-
-            cancel()
+            Handlers[channel]?.run {
+                invoke(payload)
+                cancel()
+            }
         }
     }
 

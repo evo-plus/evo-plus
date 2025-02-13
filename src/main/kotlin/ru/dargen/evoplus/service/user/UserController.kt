@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.service.user
 
 import ru.dargen.evoplus.service.user.model.UserStatisticModel
+import ru.dargen.rest.annotation.Async
 import ru.dargen.rest.annotation.RequestHeader
 import ru.dargen.rest.annotation.RequestMapping
 import ru.dargen.rest.annotation.parameter.Authorization
@@ -12,6 +13,7 @@ import ru.dargen.rest.request.HttpMethod.POST
 //@RequestMapping("http://localhost:5353/api")
 interface UserController {
 
+    @Async
     @RequestMapping("/update", method = POST)
     fun update(
         @Authorization("Bearer") token: String,

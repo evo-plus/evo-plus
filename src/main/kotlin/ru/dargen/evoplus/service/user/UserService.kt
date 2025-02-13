@@ -27,7 +27,7 @@ object UserService {
     private val userNames = newCacheExpireAfterAccess<String, String>(1.minutes)
 
     init {
-        on<PlayerTokenUpdateEvent> { if (token.isWorking) tryUpdate() }
+        on<PlayerTokenUpdateEvent> { tryUpdate() }
 
         on<ChangeServerEvent> { tryFetchUserData() }
         scheduleEvery(1, 1, unit = MINUTES) { tryUpdateStatistic() }
