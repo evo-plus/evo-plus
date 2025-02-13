@@ -23,6 +23,7 @@ import dev.evoplus.feature.setting.property.attr.TextPropertyAttr
 import dev.evoplus.feature.setting.property.serializer.ColorPropertySerializer
 import dev.evoplus.feature.setting.property.serializer.EmptyPropertySerializer
 import dev.evoplus.feature.setting.property.serializer.PropertySerializer
+import dev.evoplus.feature.setting.property.serializer.SwitchColorPropertySerializer
 import dev.evoplus.feature.setting.property.serializer.TextPropertySerializer
 import dev.evoplus.feature.setting.property.serializer.TreePropertySerializer
 import dev.evoplus.feature.setting.property.value.Bind
@@ -143,7 +144,7 @@ abstract class PropertyType<V, A> {
         }
 
         override fun createSerializer(value: Value<SwitchColorData>, data: ColorPropertyAttr): PropertySerializer<SwitchColorData> {
-            return TreePropertySerializer(SwitchColorData::class.java)
+            return SwitchColorPropertySerializer(data.alpha)
         }
     }
 

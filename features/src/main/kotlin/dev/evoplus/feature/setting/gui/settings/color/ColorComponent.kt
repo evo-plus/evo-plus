@@ -1,5 +1,11 @@
 package dev.evoplus.feature.setting.gui.settings.color
 
+import dev.evoplus.feature.setting.gui.SettingPalette
+import dev.evoplus.feature.setting.gui.common.input.UITextInput
+import dev.evoplus.feature.setting.gui.common.shadow.ShadowIcon
+import dev.evoplus.feature.setting.gui.settings.ColorPicker
+import dev.evoplus.feature.setting.gui.settings.SettingComponent
+import dev.evoplus.feature.setting.utils.onLeftClick
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.CenterConstraint
@@ -7,14 +13,8 @@ import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
-import gg.essential.elementa.state.toConstraint
+import gg.essential.elementa.utils.withAlpha
 import gg.essential.universal.USound
-import dev.evoplus.feature.setting.gui.SettingPalette
-import dev.evoplus.feature.setting.gui.common.input.UITextInput
-import dev.evoplus.feature.setting.gui.common.shadow.ShadowIcon
-import dev.evoplus.feature.setting.gui.settings.ColorPicker
-import dev.evoplus.feature.setting.gui.settings.SettingComponent
-import dev.evoplus.feature.setting.utils.onLeftClick
 import java.awt.Color
 
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
@@ -25,7 +25,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         x = 5.pixels
         y = 6.pixels
         width = 100.percent - 30.pixels
-        color = SettingPalette.text.toConstraint()
+        color = initial.toConstraint()
     } childOf this
 
     private val downArrow by ShadowIcon(SettingPalette.ARROW_DOWN_7X4, buttonShadow = true).constrain {
@@ -128,6 +128,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
         colorPicker.onValueChange { color ->
             changeValue(color)
+            currentColorHex.setColor(color.withAlpha(1f))
             currentColorHex.setText(getColorString(color))
         }
 
@@ -136,6 +137,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             event.stopPropagation()
         }
     }
+
+    fun getCurrentColor() = colorPicker.getCurrentColor()
 
     override fun closePopups(instantly: Boolean) {
         collapse(true, instantly)
@@ -178,13 +181,13 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
     private fun hoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, SettingPalette.textHighlight.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, colorPicker.getCurrentColor().darker().toConstraint())
         }
     }
 
     private fun unHoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, SettingPalette.text.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, colorPicker.getCurrentColor().toConstraint())
         }
     }
 

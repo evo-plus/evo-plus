@@ -89,7 +89,6 @@ class BindComponent(bind: Bind, allowed: List<Bind.Type>) : SettingComponent() {
     }
 
     fun rebind(type: Bind.Type, code: Int) {
-        println("Rebind to $type $code")
         releaseWindowFocus()
         val bind = Bind(type, code)
         text.setText(bind.buttonName)
