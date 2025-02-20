@@ -65,10 +65,8 @@ object EvoPlus : ClientModInitializer {
 
         UpdateResolver.schedule()
 
-        ClientCommandRegistrationCallback.EVENT.register { dispatcher: CommandDispatcher<FabricClientCommandSource>, _ ->
-            EvoPlusCommand.register(dispatcher)
-            ShareCommand.register(dispatcher)
-        }
+        registerCommands()
+
     }
 
     fun onPreInitializeClient() {
@@ -103,6 +101,13 @@ object EvoPlus : ClientModInitializer {
         add(MiscFeature)
         add(ShareFeature)
 
+    }
+
+    private fun registerCommands() {
+        ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
+            EvoPlusCommand.register(dispatcher)
+            ShareCommand.register(dispatcher)
+        }
     }
 
 }

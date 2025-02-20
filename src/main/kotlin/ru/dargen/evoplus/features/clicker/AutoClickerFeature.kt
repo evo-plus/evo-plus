@@ -2,13 +2,12 @@ package ru.dargen.evoplus.features.clicker
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import dev.evoplus.feature.setting.property.subscription
+import dev.evoplus.feature.setting.property.value.Bind.Companion.key
+import gg.essential.universal.UKeyboard
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.keybind.Keybinds
-import ru.dargen.evoplus.keybind.boundKey
-import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
@@ -22,34 +21,39 @@ object AutoClickerFeature : Feature("clicker", "Кликер") {
         }
 
     var BindEnabled = true
+    var Bind = key(UKeyboard.KEY_Z)
+
     var Mode = ClickerMode.CLICK
     var Button = ClickerButton.LEFT
     var CPS = 10
 
     override fun CategoryBuilder.setup() {
-        switch(::BindEnabled, "Статус бинда", "Включает/выключает бинд кликера").subscription()
-        selector(::Mode, "Режим работы", "Выбор режима работы кликера").subscription()
-        selector(::Button, "Кнопка кликера", "Выбор кнопки мыши кликера").subscription()
-        slider(::CPS, "КПС", "Определённое значение кликов в секунду", range = 1..20).subscription()
+        subcategory("clicker-bind", "Настройки бинда") {
+            switch(::BindEnabled, "Статус бинда", "Включает/выключает бинд кликера").subscription()
+            bind(::Bind, "Клавиша бинда", "Клавиша, которая включает/выключает кликер").subscription()
+        }
+
+        subcategory("clicker-settings", "Настройки кликера") {
+            selector(::Mode, "Режим работы", "Выбор режима работы кликера").subscription()
+            selector(::Button, "Кнопка кликера", "Выбор кнопки мыши кликера").subscription()
+            slider(::CPS, "КПС", "Определённое значение кликов в секунду", range = 1..20).subscription()
+        }
     }
 
     override fun initialize() {
-        Keybinds.AutoClicker.on {
-            if (!BindEnabled || Mode !== ClickerMode.CLICK) return@on
+
+        on<KeyEvent> {
+            if (key != Bind.code || !BindEnabled || Mode !== ClickerMode.CLICK || !state) return@on
             enabled = !enabled
         }
-        
-        on<KeyEvent> {
-            if (key != Keybinds.AutoClicker.boundKey.code || !BindEnabled || Mode !== ClickerMode.HOLD) return@on
-            enabled = state
-        }
+
         on<MouseClickEvent> {
-            if (button != Keybinds.AutoClicker.boundKey.code || !BindEnabled || Mode !== ClickerMode.HOLD) return@on
-            enabled = state
+            if (button != Bind.code || !BindEnabled || Mode !== ClickerMode.CLICK || !state) return@on
+            enabled = !enabled
         }
 
         scheduleEvery(0, 50, unit = TimeUnit.MILLISECONDS) {
-            if (!enabled) return@scheduleEvery
+            if (!enabled && !UKeyboard.isKeyDown(Bind.code)) return@scheduleEvery
 
             remainToClick -= 50
 
@@ -58,5 +62,7 @@ object AutoClickerFeature : Feature("clicker", "Кликер") {
             remainToClick = 1000 / CPS
             Button.click()
         }
+
     }
+
 }

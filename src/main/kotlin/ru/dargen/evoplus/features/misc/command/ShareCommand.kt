@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.minecraft.printMessage
 
@@ -17,8 +18,14 @@ object ShareCommand {
 
     fun register(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
         val node = registerCommand(dispatcher)
-        // Fix this alias (/send's first execute is not working from /share)
-        dispatcher.register(literal("share").redirect(node))
+
+        dispatcher.register(
+            literal("share")
+                .executes { context ->
+                    dispatcher.execute("send", context.source)
+                }
+                .redirect(node)
+        )
     }
 
     fun registerCommand(dispatcher: CommandDispatcher<FabricClientCommandSource>): LiteralCommandNode<FabricClientCommandSource> {
@@ -61,6 +68,11 @@ object ShareCommand {
 
                                     if (target == context.source.player.name.string) {
                                         printMessage("§cВы не можете взаимодействовать с собой!")
+                                        return@executes 0
+                                    }
+
+                                    if (ClanInfoCollector.Name.isEmpty()) {
+                                        printMessage("§cВы не состоите в клане!")
                                         return@executes 0
                                     }
 
