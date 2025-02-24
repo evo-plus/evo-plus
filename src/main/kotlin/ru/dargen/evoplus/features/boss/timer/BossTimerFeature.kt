@@ -20,18 +20,26 @@ import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.format.asTextTime
 import ru.dargen.evoplus.util.format.fromTextTime
-import ru.dargen.evoplus.util.minecraft.*
+import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.minecraft.CurrentScreen
+import ru.dargen.evoplus.util.minecraft.asText
+import ru.dargen.evoplus.util.minecraft.displayName
+import ru.dargen.evoplus.util.minecraft.itemStack
+import ru.dargen.evoplus.util.minecraft.lore
+import ru.dargen.evoplus.util.minecraft.printHoveredCommandMessage
+import ru.dargen.evoplus.util.minecraft.sendClanMessage
+import ru.dargen.evoplus.util.minecraft.sendCommand
+import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
 import kotlin.math.absoluteValue
 
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
-private const val MYTHICAL_EVENT_MULTIPLIER_X1000 = (MYTHICAL_EVENT_MULTIPLIER * 1000).toLong()
 
 object BossTimerFeature : Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
 
     val AlertedBosses = mutableSetOf<String>()
     val PreAlertedBosses = mutableSetOf<String>()
-    val Bosses: MutableMap<String, Long> by config("bosses", mutableMapOf())
+    val Bosses: MutableMap<String, Long> by config("bosses", hashMapOf())
     val ComparedBosses
         get() = Bosses
             .mapKeys { BossType.valueOf(it.key) }
@@ -57,10 +65,10 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         "Сохранять в таймере после спавна",
         (0..360 step 5).toSelector()
     ) { "$it сек." }
-    
+
     val OnlyRaidBosses by settings.boolean("Отображать только рейдовых боссов")
     val OnlyCapturedBosses by settings.boolean("Отображать только захваченных боссов")
-    
+
     val InlineMenuTime by settings.boolean("Отображать время до спавна в меню", true)
 
     val SpawnMessage by settings.boolean("Сообщение о спавне", true)
@@ -85,15 +93,15 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         on<GameEventChangeEvent> {
             if (old === MYTHICAL_EVENT || new === MYTHICAL_EVENT) Bosses.replaceAll { bossId, spawn ->
                 if (BossType.valueOf(bossId)?.isRaid == false) return@replaceAll spawn
-                
-                (if (old === MYTHICAL_EVENT) (spawn * MYTHICAL_EVENT_MULTIPLIER_X1000) / 1000 else (spawn * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000)
+
+                (if (old === MYTHICAL_EVENT) spawn * MYTHICAL_EVENT_MULTIPLIER else spawn / MYTHICAL_EVENT_MULTIPLIER).toLong()
             }
         }
 
         listen<BossTimers> {
             if (PremiumTimers) it.timers
                 .mapKeys { BossType.valueOf(it.key) ?: return@listen }
-                .mapValues { (it.value + currentMillis * if (PlayerDataCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER_X1000 else 1000) / 1000 }
+                .mapValues { (it.value + currentMillis * if (PlayerDataCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER else 1.0).toLong() }
                 .mapKeys { it.key.id }
                 .let(Bosses::putAll)
         }
@@ -174,7 +182,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         val currentSpawnTime = Bosses[type.id] ?: 0
 
         if ((spawnTime - currentSpawnTime).absoluteValue < 13000) return
-        
+
         if (UpdateNotify) NotifyWidget.showText(
             "Босс §6${type.displayName} §fобновлен",
             "Возрождение через §6${additionTime.asTextTime}"
@@ -196,7 +204,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         ?.run {
             val type = BossType.valueOfName(getOrNull(0) ?: return@run null) ?: return@run null
             val delay = getOrNull(1)?.replace("۞", "")?.fromTextTime
-                ?.let { if (PlayerDataCollector.event === MYTHICAL_EVENT && type.isRaid) ((it * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000).toLong() else it }
+                ?.let { if (PlayerDataCollector.event === MYTHICAL_EVENT && type.isRaid) (it / MYTHICAL_EVENT_MULTIPLIER).toLong() else it }
                 ?.takeIf { it > 6000 }
                 ?: return@run null
 
@@ -205,7 +213,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
 
     fun message(text: String, type: BossType) =
         printHoveredCommandMessage(text, "§aНажмите, чтобы начать телепортацию", "/boss ${type.level}")
-    
+
     fun notify(type: BossType, vararg text: String) = NotifyWidget.showText(*text) { sendCommand("boss ${type.level}") }
 
 }
