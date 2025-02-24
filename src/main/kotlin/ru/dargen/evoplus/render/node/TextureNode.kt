@@ -1,12 +1,14 @@
 package ru.dargen.evoplus.render.node
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import ru.dargen.evoplus.render.animation.property.proxied
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
+import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.render.BufferBuilderStorage
 
 @KotlinOpens
 class TextureNode : Node() {
@@ -31,17 +33,17 @@ class TextureNode : Node() {
 
         if (blend) RenderSystem.enableBlend()
 
-        if (repeating) DrawableHelper.drawRepeatingTexture(
-            matrices, 0, 0,
-            size.x.toInt(), size.y.toInt(),
-            textureOffset.x.toInt(), textureOffset.y.toInt(),
-            textureSize.x.toInt(), textureSize.y.toInt()
-        ) else DrawableHelper.drawTexture(
-            matrices, 0, 0,
-            textureOffset.x.toFloat(), textureOffset.y.toFloat(),
-            size.x.toInt(), size.y.toInt(),
-            textureSize.x.toInt(), textureSize.y.toInt()
-        )
+//        if (repeating) DrawContext(Client, BufferBuilderStorage.entityVertexConsumers).drawRepeatingTexture(
+//            matrices, 0, 0,
+//            size.x.toInt(), size.y.toInt(),
+//            textureOffset.x.toInt(), textureOffset.y.toInt(),
+//            textureSize.x.toInt(), textureSize.y.toInt()
+//        ) else DrawableHelper.drawTexture(
+//            matrices, 0, 0,
+//            textureOffset.x.toFloat(), textureOffset.y.toFloat(),
+//            size.x.toInt(), size.y.toInt(),
+//            textureSize.x.toInt(), textureSize.y.toInt()
+//        )
     }
 
 }

@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.resource.diamondworld
 
 import net.minecraft.resource.ResourcePack
+import net.minecraft.resource.ResourcePackInfo
 import net.minecraft.resource.ResourcePackProfile
 import net.minecraft.resource.ZipResourcePack
 import ru.dargen.evoplus.features.misc.resource.ResourcePackDownloader
@@ -18,8 +19,8 @@ class DiamondWorldPackProvider(
         }
     }
 
-    override fun openPack(name: String): ResourcePack {
-        return ZipResourcePack(name, downloader.supplySync().toFile(), true)
+    override fun openPack(info: ResourcePackInfo): ResourcePack {
+        return ZipResourcePack.ZipBackedFactory(downloader.supplySync().toFile()).open(info)
     }
 
 }

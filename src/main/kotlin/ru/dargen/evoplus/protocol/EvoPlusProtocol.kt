@@ -3,7 +3,8 @@ package ru.dargen.evoplus.protocol
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket
+import net.minecraft.network.packet.CustomPayload
+import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket
 import net.minecraft.util.Identifier
 import pro.diamondworld.protocol.ProtocolRegistry
 import pro.diamondworld.protocol.util.BufUtil
@@ -14,7 +15,6 @@ import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.minecraft.Client
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
-
 
 typealias Handler<T> = (T) -> Unit
 typealias RawHandler = Handler<ByteBuf>

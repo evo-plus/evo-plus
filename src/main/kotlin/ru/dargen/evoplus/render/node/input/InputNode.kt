@@ -171,7 +171,7 @@ class InputNode : RectangleNode() {
 
     fun filter(filter: InputFilter) = apply { filters.add(filter) }
 
-    fun strictSymbols() = filter { SharedConstants.isValidChar(it) }
+    fun strictSymbols() = filter { SharedConstants.INVALID_CHARS_LEVEL_NAME.contains(it) }
 
     fun clear() {
         if (content.isEmpty()) return

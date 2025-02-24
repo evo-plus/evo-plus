@@ -1,11 +1,12 @@
 package ru.dargen.evoplus.util.minecraft
 
+import net.minecraft.component.ComponentMap
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.CustomModelDataComponent
+import net.minecraft.component.type.LoreComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtString
 import net.minecraft.registry.Registries
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -22,33 +23,32 @@ fun customItem(type: Item, customModelData: Int, block: ItemStack.() -> Unit = {
 
 fun ItemStack.equalCustomModel(item: ItemStack) = this.item == item.item && customModelData == item.customModelData
 
-fun ItemStack.editNBT(block: NbtCompound.() -> Unit) = apply {
-    nbt = orCreateNbt.apply(block)
-}
+fun ItemStack.editComponents(map: ComponentMap.Builder.() -> Unit) =
+    applyComponentsFrom(ComponentMap.builder().addAll(components).apply(map).build())
 
 var ItemStack.customModelData: Int?
-    get() = nbt?.getInt("CustomModelData")
+    get() = components.get(DataComponentTypes.CUSTOM_MODEL_DATA)?.value
     set(value) {
-        if (value != null) editNBT { putInt("CustomModelData", value) }
+        if (value != null) editComponents {
+            set(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelDataComponent(value))
+        }
     }
 
 var ItemStack.displayName: Text?
     get() = name
     set(value) {
-        setCustomName(value ?: Text.empty())
+        editComponents {
+            set(DataComponentTypes.CUSTOM_NAME, value ?: Text.empty())
+        }
     }
 
 var ItemStack.lore: List<Text>
-    get() = getSubNbt("display")
-        ?.getList("Lore", 8)
-        ?.map(NbtElement::asString)
-        ?.mapNotNull(Text.Serializer::fromJson)
-        ?.toMutableList() ?: mutableListOf()
+    get() = components.get(DataComponentTypes.LORE)
+        ?.lines?.toMutableList() ?: mutableListOf()
     set(value) {
-        getOrCreateSubNbt("display").put(
-            "Lore",
-            ListTagConstructor.newInstance(value.map(Text.Serializer::toJson).map(NbtString::of), 8.toByte())
-        )
+        editComponents {
+            set(DataComponentTypes.LORE, LoreComponent(value))
+        }
     }
 
 @Suppress("unchecked_cast")

@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.render.node
 
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -16,7 +17,7 @@ class ItemStackNode(var item: ItemStack = ItemStack(Items.AIR)) : RectangleNode(
 
     override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
         super.renderElement(matrices, tickDelta)
-        ItemRenderer.renderGuiItemIcon(matrices, item, 0, 0)
+        ItemRenderer.renderItem(item, ModelTransformationMode.NONE, false, matrices, null, 0, 0, null)
     }
 
 }

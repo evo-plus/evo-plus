@@ -56,7 +56,6 @@ object DevFeature : Feature("dev-env", "DevEnv") {
         bind(::bind, "test", "test")
     }
 
-
     enum class NodeDebugModeType(val displayName: String, val totalizer: RenderContext.() -> Map<Class<*>, Int>) {
 
         TOTAL("Древо компонентов", {
