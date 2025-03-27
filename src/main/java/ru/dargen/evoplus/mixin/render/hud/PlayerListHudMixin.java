@@ -69,10 +69,10 @@ public abstract class PlayerListHudMixin {
         cir.setReturnValue(event.getDisplayName());
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/GameProfile;getName()Ljava/lang/String;"), method = "getPlayerName")
-    private String getName(GameProfile profile) {
-        var event = new AccessPlayerNameEvent(profile.getName(), profile.getName());
-        return EventBus.INSTANCE.fire(event).getName();
-    }
+//    @Redirect(at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/GameProfile;getName()Ljava/lang/String;"), method = "getPlayerName")
+//    private String getName(GameProfile profile) {
+//        var event = new AccessPlayerNameEvent(profile.getName(), profile.getName());
+//        return EventBus.INSTANCE.fire(event).getName();
+//    }
 
 }

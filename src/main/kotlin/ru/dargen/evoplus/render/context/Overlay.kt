@@ -11,6 +11,7 @@ import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.MousePosition
 import ru.dargen.evoplus.util.minecraft.Window
 import ru.dargen.evoplus.util.minecraft.WindowInitialized
+import ru.dargen.evoplus.util.render.MatrixStack
 
 data object Overlay : RenderContext() {
 
@@ -21,6 +22,7 @@ data object Overlay : RenderContext() {
 
     val ScaledMouse get() = MousePosition / Scale
     val ScaledResolution get() = size.clone()
+
     @get:JvmName("_scale")
     val Scale get() = scale.clone()
 
@@ -31,7 +33,10 @@ data object Overlay : RenderContext() {
     }
 
     override fun registerRenderHandlers() {
-        on<OverlayRenderEvent> { render(matrices, tickDelta) }
+        on<OverlayRenderEvent> {
+            MatrixStack = matrices
+            render(matrices, tickDelta)
+        }
         on<WindowResizeEvent> { resize() }
         on<WindowRescaleEvent> { resize() }
     }

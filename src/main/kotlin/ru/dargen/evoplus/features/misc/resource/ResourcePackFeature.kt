@@ -38,10 +38,10 @@ object ResourcePackFeature : Feature(name = "Пакеты ресурсов") {
     }
 
     override fun preInitialize() {
-        on<ResourcePackProvidersEvent> {
-            providers.add(DiamondWorldPackProvider(Downloader, ::preload))
-            providers.add(EvoPlusPackProvider())
-        }
+//        on<ResourcePackProvidersEvent> {
+//            providers.add(DiamondWorldPackProvider(Downloader, ::preload))
+//            providers.add(EvoPlusPackProvider())
+//        }
     }
 
     override fun initialize() {

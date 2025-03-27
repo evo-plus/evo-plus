@@ -1,14 +1,11 @@
 package ru.dargen.evoplus.render.node
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import ru.dargen.evoplus.render.animation.property.proxied
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.Client
-import ru.dargen.evoplus.util.render.BufferBuilderStorage
 
 @KotlinOpens
 class TextureNode : Node() {

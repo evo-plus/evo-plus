@@ -20,11 +20,14 @@ import net.minecraft.network.message.*;
 import net.minecraft.network.packet.BrandCustomPayload;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.UnknownCustomPayload;
+import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.c2s.play.ChatCommandSignedC2SPacket;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
 import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,6 +43,7 @@ import ru.dargen.evoplus.event.inventory.InventoryFillEvent;
 import ru.dargen.evoplus.event.inventory.InventoryOpenEvent;
 import ru.dargen.evoplus.event.inventory.InventorySlotUpdateEvent;
 import ru.dargen.evoplus.event.network.ChangeServerEvent;
+import ru.dargen.evoplus.event.network.CustomPayloadEvent;
 import ru.dargen.evoplus.event.world.ChunkLoadEvent;
 import ru.dargen.evoplus.event.world.ParticleEvent;
 import ru.dargen.evoplus.event.world.WorldMapEvent;
@@ -220,12 +224,17 @@ public abstract class ClientPlayNetworkHandlerMixin {
 
     @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
     public void onCustomPayload(CustomPayload packet, CallbackInfo ci) {
+
+        if (packet instanceof UnknownCustomPayload){
+            System.out.println("UnknownCustomPayload: " + ((UnknownCustomPayload) packet).getId());
+        }
+
         if (packet instanceof BrandCustomPayload){
             EventBus.INSTANCE.fire(ChangeServerEvent.INSTANCE);
         }
 
-        //todo: checl
-//        if (!EventBus.INSTANCE.fireResult(new CustomPayloadEvent(packet.getChannel().toString(), packet.getData()))) {
+        //todo: fix
+//        if (!EventBus.INSTANCE.fireResult(new CustomPayloadEvent(packet.getId().id().toString(), packet.data()))) {
 //            ci.cancel();
 //        }
     }

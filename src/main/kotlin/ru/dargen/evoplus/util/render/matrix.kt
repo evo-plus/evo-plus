@@ -23,7 +23,7 @@ inline fun MatrixStack.push(block: MatrixStack.() -> Unit) {
 
 val TextRenderer get() = Client.textRenderer
 val ItemRenderer get() = Client.itemRenderer
-val Tesselator = Tessellator.getInstance()
+//val Tesselator by lazy { Tessellator.getInstance() }
 
 lateinit var MatrixStack: MatrixStack
 lateinit var BufferBuilderStorage: BufferBuilderStorage

@@ -38,9 +38,9 @@ object HealthBar : Feature(name = "Полоса здоровья") {
     }
 
     override fun initialize() {
-        on<RenderPlayerLabelEvent> {
-            if (enabled) player.renderBar(dispatcher, matrices)
-        }
+//        on<RenderPlayerLabelEvent> {
+//            if (enabled) player.renderBar(dispatcher, matrices)
+//        }
     }
 
     private var Color = ColorProgression(Colors.Green, Colors.Red)

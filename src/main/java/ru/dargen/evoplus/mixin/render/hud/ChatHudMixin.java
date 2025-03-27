@@ -46,10 +46,10 @@ public abstract class ChatHudMixin {
         skipOnAddMessage = false;
     }
 
-    @ModifyConstant(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", constant = @Constant(intValue = 100), expect = 2)
-    public int changeMaxHistory(int original) {
-        if (TextFeature.INSTANCE.isLongerChat())
-            return original + TextFeature.INSTANCE.getLongerChat();
-        return original;
-    }
+//    @ModifyConstant(method = "addMessage(Lnet/minecraft/text/Text;)V", constant = @Constant(intValue = 100), expect = 2)
+//    public int changeMaxHistory(int original) {
+//        if (TextFeature.INSTANCE.isLongerChat())
+//            return original + TextFeature.INSTANCE.getLongerChat();
+//        return original;
+//    }
 }

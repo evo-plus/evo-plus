@@ -65,7 +65,7 @@ object DiscordRPCFeature : Feature(name = "Discord RPC") {
             largeText = "EvoPlus ${EvoPlus.Version}"
 
             if (isOnDiamondWorld) {
-                smallImage = "https://cdn.discordapp.com/icons/442373850953547780/875421c28a47b3fbb1f4c9c1639e8246.webp?size=512"
+                smallImage = "https://mc-heads.net/avatar/${ru.dargen.evoplus.util.minecraft.Client.name}"
                 smallText = locationHoverStrategy.line()
             }
         }

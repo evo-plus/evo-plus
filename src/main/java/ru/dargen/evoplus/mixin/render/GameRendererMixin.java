@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.mixin.render;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -24,11 +25,11 @@ public class GameRendererMixin {
 
     @Redirect(
             method = "render",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/util/math/MatrixStack;IIF)V"))
-    private void render(Screen instance, MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        if (EventBus.INSTANCE.fireResult(new ScreenRenderEvent.Pre(instance, matrices, delta))) {
-            instance.renderWithTooltip(matrices, mouseX, mouseY, delta);
-            EventBus.INSTANCE.fire(new ScreenRenderEvent.Post(instance, matrices, delta));
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V"))
+    private void render(Screen instance, DrawContext context, int mouseX, int mouseY, float delta) {
+        if (EventBus.INSTANCE.fireResult(new ScreenRenderEvent.Pre(instance, context.getMatrices(), delta))) {
+            instance.renderWithTooltip(context, mouseX, mouseY, delta);
+            EventBus.INSTANCE.fire(new ScreenRenderEvent.Post(instance, context.getMatrices(), delta));
         }
     }
 

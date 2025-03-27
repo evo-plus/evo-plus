@@ -20,15 +20,17 @@ public class WorldRendererMixin {
     private BufferBuilderStorage bufferBuilders;
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderChunkDebugInfo(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/client/render/Camera;)V", shift = At.Shift.BEFORE))
-    private void beforeRender(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
+    private void beforeRender(RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci) {
         //Absolute from 0,0,0
+        MatrixStack matrices = new MatrixStack();
+
         matrices.push();
         matrices.translate(-camera.getPos().x, -camera.getPos().y, -camera.getPos().z);
-//        MatrixKt.normalize3DScale(matrices);
-        EventBus.INSTANCE.fire(new WorldRenderEvent.Absolute(matrices, tickDelta, camera, bufferBuilders));
+
+        EventBus.INSTANCE.fire(new WorldRenderEvent.Absolute(matrices, tickCounter.getTickDelta(false), camera, bufferBuilders));
         matrices.pop();
 
-        EventBus.INSTANCE.fire(new WorldRenderEvent(matrices, tickDelta, camera, bufferBuilders));
+        EventBus.INSTANCE.fire(new WorldRenderEvent(matrices, tickCounter.getTickDelta(false), camera, bufferBuilders));
     }
 
 }

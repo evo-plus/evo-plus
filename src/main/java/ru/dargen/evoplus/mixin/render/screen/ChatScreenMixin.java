@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.mixin.render.screen;
 
 import lombok.val;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -30,7 +31,7 @@ public abstract class ChatScreenMixin extends Screen {
     private boolean rightClicked = false;
 
     @Inject(method = "render", at = @At("HEAD"))
-    public void onDraw(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    public void onDraw(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!TextFeature.INSTANCE.getCopyMessages() || !rightClicked) return;
         this.rightClicked = false;
 

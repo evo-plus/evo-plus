@@ -6,6 +6,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -17,14 +18,14 @@ import ru.dargen.evoplus.event.player.PlayerDisplayNameEvent;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
 
-    @Shadow public abstract String getEntityName();
-
     @Shadow @Final private GameProfile gameProfile;
+
+    @Shadow public abstract String getNameForScoreboard();
 
     @Inject(at = @At("RETURN"), method = "getDisplayName", cancellable = true)
     private void getDisplayName(CallbackInfoReturnable<Text> cir) {
-        if (getEntityName() != null) {
-            var event = EventBus.INSTANCE.fire(new PlayerDisplayNameEvent(getEntityName(), cir.getReturnValue()));
+        if (getNameForScoreboard() != null) {
+            var event = EventBus.INSTANCE.fire(new PlayerDisplayNameEvent(getNameForScoreboard(), cir.getReturnValue()));
             cir.setReturnValue(event.getDisplayName());
         }
     }

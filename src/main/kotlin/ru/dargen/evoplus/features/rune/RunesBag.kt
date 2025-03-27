@@ -76,7 +76,7 @@ object RunesBag {
                 RunesProperties.values
                     .filter { it.value != .0 }
                     .forEachIndexed { index, property ->
-                        matrices.drawText(property.toString(), 0f, index * height / scale, Colors.White)
+                        matrices.drawText(property.toString(), 0f, index * height / scale, false, Colors.White)
                     }
 
                 matrices.pop()
@@ -93,13 +93,13 @@ object RunesBag {
                 matrices.drawText(
                     SelectedSet.name,
                     -TextRenderer.getWidth(SelectedSet.name).toFloat(), 0f,
-                    Colors.White
+                    false, Colors.White
                 )
                 SelectedSet.runes.forEachIndexed { index, line ->
                     matrices.drawText(
                         line,
                         -TextRenderer.getWidth(line).toFloat(), (index + 1) * height / scale,
-                        Colors.White
+                        false, Colors.White
                     )
                 }
 

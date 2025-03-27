@@ -1,16 +1,18 @@
 package ru.dargen.evoplus.protocol
 
 import io.netty.buffer.ByteBuf
-import io.netty.buffer.Unpooled
-import net.minecraft.network.PacketByteBuf
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
+import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.packet.CustomPayload
+import net.minecraft.network.packet.UnknownCustomPayload
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket
 import net.minecraft.util.Identifier
 import pro.diamondworld.protocol.ProtocolRegistry
 import pro.diamondworld.protocol.util.BufUtil
 import pro.diamondworld.protocol.util.ProtocolSerializable
-import ru.dargen.evoplus.event.network.CustomPayloadEvent
-import ru.dargen.evoplus.event.on
+import ru.dargen.evoplus.protocol.packet.DummyPayload
+import ru.dargen.evoplus.protocol.packet.ProtocolPayload
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.minecraft.Client
 import java.util.concurrent.TimeUnit
@@ -27,17 +29,33 @@ object EvoPlusProtocol {
     init {
         scheduleEvery(unit = TimeUnit.SECONDS) {
             if (Connector.isOnDiamondWorld && !Connector.isOnPrisonEvo) {
-                sendDummy("handshake")
+                Client?.networkHandler?.sendPacket(CustomPayloadC2SPacket(UnknownCustomPayload(DummyPayload.INSTANCE.id?.id)))
             }
         }
 
-        on<CustomPayloadEvent> {
-            if (!channel.startsWith("dw")) return@on
-            val channel = channel.drop(3)
+//        on<CustomPayloadEvent> {
+//            if (!channel.startsWith("dw")) return@on
+//            val channel = channel.drop(3)
+//
+//            Handlers[channel]?.invoke(payload)
+//
+//            cancel()
+//        }
+    }
 
-            Handlers[channel]?.invoke(payload)
+    fun <P : ProtocolSerializable> registerHandler(id: String, payloadClass: Class<P>, handler: Handler<P>) {
+        val id = CustomPayload.Id<ProtocolPayload<P>>(Identifier.of("dw", id))
 
-            cancel()
+        PayloadTypeRegistry.playC2S().register(
+            id,
+            PacketCodec.ofStatic(
+                { buf, v -> v.payload.write(buf) },
+                { ProtocolPayload(id, BufUtil.readObject(it, payloadClass)) }
+            )
+        )
+        ServerPlayNetworking.registerGlobalReceiver(id) { payload, context ->
+            println(payload.id)
+            handler(payload.payload)
         }
     }
 
@@ -49,24 +67,10 @@ fun onRaw(channel: String, handler: RawHandler) = EvoPlusProtocol.Handlers.put(c
 inline fun <P : ProtocolSerializable> listen(
     packetType: KClass<P>,
     channel: String = EvoPlusProtocol.Registry.lookupOrRegisterChannel(packetType.java),
-    crossinline handler: Handler<P>
-) = onRaw(channel) { handler(BufUtil.readObject(it, packetType.java)) }
+    noinline handler: Handler<P>
+) = EvoPlusProtocol.registerHandler(channel, packetType.java, handler)
 
 inline fun <reified P : ProtocolSerializable> listen(
     channel: String = EvoPlusProtocol.Registry.lookupOrRegisterChannel(P::class.java),
-    crossinline handler: Handler<P>
+    noinline handler: Handler<P>
 ) = listen(P::class, channel, handler)
-
-//send
-inline fun <reified P : ProtocolSerializable> send(
-    channel: String = EvoPlusProtocol.Registry.lookupOrRegisterChannel(P::class.java),
-    packet: P
-) = sendRaw(channel) { BufUtil.writeObject(this, packet) }
-
-fun sendDummy(channel: String) = sendRaw(channel, Unpooled.buffer())
-
-fun sendRaw(channel: String, block: ByteBuf.() -> Unit) = sendRaw(channel, Unpooled.buffer().apply(block))
-
-fun sendRaw(channel: String, buf: ByteBuf) {
-    Client?.networkHandler?.sendPacket(CustomPayloadC2SPacket(Identifier("dw", channel), PacketByteBuf(buf)))
-}

@@ -18,8 +18,8 @@ public abstract class ClientWorldMixin {
 
     @Shadow @Nullable public abstract Entity getEntityById(int id);
 
-    @Inject(at = @At("HEAD"), method = "addEntityPrivate", cancellable = true)
-    private void addEntity(int id, Entity entity, CallbackInfo ci) {
+    @Inject(at = @At("HEAD"), method = "addEntity", cancellable = true)
+    private void addEntity(Entity entity, CallbackInfo ci) {
         if (!EventBus.INSTANCE.fireResult(new EntitySpawnEvent(entity))) ci.cancel();
     }
 

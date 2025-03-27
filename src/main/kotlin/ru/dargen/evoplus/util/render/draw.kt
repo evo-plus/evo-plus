@@ -5,8 +5,11 @@ import net.minecraft.client.font.TextRenderer.TextLayerType
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import org.joml.Vector3f
+import org.lwjgl.opengl.GL
+import org.lwjgl.opengl.GL32C.*
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.math.Vector3
+import ru.dargen.evoplus.util.minecraft.Client
 import java.awt.Color
 
 fun MatrixStack.drawText(
@@ -14,34 +17,37 @@ fun MatrixStack.drawText(
     x: Float = 0f, y: Float = 0f,
     shadow: Boolean = false,
     color: Color = Colors.White
-) = if (shadow) drawTextWithShadow(text, x, y, color) else drawText(text, x, y, color)
+) = Client.textRenderer.draw(
+    text, x, y, color.rgb,
+    shadow, MatrixStack.positionMatrix,
+    BufferBuilderStorage.entityVertexConsumers,
+    TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE
+)
 
 fun MatrixStack.drawText(
     text: String,
     position: Vector3 = Vector3.Zero,
-    shadow: Boolean = false,
-    color: Color = Colors.White
+    color: Color = Colors.White,
+    shadow: Boolean = false
 ) = drawText(text, position.x.toFloat(), position.y.toFloat(), shadow, color)
 
 fun MatrixStack.drawText(text: String, position: Vector3 = Vector3.Zero, color: Color = Colors.White) =
-    drawText(text, position.x.toFloat(), position.y.toFloat(), color)
-
-fun MatrixStack.drawText(text: String, x: Float = 0f, y: Float = 0f, color: Color = Colors.White) =
-    TextRenderer.draw(this, text, x, y, color.rgb)
+    drawText(text, position.x.toFloat(), position.y.toFloat(), false, color)
 
 fun MatrixStack.drawTextWithShadow(text: String, position: Vector3 = Vector3.Zero, color: Color = Colors.White) =
-    drawTextWithShadow(text, position.x.toFloat(), position.y.toFloat(), color)
+    drawText(text, position.x.toFloat(), position.y.toFloat(), true, color)
 
 fun MatrixStack.drawTextWithShadow(text: String, x: Float = 0f, y: Float = 0f, color: Color = Colors.White) =
-    TextRenderer.drawWithShadow(this, text, x, y, color.rgb)
+    drawText(text, x, y, true, color)
 
 fun MatrixStack.drawWorldText(
     text: String, x: Float, y: Float,
     shadow: Boolean = false, isSeeThrough: Boolean = false,
     color: Color = Colors.White
-) = TextRenderer.draw(
+) = Client.textRenderer.draw(
     text, x, y, color.rgb, shadow,
-    positionMatrix, BufferBuilderStorage.entityVertexConsumers,
+    MatrixStack.positionMatrix,
+    BufferBuilderStorage.entityVertexConsumers,
     if (isSeeThrough) TextLayerType.SEE_THROUGH else TextLayerType.NORMAL,
     0, LightmapTextureManager.MAX_LIGHT_COORDINATE
 )
@@ -62,25 +68,20 @@ fun MatrixStack.drawRectangle(
     zLevel: Float = 0f,
     color: Color = Colors.White
 ) {
-    val positionMatrix = positionMatrix
-    val buffer = Tesselator.buffer
+    val matrix = peek().positionMatrix
+    val tessellator = Tessellator.getInstance()
+    val buffer = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR)
 
     val (r, g, b, a) = color.decomposeFloat()
 
-    buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
-
-    buffer.vertex(positionMatrix, minX, minY, zLevel).next()
-    buffer.vertex(positionMatrix, minX, maxY, zLevel).next()
-    buffer.vertex(positionMatrix, maxX, maxY, zLevel).next()
-    buffer.vertex(positionMatrix, maxX, minY, zLevel).next()
+    buffer.vertex(matrix, minX, minY, zLevel).color(r, g, b, a)
+    buffer.vertex(matrix, minX, maxY, zLevel).color(r, g, b, a)
+    buffer.vertex(matrix, maxX, maxY, zLevel).color(r, g, b, a)
+    buffer.vertex(matrix, maxX, minY, zLevel).color(r, g, b, a)
 
     RenderSystem.enableBlend()
-    RenderSystem.setShaderColor(r, g, b, a)
-    RenderSystem.setShader(GameRenderer::getPositionProgram)
-
+    RenderSystem.setShader(GameRenderer::getPositionColorProgram)
     BufferRenderer.drawWithGlobalProgram(buffer.end())
-
-    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.disableBlend()
 }
 
@@ -92,58 +93,53 @@ fun MatrixStack.drawBoxOutline(
     maxX: Float, maxY: Float, maxZ: Float,
     color: Color = Colors.White
 ) {
-    val position = positionMatrix
-    val buffer = Tesselator.buffer
+    val matrix = peek().positionMatrix
+    val tessellator = Tessellator.getInstance()
+    val buffer = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR)
 
     val (r, g, b, a) = color.decomposeFloat()
 
-    buffer.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION)
-
     // Bottom edges
-    buffer.vertex(position, minX, minY, minZ).next()
-    buffer.vertex(position, maxX, minY, minZ).next()
+    buffer.vertex(matrix, minX, minY, minZ)
+    buffer.vertex(matrix, maxX, minY, minZ)
 
-    buffer.vertex(position, maxX, minY, minZ).next()
-    buffer.vertex(position, maxX, minY, maxZ).next()
+    buffer.vertex(matrix, maxX, minY, minZ)
+    buffer.vertex(matrix, maxX, minY, maxZ)
 
-    buffer.vertex(position, maxX, minY, maxZ).next()
-    buffer.vertex(position, minX, minY, maxZ).next()
+    buffer.vertex(matrix, maxX, minY, maxZ)
+    buffer.vertex(matrix, minX, minY, maxZ)
 
-    buffer.vertex(position, minX, minY, maxZ).next()
-    buffer.vertex(position, minX, minY, minZ).next()
+    buffer.vertex(matrix, minX, minY, maxZ)
+    buffer.vertex(matrix, minX, minY, minZ)
 
     // Top edges
-    buffer.vertex(position, minX, maxY, minZ).next()
-    buffer.vertex(position, maxX, maxY, minZ).next()
+    buffer.vertex(matrix, minX, maxY, minZ)
+    buffer.vertex(matrix, maxX, maxY, minZ)
 
-    buffer.vertex(position, maxX, maxY, minZ).next()
-    buffer.vertex(position, maxX, maxY, maxZ).next()
+    buffer.vertex(matrix, maxX, maxY, minZ)
+    buffer.vertex(matrix, maxX, maxY, maxZ)
 
-    buffer.vertex(position, maxX, maxY, maxZ).next()
-    buffer.vertex(position, minX, maxY, maxZ).next()
+    buffer.vertex(matrix, maxX, maxY, maxZ)
+    buffer.vertex(matrix, minX, maxY, maxZ)
 
-    buffer.vertex(position, minX, maxY, maxZ).next()
-    buffer.vertex(position, minX, maxY, minZ).next()
+    buffer.vertex(matrix, minX, maxY, maxZ)
+    buffer.vertex(matrix, minX, maxY, minZ)
 
-    // Vertical edges
-    buffer.vertex(position, minX, minY, minZ).next()
-    buffer.vertex(position, minX, maxY, minZ).next()
+    // Vertical edmatrix
+    buffer.vertex(matrix, minX, minY, minZ)
+    buffer.vertex(matrix, minX, maxY, minZ)
 
-    buffer.vertex(position, maxX, minY, minZ).next()
-    buffer.vertex(position, maxX, maxY, minZ).next()
+    buffer.vertex(matrix, maxX, minY, minZ)
+    buffer.vertex(matrix, maxX, maxY, minZ)
 
-    buffer.vertex(position, maxX, minY, maxZ).next()
-    buffer.vertex(position, maxX, maxY, maxZ).next()
+    buffer.vertex(matrix, maxX, minY, maxZ)
+    buffer.vertex(matrix, maxX, maxY, maxZ)
 
-    buffer.vertex(position, minX, minY, maxZ).next()
-    buffer.vertex(position, minX, maxY, maxZ).next()
+    buffer.vertex(matrix, minX, minY, maxZ)
+    buffer.vertex(matrix, minX, maxY, maxZ)
 
     RenderSystem.enableBlend()
-    RenderSystem.setShaderColor(r, g, b, a)
-    RenderSystem.setShader(GameRenderer::getPositionProgram)
-
+    RenderSystem.setShader(GameRenderer::getPositionColorProgram)
     BufferRenderer.drawWithGlobalProgram(buffer.end())
-
-    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.disableBlend()
 }
