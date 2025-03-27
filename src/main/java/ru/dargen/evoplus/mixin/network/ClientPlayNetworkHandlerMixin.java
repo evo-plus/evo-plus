@@ -17,13 +17,14 @@ import net.minecraft.network.NetworkThreadUtils;
 import net.minecraft.network.encryption.NetworkEncryptionUtils;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.message.*;
+import net.minecraft.network.packet.BrandCustomPayload;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.ChatCommandSignedC2SPacket;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
-import net.minecraft.network.packet.c2s.play.ResourcePackStatusC2SPacket;
 import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.text.Text;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,8 +40,6 @@ import ru.dargen.evoplus.event.inventory.InventoryFillEvent;
 import ru.dargen.evoplus.event.inventory.InventoryOpenEvent;
 import ru.dargen.evoplus.event.inventory.InventorySlotUpdateEvent;
 import ru.dargen.evoplus.event.network.ChangeServerEvent;
-import ru.dargen.evoplus.event.network.CustomPayloadEvent;
-import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent;
 import ru.dargen.evoplus.event.world.ChunkLoadEvent;
 import ru.dargen.evoplus.event.world.ParticleEvent;
 import ru.dargen.evoplus.event.world.WorldMapEvent;
@@ -51,21 +50,23 @@ import ru.dargen.evoplus.util.minecraft.TextKt;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
+import static ru.dargen.evoplus.util.minecraft.MinecraftKt.sendPacket;
+
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
 
-    @Shadow
-    @Final
-    private MinecraftClient client;
+//    @Shadow
+//    @Final
+//    private MinecraftClient client;
     @Shadow
     private LastSeenMessagesCollector lastSeenMessagesCollector;
     @Shadow
     private MessageChain.Packer messagePacker;
 
-    @Shadow
-    public abstract void sendPacket(Packet<?> packet);
 
-    @Shadow protected abstract void sendResourcePackStatus(ResourcePackStatusC2SPacket.Status packStatus);
+//    @Shadow protected abstract void sendResourcePackStatus(ResourcePackStatusC2SPacket.Status packStatus);
+
+//    @Shadow protected abstract ParseResults<CommandSource> parse(String command);
 
     @Shadow protected abstract ParseResults<CommandSource> parse(String command);
 
@@ -90,19 +91,24 @@ public abstract class ClientPlayNetworkHandlerMixin {
     }
 
     @Inject(method = "sendChatCommand", at = @At("HEAD"), cancellable = true)
-    private void sendChatCommand(String content, CallbackInfo ci) {
+    private void sendChatCommand(String command, CallbackInfo ci) {
         ci.cancel();
-        var event = new CommandEvent(content);
+        var event = new CommandEvent(command);
         if (!EventBus.INSTANCE.fireResult(event)) return;
 
-        Instant instant = Instant.now();
-        long l = NetworkEncryptionUtils.SecureRandomUtil.nextLong();
-        LastSeenMessagesCollector.LastSeenMessages lastSeenMessages = this.lastSeenMessagesCollector.collect();
-        ArgumentSignatureDataMap argumentSignatureDataMap = ArgumentSignatureDataMap.sign(SignedArgumentList.of(parse(event.getCommand())), (value) -> {
-            MessageBody messageBody = new MessageBody(value, instant, l, lastSeenMessages.lastSeen());
-            return this.messagePacker.pack(messageBody);
-        });
-        this.sendPacket(new CommandExecutionC2SPacket(event.getCommand(), instant, l, argumentSignatureDataMap, lastSeenMessages.update()));
+        SignedArgumentList<CommandSource> signedArgumentList = SignedArgumentList.of(this.parse(command));
+        if (signedArgumentList.arguments().isEmpty()) {
+            sendPacket(new CommandExecutionC2SPacket(command));
+        } else {
+            Instant instant = Instant.now();
+            long l = NetworkEncryptionUtils.SecureRandomUtil.nextLong();
+            LastSeenMessagesCollector.LastSeenMessages lastSeenMessages = this.lastSeenMessagesCollector.collect();
+            ArgumentSignatureDataMap argumentSignatureDataMap = ArgumentSignatureDataMap.sign(signedArgumentList, (value) -> {
+                MessageBody messageBody = new MessageBody(value, instant, l, lastSeenMessages.lastSeen());
+                return this.messagePacker.pack(messageBody);
+            });
+            sendPacket(new ChatCommandSignedC2SPacket(command, instant, l, argumentSignatureDataMap, lastSeenMessages.update()));
+        }
     }
 
     @Inject(method = "onEntitySpawn", at = @At("HEAD"), cancellable = true)
@@ -125,8 +131,8 @@ public abstract class ClientPlayNetworkHandlerMixin {
         INVENTORY_OPEN_EVENTS.put(packet.getSyncId(), event);
         if (!event.isCancelled()) {
             if (!event.isHidden()) {
-                NetworkThreadUtils.forceMainThread(((Packet) packet), (PacketListener) this, client);
-                HandledScreens.open(event.getScreenHandlerType(), client, event.getSyncId(), event.getTitle());
+                NetworkThreadUtils.forceMainThread(((Packet) packet), (PacketListener) this, MinecraftClient.getInstance());
+                HandledScreens.open(event.getScreenHandlerType(), MinecraftClient.getInstance(), event.getSyncId(), event.getTitle());
             }
         } else Inventories.INSTANCE.close(packet.getSyncId());
     }
@@ -138,13 +144,13 @@ public abstract class ClientPlayNetworkHandlerMixin {
         val event = EventBus.INSTANCE.fire(
                 new InventoryFillEvent(
                         packet.getSyncId(), packet.getContents(), INVENTORY_OPEN_EVENTS.getIfPresent(packet.getSyncId()),
-                        client.player.currentScreenHandler, false
+                        MinecraftClient.getInstance().player.currentScreenHandler, false
                 )
         );
         if (!event.getOpenEvent().isCancelled() || !event.isCancelled()) {
             if (!event.isHidden()) {
-                NetworkThreadUtils.forceMainThread((Packet) packet, (PacketListener) this, client);
-                PlayerEntity playerEntity = client.player;
+                NetworkThreadUtils.forceMainThread((Packet) packet, (PacketListener) this, MinecraftClient.getInstance());
+                PlayerEntity playerEntity = MinecraftClient.getInstance().player;
                 if (packet.getSyncId() == 0) {
                     playerEntity.playerScreenHandler.updateSlotStacks(packet.getRevision(), packet.getContents(), packet.getCursorStack());
                 } else if (packet.getSyncId() == playerEntity.currentScreenHandler.syncId) {
@@ -160,27 +166,27 @@ public abstract class ClientPlayNetworkHandlerMixin {
         ci.cancel();
 
         val event = EventBus.INSTANCE.fire(
-                new InventorySlotUpdateEvent(packet.getSyncId(), packet.getSlot(), packet.getItemStack(),
+                new InventorySlotUpdateEvent(packet.getSyncId(), packet.getSlot(), packet.getStack(),
                         INVENTORY_OPEN_EVENTS.getIfPresent(packet.getSyncId()), false)
         );
 
         if (!event.isCancelled()) {
             if (!event.isHidden()) {
-                NetworkThreadUtils.forceMainThread((Packet) packet, (PacketListener) this, this.client);
-                PlayerEntity playerEntity = this.client.player;
+                NetworkThreadUtils.forceMainThread((Packet) packet, (PacketListener) this, MinecraftClient.getInstance());
+                PlayerEntity playerEntity = MinecraftClient.getInstance().player;
                 ItemStack itemStack = event.getStack();
                 int i = event.getSlot();
-                this.client.getTutorialManager().onSlotUpdate(itemStack);
+                MinecraftClient.getInstance().getTutorialManager().onSlotUpdate(itemStack);
                 if (event.getSyncId() == -1) {
-                    if (!(this.client.currentScreen instanceof CreativeInventoryScreen)) {
+                    if (!(MinecraftClient.getInstance().currentScreen instanceof CreativeInventoryScreen)) {
                         playerEntity.currentScreenHandler.setCursorStack(itemStack);
                     }
                 } else if (event.getSyncId() == -2) {
                     playerEntity.getInventory().setStack(i, itemStack);
                 } else {
                     boolean bl = false;
-                    if (this.client.currentScreen instanceof CreativeInventoryScreen) {
-                        CreativeInventoryScreen creativeInventoryScreen = (CreativeInventoryScreen) this.client.currentScreen;
+                    if (MinecraftClient.getInstance().currentScreen instanceof CreativeInventoryScreen) {
+                        CreativeInventoryScreen creativeInventoryScreen = (CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen;
                         bl = creativeInventoryScreen.isInventoryTabSelected();
                     }
 
@@ -213,34 +219,35 @@ public abstract class ClientPlayNetworkHandlerMixin {
     }
 
     @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
-    public void onCustomPayload(CustomPayloadS2CPacket packet, CallbackInfo ci) {
-        if (packet.getChannel().toString().equals("minecraft:brand")) {
+    public void onCustomPayload(CustomPayload packet, CallbackInfo ci) {
+        if (packet instanceof BrandCustomPayload){
             EventBus.INSTANCE.fire(ChangeServerEvent.INSTANCE);
         }
 
-        if (!EventBus.INSTANCE.fireResult(new CustomPayloadEvent(packet.getChannel().toString(), packet.getData()))) {
-            ci.cancel();
-        }
+        //todo: checl
+//        if (!EventBus.INSTANCE.fireResult(new CustomPayloadEvent(packet.getChannel().toString(), packet.getData()))) {
+//            ci.cancel();
+//        }
     }
 
     @Inject(method = "onChunkData", at = @At("TAIL"))
     private void onChunkData(ChunkDataS2CPacket packet, CallbackInfo info) {
-        val chunk = client.world.getChunk(packet.getX(), packet.getZ());
+        val chunk = MinecraftClient.getInstance().world.getChunk(packet.getChunkX(), packet.getChunkZ());
         EventBus.INSTANCE.fire(new ChunkLoadEvent(chunk));
     }
 
-    @Inject(method = "onResourcePackSend", at = @At("HEAD"), cancellable = true)
-    private void onResourcePackSend(ResourcePackSendS2CPacket packet, CallbackInfo ci) {
-        var event = new ResourcePackRequestEvent(packet, false);
-
-        if (!EventBus.INSTANCE.fireResult(event)) {
-            ci.cancel();
-            if (event.getResponseAccepted()) {
-                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.ACCEPTED);
-                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.SUCCESSFULLY_LOADED);
-            }
-        }
-    }
+//    @Inject(method = "onResourcePackSend", at = @At("HEAD"), cancellable = true)
+//    private void onResourcePackSend(ResourcePackSendS2CPacket packet, CallbackInfo ci) {
+//        var event = new ResourcePackRequestEvent(packet, false);
+//
+//        if (!EventBus.INSTANCE.fireResult(event)) {
+//            ci.cancel();
+//            if (event.getResponseAccepted()) {
+//                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.ACCEPTED);
+//                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.SUCCESSFULLY_LOADED);
+//            }
+//        }
+//    }
 
     @Inject(method = "onParticle", at = @At("HEAD"), cancellable = true)
     private void onParticle(ParticleS2CPacket packet, CallbackInfo ci) {
@@ -251,19 +258,19 @@ public abstract class ClientPlayNetworkHandlerMixin {
 
     @Inject(method = "onMapUpdate", at = @At("HEAD"), cancellable = true)
     private void onParticle(MapUpdateS2CPacket packet, CallbackInfo ci) {
-        if (!EventBus.INSTANCE.fireResult(new WorldMapEvent(packet.getId(), packet))) {
+        if (!EventBus.INSTANCE.fireResult(new WorldMapEvent(packet.mapId().id(), packet))) {
             ci.cancel();
         }
     }
 
-    @Redirect(method = "onTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/TitleS2CPacket;getTitle()Lnet/minecraft/text/Text;"))
+    @Redirect(method = "onTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/TitleS2CPacket;text()Lnet/minecraft/text/Text;"))
     private Text onTitle(TitleS2CPacket instance) {
-        return EventBus.INSTANCE.fire(new TitleEvent(instance.getTitle(), false)).getTitle();
+        return EventBus.INSTANCE.fire(new TitleEvent(instance.text(), false)).getTitle();
     }
 
-    @Redirect(method = "onSubtitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/SubtitleS2CPacket;getSubtitle()Lnet/minecraft/text/Text;"))
+    @Redirect(method = "onSubtitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/SubtitleS2CPacket;text()Lnet/minecraft/text/Text;"))
     private Text onTitle(SubtitleS2CPacket instance) {
-        return EventBus.INSTANCE.fire(new TitleEvent(instance.getSubtitle(), true)).getTitle();
+        return EventBus.INSTANCE.fire(new TitleEvent(instance.text(), true)).getTitle();
     }
 
 
