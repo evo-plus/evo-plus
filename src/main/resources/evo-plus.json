@@ -47,6 +47,8 @@
     "entity.player.PlayerEntityMixin",
 
     "network.ClientPlayNetworkHandlerMixin",
+    "network.ClientCommonNetworkHandlerMixin",
+    "network.payload.UnknownCustomPayloadMixin",
     "network.ClientPlayerInteractionManagerMixin",
 
     "resource.ResourcePackManagerMixin",
