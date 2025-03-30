@@ -10,14 +10,13 @@ object RenderFeature : Feature("render", "Визуализация") {
     var HighlightAvailableItems = true
 
     var NoBlockParticles = false
-    var NoFire = false 
     var NoStrikes = false
     var NoFalling = false
     var NoDamageShake = false
     var NoHandShake = false
-    var NoExcessHud = true 
+    var NoFire = false
     var NoExpHud = true
-    var NoScoreboardNumbers = true
+    var NoExcessHud = true
 
     var HealthRender = HealthRenderMode.DEFAULT
 
@@ -30,13 +29,12 @@ object RenderFeature : Feature("render", "Визуализация") {
 
         subcategory("render", "Отключение эффектов") {
             switch(::NoBlockParticles, "Эффекты блоков", "Убирает частицы разрушения блоков")
-            switch(::NoStrikes, "Молний", "Убирает эффект молний")
+            switch(::NoStrikes, "Молнии", "Убирает эффект молний")
             switch(::NoFalling, "Падающие блоки", "Убирает эффект падающих блоков")
             switch(::NoDamageShake, "Покачивание камеры при ударе", "Убирает эффект покачивания камеры при ударе")
             switch(::NoHandShake, "Покачивание руки", "Убирает эффект покачивания руки")
             switch(::NoFire, "Огонь", "Убирает эффект огня на экране")
             switch(::NoExpHud, "Уровень и опыт", "Убирает отрисовку уровня и его опыта")
-            switch(::NoScoreboardNumbers, "Нумерация скорборда", "Убирает нумерацию скорборда")
             switch(::NoExcessHud, "Ненужные элементы HUD", "Убирает все лишние элементы HUD")
         }
     }

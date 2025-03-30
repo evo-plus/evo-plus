@@ -31,13 +31,10 @@ public abstract class InGameHudMixin {
     @Shadow
     protected abstract int getHeartCount(LivingEntity entity);
 
-    @Shadow
-    private int ticks;
-
     @Inject(method = "render", at = @At("TAIL"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/LayeredDrawer;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V")), cancellable = true)
     private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         context.getMatrices().push();
-        EventBus.INSTANCE.fire(new OverlayRenderEvent(context.getMatrices(), tickCounter.getTickDelta(true)));
+        EventBus.INSTANCE.fire(new OverlayRenderEvent(context.getMatrices(), context.getVertexConsumers(), tickCounter.getTickDelta(true)));
         context.getMatrices().pop();
     }
 
@@ -46,26 +43,19 @@ public abstract class InGameHudMixin {
         return RenderFeature.INSTANCE.getNoExcessHud() ? -1 : getHeartCount(entity);
     }
 
-//    @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getArmor()I"))
-//    private int renderStatusBars_getArmor(PlayerEntity instance) {
-//        return RenderFeature.INSTANCE.getNoExcessHud() ? 0 : instance.getArmor();
-//    }
-
     @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAir()I"))
     private int renderStatusBars_getAir(PlayerEntity instance) {
         return RenderFeature.INSTANCE.getNoExcessHud() ? 0 : instance.getAir();
     }
 
-//    @Redirect(method = "renderScoreboardSidebar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/scoreboard/ScoreboardObjective;)V", at = @At(value = "", target = "draw"))
-//    private int renderScoreboardSidebar(TextRenderer instance, MatrixStack matrices, String text, float x, float y, int color) {
-//        return RenderFeature.INSTANCE.getNoScoreboardNumbers() ? 0 : instance.draw(matrices, text, x, y, color);
-//    }
-
     @Inject(method = "renderExperienceBar", at = @At("HEAD"), cancellable = true)
     private void renderExperienceBar(DrawContext context, int x, CallbackInfo ci) {
-        if (RenderFeature.INSTANCE.getNoExpHud()) {
-            ci.cancel();
-        }
+        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
+    }
+
+    @Inject(method = "renderExperienceLevel", at = @At("HEAD"), cancellable = true)
+    private void renderExperienceLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
     }
 
     //tmp mb bc idk how to edit locals

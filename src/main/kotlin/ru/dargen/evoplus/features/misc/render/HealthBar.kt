@@ -12,7 +12,7 @@ import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.render.*
 
 //TODO: maybe remove for npcs
-object HealthBar : Feature(name = "Полоса здоровья") {
+object HealthBar : Feature(name = "Индикатор здоровья") {
 
     private var enabled = true
     private var offset = 0f
