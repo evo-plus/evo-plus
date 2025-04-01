@@ -34,7 +34,8 @@ public abstract class InGameHudMixin {
     @Inject(method = "render", at = @At("TAIL"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/LayeredDrawer;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V")), cancellable = true)
     private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         context.getMatrices().push();
-        EventBus.INSTANCE.fire(new OverlayRenderEvent(context.getMatrices(), context.getVertexConsumers(), tickCounter.getTickDelta(true)));
+        OverlayRenderEvent.context = context;
+        EventBus.INSTANCE.fire(new OverlayRenderEvent(context.getMatrices(), tickCounter.getTickDelta(true)));
         context.getMatrices().pop();
     }
 
