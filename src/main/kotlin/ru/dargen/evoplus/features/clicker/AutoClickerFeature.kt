@@ -20,7 +20,6 @@ object AutoClickerFeature : Feature("clicker", "Кликер") {
             field = max(0, value)
         }
 
-    var BindEnabled = true
     var Bind = key(UKeyboard.KEY_Z)
 
     var Mode = ClickerMode.CLICK
@@ -29,7 +28,6 @@ object AutoClickerFeature : Feature("clicker", "Кликер") {
 
     override fun CategoryBuilder.setup() {
         subcategory("clicker-bind", "Настройки бинда") {
-            switch(::BindEnabled, "Статус бинда", "Включает/выключает бинд кликера").subscription()
             bind(::Bind, "Клавиша бинда", "Клавиша, которая включает/выключает кликер").subscription()
         }
 
@@ -43,12 +41,12 @@ object AutoClickerFeature : Feature("clicker", "Кликер") {
     override fun initialize() {
 
         on<KeyEvent> {
-            if (key != Bind.code || !BindEnabled || Mode !== ClickerMode.CLICK || !state) return@on
+            if (key != Bind.code || Mode !== ClickerMode.CLICK || !state) return@on
             enabled = !enabled
         }
 
         on<MouseClickEvent> {
-            if (button != Bind.code || !BindEnabled || Mode !== ClickerMode.CLICK || !state) return@on
+            if (button != Bind.code || Mode !== ClickerMode.CLICK || !state) return@on
             enabled = !enabled
         }
 

@@ -18,14 +18,11 @@ object RenderFeature : Feature("render", "Визуализация") {
     var NoExpHud = true
     var NoExcessHud = true
 
-    var HealthRender = HealthRenderMode.DEFAULT
-
     override fun CategoryBuilder.setup() {
         include(HealthBar)
 
         switch(::FullBright, "Полная яркость", "Максимальная яркость освещения")
         switch(::HighlightAvailableItems, "Подсветка доступных предметов", "Подсвечивает доступные для получения предметы")
-        selector(::HealthRender, "Режим отображения здоровья", "Выбор способа отображения здоровья")
 
         subcategory("render", "Отключение эффектов") {
             switch(::NoBlockParticles, "Эффекты блоков", "Убирает частицы разрушения блоков")

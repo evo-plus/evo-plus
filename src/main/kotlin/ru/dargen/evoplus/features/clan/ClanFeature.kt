@@ -29,7 +29,7 @@ object ClanFeature : Feature("clan", "Клан") {
         }
 
         subcategory("clan-visual", "Визуализация") {
-            switch(::InlineMenuClanScores, "К.О. для захвата босса в меню", "Отображает базовое кол-во К.О. для захвата босса в меню")
+            switch(::InlineMenuClanScores, "К.О. для захвата босса в меню", "Отображает количество К.О. для захвата босса в меню")
         }
     }
 

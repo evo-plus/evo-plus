@@ -46,13 +46,13 @@ object RuneFeature : Feature("rune", "Руны") {
     var RunesSetSwitch = true
 
     override fun CategoryBuilder.setup() {
-        subcategory("rune-notify", "Оповещения") {
-            switch(::ReadyNotify, "Уведомление при окончании задержки способностей", "Отображение уведомления при окончании задержки способностей")
-            switch(::ReadyMessage, "Сообщение при окончании задержки способностей", "Отображение сообщения при окончании задержки способностей")
+        subcategory("rune-notify", "Задержка способностей") {
+            switch(::ReadyNotify, "Уведомление", "Отображение уведомления при окончании задержки способностей")
+            switch(::ReadyMessage, "Сообщение", "Отображение сообщения при окончании задержки способностей")
         }
 
         subcategory("rune-set", "Сет рун") {
-            switch(::RunesBagProperties, "Статистика сета рун", "Отображение статистики сета рун в мешке")
+            switch(::RunesBagProperties, "Статистика", "Отображение статистики сета рун в мешке")
             switch(::RunesBagSet, "Активный сет рун", "Отображать активный сет рун в мешке")
             switch(::RunesSetSwitch, "Смена сетов рун", "Смена сетов рун через A-D и 1-7 в мешке")
         }

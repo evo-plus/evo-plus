@@ -31,9 +31,11 @@ object ShaftFeature : Feature("shaft", "Шахта") {
     var WormNotify = true
     var WormMessage = false
     var WormClanMessage = false
+
     var BarrelsNotify = true
     var BarrelsMessage = false
     var BarrelsClanMessage = false
+
     var RaidClanMessage = false
 
     var RaidShaftLevel = 0
@@ -77,13 +79,21 @@ object ShaftFeature : Feature("shaft", "Шахта") {
     }
 
     override fun Settings.CategoryBuilder.setup() {
-        switch(::WormNotify, "Уведомление о найденных червях", "Показывает уведомление о найденных червях")
-        switch(::WormMessage, "Сообщение о найденных червях", "Показывает сообщение о найденных червях")
-        switch(::WormClanMessage, "Найденные черви в клан чат с указанием шахты", "Показывает сообщение о найденных червях в клан чат с указанием шахты").subscription()
-        switch(::BarrelsNotify, "Уведомление о найденных бочках", "Показывает уведомление о найденных бочках")
-        switch(::BarrelsMessage, "Сообщение о найденных бочках", "Показывает сообщение о найденных бочках")
-        switch(::BarrelsClanMessage, "Найденные бочки в клан чат", "Показывает сообщение о найденных бочках в клан чат")
-        switch(::RaidClanMessage, "Рейд в клан чат с указанием шахты", "Показывает сообщение о начатом рейде в клан чат с указанием шахты")
+        subcategory("shaft-worm", "Оповещения о червях") {
+            switch(::WormNotify, "Уведомление", "Показывает уведомление о найденных червях")
+            switch(::WormMessage, "Сообщение", "Показывает сообщение о найденных червях")
+            switch(::WormClanMessage, "В клан чат", "Показывает сообщение о найденных червях в клановый чат с указанием шахты").subscription()
+        }
+
+        subcategory("shaft-barrel", "Оповещения о бочках") {
+            switch(::BarrelsNotify, "Уведомление", "Показывает уведомление о найденных бочках")
+            switch(::BarrelsMessage, "Сообщение", "Показывает сообщение о найденных бочках")
+            switch(::BarrelsClanMessage, "В клан чат", "Показывает сообщение о найденных бочках в клановый чат с указанием шахты")
+        }
+
+        subcategory("shaft-raid", "Оповещения о рейдах") {
+            switch(::RaidClanMessage, "В клан чат", "Показывает сообщение о начатом рейде в клановый чат с указанием шахты")
+        }
     }
 
     override fun initialize() {

@@ -1,6 +1,5 @@
 package ru.dargen.evoplus.mixin.render.hud;
 
-import com.mojang.authlib.GameProfile;
 import lombok.val;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.PlayerListHud;
@@ -14,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import ru.dargen.evoplus.event.EventBus;
-import ru.dargen.evoplus.event.player.AccessPlayerNameEvent;
 import ru.dargen.evoplus.event.player.PlayerDisplayNameEvent;
 import ru.dargen.evoplus.features.misc.MiscFeature;
 import ru.dargen.evoplus.features.potion.PotionFeature;
