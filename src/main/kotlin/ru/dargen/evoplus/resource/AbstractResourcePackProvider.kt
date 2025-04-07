@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.resource
 
+import net.minecraft.registry.VersionedIdentifier
 import net.minecraft.resource.*
 import net.minecraft.resource.ResourcePackProfile.InsertionPosition
 import net.minecraft.resource.ResourcePackProfile.Metadata
@@ -9,18 +10,18 @@ import java.util.*
 import java.util.function.Consumer
 
 abstract class AbstractResourcePackProvider(
-    val id: String, val name: String, description: String,
+    val id: String, val name: String
 ) : ResourcePackProvider {
 
-    private val metadata = ResourcePackInfo(
-        id, Text.of(name), Source, Optional.empty()
+    val metadata = ResourcePackInfo(
+        id, Text.of(name), Source, Optional.of(VersionedIdentifier.createVanilla(id))
     )
     protected open val pack
         get() = ResourcePackProfile.create(
             metadata, object : ResourcePackProfile.PackFactory {
                 override fun open(info: ResourcePackInfo) = openPack(info)
 
-                override fun openWithOverlays(info: ResourcePackInfo,metadata: Metadata) = openPack(info)
+                override fun openWithOverlays(info: ResourcePackInfo, metadata: Metadata) = openPack(info)
 
             },
             ResourceType.CLIENT_RESOURCES, ResourcePackPosition(true, InsertionPosition.TOP, true)

@@ -17,19 +17,19 @@ import ru.dargen.evoplus.event.player.PlayerDisplayNameEvent;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
 
-    @Shadow @Final private GameProfile gameProfile;
-
     @Shadow public abstract String getNameForScoreboard();
+
+    @Shadow public abstract Text getName();
 
     @Inject(at = @At("RETURN"), method = "getDisplayName", cancellable = true)
     private void getDisplayName(CallbackInfoReturnable<Text> cir) {
         if (getNameForScoreboard() != null) {
-            var event = EventBus.INSTANCE.fire(new PlayerDisplayNameEvent(getNameForScoreboard(), cir.getReturnValue()));
+            var event = EventBus.INSTANCE.fire(new PlayerDisplayNameEvent(getName().toString(), cir.getReturnValue()));
             cir.setReturnValue(event.getDisplayName());
         }
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/GameProfile;getName()Ljava/lang/String;"), method = "getName")
+    @Redirect(method = "getName", at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/GameProfile;getName()Ljava/lang/String;"))
     private String getName(GameProfile profile) {
         var event = new AccessPlayerNameEvent(profile.getName(), profile.getName());
         return EventBus.INSTANCE.fire(event).getName();

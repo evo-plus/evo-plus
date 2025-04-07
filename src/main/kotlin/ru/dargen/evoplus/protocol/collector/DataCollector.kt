@@ -1,5 +1,7 @@
 package ru.dargen.evoplus.protocol.collector
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonParser
 import pro.diamondworld.protocol.util.ProtocolSerializable
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.util.json.Gson
@@ -34,8 +36,26 @@ open class DataCollector<P : ProtocolSerializable>(val packetClass: KClass<P>, v
 
         var value = default
 
+//        fun accept(value: String) {
+//            val deserialized = Gson.fromJson<T>(value, type) ?: return
+//            consumer(deserialized)
+//            this@DataCollectorEntry.value = deserialized
+//        }
+
         fun accept(value: String) {
-            val deserialized = Gson.fromJson<T>(value, type) ?: return
+            val jsonElement = JsonParser.parseString(value)
+
+            println(jsonElement)
+
+            val deserialized: T = when {
+                jsonElement.isJsonArray -> Gson.fromJson(jsonElement, type)
+                jsonElement.isJsonObject && type.toString().startsWith("java.util.List") -> {
+                    val wrapped = JsonArray().also { it.add(jsonElement) }
+                    Gson.fromJson(wrapped, type)
+                }
+                else -> Gson.fromJson(jsonElement, type)
+            }
+
             consumer(deserialized)
             this@DataCollectorEntry.value = deserialized
         }

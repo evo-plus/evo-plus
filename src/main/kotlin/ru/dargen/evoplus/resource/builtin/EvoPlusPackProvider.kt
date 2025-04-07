@@ -7,7 +7,7 @@ import net.minecraft.resource.ZipResourcePack
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.resource.AbstractResourcePackProvider
 
-class EvoPlusPackProvider : AbstractResourcePackProvider("evo-plus", "EvoPlus", "Mod additional pack") {
+class EvoPlusPackProvider : AbstractResourcePackProvider("evo-plus", "EvoPlus") {
 
     override val pack = super.pack
 
