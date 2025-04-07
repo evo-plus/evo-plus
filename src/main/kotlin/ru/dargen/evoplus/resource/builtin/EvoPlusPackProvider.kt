@@ -7,7 +7,7 @@ import net.minecraft.resource.ZipResourcePack
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.resource.AbstractResourcePackProvider
 
-class EvoPlusPackProvider : AbstractResourcePackProvider("evo-plus", "EvoPlus") {
+class EvoPlusPackProvider : AbstractResourcePackProvider("evo-plus", "EvoPlus", "Mod additional pack") {
 
     override fun openPack(info: ResourcePackInfo): ResourcePack {
         return if (EvoPlus.DevEnvironment) DirectoryResourcePack.DirectoryBackedFactory(EvoPlus.Path).open(info)

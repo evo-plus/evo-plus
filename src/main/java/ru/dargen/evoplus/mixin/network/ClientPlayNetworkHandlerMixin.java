@@ -242,18 +242,6 @@ public abstract class ClientPlayNetworkHandlerMixin {
         EventBus.INSTANCE.fire(new ChunkLoadEvent(chunk));
     }
 
-//    @Inject(method = "onResourcePackSend", at = @At("HEAD"), cancellable = true)
-//    private void onResourcePackSend(ResourcePackSendS2CPacket packet, CallbackInfo ci) {
-//        var event = new ResourcePackRequestEvent(packet, false);
-//
-//        if (!EventBus.INSTANCE.fireResult(event)) {
-//            ci.cancel();
-//            if (event.getResponseAccepted()) {
-//                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.ACCEPTED);
-//                sendResourcePackStatus(ResourcePackStatusC2SPacket.Status.SUCCESSFULLY_LOADED);
-//            }
-//        }
-//    }
 
     @Inject(method = "onParticle", at = @At("HEAD"), cancellable = true)
     private void onParticle(ParticleS2CPacket packet, CallbackInfo ci) {

@@ -11,7 +11,7 @@ import java.util.function.Consumer
 class DiamondWorldPackProvider(
     private val downloader: ResourcePackDownloader,
     private val isEnabled: () -> Boolean,
-) : AbstractResourcePackProvider("diamond-world", "DiamondWorld") {
+) : AbstractResourcePackProvider("diamond-world", "DiamondWorld", "Server resource pack") {
 
     override fun register(profileAdder: Consumer<ResourcePackProfile>) {
         if (isEnabled()) {

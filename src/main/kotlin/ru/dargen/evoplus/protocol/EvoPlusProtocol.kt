@@ -36,9 +36,7 @@ object EvoPlusProtocol {
 //            val channel = channel.drop(3)
             val channel = BufUtil.readString(payload)
 
-            Handlers[channel]?.run {
-                invoke(payload)
-            }
+            Handlers[channel]?.invoke(payload)
 
             cancel()
         }
