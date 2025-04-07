@@ -2,7 +2,7 @@ package ru.dargen.evoplus.features.clicker
 
 enum class ClickerMode(val display: String) {
     
-    CLICK("Нажатие"),
+    CLICK("Удар"),
     HOLD("Удержание"),
     ;
     

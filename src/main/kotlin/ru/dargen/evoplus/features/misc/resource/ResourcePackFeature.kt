@@ -2,12 +2,9 @@ package ru.dargen.evoplus.features.misc.resource
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.event.resourcepack.ResourcePackProvidersEvent
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
-import ru.dargen.evoplus.resource.builtin.EvoPlusPackProvider
-import ru.dargen.evoplus.resource.diamondworld.DiamondWorldPackProvider
 import ru.dargen.evoplus.util.minecraft.Client
 
 object ResourcePackFeature : Feature(name = "Пакеты ресурсов") {

@@ -30,20 +30,29 @@ object ESPFeature : Feature("esp", "Подсветка") {
     private val Barrels = mutableMapOf<BlockPos, Node>()
 
     var LuckyBlocksEsp = SwitchColor(true, Colors.Red)
-    var BarrelsEsp = SwitchColor(false, Colors.Green)
     var ShardsEsp = SwitchColor(false, Colors.Deepskyblue)
+    var BarrelsEsp = SwitchColor(false, Colors.Green)
 
     override fun CategoryBuilder.setup() {
         switchColor(::LuckyBlocksEsp, "Подсвечивание лаки-блоков", "Подсвечивает лаки-блоки в шахтах") { state ->
-            LuckyBlocks.values.forEach { it.enabled = state.enabled }
+            LuckyBlocks.values.forEach {
+                it.enabled = state.enabled
+                it.color = state.color
+            }
         }
 
         switchColor(::ShardsEsp, "Подсвечивание осколков", "Подсвечивает золотые и алмазные осколки на шахтах и боссах") { state ->
-            Shards.values.forEach { it.enabled = state.enabled }
+            Shards.values.forEach {
+                it.enabled = state.enabled
+                it.color = state.color
+            }
         }
 
         switchColor(::BarrelsEsp, "Подсвечивание бочек", "Подсвечивает бочки в шахтах") { state ->
-            Barrels.values.forEach { it.enabled = state.enabled }
+            Barrels.values.forEach {
+                it.enabled = state.enabled
+                it.color = state.color
+            }
         }
     }
 
@@ -62,8 +71,8 @@ object ESPFeature : Feature("esp", "Подсветка") {
             recognizeBlock(chunk, blockPos, newState)
         }
 //        if (blockEntities) {
-            on<BlockEntityLoadEvent> { tryToRecognizeBlock(chunk, blockEntity) }
-            on<BlockEntityUpdateEvent> { tryToRecognizeBlock(chunk, blockEntity) }
+        on<BlockEntityLoadEvent> { tryToRecognizeBlock(chunk, blockEntity) }
+        on<BlockEntityUpdateEvent> { tryToRecognizeBlock(chunk, blockEntity) }
 //        }
 
 //        on<WorldRenderEvent> {
@@ -88,29 +97,31 @@ object ESPFeature : Feature("esp", "Подсветка") {
     private fun recognizeBlock(chunk: Chunk, blockPos: BlockPos, blockState: BlockState) {
         if (!ShardsEsp.enabled && !LuckyBlocksEsp.enabled && !BarrelsEsp.enabled) return
 
-        val shard = blockState.getShard(blockPos, chunk)
         val luckyBlock = blockState.getLuckyBlock(blockPos, chunk)
+        val shard = blockState.getShard(blockPos, chunk)
         val barrel = blockState.getBarrel()
 
         when {
             shard != null -> when {
                 blockState.isHead() -> Shards[blockPos.mutableCopy()] =
-                    blockPos.mutableCopy().renderLittleCube(shard.color).apply { enabled = ShardsEsp.enabled }
+                    blockPos.mutableCopy().renderLittleCube(ShardsEsp.color).apply { enabled = ShardsEsp.enabled }
 
                 blockState.isWallHead() -> Shards[blockPos.mutableCopy()] =
-                    blockPos.mutableCopy().renderWallLittleCube(shard.color).apply { enabled = ShardsEsp.enabled }
+                    blockPos.mutableCopy().renderWallLittleCube(ShardsEsp.color).apply { enabled = ShardsEsp.enabled }
             }
 
             luckyBlock != null -> when {
                 blockState.isHead() -> LuckyBlocks[blockPos.mutableCopy()] =
-                    blockPos.mutableCopy().renderLittleCube(luckyBlock.color).apply { enabled = LuckyBlocksEsp.enabled }
+                    blockPos.mutableCopy().renderLittleCube(LuckyBlocksEsp.color)
+                        .apply { enabled = LuckyBlocksEsp.enabled }
 
                 blockState.isWallHead() -> LuckyBlocks[blockPos.mutableCopy()] =
-                    blockPos.mutableCopy().renderWallLittleCube(luckyBlock.color).apply { enabled = LuckyBlocksEsp.enabled }
+                    blockPos.mutableCopy().renderWallLittleCube(LuckyBlocksEsp.color)
+                        .apply { enabled = LuckyBlocksEsp.enabled }
             }
 
             barrel != null -> Barrels[blockPos.mutableCopy()] =
-                blockPos.mutableCopy().renderCube(barrel.color).apply { enabled = BarrelsEsp.enabled }
+                blockPos.mutableCopy().renderCube(BarrelsEsp.color).apply { enabled = BarrelsEsp.enabled }
         }
     }
 

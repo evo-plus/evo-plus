@@ -5,9 +5,8 @@ import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.render.entity.EntityRenderDispatcher
 import net.minecraft.client.util.math.MatrixStack
-import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.event.render.entity.RenderPlayerLabelEvent
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.features.misc.RenderFeature.HealthRenderMode
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.render.*
 
@@ -17,6 +16,8 @@ object HealthBar : Feature(name = "Индикатор здоровья") {
     private var enabled = true
     private var offset = 0f
     private var showHealth = true
+
+    var HealthRender = HealthRenderMode.DEFAULT
 
     override fun CategoryBuilder.setup() {
         switch(
@@ -35,6 +36,9 @@ object HealthBar : Feature(name = "Индикатор здоровья") {
             "Здоровье игрока",
             "Показывает числовое значение здоровья над игроком"
         )
+
+        selector(::HealthRender, "Режим отображения здоровья", "Выбор способа отображения здоровья")
+
     }
 
     override fun initialize() {

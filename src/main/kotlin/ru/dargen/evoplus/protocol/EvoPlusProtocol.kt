@@ -31,10 +31,14 @@ object EvoPlusProtocol {
         }
 
         on<CustomPayloadEvent> {
-            if (!channel.startsWith("dw")) return@on
-            val channel = channel.drop(3)
+            if (!channel.startsWith("dw:evoplus")) return@on
 
-            Handlers[channel]?.invoke(payload)
+//            val channel = channel.drop(3)
+            val channel = BufUtil.readString(payload)
+
+            Handlers[channel]?.run {
+                invoke(payload)
+            }
 
             cancel()
         }

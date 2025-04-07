@@ -2,13 +2,7 @@ package ru.dargen.evoplus
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.codec.PacketDecoder
-import net.minecraft.network.packet.CustomPayload
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.event.EventBus
 import ru.dargen.evoplus.feature.Features
@@ -35,7 +29,6 @@ import ru.dargen.evoplus.features.stats.StatisticFeature
 import ru.dargen.evoplus.features.text.TextFeature
 import ru.dargen.evoplus.keybind.KeyBindings
 import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.protocol.packet.ProtocolPayload
 import ru.dargen.evoplus.render.animation.AnimationRunner
 import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.context.WorldContext

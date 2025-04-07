@@ -10,5 +10,5 @@ object DummyPayload : ProtocolSerializable {
     override fun write(buf: ByteBuf) {}
     override fun read(buf: ByteBuf) {}
 
-    val INSTANCE = ProtocolPayload(CustomPayload.Id(Identifier.of("dw:handshake")), this)
+    val INSTANCE = ProtocolPayload(CustomPayload.Id(Identifier.of("dw:evoplus")), this)
 }

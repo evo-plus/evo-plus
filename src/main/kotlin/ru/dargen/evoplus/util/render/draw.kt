@@ -5,8 +5,6 @@ import net.minecraft.client.font.TextRenderer.TextLayerType
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import org.joml.Vector3f
-import org.lwjgl.opengl.GL
-import org.lwjgl.opengl.GL32C.*
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.minecraft.Client
@@ -95,7 +93,7 @@ fun MatrixStack.drawBoxOutline(
 ) {
     val matrix = peek().positionMatrix
     val tessellator = Tessellator.getInstance()
-    val buffer = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR)
+    val buffer = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION)
 
     val (r, g, b, a) = color.decomposeFloat()
 
@@ -139,7 +137,11 @@ fun MatrixStack.drawBoxOutline(
     buffer.vertex(matrix, minX, maxY, maxZ)
 
     RenderSystem.enableBlend()
-    RenderSystem.setShader(GameRenderer::getPositionColorProgram)
+    RenderSystem.setShaderColor(r, g, b, a)
+    RenderSystem.setShader(GameRenderer::getPositionProgram)
+
     BufferRenderer.drawWithGlobalProgram(buffer.end())
+
+    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.disableBlend()
 }

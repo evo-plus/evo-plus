@@ -60,7 +60,7 @@ object FishingFeature : Feature("fishing", "Рыбалка") {
     var ValueVisibleMode = FishingValueWidgetVisibleMode.ENABLED
 
     override fun CategoryBuilder.setup() {
-        switch(::SpotsHighlight, "Подсветка точек клева", "Подсвечивает точки клева на локации").subscription()
+        switch(::SpotsHighlight, "Подсветка точек клёва", "Подсвечивает точки клёва на локации").subscription()
         switch(::HigherBitingNotify, "Уведомления о повышенном клёве", "Уведомляет о повышенном клёве на локациях")
         slider(::AutoHookDelay, "Автоматическая удочка", "Автоматически подбирает удочку (тик = 50 мс)", range = -1..40).subscription()
 

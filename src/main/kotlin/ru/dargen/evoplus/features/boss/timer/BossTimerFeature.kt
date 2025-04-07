@@ -4,7 +4,6 @@ import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import pro.diamondworld.protocol.packet.boss.BossTimers
 import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
-import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
@@ -23,13 +22,12 @@ import ru.dargen.evoplus.util.minecraft.*
 import kotlin.math.absoluteValue
 
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
-private const val MYTHICAL_EVENT_MULTIPLIER_X1000 = (MYTHICAL_EVENT_MULTIPLIER * 1000).toLong()
 
 object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
 
     val AlertedBosses = mutableSetOf<String>()
     val PreAlertedBosses = mutableSetOf<String>()
-    val Bosses: MutableMap<String, Long> by config("bosses", mutableMapOf())
+    val Bosses: MutableMap<String, Long> by config("bosses", hashMapOf())
     val ComparedBosses
         get() = Bosses
             .mapKeys { BossType.valueOf(it.key) }
@@ -41,17 +39,16 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
     val TimerWidget by widgets.widget("Таймер боссов", "boss-timer", widget = BossTimerWidget)
 
     var PremiumTimer = false
-    var WidgetTeleport = false
 
     var MinLevel = 0
     var MaxLevel = 520
     var BossesCount = 60
+    var WidgetTeleport = false
 
     var ShortName = false
     var ShortTimeFormat = false
     var InlineMenuTime = true
     var PostSpawnShowTime = 0
-    var AutoReset = true
 
     var PreSpawnNotify = true
     var SpawnNotify = true
@@ -67,12 +64,8 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
     var OnlyCapturedBosses = false
 
     override fun CategoryBuilder.setup() {
-        switch(::PremiumTimer, "Покупной таймер")
-        switch(
-            ::WidgetTeleport,
-            "Телепорт по клику в виджете",
-            "Телепортирует к определённому боссу по клику в виджете"
-        )
+        switch(::PremiumTimer, "Покупной таймер", "Включите эту опцию, если вы приобрели его")
+        button("Сбросить таймеры", text = "Сбросить") { Bosses.clear() }
 
         subcategory("widget", "Настройки виджета") {
             slider(
@@ -89,22 +82,23 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
             )
             slider(
                 ::BossesCount,
-                "Кол-во отображаемых боссов",
+                "Отображаемые боссы",
                 "Количество отображаемых боссов в виджете",
                 range = 0..60
             )
+            switch(::WidgetTeleport, "Телепорт по клику в виджете", "Телепортирует к определённому боссу по клику в виджете")
         }
 
         subcategory("visual", "Отображение") {
             switch(
                 ::ShortName,
                 "Сокращение имени босса",
-                "Сокращённый формат имени босса в виджете (Лавовый монстр [360] -> [360])"
+                "Сокращённый формат имени босса в виджете \n(Лавовый монстр [360] -> [360])"
             )
             switch(
                 ::ShortTimeFormat,
                 "Сокращенный формат времени",
-                "Сокращённый формат времени в виджете (1ч 30мин 15сек -> 1:30:15)"
+                "Сокращённый формат времени в виджете \n(1ч 30мин 15сек -> 1:30:15)"
             )
             switch(::InlineMenuTime, "Время до спавна в меню", "Отображает время до спавна босса в меню (/bosses)")
             slider(
@@ -113,7 +107,6 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
                 "Сохраняет в виджете информацию о боссе после его респавна",
                 range = 0..360 step 5
             )
-            switch(::AutoReset, "Сброс таймеров при рестарте", "Автоматический сброс таймеров при рестарте сервера")
         }
 
         subcategory("notify", "Уведомления") {
@@ -138,26 +131,22 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
                 "Отображает только захваченных кланом боссов в виджете"
             )
         }
-        button("Сбросить таймеры", text = "Сбросить") { Bosses.clear() }
     }
 
     override fun initialize() {
-        on<ChatReceiveEvent> {
-            if (AutoReset && text == "Перезагрузка сервера") Bosses.clear()
-        }
 
         on<GameEventChangeEvent> {
             if (old === MYTHICAL_EVENT || new === MYTHICAL_EVENT) Bosses.replaceAll { bossId, spawn ->
                 if (BossType.valueOf(bossId)?.isRaid == false) return@replaceAll spawn
 
-                (if (old === MYTHICAL_EVENT) (spawn * MYTHICAL_EVENT_MULTIPLIER_X1000) / 1000 else (spawn * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000)
+                (if (old === MYTHICAL_EVENT) spawn * MYTHICAL_EVENT_MULTIPLIER else spawn / MYTHICAL_EVENT_MULTIPLIER).toLong()
             }
         }
 
         listen<BossTimers> {
             if (PremiumTimer) it.timers
                 .mapKeys { BossType.valueOf(it.key) ?: return@listen }
-                .mapValues { (it.value + currentMillis * if (PlayerDataCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER_X1000 else 1000) / 1000 }
+                .mapValues { (it.value + currentMillis * if (PlayerDataCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER else 1.0).toLong() }
                 .mapKeys { it.key.id }
                 .let(Bosses::putAll)
         }
@@ -260,7 +249,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
         ?.run {
             val type = BossType.valueOfName(getOrNull(0) ?: return@run null) ?: return@run null
             val delay = getOrNull(1)?.replace("۞", "")?.fromTextTime
-                ?.let { if (PlayerDataCollector.event === MYTHICAL_EVENT && type.isRaid) ((it * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000).toLong() else it }
+                ?.let { if (PlayerDataCollector.event === MYTHICAL_EVENT && type.isRaid) (it / MYTHICAL_EVENT_MULTIPLIER).toLong() else it }
                 ?.takeIf { it > 6000 }
                 ?: return@run null
 

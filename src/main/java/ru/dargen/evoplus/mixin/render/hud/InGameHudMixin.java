@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.render.OverlayRenderEvent;
 import ru.dargen.evoplus.features.misc.RenderFeature;
+import ru.dargen.evoplus.features.misc.render.HealthBar;
 import ru.dargen.evoplus.features.text.TextFeature;
 import ru.dargen.evoplus.util.mixin.HeartType;
 
@@ -64,7 +65,7 @@ public abstract class InGameHudMixin {
     private void renderHealthBar(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci) {
         ci.cancel();
 
-        RenderFeature.HealthRenderMode mode = RenderFeature.INSTANCE.getHealthRender();
+        RenderFeature.HealthRenderMode mode = HealthBar.INSTANCE.getHealthRender();
         if (!mode.isDefaultHearts()) return;
 
 
