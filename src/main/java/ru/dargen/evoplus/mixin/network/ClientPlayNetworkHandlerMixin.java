@@ -17,10 +17,7 @@ import net.minecraft.network.NetworkThreadUtils;
 import net.minecraft.network.encryption.NetworkEncryptionUtils;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.message.*;
-import net.minecraft.network.packet.BrandCustomPayload;
-import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.UnknownCustomPayload;
 import net.minecraft.network.packet.c2s.play.ChatCommandSignedC2SPacket;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
@@ -40,7 +37,6 @@ import ru.dargen.evoplus.event.inventory.InventoryCloseEvent;
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent;
 import ru.dargen.evoplus.event.inventory.InventoryOpenEvent;
 import ru.dargen.evoplus.event.inventory.InventorySlotUpdateEvent;
-import ru.dargen.evoplus.event.network.ChangeServerEvent;
 import ru.dargen.evoplus.event.world.ChunkLoadEvent;
 import ru.dargen.evoplus.event.world.ParticleEvent;
 import ru.dargen.evoplus.event.world.WorldMapEvent;
@@ -217,23 +213,6 @@ public abstract class ClientPlayNetworkHandlerMixin {
                 new InventoryCloseEvent(packet.getSyncId(), INVENTORY_OPEN_EVENTS.getIfPresent(packet.getSyncId())))) {
             ci.cancel();
         }
-    }
-
-    @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
-    public void onCustomPayload(CustomPayload packet, CallbackInfo ci) {
-        System.out.println(packet);
-        if (packet instanceof UnknownCustomPayload){
-            System.out.println("UnknownCustomPayload: " + ((UnknownCustomPayload) packet).getId());
-        }
-
-        if (packet instanceof BrandCustomPayload){
-            EventBus.INSTANCE.fire(ChangeServerEvent.INSTANCE);
-        }
-
-        //todo: fix
-//        if (!EventBus.INSTANCE.fireResult(new CustomPayloadEvent(packet.getId().id().toString(), packet.data()))) {
-//            ci.cancel();
-//        }
     }
 
     @Inject(method = "onChunkData", at = @At("TAIL"))
