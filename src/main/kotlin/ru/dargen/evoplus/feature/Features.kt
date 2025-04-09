@@ -30,7 +30,7 @@ import ru.dargen.evoplus.keybind.Keybinds.MenuKey
 import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.catch
-import ru.dargen.evoplus.util.json.Gson
+import ru.dargen.evoplus.util.json.PrettyGson
 import ru.dargen.evoplus.util.json.isNull
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
@@ -94,7 +94,7 @@ data object Features {
 
     fun loadSettings() {
         if (SettingsFile.exists()) catch("Error while loading features settings") {
-            val json = Gson.fromJson(SettingsFile.reader(), JsonObject::class.java)
+            val json = PrettyGson.fromJson(SettingsFile.reader(), JsonObject::class.java)
 
             List.associateBy { json.asJsonObject[it.settings.id] }
                 .filterKeys { !it.isNull }
@@ -112,7 +112,7 @@ data object Features {
                 List.forEach { add(it.settings.id, it.settings.store()) }
             }
 
-            SettingsFile.writeText(Gson.toJson(json))
+            SettingsFile.writeText(PrettyGson.toJson(json))
         }
     }
 

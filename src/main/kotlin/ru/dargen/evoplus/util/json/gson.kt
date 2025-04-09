@@ -5,12 +5,12 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 val GsonBuilder = GsonBuilder().setPrettyPrinting()
-var Gson = GsonBuilder.create()
-
+var PrettyGson = GsonBuilder.create()
+var Gson = GsonBuilder().create()
 fun gson(bake: Boolean = true, block: GsonBuilder.() -> Unit): Gson {
     GsonBuilder.block()
-    if (bake) Gson = GsonBuilder.create()
-    return Gson
+    if (bake) PrettyGson = GsonBuilder.create()
+    return PrettyGson
 }
 
 inline fun <reified T : Any> GsonBuilder.deserializer(
@@ -32,10 +32,10 @@ inline fun <reified T : Any> GsonBuilder.adapter(
 
 inline fun <reified T : Any> type() = object : TypeToken<T>() {}.type
 
-inline fun <reified T : Any> fromJson(json: String, type: Type = type<T>()) = Gson.fromJson<T>(json, type)
+inline fun <reified T : Any> fromJson(json: String, type: Type = type<T>()) = PrettyGson.fromJson<T>(json, type)
 
-inline fun <reified T : Any> fromJson(json: JsonElement, type: Type = type<T>()) = Gson.fromJson<T>(json, type)
+inline fun <reified T : Any> fromJson(json: JsonElement, type: Type = type<T>()) = PrettyGson.fromJson<T>(json, type)
 
-fun toJson(any: Any) = Gson.toJson(any)
+fun toJson(any: Any) = PrettyGson.toJson(any)
 
-fun toJsonTree(any: Any) = Gson.toJsonTree(any)
+fun toJsonTree(any: Any) = PrettyGson.toJsonTree(any)

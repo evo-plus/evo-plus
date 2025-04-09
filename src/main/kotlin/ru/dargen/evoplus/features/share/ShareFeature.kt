@@ -5,7 +5,7 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.util.PasteApi
-import ru.dargen.evoplus.util.json.Gson
+import ru.dargen.evoplus.util.json.PrettyGson
 import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.CompletableFuture
 
@@ -43,8 +43,8 @@ object ShareFeature : Feature("share", "Поделиться", Items.SCULK_SENSO
         val type = T::class.java
         create(
             id, name,
-            { Gson.toJson(encoder(it)) },
-            { nick, data -> decoder(nick, Gson.fromJson<T>(data, type)) }
+            { PrettyGson.toJson(encoder(it)) },
+            { nick, data -> decoder(nick, PrettyGson.fromJson<T>(data, type)) }
         )
     }
 

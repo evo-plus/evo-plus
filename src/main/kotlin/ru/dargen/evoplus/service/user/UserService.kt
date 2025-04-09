@@ -57,7 +57,7 @@ object UserService {
                     PlayerDataCollector.economic.money,
                     PlayerDataCollector.economic.shards.toDouble(),
                     PlayerDataCollector.location.id,
-                    PlayerDataCollector.statistics.joinToString(",")
+                    PlayerDataCollector.statisticsRaw
                 )
             )
         }

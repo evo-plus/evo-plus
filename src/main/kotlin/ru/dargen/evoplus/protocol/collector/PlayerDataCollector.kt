@@ -16,6 +16,7 @@ import ru.dargen.evoplus.protocol.collector.data.EconomicData
 import ru.dargen.evoplus.protocol.collector.data.GameLocation
 import ru.dargen.evoplus.protocol.collector.data.PetData
 import ru.dargen.evoplus.protocol.listen
+import ru.dargen.evoplus.util.json.Gson
 
 object PlayerDataCollector : DataCollector<StatisticInfo>(StatisticInfo::class, StatisticInfo::getData) {
 
@@ -23,7 +24,9 @@ object PlayerDataCollector : DataCollector<StatisticInfo>(StatisticInfo::class, 
     val pets by collect("pets", emptyList<PetData>())
 
     val economic = EconomicData(this)
-    val statistics by collect("statistic", emptyList<Double>())
+    val statistics by collect("statistic", mapOf<String, Double>())
+    val statisticsRaw get() = Gson.toJson(statistics)
+
     val combo = ComboData()
 
     var event = EventType.NONE

@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.util
 
 import com.google.gson.JsonObject
-import ru.dargen.evoplus.util.json.Gson
+import ru.dargen.evoplus.util.json.PrettyGson
 import ru.dargen.evoplus.util.kotlin.cast
 import java.net.HttpURLConnection
 import java.net.URL
@@ -21,7 +21,7 @@ object PasteApi {
 
         outputStream.use { it.write(content.toByteArray()) }
         val rawResponse = String(inputStream.readAllBytes())
-        val response = Gson.fromJson(rawResponse, JsonObject::class.java)
+        val response = PrettyGson.fromJson(rawResponse, JsonObject::class.java)
         response["key"].asString
     }.apply { exceptionOrNull()?.log("Error while pasting to paste-service") }.getOrNull()
 
