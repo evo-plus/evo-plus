@@ -5,6 +5,7 @@ import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
@@ -36,11 +37,7 @@ object BossFeature : Feature("boss", "Боссы") {
 
     val BossDamageText = text("???? [??]: ??\uE35E") { isShadowed = true }
 
-    val BossDamageWidget by widgets.widget("Урон по боссу", "boss-damage") {
-        origin = Relative.CenterBottom
-        align = v3(.58, .9)
-        +BossDamageText
-    }
+    val BossDamageWidget by widgets
 
     var NotifyCapture = true
     var CurseMessage = false
@@ -52,12 +49,30 @@ object BossFeature : Feature("boss", "Боссы") {
         subcategory("boss-notify", "Оповещения") {
             switch(::NotifyCapture, "Захват боссов", "Уведомляет о захвате боссов")
             switch(::CurseMessage, "Проклятие босса", "Отправляет сообщение о проклятии босса в клановый чат")
-            switch(::BossLowHealthsMessage, "Процент здоровья босса", "Отправляет сообщение об определённом проценте здоровья босса в клановый чат")
+            switch(
+                ::BossLowHealthsMessage,
+                "Процент здоровья босса",
+                "Отправляет сообщение об определённом проценте здоровья босса в клановый чат"
+            )
         }
 
         subcategory("boss-health-settings", "Настройки оповещений здоровья босса") {
-            percent(::BossHealthsPercent, "Оповещать о здоровье босса", "Процент здоровья босса, при котором отправляется сообщение в клановый чат")
-            slider(::BossHealthsCooldown, "Частота оповещений о здоровье босса", "Частота отправки сообщения о здоровье босса в клановый чат (в секундах)", range = 5..60)
+            percent(
+                ::BossHealthsPercent,
+                "Оповещать о здоровье босса",
+                "Процент здоровья босса, при котором отправляется сообщение в клановый чат"
+            )
+            slider(
+                ::BossHealthsCooldown,
+                "Частота оповещений о здоровье босса",
+                "Частота отправки сообщения о здоровье босса в клановый чат (в секундах)",
+                range = 5..60
+            )
+        }
+        widget("boss-damage", "Урон по боссу") {
+            origin = Relative.CenterBottom
+            align = v3(.58, .9)
+            +BossDamageText
         }
     }
 

@@ -2,12 +2,15 @@ package ru.dargen.evoplus.feature
 
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import dev.evoplus.feature.setting.property.attr.WidgetPropertyAttr
 import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.event.game.MinecraftLoadedEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.config.FeatureConfig
+import ru.dargen.evoplus.feature.widget.Widget
 import ru.dargen.evoplus.keybind.Keybinds.MenuKey
 import ru.dargen.evoplus.keybind.on
+import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.catch
 import ru.dargen.evoplus.util.json.Gson
@@ -52,6 +55,13 @@ data object Features {
 
         Features.forEach(Feature::preInitializeInternal)
         loadSettings()
+
+        FeaturesSettings.totalProperties
+            .mapNotNull { (it.attr as? WidgetPropertyAttr)?.widget }
+            .filterIsInstance<Widget>()
+            .forEach {
+                Overlay.addChildren(it.node)
+            }
     }
 
     fun saveSettings() {

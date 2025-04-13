@@ -8,6 +8,7 @@ import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.discord.DiscordRPCFeature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.resource.ResourcePackFeature
@@ -26,7 +27,6 @@ object MiscFeature : Feature("misc", "Прочее") {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
 
-    val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = NotifyWidget)
 
     var FastSelector = true
 
@@ -65,6 +65,7 @@ object MiscFeature : Feature("misc", "Прочее") {
         }
 
         subcategory("notify", "Уведомления") {
+            widget("Уведомления", "notifies-widget", NotifyWidget)
             switch(::CaseNotify, "Уведомления о кейсах", "Уведомлять о найденных кейсах")
             switch(::LuckyBlockNotify, "Уведомления о лаки-блоках", "Уведомлять о найденных лаки-блоках")
             switch(::CollectionNotify, "Уведомления о коллекционках", "Уведомлять о найденных коллекционных предметах")

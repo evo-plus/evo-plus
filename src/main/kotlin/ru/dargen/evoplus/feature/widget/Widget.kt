@@ -1,7 +1,9 @@
 package ru.dargen.evoplus.feature.widget
 
-import com.google.gson.JsonElement
-import ru.dargen.evoplus.feature.setting.Setting
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
+import dev.evoplus.feature.setting.property.attr.WidgetPropertyAttr
+import dev.evoplus.feature.setting.property.value.WidgetData
+import gg.essential.elementa.utils.Vector3f
 import ru.dargen.evoplus.render.Colors.Transparent
 import ru.dargen.evoplus.render.Colors.TransparentWhite
 import ru.dargen.evoplus.render.Relative
@@ -11,25 +13,18 @@ import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.node.*
 import ru.dargen.evoplus.render.node.box.box
 import ru.dargen.evoplus.util.currentMillis
-import ru.dargen.evoplus.util.json.Gson
-import ru.dargen.evoplus.util.json.asDouble
-import ru.dargen.evoplus.util.json.asObject
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
+import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.math.v3
 
 @KotlinOpens
-class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node>(id, name) {
+class Widget(override val id: String, val name: String, supplier: Node.() -> Unit) : WidgetPropertyAttr.WidgetAccessor {
 
     var position = false
-    var enabled
-        get() = value.enabled
-        set(enabled) {
-            value.enabled = enabled
-        }
 
     private var hoverTimestamp = 0L
 
-    override var value: Node = Overlay + box {
+    var node: Node = Overlay + box {
         supplier()
 
         color = Transparent
@@ -53,7 +48,7 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
             } else if (!it && this@Widget.position) {
                 if (WidgetEditorScreen.selectedWidget === this@Widget) {
                     if (WidgetEditorScreen.mode === WidgetEditorScreen.Mode.DELETE) {
-                        this@Widget.enabled = false
+                        enabled = false
                     }
                     WidgetEditorScreen.selectedWidget = null
                 }
@@ -83,7 +78,7 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
         useAlign()
     }
 
-    private fun fixPosition() = value.apply {
+    private fun fixPosition() = node.apply {
 
         val scale = (wholeScale / scale)
         val minPosition = wholePosition / scale
@@ -107,7 +102,7 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
         }
     }
 
-    fun usePosition() = value.apply {
+    fun usePosition() = node.apply {
         if (this@Widget.position) return@apply
         this@Widget.position = true
 
@@ -115,7 +110,7 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
         align = v3()
     }
 
-    private fun useAlign() = value.apply {
+    private fun useAlign() = node.apply {
         this@Widget.position = false
 
         var pos = position + translation
@@ -132,34 +127,22 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
         align = (pos / parent!!.size).fixNaN()
     }
 
-    override fun load(element: JsonElement) {
-        val element = element.asObject() ?: return
-
-        enabled = element["enabled"]?.asBoolean ?: enabled
-        element["origin"].asObject()?.let {
-            value.origin.apply { set(it["x"].asDouble(x), it["y"].asDouble(y), it["z"].asDouble(z)) }
-        }
-        element["align"].asObject()?.let {
-            value.align.apply {
-                set(
-                    it["x"].asDouble(x.coerceAtLeast(.0)),
-                    it["y"].asDouble(y).coerceAtLeast(.0),
-                    it["z"].asDouble(z).coerceAtLeast(.0)
-                )
-            }
-        }
-        element["scale"].asObject()?.let {
-            value.scale.apply { set(it["x"].asDouble(x), it["y"].asDouble(y), it["z"].asDouble(z)) }
-        }
+    override fun update(data: WidgetData) {
+        node.enabled = data.enabled
+        node.scale = v3(data.scale)
+        node.origin = data.origin.run { Vector3(x.toDouble(), y.toDouble(), z.toDouble()) }
+        node.align = data.align.run { Vector3(x.toDouble(), y.toDouble(), z.toDouble()) }
     }
 
-    override fun store(): JsonElement = Gson.toJsonTree(
-        mapOf(
-            "enabled" to enabled,
-            "align" to value.align.toMap(),
-            "scale" to value.scale.toMap(),
-            "origin" to value.origin.toMap()
-        )
-    )
+    override fun snapshot(data: WidgetData) {
+        data.enabled = node.enabled
+        data.scale = node.scale.x
+        data.origin = node.origin.run { Vector3f(x.toFloat(), y.toFloat(), z.toFloat()) }
+        data.align = node.align.run { Vector3f(x.toFloat(), y.toFloat(), z.toFloat()) }
+    }
 
 }
+
+fun CategoryBuilder.widget(widget: Widget) = widget(widget.name, id = widget.id, widget = widget)
+
+fun CategoryBuilder.widget(id: String, name: String, widget: Node.() -> Unit) = widget(Widget(id, name, widget))

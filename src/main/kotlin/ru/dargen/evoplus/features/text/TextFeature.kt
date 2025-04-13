@@ -29,10 +29,10 @@ object TextFeature : Feature("text", "Текст") {
     var KeepHistory = false
     var LongerChat = 0
 
-    val ColorInputs = settings.colorInput(
-        "Градиент сообщение в чате (Нужен статус)",
-        id = "gradient"
-    )
+//    val ColorInputs = settings.colorInput(
+//        "Градиент сообщение в чате (Нужен статус)",
+//        id = "gradient"
+//    )
 
     override fun CategoryBuilder.setup() {
         slider(
@@ -99,14 +99,14 @@ object TextFeature : Feature("text", "Текст") {
         )
 
         on<ChatSendEvent> {
-            if (!Connector.isOnPrisonEvo || !ColorInputs.value) return@on
-            if (text.startsWith("@") || text.startsWith("\"")) return@on
-
-            val message = text
-            val prefix = formatters.find { message.startsWith(it, true) }?.take(1) ?: ""
-            val colors = buildColorSetting(ColorInputs.mirroring)
-            text = if (marketKeys.any { message.startsWith(it) } || marketWords.any { message.contains(it, true) })
-                text else message.replace(prefix, "").buildMessage(prefix, colors)
+//            if (!Connector.isOnPrisonEvo || !ColorInputs.value) return@on
+//            if (text.startsWith("@") || text.startsWith("\"")) return@on
+//
+//            val message = text
+//            val prefix = formatters.find { message.startsWith(it, true) }?.take(1) ?: ""
+//            val colors = buildColorSetting(ColorInputs.mirroring)
+//            text = if (marketKeys.any { message.startsWith(it) } || marketWords.any { message.contains(it, true) })
+//                text else message.replace(prefix, "").buildMessage(prefix, colors)
         }
 
         on<ChatSendEvent> {
@@ -139,15 +139,15 @@ object TextFeature : Feature("text", "Текст") {
         else "$prefix${colors[0]}$this"
     }
 
-    private fun buildColorSetting(withMirroring: Boolean) = buildList {
-        ColorInputs.inputs.map { it.content }.let {
-            val firstColor = it[0].uppercase()
-            val secondColor = it[1].uppercase()
-
-            add("[#$firstColor-#$secondColor]")
-            if (withMirroring) add("[#$secondColor-#$firstColor]")
-        }
-    }
+//    private fun buildColorSetting(withMirroring: Boolean) = buildList {
+//        ColorInputs.inputs.map { it.content }.let {
+//            val firstColor = it[0].uppercase()
+//            val secondColor = it[1].uppercase()
+//
+//            add("[#$firstColor-#$secondColor]")
+//            if (withMirroring) add("[#$secondColor-#$firstColor]")
+//        }
+//    }
 
     fun isLongerChat(): Boolean {
         return if (LongerChat == 0) false

@@ -3,24 +3,12 @@ package dev.evoplus.feature.setting
 import com.google.gson.GsonBuilder
 import dev.evoplus.feature.setting.gui.SettingsGui
 import dev.evoplus.feature.setting.gui.SettingsGuiPreferences
-import dev.evoplus.feature.setting.property.Category
-import dev.evoplus.feature.setting.property.EmptyPropertyValue
-import dev.evoplus.feature.setting.property.KPropertyValue
-import dev.evoplus.feature.setting.property.Property
-import dev.evoplus.feature.setting.property.PropertyMeta
-import dev.evoplus.feature.setting.property.PropertyType
-import dev.evoplus.feature.setting.property.PropertyValue
-import dev.evoplus.feature.setting.property.attr.BindPropertyAttr
-import dev.evoplus.feature.setting.property.attr.ButtonPropertyAttr
-import dev.evoplus.feature.setting.property.attr.ColorPropertyAttr
-import dev.evoplus.feature.setting.property.attr.DecimalPropertyAttr
-import dev.evoplus.feature.setting.property.attr.FloatRange
-import dev.evoplus.feature.setting.property.attr.NumberPropertyAttr
-import dev.evoplus.feature.setting.property.attr.SelectorPropertyAttr
-import dev.evoplus.feature.setting.property.attr.TextPropertyAttr
+import dev.evoplus.feature.setting.property.*
+import dev.evoplus.feature.setting.property.attr.*
 import dev.evoplus.feature.setting.property.data.CategoryData
 import dev.evoplus.feature.setting.property.value.Bind
 import dev.evoplus.feature.setting.property.value.SwitchColor
+import dev.evoplus.feature.setting.property.value.WidgetData
 import dev.evoplus.feature.setting.utils.SettingsFile
 import gg.essential.universal.UI18n
 import java.awt.Color
@@ -291,6 +279,19 @@ abstract class Settings(
             name = name, description = description,
             hidden = hidden, subscription = subscription,
             type = PropertyType.Bind, attr = BindPropertyAttr(allowed),
+            observeInit = observeInit, action = action
+        )
+
+        fun widget(
+            name: String, description: String? = null, id: String = widget.id,
+            hidden: Boolean = false, subscription: Boolean = false,
+            widget: WidgetPropertyAttr.WidgetAccessor,
+            observeInit: Boolean = true, action: (WidgetData) -> Unit = {},
+        ) = property(
+            value = HoldPropertyValue<WidgetData>(id, widget.snapshot()), id = id,
+            name = name, description = description,
+            hidden = hidden, subscription = subscription,
+            type = PropertyType.Widget, attr = WidgetPropertyAttr(widget),
             observeInit = observeInit, action = action
         )
 

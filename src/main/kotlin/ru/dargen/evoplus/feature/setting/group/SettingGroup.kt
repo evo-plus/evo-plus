@@ -6,12 +6,11 @@ import ru.dargen.evoplus.feature.screen.FeatureBaseElement
 import ru.dargen.evoplus.feature.screen.FeatureElement
 import ru.dargen.evoplus.feature.screen.FeatureElementProvider
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
-import ru.dargen.evoplus.feature.setting.*
+import ru.dargen.evoplus.feature.setting.Setting
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.render.node.box.DropElementsBoxNode
 import ru.dargen.evoplus.util.json.isNull
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
-import ru.dargen.evoplus.util.selector.Selector
 
 @KotlinOpens
 class SettingGroup(id: String, name: String) : Setting<MutableList<Setting<*>>>(id, name), FeatureElement, FeatureElementProvider {
@@ -39,24 +38,6 @@ class SettingGroup(id: String, name: String) : Setting<MutableList<Setting<*>>>(
         this@SettingGroup.value.add(this)
         if (setting is FeatureElementProvider) elements.add(setting.element)
     }
-
-    fun boolean(name: String, value: Boolean = false, id: String = "") =
-        setting(BooleanSetting(id, name, value))
-
-    fun colorInput(name: String, value: Boolean = false, id: String = "") =
-        setting(ColorInputSetting(id, name, value))
-
-    fun <T> selector(
-        name: String, selector: Selector<T>,
-        id: String = "",
-        nameMapper: Selector<T>.(T?) -> String = { it?.toString() ?: "null" },
-    ) = setting(SelectorSetting(id, name, selector, nameMapper))
-
-    fun <T> switcher(
-        name: String, selector: Selector<T>,
-        id: String = "",
-        nameMapper: Selector<T>.(T?) -> String = { it?.toString() ?: "null" },
-    ) = setting(SwitcherSetting(id, name, selector, nameMapper))
 
     fun group(name: String, id: String = "", block: SettingGroup.() -> Unit = {}) =
         setting(SettingGroup(id, name).apply(block))

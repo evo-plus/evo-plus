@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.share
 import ru.dargen.evoplus.feature.screen.FeatureElement
 import ru.dargen.evoplus.feature.screen.FeatureElementProvider
 import ru.dargen.evoplus.feature.screen.FeaturePrompt
-import ru.dargen.evoplus.feature.setting.BooleanSetting
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.animation.animate
@@ -13,7 +12,6 @@ import ru.dargen.evoplus.render.node.input.input
 import ru.dargen.evoplus.render.node.rectangle
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.async
-import ru.dargen.evoplus.util.PasteApi
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.sendCommand
@@ -22,7 +20,7 @@ class ShareSetting(
     id: String, name: String,
     val encoder: (nick: String?) -> String,
     val decoder: (nick: String, data: String) -> Unit,
-) : BooleanSetting(id, name, true), FeatureElementProvider {
+) : /*BooleanSetting(id, name, true),*/ FeatureElementProvider {
 
     override val element = object : FeatureElement {
         override fun createElement(prompt: FeaturePrompt) = rectangle {
@@ -76,16 +74,16 @@ class ShareSetting(
                 }
             }
 
-            +button(value.stringfy()) {
-                align = Relative.RightTop
-                origin = Relative.RightCenter
-                translation = v3(-5.0, 25.0)
-
-                on {
-                    value = !value
-                    label.text = value.stringfy()
-                }
-            }
+//            +button(value.stringfy()) {
+//                align = Relative.RightTop
+//                origin = Relative.RightCenter
+//                translation = v3(-5.0, 25.0)
+//
+//                on {
+//                    value = !value
+//                    label.text = value.stringfy()
+//                }
+//            }
         }
 
         override fun search(prompt: FeaturePrompt): Boolean {
@@ -97,6 +95,6 @@ class ShareSetting(
         nick?.let { sendCommand("m $it $content") } ?: sendClanMessage(content)
     }
 
-    fun generate(nick: String?) = "evoplus:$id:${PasteApi.paste(encoder(nick))}"
+    fun generate(nick: String?) = "evoplus"//:$id:${PasteApi.paste(encoder(nick))}"
 
 }

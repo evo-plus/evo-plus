@@ -7,6 +7,7 @@ import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
@@ -36,8 +37,6 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
             .asSequence()
             .sortedBy { it.value }
 
-    val TimerWidget by widgets.widget("Таймер боссов", "boss-timer", widget = BossTimerWidget)
-
     var PremiumTimer = false
 
     var MinLevel = 0
@@ -65,7 +64,9 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
 
     override fun CategoryBuilder.setup() {
         switch(::PremiumTimer, "Покупной таймер", "Включите эту опцию, если вы приобрели его")
-        button("Сбросить таймеры", text = "Сбросить") { Bosses.clear() }
+        button("Сбросить таймеры", text = "Сбросить") { Bosses.clear()
+        }
+        widget("boss-timer", "Таймер боссов", BossTimerWidget)
 
         subcategory("widget", "Настройки виджета") {
             slider(

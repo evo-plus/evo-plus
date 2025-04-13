@@ -1,6 +1,8 @@
 package ru.dargen.evoplus.feature.widget
 
-import ru.dargen.evoplus.feature.Features
+import dev.evoplus.feature.setting.property.attr.WidgetPropertyAttr
+import dev.evoplus.feature.setting.property.value.WidgetData
+import ru.dargen.evoplus.feature.FeaturesSettings
 import ru.dargen.evoplus.feature.screen.FeatureScreen
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
@@ -77,7 +79,7 @@ object WidgetEditorScreen {
                 } else false
             }
         }
-        destroy { after(1) { FeatureScreen().open()} }
+        destroy { after(1) { FeatureScreen().open() } }
     }.open()
 
     private fun ScreenContext.deleter(base: Node) = +rectangle {
@@ -140,26 +142,26 @@ object WidgetEditorScreen {
         mode = Mode.CREATE
         this@selector.removeChildren(base)
 
-        Features.Features.flatMap {
-            it.widgets.settings
-                .filterIsInstance<Widget>()
-                .filter { !it.enabled }
-        }.forEach { widget ->
-            addElements(button(widget.name) {
-                on {
-                    with(widget) {
-                        enabled = true
-                        usePosition()
-                        with(value) {
-                            position = it
-                            origin = Relative.Center
-                            mouseClick(it, 0, true)
+        FeaturesSettings.totalProperties
+            .filter { it.attr is WidgetPropertyAttr && it.value.getValue() is WidgetData }
+            .map { (it.attr as WidgetPropertyAttr).widget as Widget }
+            .filter { it.node.enabled }
+            .forEach { widget ->
+                addElements(button(widget.name) {
+                    on {
+                        with(widget) {
+                            enabled = true
+                            usePosition()
+                            with(node) {
+                                position = it
+                                origin = Relative.Center
+                                mouseClick(it, 0, true)
+                            }
                         }
+                        hide()
                     }
-                    hide()
-                }
-            })
-        }
+                })
+            }
 
         show()
 

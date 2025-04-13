@@ -33,7 +33,7 @@ fun String.asPropertyName() = foldIndexed("") { index, acc, char ->
     "$acc${(if (char.isUpperCase() && index > 0) "-" else "")}${char.lowercase()}"
 }
 
-class EmptyPropertyValue : PropertyValue<Nothing>() {
+class EmptyPropertyValue<T> : PropertyValue<T>() {
 
     override val type get() = throw IllegalStateException()
     override val id by lazy { hashCode().toString() }
@@ -42,8 +42,20 @@ class EmptyPropertyValue : PropertyValue<Nothing>() {
 
     override fun getValue() = throw IllegalStateException()
 
-    override fun setValue(value: Nothing){
+    override fun setValue(value: T){
 
+    }
+
+}
+
+class HoldPropertyValue<T>(override val id: String, var data: T)  : PropertyValue<T>() {
+
+    override val type = data!!.javaClass
+
+    override fun getValue() = data
+
+    override fun setValue(value: T) {
+        data = value
     }
 
 }

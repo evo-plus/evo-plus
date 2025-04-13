@@ -9,7 +9,7 @@ import gg.essential.elementa.dsl.pixels
 
 abstract class SettingComponent : UIContainer() {
 
-    protected var observer: (Any?) -> Unit = {}
+    protected var observer: ((Any?) -> Unit)? = null
     protected var lastValue: Any? = null
 
     init {
@@ -20,14 +20,16 @@ abstract class SettingComponent : UIContainer() {
     }
 
     fun observe(listener: (Any?) -> Unit) {
-        this.observer = listener
+        if (observer != null) {
+            observer = listener
+        }
     }
 
     fun changeValue(newValue: Any?, observe: Boolean = true) {
         if (newValue != lastValue) {
             lastValue = newValue
             if (observe) {
-                observer(newValue)
+                observer?.invoke(newValue)
             }
         }
     }

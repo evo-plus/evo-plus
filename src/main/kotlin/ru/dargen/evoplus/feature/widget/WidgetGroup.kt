@@ -12,8 +12,8 @@ class WidgetGroup : SettingGroup("widgets", "Виджеты") {
     ) = lazy { name }//widget(Widget(id, name, widget), enabled)
 
     fun widget(widget: Widget, enabled: Boolean = true): Widget {
-        widget.enabled = enabled
-        return setting(widget)
+//        widget.enabled = enabled
+        return widget
     }
 
 }

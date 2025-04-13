@@ -3,10 +3,8 @@ package ru.dargen.evoplus.features.share
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.util.PasteApi
 import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.minecraft.uncolored
-import java.util.concurrent.CompletableFuture
 
 object ShareFeature : Feature("share", "Поделиться") {
 
@@ -27,9 +25,9 @@ object ShareFeature : Feature("share", "Поделиться") {
                 val (nick, id, key) = destructured
 
                 val share = shares[id] ?: return@on
-                if (share.value) {
-                    CompletableFuture.supplyAsync { PasteApi.copy(key)!! }.thenAccept { share.decoder(nick, it) }
-                }
+//                if (share.node) {
+//                    CompletableFuture.supplyAsync { PasteApi.copy(key)!! }.thenAccept { share.decoder(nick, it) }
+//                }
             }
         }
     }

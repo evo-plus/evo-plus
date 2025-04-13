@@ -13,21 +13,11 @@ import dev.evoplus.feature.setting.gui.settings.slider.PercentSliderComponent
 import dev.evoplus.feature.setting.gui.settings.slider.SliderComponent
 import dev.evoplus.feature.setting.gui.settings.toggle.CheckboxComponent
 import dev.evoplus.feature.setting.gui.settings.toggle.SwitchComponent
-import dev.evoplus.feature.setting.property.attr.BindPropertyAttr
-import dev.evoplus.feature.setting.property.attr.ButtonPropertyAttr
-import dev.evoplus.feature.setting.property.attr.ColorPropertyAttr
-import dev.evoplus.feature.setting.property.attr.DecimalPropertyAttr
-import dev.evoplus.feature.setting.property.attr.NumberPropertyAttr
-import dev.evoplus.feature.setting.property.attr.SelectorPropertyAttr
-import dev.evoplus.feature.setting.property.attr.TextPropertyAttr
-import dev.evoplus.feature.setting.property.serializer.ColorPropertySerializer
-import dev.evoplus.feature.setting.property.serializer.EmptyPropertySerializer
-import dev.evoplus.feature.setting.property.serializer.PropertySerializer
-import dev.evoplus.feature.setting.property.serializer.SwitchColorPropertySerializer
-import dev.evoplus.feature.setting.property.serializer.TextPropertySerializer
-import dev.evoplus.feature.setting.property.serializer.TreePropertySerializer
+import dev.evoplus.feature.setting.property.attr.*
+import dev.evoplus.feature.setting.property.serializer.*
 import dev.evoplus.feature.setting.property.value.Bind
 import dev.evoplus.feature.setting.property.value.SwitchColor
+import dev.evoplus.feature.setting.property.value.WidgetData
 import java.awt.Color
 
 private typealias JColor = Color
@@ -166,6 +156,18 @@ abstract class PropertyType<V, A> {
 
         override fun createSerializer(value: Value<Nothing>, data: ButtonPropertyAttr): PropertySerializer<Nothing> {
             return EmptyPropertySerializer
+        }
+    }
+
+    data object Widget : PropertyType<WidgetData, WidgetPropertyAttr>() {
+        override fun createComponent(value: Value<WidgetData>, attr: WidgetPropertyAttr): SettingComponent {
+            return SwitchComponent(value.getValue().enabled).apply {
+                observe { value.getValue().enabled = it as Boolean }
+            }
+        }
+
+        override fun createSerializer(value: Value<WidgetData>, data: WidgetPropertyAttr): PropertySerializer<WidgetData> {
+            return WidgetPropertySerializer
         }
     }
 

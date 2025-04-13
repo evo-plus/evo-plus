@@ -3,9 +3,6 @@ package dev.evoplus.feature.setting.gui.settings.toggle
 import dev.evoplus.feature.setting.gui.SettingPalette
 import dev.evoplus.feature.setting.gui.settings.SettingComponent
 import dev.evoplus.feature.setting.utils.*
-import dev.evoplus.feature.setting.utils.and
-import dev.evoplus.feature.setting.utils.bindParent
-import dev.evoplus.feature.setting.utils.pollingState
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.AspectConstraint
