@@ -45,6 +45,7 @@ object EvoPlus : ClientModInitializer {
 
     val Label = "§f§lEvo§6§lPlus"
     val Folder = Paths.get("evo-plus").createDirectories()
+    val Alpha = true
 
     val Container by lazy { FabricLoader.getInstance().getModContainer("evo-plus").get() }
 

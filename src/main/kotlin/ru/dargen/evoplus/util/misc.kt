@@ -8,7 +8,8 @@ typealias Runnable = () -> Unit
 
 fun Runnable.catching(message: String): Runnable = { catch(message, this) }
 
-fun catch(message: String = "", block: Runnable) = runCatching(block).exceptionOrNull()?.log(message)
+fun <T> catch(message: String = "", block: () -> T) =
+    runCatching(block).apply { exceptionOrNull()?.log(message) }.getOrNull()
 
 val currentMillis get() = System.currentTimeMillis()
 val currentNanos get() = System.nanoTime()

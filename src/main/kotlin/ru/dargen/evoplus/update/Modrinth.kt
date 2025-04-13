@@ -1,16 +1,20 @@
 package ru.dargen.evoplus.update
 
-import ru.dargen.rest.annotation.JsonQuery
+import com.google.gson.annotations.SerializedName
 import ru.dargen.rest.annotation.RequestPath
 
 @RequestPath("https://api.modrinth.com/v2/project/evoplus")
 fun interface Modrinth {
 
-    @JsonQuery("[0]")
     @RequestPath("version")
-    fun fetchShortVersion(): VersionInfo
+    fun fetchShortVersions(): List<VersionInfo>
 
-    data class VersionInfo(val name: String, val changelog: String, private val files: List<FileInfo>) {
+    data class VersionInfo(
+        val name: String,
+        val changelog: String,
+        @SerializedName("version_type") val channel: String,
+        private val files: List<FileInfo>
+    ) {
 
         val friendlyName get() = "§e${name.replace("-hf", " §cHOT")}"
         val file get() = files.first()
