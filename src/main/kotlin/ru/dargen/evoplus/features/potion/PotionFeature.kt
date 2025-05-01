@@ -4,8 +4,9 @@ import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import dev.evoplus.feature.setting.property.subscription
 import pro.diamondworld.protocol.packet.potion.PotionData
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
-import ru.dargen.evoplus.features.potion.timer.PotionTimerWidget
+import ru.dargen.evoplus.features.potion.widget.PotionTimerWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.PotionType
 import ru.dargen.evoplus.scheduler.scheduleEvery
@@ -21,14 +22,14 @@ object PotionFeature : Feature("potion", "Зелья") {
             .asSequence()
             .sortedBy { it.value.endTime }
 
-    val TimerWidget by widgets.widget("Зелья", "potions-timer", enabled = false, widget = PotionTimerWidget)
-
     var PotionsCount = 15
     var EnabledNotify = true
     var EnabledMessage = false
     var EnabledPotionsInTab  = true
 
   override fun CategoryBuilder.setup() {
+      widget("potion-timer-widget", "Зелья", PotionTimerWidget)
+
       subcategory("potion-settings", "Настройки отображения") {
           slider(::PotionsCount, "Количество отображаемых зелий", "Максимальное количество отображаемых зелий в списке", range = 0..15).subscription()
           switch(::EnabledPotionsInTab, "Отображение в табе", "Показывать информацию о зельях в табе")

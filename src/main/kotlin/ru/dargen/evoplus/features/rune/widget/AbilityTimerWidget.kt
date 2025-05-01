@@ -20,8 +20,8 @@ object AbilityTimerWidget : WidgetBase {
 
     fun update() {
         node._childrens = buildList {
-            AbilityType.values
-                .take(if (RuneFeature.Abilities.isEmpty() && isWidgetEditor) 3 else AbilityType.size)
+            AbilityType.Companion.values
+                .take(if (RuneFeature.Abilities.isEmpty() && isWidgetEditor) 3 else AbilityType.Companion.size)
                 .associateWith { RuneFeature.Abilities[it.id] ?: 0L }
                 .filterValues { RuneFeature.Abilities.isEmpty() && isWidgetEditor || it > currentMillis }
                 .map { (type, timestamp) ->

@@ -2,27 +2,23 @@ package ru.dargen.evoplus.features.game
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import dev.evoplus.feature.setting.property.subscription
-import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.entity.Entity
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.item.Items
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
+import ru.dargen.evoplus.features.game.widget.GoldenCrystalWidget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
-import ru.dargen.evoplus.render.node.box.hbox
-import ru.dargen.evoplus.render.node.item
-import ru.dargen.evoplus.render.node.postTransform
-import ru.dargen.evoplus.render.node.preTransform
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.math.scale
-import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.WorldEntities
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.equalCustomModel
 import ru.dargen.evoplus.util.minecraft.printMessage
 
 
-private val GoldenCrystalItem = customItem(Items.PAPER, 271)
+val GoldenCrystalItem = customItem(Items.PAPER, 271)
 
 object GoldenRushFeature : Feature("golden-rush", "Золотой Кристалл") {
 
@@ -44,25 +40,9 @@ object GoldenRushFeature : Feature("golden-rush", "Золотой Кристал
         isShadowed = true
         scale = scale(1.2, 1.2)
     }
-    val GoldenCrystalWidget by widgets.widget("Золотой Кристалл", "golden-crystal", false) {
-        align = v3(.95, .26)
-        +hbox {
-            indent = v3()
-            space = 3.0
-            
-            +item(GoldenCrystalItem) {
-                scale = scale(.5, .5, .5)
-                rotation = v3(y = 50.0)
-                translation = v3(x = 12.0)
-
-                preTransform { matrices, tickDelta -> DiffuseLighting.disableGuiDepthLighting() }
-                postTransform { matrices, tickDelta -> DiffuseLighting.enableGuiDepthLighting() }
-            }
-            +GoldenCrystalIndicatorText
-        }
-    }
 
     override fun CategoryBuilder.setup() {
+        widget("golden-crystal-widget", "Золотой Кристалл", GoldenCrystalWidget)
         switch(::GoldenCrystalNotify, "Уведомление",
             "Уведомлять при появлении золотого кристалла")
         switch(::GoldenCrystalMessage, "Сообщение",

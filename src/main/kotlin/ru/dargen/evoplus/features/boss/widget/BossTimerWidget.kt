@@ -1,10 +1,11 @@
-package ru.dargen.evoplus.features.boss.timer
+package ru.dargen.evoplus.features.boss.widget
 
 import net.minecraft.client.gui.screen.Screen
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.feature.widget.isWidgetEditor
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ShortName
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.ShortTimeFormat
+import ru.dargen.evoplus.features.boss.BossTimerFeature
+import ru.dargen.evoplus.features.boss.BossTimerFeature.ShortName
+import ru.dargen.evoplus.features.boss.BossTimerFeature.ShortTimeFormat
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.render.node.box.hbox

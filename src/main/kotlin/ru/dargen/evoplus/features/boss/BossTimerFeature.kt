@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.boss.timer
+package ru.dargen.evoplus.features.boss
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
@@ -8,9 +8,9 @@ import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
-import ru.dargen.evoplus.features.boss.BossFeature
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MaxLevel
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.MinLevel
+import ru.dargen.evoplus.features.boss.BossTimerFeature.MaxLevel
+import ru.dargen.evoplus.features.boss.BossTimerFeature.MinLevel
+import ru.dargen.evoplus.features.boss.widget.BossTimerWidget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
@@ -64,9 +64,8 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
 
     override fun CategoryBuilder.setup() {
         switch(::PremiumTimer, "Покупной таймер", "Включите эту опцию, если вы приобрели его")
-        button("Сбросить таймеры", text = "Сбросить") { Bosses.clear()
-        }
         widget("boss-timer", "Таймер боссов", BossTimerWidget)
+        button("Сбросить таймеры", text = "Сбросить") { Bosses.clear() }
 
         subcategory("widget", "Настройки виджета") {
             slider(

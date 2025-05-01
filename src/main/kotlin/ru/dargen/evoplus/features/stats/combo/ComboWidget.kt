@@ -31,7 +31,8 @@ object ComboWidget : WidgetBase {
         backgroundColor = Colors.Gray
         progressColor = Colors.Green.alpha(.8)
     }
-    val Text = text("????") { isShadowed = true }
+    val Text = text("???") { isShadowed = true }
+
     val MainBox = hbox {
         space = 1.0
         indent = v3()

@@ -9,6 +9,7 @@ import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.event.interact.BlockBreakEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.stats.combo.ComboWidget
 import ru.dargen.evoplus.features.stats.level.LevelWidget
@@ -31,10 +32,6 @@ import kotlin.math.max
 object StatisticFeature : Feature("statistic", "Статистика") {
 
     private val ComboTimerPattern = "Комбо закончится через (\\d+) секунд\\. Продолжите копать, чтобы не потерять его\\.".toRegex()
-
-    val LevelRequireWidget by widgets.widget("Требования на уровень", "level-require", widget = LevelWidget)
-    val ComboCounterWidget by widgets.widget("Счетчик комбо", "combo-counter", widget = ComboWidget)
-    val ActivePetsWidget by widgets.widget("Активные питомцы", "active-pets", widget = PetInfoWidget)
 
     var BlocksCount = 0
         set(value) {
@@ -83,8 +80,9 @@ object StatisticFeature : Feature("statistic", "Статистика") {
 
     override fun CategoryBuilder.setup() {
         subcategory("statistic-widget", "Виджеты") {
-            switch(::LevelProgressBarEnabled, "Шкала прогресса уровня", "Включение/отключение виджета шкалы прогресса уровня")
-            switch(::ComboProgressBarEnabled, "Шкала прогресса комбо", "Включение/отключение виджета шкалы прогресса комбо").subscription()
+            widget("level-progress-widget", "Требования на уровень", LevelWidget)
+            widget("pet-info-widget", "Активные питомцы", PetInfoWidget)
+            widget("combo-progress-widget", "Счетчик комбо", ComboWidget).subscription()
         }
         switch(::NotifyCompleteLevelRequire, "Уведомлять при выполнении требований", "Включение/отключение уведомлений при выполнении требований на уровень")
         button("Сбросить счетчик блоков") { BlocksCount = economic.blocks }
@@ -115,7 +113,7 @@ object StatisticFeature : Feature("statistic", "Статистика") {
         on<LevelUpdateEvent> {
             LevelWidget.update(economic)
 
-            if (NotifyCompleteLevelRequire && level.isCompleted && !previousLevel.isCompleted) {
+            if (NotifyCompleteLevelRequire && level.isCompleted && !previousLevel.isCompleted && !economic.nextLevel.isMaxLevel) {
                 NotifyWidget.showText("§aВы можете повысить уровень!")
             }
 

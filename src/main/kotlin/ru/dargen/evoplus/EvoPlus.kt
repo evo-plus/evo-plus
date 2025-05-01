@@ -8,7 +8,7 @@ import ru.dargen.evoplus.event.EventBus
 import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.features.alchemy.AlchemyFeature
 import ru.dargen.evoplus.features.boss.BossFeature
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
+import ru.dargen.evoplus.features.boss.BossTimerFeature
 import ru.dargen.evoplus.features.clan.ClanFeature
 import ru.dargen.evoplus.features.clicker.AutoClickerFeature
 import ru.dargen.evoplus.features.dev.DevFeature

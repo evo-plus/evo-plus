@@ -1,7 +1,8 @@
-package ru.dargen.evoplus.features.staff
+package ru.dargen.evoplus.features.staff.widget
 
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.feature.widget.isWidgetEditor
+import ru.dargen.evoplus.features.staff.StaffFeature
 import ru.dargen.evoplus.protocol.registry.StaffType
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.node.Node
@@ -19,7 +20,7 @@ object StaffTimerWidget : WidgetBase {
     }
 
     fun update() {
-        node._childrens = StaffType.values
+        node._childrens = StaffType.Companion.values
             .associateWith { StaffFeature.Staffs[it.id] ?: 0L }
             .filterValues { StaffFeature.Staffs.isEmpty() && isWidgetEditor || it > currentMillis }
             .map { (type, timestamp) ->

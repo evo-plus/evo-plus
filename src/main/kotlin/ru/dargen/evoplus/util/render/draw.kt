@@ -17,7 +17,7 @@ fun MatrixStack.drawText(
     color: Color = Colors.White
 ) = Client.textRenderer.draw(
     text, x, y, color.rgb,
-    shadow, MatrixStack.positionMatrix,
+    shadow, peek().positionMatrix,
     BufferBuilderStorage.entityVertexConsumers,
     TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE
 )
@@ -44,7 +44,7 @@ fun MatrixStack.drawWorldText(
     color: Color = Colors.White
 ) = Client.textRenderer.draw(
     text, x, y, color.rgb, shadow,
-    MatrixStack.positionMatrix,
+    peek().positionMatrix,
     BufferBuilderStorage.entityVertexConsumers,
     if (isSeeThrough) TextLayerType.SEE_THROUGH else TextLayerType.NORMAL,
     0, LightmapTextureManager.MAX_LIGHT_COORDINATE

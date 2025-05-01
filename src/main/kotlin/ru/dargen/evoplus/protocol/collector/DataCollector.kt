@@ -45,8 +45,6 @@ open class DataCollector<P : ProtocolSerializable>(val packetClass: KClass<P>, v
         fun accept(value: String) {
             val jsonElement = JsonParser.parseString(value)
 
-            println(jsonElement)
-
             val deserialized: T = when {
                 jsonElement.isJsonArray -> Gson.fromJson(jsonElement, type)
                 jsonElement.isJsonObject && type.toString().startsWith("java.util.List") -> {

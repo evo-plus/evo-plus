@@ -4,40 +4,20 @@ import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.rune.widget.AbilityTimerWidget
+import ru.dargen.evoplus.features.rune.widget.ActiveRunesWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.AbilityType
-import ru.dargen.evoplus.render.Relative
-import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.collection.concurrentHashMapOf
 import ru.dargen.evoplus.util.currentMillis
-import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.printMessage
 
 object RuneFeature : Feature("rune", "Руны") {
 
     val Abilities = concurrentHashMapOf<String, Long>()
-
-    val ActiveRunesText = text(
-        " §e??? ???", " §6??? ???",
-        " §6??? ???", " §a??? ???", " §a??? ???"
-    ) {
-        isShadowed = true
-    }
-    val ActiveAbilitiesWidget by widgets.widget(
-        "Задержка способностей",
-        "active-abilities",
-        enabled = false,
-        widget = AbilityTimerWidget
-    )
-    val ActiveRunesWidget by widgets.widget("Надетые руны", "active-runes", enabled = false) {
-        align = v3(0.25)
-        origin = Relative.CenterTop
-
-        +ActiveRunesText
-    }
 
     var ReadyNotify = true
     var ReadyMessage = true
@@ -46,6 +26,11 @@ object RuneFeature : Feature("rune", "Руны") {
     var RunesSetSwitch = true
 
     override fun CategoryBuilder.setup() {
+        subcategory("rune-widget", "Виджеты") {
+            widget("active-runes-widget", "Активные руны", ActiveRunesWidget)
+            widget("active-abilities-widget", "Задержка способностей", AbilityTimerWidget)
+        }
+
         subcategory("rune-notify", "Задержка способностей") {
             switch(::ReadyNotify, "Уведомление", "Отображение уведомления при окончании задержки способностей")
             switch(::ReadyMessage, "Сообщение", "Отображение сообщения при окончании задержки способностей")
@@ -68,7 +53,7 @@ object RuneFeature : Feature("rune", "Руны") {
         RunesBag
 
         listen<ActiveRunes> { activeRunes ->
-            ActiveRunesText.text = activeRunes.data.joinToString("\n") { " $it" }
+            ActiveRunesWidget.update(activeRunes.data.joinToString("\n") { " $it" })
         }
 
         listen<AbilityTimers> {

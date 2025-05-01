@@ -31,6 +31,7 @@ object FishingFeature : Feature("fishing", "Рыбалка") {
 
     val Nibbles = mutableMapOf<String, Double>()
 
+    // TODO: move to new widget system
     val ExpWidget by widgets.widget(
         "Счёт опыта рыбы", "fish-exp",
         widget = FishingValueWidget("Опыт рыбы", "^Опыта дает питомцу: (\\d+)\$".toRegex())

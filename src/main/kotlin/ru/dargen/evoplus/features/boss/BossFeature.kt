@@ -6,7 +6,7 @@ import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
+import ru.dargen.evoplus.features.boss.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor

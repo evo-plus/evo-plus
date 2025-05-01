@@ -34,7 +34,7 @@ dependencies {
     // Kotlin
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    //Other dependencies
+    // Other dependencies
     include(implementation("com.github.ben-manes.caffeine:caffeine:${project.caffeine_version}"))
     include(implementation("pro.diamondworld.evoplusprotocol:evoplusprotocol:${project.evo_plus_protocol_version}"))
     include(implementation("com.github.asyncdargen:rest-client:${project.rest_client_version}"))

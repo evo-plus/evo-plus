@@ -11,7 +11,6 @@ object RenderFeature : Feature("render", "Визуализация") {
 
     var NoBlockParticles = false
     var NoStrikes = false
-    var NoFalling = false
     var NoDamageShake = false
     var NoHandShake = false
     var NoFire = false
@@ -27,7 +26,6 @@ object RenderFeature : Feature("render", "Визуализация") {
         subcategory("render", "Отключение эффектов") {
             switch(::NoBlockParticles, "Эффекты блоков", "Убирает частицы разрушения блоков")
             switch(::NoStrikes, "Молнии", "Убирает эффект молний")
-            switch(::NoFalling, "Падающие блоки", "Убирает эффект падающих блоков")
             switch(::NoDamageShake, "Покачивание камеры при ударе", "Убирает эффект покачивания камеры при ударе")
             switch(::NoHandShake, "Покачивание руки", "Убирает эффект покачивания руки")
             switch(::NoFire, "Огонь", "Убирает эффект огня на экране")

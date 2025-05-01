@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.potion.timer
+package ru.dargen.evoplus.features.potion.widget
 
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.feature.widget.isWidgetEditor

@@ -1,32 +1,29 @@
 package ru.dargen.evoplus.features.clan
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
-import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.BossFeature
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.protocol.registry.BossType
 import ru.dargen.evoplus.util.format.fix
 import ru.dargen.evoplus.util.minecraft.asText
 import ru.dargen.evoplus.util.minecraft.displayName
 import ru.dargen.evoplus.util.minecraft.lore
-import ru.dargen.evoplus.util.minecraft.uncolored
 
 object ClanFeature : Feature("clan", "Клан") {
 
     private val BossCapturePattern =
         "\\[Клан] Клан (\\S+) начал захват вашего босса ([\\s\\S]+)\\. Защитите его\\.".toRegex()
 
-    var BossCaptureNotify = true
+//    var BossCaptureNotify = true
     var InlineMenuClanScores = true
 
     override fun CategoryBuilder.setup() {
-        subcategory("clan-notify", "Уведомления") {
-            switch(::BossCaptureNotify, "Захват вашего босса", "Уведомляет о перехвате вашего босса")
-        }
+//        subcategory("clan-notify", "Уведомления") {
+//            switch(::BossCaptureNotify, "Захват вашего босса", "Уведомляет о перехвате вашего босса")
+//        }
 
         subcategory("clan-visual", "Визуализация") {
             switch(::InlineMenuClanScores, "К.О. для захвата босса в меню", "Отображает количество К.О. для захвата босса в меню")
@@ -36,21 +33,21 @@ object ClanFeature : Feature("clan", "Клан") {
     override fun initialize() {
 //        listen<ClanInfo> { ClanHolder.accept(it.data) }
 
-        on<ChatReceiveEvent> {
-            val text = text.uncolored()
-
-            if (BossCaptureNotify) BossCapturePattern.find(text)?.run {
-                val clan = groupValues[1]
-                val bossName = groupValues[2]
-                val bossType = BossType.valueOfName(bossName) ?: return@run
-
-                BossTimerFeature.notify(
-                    bossType,
-                    "Клан §6$clan§f пытается захватить",
-                    "вашего босса ${bossType.displayName}"
-                )
-            }
-        }
+//        on<ChatReceiveEvent> {
+//            val text = text.uncolored()
+//
+//            if (BossCaptureNotify) BossCapturePattern.find(text)?.run {
+//                val clan = groupValues[1]
+//                val bossName = groupValues[2]
+//                val bossType = BossType.valueOfName(bossName) ?: return@run
+//
+//                BossTimerFeature.notify(
+//                    bossType,
+//                    "Клан §6$clan§f пытается захватить",
+//                    "вашего босса ${bossType.displayName}"
+//                )
+//            }
+//        }
 
         on<InventoryFillEvent> {
             if (InlineMenuClanScores && BossFeature.BossMenuPattern.containsMatchIn(openEvent?.nameString ?: "")) {

@@ -112,8 +112,6 @@ public abstract class ClientPlayNetworkHandlerMixin {
     private void onEntitySpawn(EntitySpawnS2CPacket packet, CallbackInfo ci) {
         if (packet.getEntityType() == EntityType.LIGHTNING_BOLT && RenderFeature.INSTANCE.getNoStrikes()) {
             ci.cancel();
-        } else if (packet.getEntityType() == EntityType.FALLING_BLOCK && RenderFeature.INSTANCE.getNoFalling()) {
-            ci.cancel();
         }
     }
 

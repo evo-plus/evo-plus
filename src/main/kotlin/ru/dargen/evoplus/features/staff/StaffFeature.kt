@@ -3,7 +3,9 @@ package ru.dargen.evoplus.features.staff
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import pro.diamondworld.protocol.packet.staff.StaffTimers
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
+import ru.dargen.evoplus.features.staff.widget.StaffTimerWidget
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.StaffType
 import ru.dargen.evoplus.scheduler.scheduleEvery
@@ -15,12 +17,11 @@ object StaffFeature : Feature("staff", "Посохи") {
 
     val Staffs = concurrentHashMapOf<Int, Long>()
 
-    val TimerWidget by widgets.widget("Таймер посохов", "staff-timer", widget = StaffTimerWidget)
-
     var ReadyNotify = true
     var ReadyMessage = true
 
     override fun CategoryBuilder.setup() {
+        widget("staff-widget", "Таймер посохов", StaffTimerWidget)
         switch(::ReadyNotify, "Уведомление", "Уведомлять когда посох готов к использованию")
         switch(::ReadyMessage, "Сообщение", "Отправляет сообщение в чат когда посох готов")
     }

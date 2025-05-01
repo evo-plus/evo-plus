@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.features.misc.selector
 
 import net.minecraft.entity.player.PlayerEntity
-import ru.dargen.evoplus.feature.screen.FeatureScreen
+import ru.dargen.evoplus.feature.FeaturesSettings
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.render.Colors
@@ -89,7 +89,7 @@ object FastSelectorScreen {
 
 
                 destroy {
-                    if (setting) after { FeatureScreen().openIfNoScreen() }
+                    if (setting) after { FeaturesSettings.open() }
                     else items.flatten().firstOrNull(Node::isHovered)?.changeKey(-1, true)
                 }
 

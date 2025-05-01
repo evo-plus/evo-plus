@@ -36,7 +36,7 @@ data class PlayerTextContent(val options: PlayerContentOptions, val player: Stri
 
         fun replace(text: Text, player: String, options: PlayerContentOptions): Text {
             text.content?.safeCast<PlainTextContent>()?.let { content ->
-                if (content.string().contains(player) == true) {
+                if (content.string().contains(player)) {
                     text<MutableTextExtension>()?.setTextContent(PlayerTextContent(options, player, content.string()))
                 }
             }
