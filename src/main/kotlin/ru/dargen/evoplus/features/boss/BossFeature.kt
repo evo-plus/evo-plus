@@ -69,11 +69,11 @@ object BossFeature : Feature("boss", "Боссы") {
                 range = 5..60
             )
         }
-        widget("boss-damage", "Урон по боссу") {
+        widget("boss-damage", "Урон по боссу", widget =  {
             origin = Relative.CenterBottom
             align = v3(.58, .9)
             +BossDamageText
-        }
+        })
     }
 
     override fun initialize() {
