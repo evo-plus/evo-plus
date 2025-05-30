@@ -285,10 +285,10 @@ abstract class Settings(
         fun widget(
             name: String, description: String? = null, id: String = widget.id,
             hidden: Boolean = false, subscription: Boolean = false,
-            widget: WidgetPropertyAttr.WidgetAccessor,
+            widget: WidgetPropertyAttr.WidgetAccessor, enabled: Boolean = true,
             observeInit: Boolean = true, action: (WidgetData) -> Unit = {},
         ) = property(
-            value = HoldPropertyValue<WidgetData>(id, widget.snapshot()), id = id,
+            value = HoldPropertyValue(id, widget.changeEnabledAndSnapshot(enabled)), id = id,
             name = name, description = description,
             hidden = hidden, subscription = subscription,
             type = PropertyType.Widget, attr = WidgetPropertyAttr(widget),

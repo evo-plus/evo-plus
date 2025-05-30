@@ -16,6 +16,16 @@ data class WidgetPropertyAttr(val widget: WidgetAccessor) {
             return WidgetData().apply(this::snapshot)
         }
 
+        fun changeEnabledAndSnapshot(enabled: Boolean): WidgetData {
+            val snapshot = snapshot()
+            if (snapshot.enabled != enabled) {
+                snapshot.enabled = enabled
+                update(snapshot)
+            }
+            return snapshot
+        }
+
+
     }
 
 }
