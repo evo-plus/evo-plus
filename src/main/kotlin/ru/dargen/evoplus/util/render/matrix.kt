@@ -4,6 +4,8 @@ package ru.dargen.evoplus.util.render
 
 import net.minecraft.client.render.BufferBuilderStorage
 import net.minecraft.client.render.Camera
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.math.MatrixStack
 import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.math.v3

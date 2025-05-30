@@ -5,6 +5,7 @@ import net.minecraft.client.font.TextRenderer.TextLayerType
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import org.joml.Vector3f
+import ru.dargen.evoplus.event.render.OverlayRenderEvent
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.minecraft.Client
@@ -15,12 +16,24 @@ fun MatrixStack.drawText(
     x: Float = 0f, y: Float = 0f,
     shadow: Boolean = false,
     color: Color = Colors.White
-) = Client.textRenderer.draw(
-    text, x, y, color.rgb,
-    shadow, peek().positionMatrix,
-    BufferBuilderStorage.entityVertexConsumers,
-    TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE
-)
+) {
+//    OverlayRenderEvent.context.drawText(Client.textRenderer, text, x, y, color, shadow)
+    Client.textRenderer.draw(
+        text, x, y, color.rgb, shadow,
+        peek().getPositionMatrix(),
+        OverlayRenderEvent.context.vertexConsumers,
+        TextLayerType.NORMAL,
+        0,
+        15728880,
+        false
+    );
+//    .draw(
+//        text, x, y, color.rgb,
+//        shadow, peek().positionMatrix,
+//        OverlayRenderEvent.context.vertexConsumers,
+//        TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE
+//    )
+}
 
 fun MatrixStack.drawText(
     text: String,

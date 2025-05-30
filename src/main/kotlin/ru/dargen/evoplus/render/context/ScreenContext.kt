@@ -2,6 +2,7 @@ package ru.dargen.evoplus.render.context
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import ru.dargen.evoplus.event.render.OverlayRenderEvent
 import ru.dargen.evoplus.render.node.resize
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.kotlin.safeCast
@@ -57,6 +58,7 @@ class ScreenContext(id: String, title: String) : RenderContext() {
         }
 
         override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+            OverlayRenderEvent.context = context
             render(context.matrices, delta)
         }
 
