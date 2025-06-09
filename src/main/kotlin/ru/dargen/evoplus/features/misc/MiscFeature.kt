@@ -65,7 +65,7 @@ object MiscFeature : Feature("misc", "Прочее") {
         }
 
         subcategory("notify", "Уведомления") {
-            widget("Уведомления", "notifies-widget", NotifyWidget)
+            widget("notifies-widget", "Уведомления", NotifyWidget)
             switch(::CaseNotify, "Уведомления о кейсах", "Уведомлять о найденных кейсах")
             switch(::LuckyBlockNotify, "Уведомления о лаки-блоках", "Уведомлять о найденных лаки-блоках")
             switch(::CollectionNotify, "Уведомления о коллекционках", "Уведомлять о найденных коллекционных предметах")

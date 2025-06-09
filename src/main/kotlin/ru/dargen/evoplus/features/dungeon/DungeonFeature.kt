@@ -12,7 +12,7 @@ object DungeonFeature : Feature("dungeon", "Данжи") {
     var DecorationHighlight = true
 
     override fun CategoryBuilder.setup() {
-        widget("dungeon-map-widget", "Карта данжа", DungeonMapWidget)
+        widget("dungeon-map-widget", "Карта данжа", DungeonMapWidget, enabled = false)
         switch(::DecorationHighlight, "Подсветка декораций",
             "Подсвечивает разрушаемые декорации в данже")
     }

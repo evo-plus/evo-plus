@@ -9,7 +9,6 @@ import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.scheduler.scheduleEvery
-import ru.dargen.evoplus.util.minecraft.CurrentScreen
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
@@ -44,7 +43,6 @@ object AutoClickerFeature : Feature("clicker", "Кликер") {
         on<KeyEvent> {
             if (key != Bind.code || Mode !== ClickerMode.CLICK || !state) return@on
             enabled = !enabled
-            println(CurrentScreen)
         }
 
         on<MouseClickEvent> {

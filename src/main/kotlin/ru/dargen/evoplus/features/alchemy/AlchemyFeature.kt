@@ -7,6 +7,7 @@ import net.minecraft.sound.SoundEvents
 import ru.dargen.evoplus.event.inventory.InventoryClickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.alchemy.recipe.PotionRecipe
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.render.Relative
@@ -27,11 +28,11 @@ object AlchemyFeature : Feature("alchemy", "Алхимия") {
     var SoundAlert = false
 
     val RecipeText = text("Закрепите рецепт нажатием ПКМ в меню")
-    val RecipeWidget by widgets.widget("Рецепт зелья", "recipe", enabled = false) {
-        align = Relative.LeftCenter
-        origin = Relative.LeftCenter
-        +RecipeText
-    }
+//    val RecipeWidget by widgets.widget("Рецепт зелья", "recipe", enabled = false) {
+//        align = Relative.LeftCenter
+//        origin = Relative.LeftCenter
+//        +RecipeText
+//    }
 //    val AlertText = +text {
 //        enabled = false
 //
@@ -43,6 +44,11 @@ object AlchemyFeature : Feature("alchemy", "Алхимия") {
 //    }
 
     override fun CategoryBuilder.setup() {
+        widget("potion-recipe", "Рецепт зелья", widget = {
+            align = Relative.LeftCenter
+            origin = Relative.LeftCenter
+            +RecipeText
+        }, false)
         subcategory("alchemy-highlight", "Подсветка") {
             switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации").subscription()
         }

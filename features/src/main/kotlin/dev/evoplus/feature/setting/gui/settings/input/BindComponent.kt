@@ -92,7 +92,6 @@ class BindComponent(bind: Bind, allowed: List<Bind.Type>) : SettingComponent() {
         releaseWindowFocus()
         val bind = Bind(type, code)
         text.setText(bind.buttonName)
-        println(bind.buttonName)
         intercepting = false
         changeValue(bind)
     }

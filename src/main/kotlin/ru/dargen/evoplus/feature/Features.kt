@@ -69,7 +69,7 @@ data object Features {
             SettingsFile.parent?.createDirectories()
         }
 
-        catch("Error while loading features settings") {
+        catch("Error while saving features settings") {
             val json = JsonObject().apply {
                 Features.forEach { add(it.settings.id, it.settings.store()) }
             }

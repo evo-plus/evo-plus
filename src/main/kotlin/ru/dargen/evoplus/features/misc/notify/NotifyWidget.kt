@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit
 
 object NotifyWidget : WidgetBase {
 
-    //temp, but good
-    //TODO: make notify source position based on widget align on screen
+    // temp, but good
+    // TODO: make notify source position based on widget align on screen (check fix!)
     override val node = NotifyListNode().apply {
         align = Relative.RightTop
         origin = Relative.RightTop
@@ -38,19 +38,35 @@ object NotifyWidget : WidgetBase {
 
             +text("Показательное уведомление", "Для настройки виджета") { scale = scale(1.1, 1.1) }
 
-            this@apply.preTransform { matrices, tickDelta ->
-                if (this@hbox in this@apply.nonComposingChildren) {
-                    if (isWidgetEditor && this@apply.children.size == 1) {
-                        this@apply.nonComposingChildren.remove(this@hbox)
-                        this@hbox.enabled = true
-                        modifications++
-                    }
-                } else if (!isWidgetEditor || this@apply.children.size > 1) {
+//            this@apply.preTransform { matrices, tickDelta ->
+//                if (this@hbox in this@apply.nonComposingChildren) {
+//                    if (isWidgetEditor && this@apply.children.size == 1) {
+//                        this@apply.nonComposingChildren.remove(this@hbox)
+//                        this@hbox.enabled = true
+//                        modifications++
+//                    }
+//                } else if (!isWidgetEditor || this@apply.children.size > 1) {
+//                    this@apply.ignore(this@hbox)
+//                    this@hbox.enabled = false
+//                    modifications++
+//                }
+//            }
+
+            this@apply.preTransform { _, _ ->
+                val isEditor = isWidgetEditor && this@apply.children.size == 1
+                val isVisible = this@hbox in this@apply.nonComposingChildren
+
+                if (isEditor && isVisible) {
+                    this@apply.nonComposingChildren.remove(this@hbox)
+                    this@hbox.enabled = true
+                    modifications++
+                } else if (!isEditor && !isVisible) {
                     this@apply.ignore(this@hbox)
                     this@hbox.enabled = false
                     modifications++
                 }
             }
+
         }
     }
 
@@ -72,8 +88,11 @@ object NotifyWidget : WidgetBase {
 
         fixChildSize = true
 
-        translation = v3(x = -200 + node.parent!!.origin.x * 400.0)
         indent = v3(7.0, 7.0)
+
+//        translation = v3(x = -200 + node.parent!!.origin.x * 400.0)
+        val originX = node.parent?.origin?.x ?: 1.0
+        translation = v3(x = -200.0 + originX * 400.0)
 
         block()
 
@@ -82,9 +101,13 @@ object NotifyWidget : WidgetBase {
         fun hide() {
             if (isHovered) {
                 willHide = true
-            } else animate("state", .8, Easings.BackIn) {
-                translation = v3(x = -200 + this@NotifyWidget.node.parent!!.origin.x * 400.0)
-                after { this@NotifyWidget.node - this@hbox }
+            } else {
+                val hideOriginX = node.parent?.origin?.x ?: 1.0
+                animate("state", .8, Easings.BackIn) {
+//                translation = v3(x = -200 + this@NotifyWidget.node.parent!!.origin.x * 400.0)
+                    translation = v3(x = -200 + hideOriginX * 400.0)
+                    after { this@NotifyWidget.node - this@hbox }
+                }
             }
         }
 
@@ -94,6 +117,7 @@ object NotifyWidget : WidgetBase {
                 true
             } else false
         }
+
         hoverOut { if (willHide) hide() }
 
         recompose()

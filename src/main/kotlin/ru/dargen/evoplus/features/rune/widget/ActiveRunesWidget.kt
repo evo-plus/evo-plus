@@ -35,7 +35,7 @@ object ActiveRunesWidget : WidgetBase {
 
     override fun Node.prepare() {
         origin = Relative.CenterBottom
-        align = v3(.75, .99)
+        align = v3(.03, .55)
     }
 
 }

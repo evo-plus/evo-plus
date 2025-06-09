@@ -21,15 +21,16 @@ object GoldenCrystalWidget : WidgetBase {
         indent = v3()
         space = 3.0
 
+        +GoldenCrystalIndicatorText
+
         +item(GoldenCrystalItem) {
             scale = scale(.5, .5, .5)
             rotation = v3(y = 50.0)
-            translation = v3(x = 12.0)
+            translation = v3(x = -20.0)
 
             preTransform { matrices, tickDelta -> DiffuseLighting.disableGuiDepthLighting() }
             postTransform { matrices, tickDelta -> DiffuseLighting.enableGuiDepthLighting() }
         }
-        +GoldenCrystalIndicatorText
     }
 
     override val node = vbox {
@@ -39,8 +40,8 @@ object GoldenCrystalWidget : WidgetBase {
     }
 
     override fun Node.prepare() {
-        origin = Relative.Center
-        align = v3(.75, .99)
+        origin = Relative.RightTop
+        align = v3(.0, 1.99)
     }
 
 }

@@ -39,40 +39,8 @@ object StatisticFeature : Feature("statistic", "Статистика") {
             BlocksCounterText.text = "${max(economic.blocks - field, 0)}"
         }
     val BlocksCounterText = text("0") { isShadowed = true }
-    val BlocksCounterWidget by widgets.widget("Счетчик блоков", "block-counter") {
-        origin = Relative.LeftCenter
-        align = v3(.87, .54)
-        +hbox {
-            space = .0
-            indent = v3()
-
-            +BlocksCounterText
-            +item(itemStack(Items.DIAMOND_PICKAXE)) {
-                scale = v3(.7, .7, .7)
-            }
-        }
-    }
 
     var BlocksPerSecondCounter = mutableListOf<Long>()
-    val BlocksPerSecondWidget by widgets.widget("Счетчик блоков за секунду", "blocks-per-second-counter") {
-        origin = Relative.LeftCenter
-        align = v3(.87, .60)
-        +hbox {
-            space = .0
-            indent = v3()
-
-            +text("0") {
-                isShadowed = true
-                postRender { _, _ ->
-                    BlocksPerSecondCounter.removeIf { currentMillis - it > 1000 }
-                    text = "${BlocksPerSecondCounter.size}"
-                }
-            }
-            +item(itemStack(Items.WOODEN_PICKAXE)) {
-                scale = v3(.7, .7, .7)
-            }
-        }
-    }
 
     var NotifyCompleteLevelRequire = true
     var LevelProgressBarEnabled = true
@@ -80,12 +48,47 @@ object StatisticFeature : Feature("statistic", "Статистика") {
 
     override fun CategoryBuilder.setup() {
         subcategory("statistic-widget", "Виджеты") {
+            widget("combo-progress-widget", "Счетчик комбо", ComboWidget, false).subscription()
             widget("level-progress-widget", "Требования на уровень", LevelWidget)
             widget("pet-info-widget", "Активные питомцы", PetInfoWidget)
-            widget("combo-progress-widget", "Счетчик комбо", ComboWidget).subscription()
+            widget("block-counter", "Счетчик блоков", widget = {
+                origin = Relative.LeftCenter
+                align = v3(.87, .54)
+                +hbox {
+                    space = .0
+                    indent = v3()
+
+                    +BlocksCounterText
+                    +item(itemStack(Items.DIAMOND_PICKAXE)) {
+                        scale = v3(.7, .7, .7)
+                    }
+                }
+            })
+            widget("blocks-per-second-counter", "Счетчик блоков за секунду", widget = {
+                origin = Relative.LeftCenter
+                align = v3(.87, .60)
+                +hbox {
+                    space = .0
+                    indent = v3()
+
+                    +text("0") {
+                        isShadowed = true
+                        postRender { _, _ ->
+                            BlocksPerSecondCounter.removeIf { currentMillis - it > 1000 }
+                            text = "${BlocksPerSecondCounter.size}"
+                        }
+                    }
+                    +item(itemStack(Items.WOODEN_PICKAXE)) {
+                        scale = v3(.7, .7, .7)
+                    }
+                }
+            })
         }
         switch(::NotifyCompleteLevelRequire, "Уведомлять при выполнении требований", "Включение/отключение уведомлений при выполнении требований на уровень")
-        button("Сбросить счетчик блоков") { BlocksCount = economic.blocks }
+        button("Сбросить счетчик блоков") {
+            BlocksCount = economic.blocks
+            NotifyWidget.showText("Вы сбросили счетчик блоков")
+        }
     }
 
     override fun initialize() {

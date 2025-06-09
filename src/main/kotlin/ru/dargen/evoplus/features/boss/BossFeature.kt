@@ -37,7 +37,7 @@ object BossFeature : Feature("boss", "Боссы") {
 
     val BossDamageText = text("???? [??]: ??\uE35E") { isShadowed = true }
 
-    val BossDamageWidget by widgets
+//    val BossDamageWidget by widgets
 
     var NotifyCapture = true
     var CurseMessage = false

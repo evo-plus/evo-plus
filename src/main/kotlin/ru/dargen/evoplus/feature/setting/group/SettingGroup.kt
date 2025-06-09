@@ -13,7 +13,8 @@ import ru.dargen.evoplus.util.json.isNull
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 
 @KotlinOpens
-class SettingGroup(id: String, name: String) : Setting<MutableList<Setting<*>>>(id, name), FeatureElement, FeatureElementProvider {
+class SettingGroup(id: String, name: String) : Setting<MutableList<Setting<*>>>(id, name), FeatureElement,
+    FeatureElementProvider {
 
     override var value = mutableListOf<Setting<*>>()
 

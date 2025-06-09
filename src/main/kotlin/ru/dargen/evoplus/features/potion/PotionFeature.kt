@@ -28,7 +28,7 @@ object PotionFeature : Feature("potion", "Зелья") {
     var EnabledPotionsInTab  = true
 
   override fun CategoryBuilder.setup() {
-      widget("potion-timer-widget", "Зелья", PotionTimerWidget)
+      widget("potion-timer-widget", "Зелья", PotionTimerWidget, enabled = false)
 
       subcategory("potion-settings", "Настройки отображения") {
           slider(::PotionsCount, "Количество отображаемых зелий", "Максимальное количество отображаемых зелий в списке", range = 0..15).subscription()

@@ -21,7 +21,7 @@ class ButtonNode(label: String = "") : RectangleNode() {
         origin = Relative.Center
     }
 
-    var buttonColor: Color = Colors.Primary
+    var buttonColor: Color = Colors.ElementaPrimary
         set(value) {
             field = value
             color = buttonColor()

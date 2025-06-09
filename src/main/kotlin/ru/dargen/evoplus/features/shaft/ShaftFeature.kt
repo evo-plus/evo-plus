@@ -12,6 +12,7 @@ import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
 import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
@@ -51,11 +52,6 @@ object ShaftFeature : Feature("shaft", "Шахта") {
         text = "Червей рядом: §6$Worms"
         isShadowed = true
     }
-    val WormsWidget by widgets.widget("Счётчик червей", "worms", enabled = false) {
-        origin = Relative.CenterBottom
-        align = v3(.5, .9)
-        +WormsText
-    }
 
     var Barrels = 0
         set(value) {
@@ -72,13 +68,20 @@ object ShaftFeature : Feature("shaft", "Шахта") {
         text = "Бочек рядом: §6$Barrels"
         isShadowed = true
     }
-    val BarrelsWidget by widgets.widget("Счётчик бочек", "barrels", enabled = false) {
-        origin = Relative.CenterTop
-        align = v3(.5, .9)
-        +BarrelsText
-    }
 
     override fun Settings.CategoryBuilder.setup() {
+        widget("worms-counter", "Счетчик червей", widget = {
+            origin = Relative.CenterBottom
+            align = v3(.5, .9)
+            +WormsText
+        }, enabled = false)
+
+        widget("barrels-counter", "Счетчик бочек", widget = {
+            origin = Relative.CenterTop
+            align = v3(.5, .9)
+            +BarrelsText
+        }, enabled = false)
+
         subcategory("shaft-worm", "Оповещения о червях") {
             switch(::WormNotify, "Уведомление", "Показывает уведомление о найденных червях")
             switch(::WormMessage, "Сообщение", "Показывает сообщение о найденных червях")
@@ -98,7 +101,7 @@ object ShaftFeature : Feature("shaft", "Шахта") {
 
     override fun initialize() {
         scheduleEvery(period = 10) {
-            /*if (!WormsWidget.enabled) */return@scheduleEvery
+            /*if (!WormsWidget.enabled)*/ return@scheduleEvery
 
             WorldEntities
                 .filterIsInstance<ArmorStandEntity>()
@@ -166,8 +169,8 @@ object ShaftFeature : Feature("shaft", "Шахта") {
                 return@on
             }
 
-            if ((oldState?.isBarrel() == true) && (!newState.isBarrel() && !newState.isDetonatingBarrel())) Barrels =
-                max(Barrels - 1, 0)
+            if ((oldState?.isBarrel() == true) && (!newState.isBarrel() && !newState.isDetonatingBarrel()))
+                Barrels = max(Barrels - 1, 0)
         }
     }
 }

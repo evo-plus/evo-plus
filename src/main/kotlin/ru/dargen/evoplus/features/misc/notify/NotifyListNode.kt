@@ -20,9 +20,8 @@ class NotifyListNode : AbstractGridBoxNode() {
         val children = children.filter { it !in nonComposingChildren }
 
         children.forEachIndexed { index, node ->
-            if (index > 0) {
+            if (index > 0)
                 translateY += space
-            }
 
             node.animate("recompose", .15) {
                 node.align = v3(childrenRelative)
@@ -30,19 +29,17 @@ class NotifyListNode : AbstractGridBoxNode() {
                 node.position = v3(indent.x, translateY, .0)
             }
 
-            if (node.size.x * node.scale.x > maxX) {
+            if (node.size.x * node.scale.x > maxX)
                 maxX = node.size.x * node.scale.x
-            }
 
             translateY += node.size.y * node.scale.y
         }
 
-        if (dependSizeX) {
+        if (dependSizeX)
             size.x = if (children.isEmpty()) .0 else maxX + indent.x * 2
-        }
-        if (dependSizeY) {
+
+        if (dependSizeY)
             size.y = if (children.isEmpty()) .0 else translateY + indent.y
-        }
 
         if (fixChildSize) {
             enabledChildren.forEach {

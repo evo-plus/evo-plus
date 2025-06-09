@@ -21,7 +21,7 @@ class VScrollViewNode : AbstractScrollViewNode() {
         align = Relative.RightTop
         origin = Relative.RightTop
 
-        color = Colors.Primary
+        color = Colors.ElementaPrimary
     }
     override var box: AbstractGridBoxNode = +vbox {
         align = Relative.LeftTop

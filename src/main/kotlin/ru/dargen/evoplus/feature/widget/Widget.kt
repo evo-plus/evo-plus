@@ -110,7 +110,7 @@ class Widget(override val id: String, val name: String, supplier: Node.() -> Uni
         align = v3()
     }
 
-    private fun useAlign() = node.apply {
+    fun useAlign() = node.apply {
         this@Widget.position = false
 
         var pos = position + translation

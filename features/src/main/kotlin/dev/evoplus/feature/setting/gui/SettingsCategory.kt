@@ -24,6 +24,7 @@ class SettingsCategory(val category: CategoryData) : UIContainer() {
     } childOf this
 
     init {
+
         constrain {
             width = 100.percent
             height = 100.percent

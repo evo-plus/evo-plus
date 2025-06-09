@@ -16,6 +16,7 @@ class ItemStackNode(var item: ItemStack = ItemStack(Items.AIR)) : RectangleNode(
 
     override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
         super.renderElement(matrices, tickDelta)
+//        OverlayRenderEvent.context.drawItemInSlot(TextRenderer, item, 0, 0)
         OverlayRenderEvent.context.drawItem(item, 0, 0)
     }
 

@@ -15,6 +15,8 @@ object Colors {
     data object Primary : Color(38, 72, 140)
     data object Second : Color(23, 24, 31)
 
+    data object ElementaPrimary : Color(30, 30, 30)
+
     data object Positive : Color(0, 255, 0)
     data object Negative : Color(255, 0, 0)
     data object Gray : Color(177, 177, 177)

@@ -28,7 +28,7 @@ object RuneFeature : Feature("rune", "Руны") {
     override fun CategoryBuilder.setup() {
         subcategory("rune-widget", "Виджеты") {
             widget("active-runes-widget", "Активные руны", ActiveRunesWidget)
-            widget("active-abilities-widget", "Задержка способностей", AbilityTimerWidget)
+            widget("active-abilities-widget", "Задержка способностей", AbilityTimerWidget, enabled = false)
         }
 
         subcategory("rune-notify", "Задержка способностей") {

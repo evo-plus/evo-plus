@@ -33,6 +33,7 @@ object ClanFeature : Feature("clan", "Клан") {
     override fun initialize() {
 //        listen<ClanInfo> { ClanHolder.accept(it.data) }
 
+        // FIXME: other players bait to capture the boss with a message in the global chat
 //        on<ChatReceiveEvent> {
 //            val text = text.uncolored()
 //

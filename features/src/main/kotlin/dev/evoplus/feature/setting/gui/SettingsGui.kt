@@ -2,7 +2,9 @@ package dev.evoplus.feature.setting.gui
 
 import dev.evoplus.feature.setting.Settings
 import dev.evoplus.feature.setting.gui.common.IconButton
-import dev.evoplus.feature.setting.gui.settings.*
+import dev.evoplus.feature.setting.gui.settings.ButtonComponent
+import dev.evoplus.feature.setting.gui.settings.NumberComponent
+import dev.evoplus.feature.setting.gui.settings.SelectorComponent
 import dev.evoplus.feature.setting.gui.settings.slider.AbstractSliderComponent
 import dev.evoplus.feature.setting.gui.settings.toggle.CheckboxComponent
 import dev.evoplus.feature.setting.gui.settings.toggle.SwitchComponent

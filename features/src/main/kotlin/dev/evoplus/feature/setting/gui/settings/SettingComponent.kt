@@ -20,9 +20,7 @@ abstract class SettingComponent : UIContainer() {
     }
 
     fun observe(listener: (Any?) -> Unit) {
-        if (observer != null) {
-            observer = listener
-        }
+        observer = listener
     }
 
     fun changeValue(newValue: Any?, observe: Boolean = true) {
@@ -34,9 +32,9 @@ abstract class SettingComponent : UIContainer() {
         }
     }
 
-    open fun closePopups(instantly: Boolean = false) { }
+    open fun closePopups(instantly: Boolean = false) {}
 
-    open fun setupParentListeners(parent: UIComponent) { }
+    open fun setupParentListeners(parent: UIComponent) {}
 
     companion object {
         const val DOWN_ARROW_PNG = "/assets/evo-plus/textures/gui/settings/arrow-down.png"

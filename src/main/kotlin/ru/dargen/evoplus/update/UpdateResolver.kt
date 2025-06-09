@@ -28,16 +28,15 @@ object UpdateResolver {
         scheduleEvery(1, 1, unit = TimeUnit.MINUTES) {
             fetchLatestVersion()
 
-            if (Client?.inGameHud != null && isOutdated){
+            if (Client?.inGameHud != null && isOutdated) {
                 NotifyWidget.showText(
                     "Обнаружена новая версия EvoPlus - ${latestVersion?.friendlyName}",
                     "Нажмите, чтобы обновиться.",
                     delay = 15.0,
                     action = { Updater.openUpdateScreenIfNeed() }
                 )
-                if (isTooOutdated) {
+                if (isTooOutdated)
                     Updater.openUpdateScreen()
-                }
             }
         }
 

@@ -1,11 +1,14 @@
 package ru.dargen.evoplus
 
+import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.loader.api.FabricLoader
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.event.EventBus
+import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.Features
+import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.features.alchemy.AlchemyFeature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.features.boss.BossTimerFeature
@@ -33,6 +36,7 @@ import ru.dargen.evoplus.render.animation.AnimationRunner
 import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.scheduler.Scheduler
+import ru.dargen.evoplus.scheduler.after
 import ru.dargen.evoplus.service.EvoPlusService
 import ru.dargen.evoplus.update.UpdateResolver
 import java.nio.file.Paths
@@ -66,7 +70,6 @@ object EvoPlus : ClientModInitializer {
         UpdateResolver.schedule()
 
         registerCommands()
-
     }
 
     fun onPreInitializeClient() {
@@ -78,10 +81,21 @@ object EvoPlus : ClientModInitializer {
     }
 
     private fun setupFeatures() = Features.setup {
-//        if (DevEnvironment) {
-        add(DevFeature)
-//        }
-//
+        if (DevEnvironment)
+            add(DevFeature)
+
+        add(
+            object : Feature("widget-editor", "Редактор виджетов") {
+                override fun CategoryBuilder.setup() {
+                    button(
+                        "Редактор виджетов",
+                        "В данной категории можно настроить виджеты",
+                        text = "Настроить"
+                    ) { after(1) { WidgetEditorScreen.open() } }
+                }
+            }
+        )
+
         add(AutoClickerFeature)
         add(ESPFeature)
         add(BossTimerFeature)

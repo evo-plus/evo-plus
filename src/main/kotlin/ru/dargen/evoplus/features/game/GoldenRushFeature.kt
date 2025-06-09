@@ -12,11 +12,11 @@ import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.render.node.text
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.math.scale
+import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.WorldEntities
 import ru.dargen.evoplus.util.minecraft.customItem
 import ru.dargen.evoplus.util.minecraft.equalCustomModel
 import ru.dargen.evoplus.util.minecraft.printMessage
-
 
 val GoldenCrystalItem = customItem(Items.PAPER, 271)
 
@@ -39,16 +39,23 @@ object GoldenRushFeature : Feature("golden-rush", "Золотой Кристал
     val GoldenCrystalIndicatorText = text {
         isShadowed = true
         scale = scale(1.2, 1.2)
+        translation = v3(x = -14.0, y = -4.0)
     }
 
     override fun CategoryBuilder.setup() {
-        widget("golden-crystal-widget", "Золотой Кристалл", GoldenCrystalWidget)
-        switch(::GoldenCrystalNotify, "Уведомление",
-            "Уведомлять при появлении золотого кристалла")
-        switch(::GoldenCrystalMessage, "Сообщение",
-            "Отправлять сообщение в чат при появлении золотого кристалла")
-        switch(::GoldenCrystalGlowing, "Подсветка",
-            "Подсвечивать золотой кристалл") { GoldenCrystalEntity?.isGlowing = it }.subscription()
+        widget("golden-crystal-widget", "Золотой Кристалл", GoldenCrystalWidget, enabled = false)
+        switch(
+            ::GoldenCrystalNotify, "Уведомление",
+            "Уведомлять при появлении золотого кристалла"
+        )
+        switch(
+            ::GoldenCrystalMessage, "Сообщение",
+            "Отправлять сообщение в чат при появлении золотого кристалла"
+        )
+        switch(
+            ::GoldenCrystalGlowing, "Подсветка",
+            "Подсвечивать золотой кристалл"
+        ) { GoldenCrystalEntity?.isGlowing = it }.subscription()
     }
 
     override fun initialize() {
@@ -68,5 +75,7 @@ object GoldenRushFeature : Feature("golden-rush", "Золотой Кристал
                     if (GoldenCrystalMessage) printMessage(text)
                 }
         }
+
     }
+
 }

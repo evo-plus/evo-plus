@@ -17,6 +17,7 @@ class SettingsFile(private val file: Path, private val settings: Settings) {
     internal var dirty = false
 
     internal fun initialize() {
+
         runCatching {
             read()
         }.onFailure {

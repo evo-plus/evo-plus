@@ -143,24 +143,26 @@ object WidgetEditorScreen {
         FeaturesSettings.totalProperties
             .filter { it.attr is WidgetPropertyAttr && it.value.getValue() is WidgetData }
             .map { (it.attr as WidgetPropertyAttr).widget as Widget }
-            .filter { it.node.enabled }
+            .filter { !it.node.enabled }
             .forEach { widget ->
+                // FIXME: widgets aren't added to the screen
                 addElements(button(widget.name) {
                     on {
                         with(widget) {
                             enabled = true
                             usePosition()
+
                             with(node) {
                                 position = it
                                 origin = Relative.Center
                                 mouseClick(it, 0, true)
                             }
+
                         }
                         hide()
                     }
                 })
             }
-
         show()
 
         hover { _, state -> if (state) show() else hide() }

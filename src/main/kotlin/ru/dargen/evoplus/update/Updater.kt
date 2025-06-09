@@ -28,7 +28,6 @@ object Updater {
         if (UpdateResolver.isOutdated) openUpdateScreen()
     }
 
-    // FIXME: minecraft crashes when calling this method if a new version is found
     fun openUpdateScreen() = screen {
         val version = UpdateResolver.latestVersion!!
 

@@ -21,6 +21,8 @@ import kotlin.math.min
 
 object LevelWidget : WidgetBase {
 
+    val LevelText = text("???") { isShadowed = true }
+
     val ProgressBar = hbar {
         size = v3(125.0, 1.0)
 
@@ -32,7 +34,6 @@ object LevelWidget : WidgetBase {
         backgroundColor = Colors.Gray
         progressColor = Colors.Green.alpha(.8)
     }
-    val Text = text("???") { isShadowed = true }
 
     val MainBox = hbox {
         space = 1.0
@@ -41,7 +42,7 @@ object LevelWidget : WidgetBase {
         +item(itemStack(Items.EXPERIENCE_BOTTLE)) {
             scale = v3(1.2, 1.2, 1.2)
         }
-        +Text
+        +LevelText
     }
 
     override val node = vbox {
@@ -54,17 +55,16 @@ object LevelWidget : WidgetBase {
 
     fun update(statistic: EconomicData) {
         if (statistic.nextLevel.isMaxLevel) {
-            Text.text = "§aМаксимальный уровень"
+            LevelText.text = "§aМаксимальный уровень"
             ProgressBar.enabled = false
             ProgressBar.progress = .0
-        }
-        else {
+        } else {
             val blocks = statistic.blocks
             val money = statistic.money
             val nextBlocks = statistic.nextLevel.blocks
             val nextMoney = statistic.nextLevel.money
 
-            Text.lines = listOf(
+            LevelText.lines = listOf(
                 "Блоки: ${(blocks >= nextBlocks).color}$blocks/$nextBlocks",
                 "Деньги: ${(money >= nextMoney).color}${money.format()}/${nextMoney.format()}"
             )

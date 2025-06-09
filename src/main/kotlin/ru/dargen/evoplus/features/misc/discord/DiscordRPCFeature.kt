@@ -11,6 +11,7 @@ import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.Connector.isOnDiamondWorld
 import ru.dargen.evoplus.scheduler.scheduleEvery
+import ru.dargen.evoplus.util.minecraft.PlayerName
 import java.util.concurrent.TimeUnit
 
 object DiscordRPCFeature : Feature(name = "Discord RPC") {
@@ -65,7 +66,7 @@ object DiscordRPCFeature : Feature(name = "Discord RPC") {
             largeText = "EvoPlus ${EvoPlus.Version}"
 
             if (isOnDiamondWorld) {
-                smallImage = "https://mc-heads.net/avatar/${ru.dargen.evoplus.util.minecraft.Client.player?.nameForScoreboard}"
+                smallImage = "https://mc-heads.net/avatar/$PlayerName"
                 smallText = locationHoverStrategy.line()
             }
         }

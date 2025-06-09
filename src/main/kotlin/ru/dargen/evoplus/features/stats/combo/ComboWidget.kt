@@ -20,6 +20,8 @@ import ru.dargen.evoplus.util.render.alpha
 
 object ComboWidget : WidgetBase {
 
+    val ComboText = text("???") { isShadowed = true }
+
     val ProgressBar = hbar {
         size = v3(125.0, 1.0)
 
@@ -31,7 +33,6 @@ object ComboWidget : WidgetBase {
         backgroundColor = Colors.Gray
         progressColor = Colors.Green.alpha(.8)
     }
-    val Text = text("???") { isShadowed = true }
 
     val MainBox = hbox {
         space = 1.0
@@ -40,7 +41,7 @@ object ComboWidget : WidgetBase {
         +item(itemStack(Items.GOLDEN_PICKAXE)) {
             scale = v3(1.2, 1.2, 1.2)
         }
-        +Text
+        +ComboText
     }
 
     override val node = vbox {
@@ -53,11 +54,11 @@ object ComboWidget : WidgetBase {
 
     fun update(data: ComboData) {
         if (data.isMaxed) {
-            Text.text = "Бустер: §ax${data.booster.fix(1)}"
+            ComboText.text = "Бустер: §ax${data.booster.fix(1)}"
             ProgressBar.enabled = false
             ProgressBar.progress = .0
         } else {
-            Text.lines = listOf(
+            ComboText.lines = listOf(
                 "Блоки: ${data.isCompleted.color + "${data.blocks}/${data.requiredBlocks}"}",
                 "Бустер: §ax${data.booster.fix(2)} §8-> §7x${data.nextBooster.fix(2)}",
                 *(if (data.isExpiring) arrayOf("§cИстекает через ${data.remain} сек.") else emptyArray())

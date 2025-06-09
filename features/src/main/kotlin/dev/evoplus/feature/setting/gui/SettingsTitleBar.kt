@@ -78,11 +78,14 @@ class SettingsTitleBar(private val gui: SettingsGui, private val settings: Setti
         searchBar.textContent.onSetValue {
             gui.selectCategory(settings.searchProperties(it))
         }
+
         subscriptionOnly.onLeftClick {
             this as IconButton
             settings.guiPreferences.subscription = !settings.guiPreferences.subscription
             rebindEnabled(settings.guiPreferences.subscription.state())
             gui.update()
         }
+
     }
+
 }

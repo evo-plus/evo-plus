@@ -21,7 +21,8 @@ public abstract class ChatHudMixin {
     @Unique
     private boolean skipOnAddMessage;
 
-    @Shadow public abstract void addMessage(Text message, @Nullable MessageSignatureData signature, @Nullable MessageIndicator indicator);
+    @Shadow
+    public abstract void addMessage(Text message, @Nullable MessageSignatureData signature, @Nullable MessageIndicator indicator);
 
     @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", cancellable = true)
     public void onAddMessage(Text message, MessageSignatureData signature, MessageIndicator indicator, CallbackInfo ci) {
@@ -49,4 +50,5 @@ public abstract class ChatHudMixin {
 //            return original + TextFeature.INSTANCE.getLongerChat();
 //        return original;
 //    }
+
 }
