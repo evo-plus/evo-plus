@@ -156,14 +156,14 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
 
     @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
     private String setCustomWindowTitle(String original) {
-        return original + " | EvoPlus " + EvoPlus.INSTANCE.getVersion();
+        return "Minecraft 1.21.1 | EvoPlus " + EvoPlus.INSTANCE.getVersion();
     }
 
-    @ModifyReturnValue(method = "hasOutline", at = @At("RETURN"))
-    private boolean hasOutlineModifyIsOutline(boolean original, Entity entity) {
-        if (GoldenRushFeature.INSTANCE.getGoldenCrystalGlowing() && GoldenRushFeature.INSTANCE.isGoldenCrystal(entity)) return true;
-
-        return original;
-    }
+//    @ModifyReturnValue(method = "hasOutline", at = @At("RETURN"))
+//    private boolean hasOutlineModifyIsOutline(boolean original, Entity entity) {
+//        if (GoldenRushFeature.INSTANCE.getGoldenCrystalGlowing() && GoldenRushFeature.INSTANCE.isGoldenCrystal(entity)) return true;
+//
+//        return original;
+//    }
 
 }
