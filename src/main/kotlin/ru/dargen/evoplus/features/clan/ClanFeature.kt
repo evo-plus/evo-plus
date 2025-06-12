@@ -14,17 +14,9 @@ import ru.dargen.evoplus.util.minecraft.lore
 
 object ClanFeature : Feature("clan", "Клан") {
 
-    private val BossCapturePattern =
-        "\\[Клан] Клан (\\S+) начал захват вашего босса ([\\s\\S]+)\\. Защитите его\\.".toRegex()
-
-//    var BossCaptureNotify = true
     var InlineMenuClanScores = true
 
     override fun CategoryBuilder.setup() {
-//        subcategory("clan-notify", "Уведомления") {
-//            switch(::BossCaptureNotify, "Захват вашего босса", "Уведомляет о перехвате вашего босса")
-//        }
-
         subcategory("clan-visual", "Визуализация") {
             switch(::InlineMenuClanScores, "К.О. для захвата босса в меню", "Отображает количество К.О. для захвата босса в меню")
         }
@@ -32,23 +24,6 @@ object ClanFeature : Feature("clan", "Клан") {
 
     override fun initialize() {
 //        listen<ClanInfo> { ClanHolder.accept(it.data) }
-
-        // FIXME: other players bait to capture the boss with a message in the global chat
-//        on<ChatReceiveEvent> {
-//            val text = text.uncolored()
-//
-//            if (BossCaptureNotify) BossCapturePattern.find(text)?.run {
-//                val clan = groupValues[1]
-//                val bossName = groupValues[2]
-//                val bossType = BossType.valueOfName(bossName) ?: return@run
-//
-//                BossTimerFeature.notify(
-//                    bossType,
-//                    "Клан §6$clan§f пытается захватить",
-//                    "вашего босса ${bossType.displayName}"
-//                )
-//            }
-//        }
 
         on<InventoryFillEvent> {
             if (InlineMenuClanScores && BossFeature.BossMenuPattern.containsMatchIn(openEvent?.nameString ?: "")) {

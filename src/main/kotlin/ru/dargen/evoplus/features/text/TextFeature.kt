@@ -43,12 +43,12 @@ object TextFeature : Feature("text", "Текст") {
                 "История чата после перезахода",
                 "Сохраняет всю историю вашего чата после перезахода на сервер"
             )
-//            slider(
-//                ::LongerChat,
-//                "История чата",
-//                "Увеличивает максимальное количество сообщений в истории чата",
-//                range = 0..15000 step 100
-//            )
+            slider(
+                ::LongerChat,
+                "История чата",
+                "Увеличивает максимальное количество сообщений в истории чата",
+                range = 0..15000 step 100
+            )
         }
     }
 
@@ -67,7 +67,7 @@ object TextFeature : Feature("text", "Текст") {
             if (!Connector.isOnPrisonEvo || marketKeys.any { !text.startsWith(it) } || MarketChatTimerWidget.RemainingTime >= currentMillis) return@on
 
             val timerMultiplier = if (text.length - 1 >= 256) 2 else 1
-            MarketChatTimerWidget.RemainingTime = currentMillis + MarketChatTimerDelay * 60 * 1000 * timerMultiplier
+            MarketChatTimerWidget.RemainingTime = currentMillis + (MarketChatTimerDelay * 60 * 1000 * timerMultiplier)
         }
 
 //        on<StringRenderEvent> {
@@ -85,7 +85,6 @@ object TextFeature : Feature("text", "Текст") {
     }
 
     fun isLongerChat(): Boolean {
-        return if (LongerChat == 0) false
-        else LongerChat > 0
+        return LongerChat != 0
     }
 }

@@ -22,8 +22,10 @@ import ru.dargen.evoplus.util.format.fix
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
+import ru.dargen.evoplus.util.text.print
 import java.util.concurrent.TimeUnit
 
 object BossFeature : Feature("boss", "Боссы") {
@@ -37,12 +39,10 @@ object BossFeature : Feature("boss", "Боссы") {
 
     val BossDamageText = text("???? [??]: ??\uE35E") { isShadowed = true }
 
-//    val BossDamageWidget by widgets
-
     var NotifyCapture = true
     var CurseMessage = false
     var BossLowHealthsMessage = false
-    var BossHealthsPercent = .5f
+    var BossHealthsPercent = 50
     var BossHealthsCooldown = 15
 
     override fun CategoryBuilder.setup() {
@@ -57,15 +57,16 @@ object BossFeature : Feature("boss", "Боссы") {
         }
 
         subcategory("boss-health-settings", "Настройки оповещений здоровья босса") {
-            percent(
+            slider(
                 ::BossHealthsPercent,
                 "Оповещать о здоровье босса",
-                "Процент здоровья босса, при котором отправляется сообщение в клановый чат"
+                "Процент здоровья босса, при котором отправляется сообщение в клановый чат",
+                range = 10..90
             )
             slider(
                 ::BossHealthsCooldown,
                 "Частота оповещений о здоровье босса",
-                "Частота отправки сообщения о здоровье босса в клановый чат (в секундах)",
+                "Частота отправки сообщения о здоровье босса в клановый чат \n(в секундах)",
                 range = 5..60
             )
         }
@@ -79,22 +80,38 @@ object BossFeature : Feature("boss", "Боссы") {
     override fun initialize() {
 
         listen<BossDamage> {
-            val type = BossType.valueOf(it.id) ?: return@listen
-            BossDamageText.text = "${type.displayName}: §c${it.count}§r\uE35E"
+            val type = BossType.valueOf(it.id).print("bossType") ?: return@listen
+            printMessage("§6[Босс] §f${type} §a(${it.count})")
+
+            getFilteredBossBars()?.firstNotNullOfOrNull { bossbar ->
+                val text = bossbar.name.string.uncolored().trim()
+
+                BossHealthsPattern.find(text)?.run {
+
+                    if (text.contains(type.name))
+                        BossDamageText.text = "${type.displayName}: §c${it.count}§r\uE35E"
+
+                }
+
+            } ?: return@listen
         }
 
         on<ChatReceiveEvent> {
+
             if (NotifyCapture) BossCapturePattern.find(text)?.run {
                 val type = BossType.valueOfName(groupValues[1]) ?: return@run
                 val clan = groupValues[2]
 
                 NotifyWidget.showText("Босс ${type.displayName}§f захвачен", "кланом $clan.")
             }
+
             if (CurseMessage) BossCursedPattern.find(text)?.run {
                 val type = PlayerDataCollector.location.bossType ?: return@on
                 val curse = groupValues[1]
+
                 sendClanMessage("§8[§e${Connector.server.displayName}§8] §a${type.displayName} §3проклят на $curse")
             }
+
         }
 
         scheduleEvery(unit = TimeUnit.SECONDS) {
@@ -107,7 +124,7 @@ object BossFeature : Feature("boss", "Боссы") {
                 if (ClanWavePattern.containsMatchIn(text)) return@scheduleEvery
 
                 BossHealthsPattern.find(text)?.run {
-                    val percent = it.percent
+                    val percent = it.percent * 100
 
                     if (percent >= BossHealthsPercent) return@run
 

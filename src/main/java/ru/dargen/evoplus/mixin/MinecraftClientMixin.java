@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -7,6 +8,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.util.Hand;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -30,6 +33,7 @@ import ru.dargen.evoplus.event.window.WindowResizeEvent;
 import ru.dargen.evoplus.event.world.WorldPostLoadEvent;
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent;
 import ru.dargen.evoplus.extension.MinecraftClientExtension;
+import ru.dargen.evoplus.features.game.GoldenRushFeature;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.minecraft.MinecraftKt;
 
@@ -148,6 +152,18 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     @Override
     public void leftClick() {
         leftClick = true;
+    }
+
+    @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
+    private String setCustomWindowTitle(String original) {
+        return original + " | EvoPlus " + EvoPlus.INSTANCE.getVersion();
+    }
+
+    @ModifyReturnValue(method = "hasOutline", at = @At("RETURN"))
+    private boolean hasOutlineModifyIsOutline(boolean original, Entity entity) {
+        if (GoldenRushFeature.INSTANCE.getGoldenCrystalGlowing() && GoldenRushFeature.INSTANCE.isGoldenCrystal(entity)) return true;
+
+        return original;
     }
 
 }

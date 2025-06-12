@@ -23,7 +23,7 @@ object DungeonMapWidget : WidgetBase {
         textureSize = v3(126.0, 126.0)
 
         tick {
-            enabled = isWidgetEditor || PlayerDataCollector.location.isDungeon && mapId != -1
+            enabled = isWidgetEditor || PlayerDataCollector.location.isProceduralDungeon && mapId != -1
         }
 
         preTransform { matrices, tickDelta ->

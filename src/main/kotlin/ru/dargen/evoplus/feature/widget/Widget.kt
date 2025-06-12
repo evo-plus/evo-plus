@@ -62,7 +62,7 @@ class Widget(override val id: String, val name: String, supplier: Node.() -> Uni
                 fixPosition()
             }
         }
-        hover {  _, state -> if (isWidgetEditor) hoverTimestamp = if (state) currentMillis else 0L }
+        hover { _, state -> if (isWidgetEditor) hoverTimestamp = if (state) currentMillis else 0L }
         preTransform { _, _ -> color = if (isWidgetEditor && isHovered) TransparentWhite else Transparent }
         postRender { matrices, _ ->
             if (isWidgetEditor && isHovered && hoverTimestamp + 1000 <= currentMillis) Tips.draw(
@@ -110,7 +110,7 @@ class Widget(override val id: String, val name: String, supplier: Node.() -> Uni
         align = v3()
     }
 
-    fun useAlign() = node.apply {
+    private fun useAlign() = node.apply {
         this@Widget.position = false
 
         var pos = position + translation
@@ -143,6 +143,8 @@ class Widget(override val id: String, val name: String, supplier: Node.() -> Uni
 
 }
 
-fun CategoryBuilder.widget(widget: Widget, enabled: Boolean = widget.node.enabled) = widget(widget.name, id = widget.id, widget = widget, enabled = enabled)
+fun CategoryBuilder.widget(widget: Widget, enabled: Boolean = widget.node.enabled) =
+    widget(widget.name, id = widget.id, widget = widget, enabled = enabled)
 
-fun CategoryBuilder.widget(id: String, name: String, widget: Node.() -> Unit, enabled: Boolean =  true) = widget(Widget(id, name, widget), enabled = enabled)
+fun CategoryBuilder.widget(id: String, name: String, widget: Node.() -> Unit, enabled: Boolean = true) =
+    widget(Widget(id, name, widget), enabled = enabled)

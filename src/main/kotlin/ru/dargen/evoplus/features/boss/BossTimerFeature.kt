@@ -146,7 +146,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов") {
         listen<BossTimers> {
             if (PremiumTimer) it.timers
                 .mapKeys { BossType.valueOf(it.key) ?: return@listen }
-                .mapValues { (it.value + currentMillis * if (PlayerDataCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER else 1.0).toLong() }
+                .mapValues { it.value + currentMillis }
                 .mapKeys { it.key.id }
                 .let(Bosses::putAll)
         }

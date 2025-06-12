@@ -145,7 +145,7 @@ object WidgetEditorScreen {
             .map { (it.attr as WidgetPropertyAttr).widget as Widget }
             .filter { !it.node.enabled }
             .forEach { widget ->
-                // FIXME: widgets aren't added to the screen
+                // FIXME: disabled widgets aren't added to the screen
                 addElements(button(widget.name) {
                     on {
                         with(widget) {
