@@ -8,8 +8,6 @@ import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.timer.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
-import ru.dargen.evoplus.keybind.Keybinds.FastBossTeleport
-import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector

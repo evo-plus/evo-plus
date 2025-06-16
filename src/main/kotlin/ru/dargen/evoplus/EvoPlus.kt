@@ -18,8 +18,6 @@ import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.scheduler.Scheduler
 import ru.dargen.evoplus.service.EvoPlusService
 import ru.dargen.evoplus.update.UpdateResolver
-import java.nio.file.Paths
-import kotlin.io.path.createDirectories
 
 val Logger = LoggerFactory.getLogger("EvoPlus")
 

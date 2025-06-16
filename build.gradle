@@ -51,7 +51,7 @@ dependencies {
 }
 
 runClient {
-//    jvmArgs '-Devo-plus.dev=true'
+    jvmArgs '-Devo-plus.dev=true'
     args "--username=${System.getenv('TEST_NAME')}"
 }
 

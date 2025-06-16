@@ -12,7 +12,6 @@ import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
 import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting
-import ru.dargen.evoplus.features.misc.selector.FastSelectorSetting.provideDelegate
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.scheduler.schedule

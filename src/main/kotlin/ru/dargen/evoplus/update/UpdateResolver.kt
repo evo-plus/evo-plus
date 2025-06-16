@@ -14,7 +14,7 @@ object UpdateResolver {
     private val Channel = if (EvoPlus.Alpha) "alpha" else "release"
     var latestVersion: Modrinth.VersionInfo? = null
     val isOutdated
-        get() = !EvoPlus.DevEnvironment && latestVersion != null && latestVersion?.name != EvoPlus.Version
+        get() = !EvoPlus.DevEnvironment && latestVersion?.name?.versionsTriple?.isGreaterThan(EvoPlus.Version.versionsTriple) == true
 
     init {
         fetchLatestVersion()
@@ -67,5 +67,13 @@ object UpdateResolver {
                     parts.getOrElse(2) { 0 }
                 )
             }
+
+    private fun Triple<Int, Int, Int>.isGreaterThan(other: Triple<Int, Int, Int>): Boolean {
+        return when {
+            this.first != other.first -> this.first > other.first
+            this.second != other.second -> this.second > other.second
+            else -> this.third > other.third
+        }
+    }
 
 }

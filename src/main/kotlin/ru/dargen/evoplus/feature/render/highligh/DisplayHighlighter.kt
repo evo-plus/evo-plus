@@ -7,7 +7,6 @@ import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.minecraft.WorldEntities
 import ru.dargen.evoplus.util.minecraft.customModelData
 import java.util.concurrent.TimeUnit
-import kotlin.sequences.forEach
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 

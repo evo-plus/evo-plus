@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.dargen.evoplus.extension.MinecraftClientExtension;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.game.MinecraftLoadedEvent;
 import ru.dargen.evoplus.event.game.PostTickEvent;
@@ -29,6 +28,7 @@ import ru.dargen.evoplus.event.screen.ScreenOpenEvent;
 import ru.dargen.evoplus.event.window.WindowResizeEvent;
 import ru.dargen.evoplus.event.world.WorldPostLoadEvent;
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent;
+import ru.dargen.evoplus.extension.MinecraftClientExtension;
 import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.util.minecraft.MinecraftKt;
 

@@ -104,8 +104,7 @@ object Updater {
         try {
             val loader = Updater::class.java.classLoader.parent as URLClassLoader
             loader.close()
-        } catch (t: Throwable) {
-        }
+        } catch (t: Throwable) { }
     }
 
 }

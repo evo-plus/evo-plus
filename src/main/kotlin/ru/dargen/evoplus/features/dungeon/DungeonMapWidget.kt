@@ -2,16 +2,11 @@ package ru.dargen.evoplus.features.dungeon
 
 import ru.dargen.evoplus.feature.widget.WidgetBase
 import ru.dargen.evoplus.feature.widget.isWidgetEditor
-import ru.dargen.evoplus.mixin.render.map.MapRendererAccessor
-import ru.dargen.evoplus.mixin.render.map.MapTextureAccessor
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.render.node.preTransform
 import ru.dargen.evoplus.render.node.texture
 import ru.dargen.evoplus.render.node.tick
-import ru.dargen.evoplus.util.kotlin.cast
-import ru.dargen.evoplus.util.kotlin.invoke
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.minecraft.Client
 
 object DungeonMapWidget : WidgetBase {
 

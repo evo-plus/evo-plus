@@ -55,7 +55,6 @@ fun MatrixStack.drawWorldText(
     color: Color = Color.WHITE
 ) = drawWorldText(text, position.x.toFloat(), position.y.toFloat(), shadow, isSeeThrough, color)
 
-
 fun MatrixStack.drawRectangle(size: Vector3, zLevel: Float = 0f, color: Color = Color.white) =
     drawRectangle(0f, 0f, size.x.toFloat(), size.y.toFloat(), zLevel, color)
 

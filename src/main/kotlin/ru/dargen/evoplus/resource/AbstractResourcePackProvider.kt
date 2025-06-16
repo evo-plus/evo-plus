@@ -5,7 +5,7 @@ import net.minecraft.resource.ResourcePackProfile.InsertionPosition
 import net.minecraft.resource.featuretoggle.FeatureSet
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
-import java.util.Optional
+import java.util.*
 import java.util.function.Consumer
 
 abstract class AbstractResourcePackProvider(

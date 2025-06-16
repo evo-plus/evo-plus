@@ -6,7 +6,6 @@ import net.minecraft.item.Items
 import ru.dargen.evoplus.event.render.OverlayRenderEvent
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.render.ItemRenderer
 
 @KotlinOpens
 class ItemStackNode(var item: ItemStack = ItemStack(Items.AIR)) : RectangleNode() {

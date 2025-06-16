@@ -46,6 +46,8 @@
 
     "network.ClientPlayNetworkHandlerMixin",
     "network.ClientPlayerInteractionManagerMixin",
+    "network.ClientCommonNetworkHandlerMixin",
+    "network.payload.UnknownCustomPayloadMixin",
 
     "resource.ResourcePackManagerMixin",
 

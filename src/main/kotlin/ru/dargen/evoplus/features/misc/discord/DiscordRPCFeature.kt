@@ -21,9 +21,9 @@ object DiscordRPCFeature : Feature("discord-rpc", "Discord RPC", Items.COMPARATO
     private val Client = RichClient(1297251096191828060L)
 
     private var enabled by settings.boolean("Отображением статуса в Discord", true) on { toggle() }
-    private var nameStrategy by settings.selector("Вид отображения имени", enumSelector<DiscordNameFormat>(2))
-    private var locationStrategy by settings.selector("Вид отображения местоположения", enumSelector<DiscordLocationFormat>(2))
-    private var locationHoverStrategy by settings.selector("Вид отображения местоположения при наведении", enumSelector<DiscordLocationFormat>(2))
+    private var nameStrategy by settings.switcher("Вид отображения имени", enumSelector<DiscordNameFormat>(2))
+    private var locationStrategy by settings.switcher("Вид отображения местоположения", enumSelector<DiscordLocationFormat>(2))
+    private var locationHoverStrategy by settings.switcher("Вид отображения местоположения при наведении", enumSelector<DiscordLocationFormat>(2))
 
     init {
         scheduleEvery(5, 5, unit = TimeUnit.SECONDS) { tryUpdate() }
@@ -42,9 +42,7 @@ object DiscordRPCFeature : Feature("discord-rpc", "Discord RPC", Items.COMPARATO
     }
 
     private fun tryUpdate() {
-        if (Client.isConnected) {
-            update()
-        }
+        if (Client.isConnected) update()
     }
 
     private fun update() = Client.update {

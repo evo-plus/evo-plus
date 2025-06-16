@@ -4,7 +4,6 @@ import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.item.Items
 import pro.diamondworld.protocol.packet.boss.BossTimers
 import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
-import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
@@ -25,7 +24,6 @@ import ru.dargen.evoplus.util.selector.toSelector
 import kotlin.math.absoluteValue
 
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
-private const val MYTHICAL_EVENT_MULTIPLIER_X1000 = (MYTHICAL_EVENT_MULTIPLIER * 1000).toLong()
 
 object BossTimerFeature : Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
 
@@ -78,22 +76,18 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     init {
         settings.baseElement("Сбросить таймеры") { button("Сбросить") { on { Bosses.clear() } } }
 
-        on<ChatReceiveEvent> {
-            if (AutoReset && text == "Перезагрузка сервера") Bosses.clear()
-        }
-
         on<GameEventChangeEvent> {
             if (old === MYTHICAL_EVENT || new === MYTHICAL_EVENT) Bosses.replaceAll { bossId, spawn ->
                 if (BossType.valueOf(bossId)?.isRaid == false) return@replaceAll spawn
                 
-                (if (old === MYTHICAL_EVENT) (spawn * MYTHICAL_EVENT_MULTIPLIER_X1000) / 1000 else (spawn * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000)
+                (if (old === MYTHICAL_EVENT) spawn * MYTHICAL_EVENT_MULTIPLIER else spawn / MYTHICAL_EVENT_MULTIPLIER).toLong()
             }
         }
 
         listen<BossTimers> {
             if (PremiumTimers) it.timers
                 .mapKeys { BossType.valueOf(it.key) ?: return@listen }
-                .mapValues { (it.value + currentMillis * if (PlayerDataCollector.event === MYTHICAL_EVENT && it.key.isRaid) MYTHICAL_EVENT_MULTIPLIER_X1000 else 1000) / 1000 }
+                .mapValues { it.value + currentMillis }
                 .mapKeys { it.key.id }
                 .let(Bosses::putAll)
         }
@@ -196,7 +190,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         ?.run {
             val type = BossType.valueOfName(getOrNull(0) ?: return@run null) ?: return@run null
             val delay = getOrNull(1)?.replace("۞", "")?.fromTextTime
-                ?.let { if (PlayerDataCollector.event === MYTHICAL_EVENT && type.isRaid) ((it * 1000) / MYTHICAL_EVENT_MULTIPLIER_X1000).toLong() else it }
+                ?.let { if (PlayerDataCollector.event === MYTHICAL_EVENT && type.isRaid) (it / MYTHICAL_EVENT_MULTIPLIER).toLong() else it }
                 ?.takeIf { it > 6000 }
                 ?: return@run null
 

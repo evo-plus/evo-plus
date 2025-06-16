@@ -1,8 +1,6 @@
 package ru.dargen.evoplus.features.chat
 
 import net.minecraft.item.Items
-import net.minecraft.text.Text
-import net.minecraft.util.Formatting
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.chat.ChatSendEvent
 import ru.dargen.evoplus.event.on
@@ -12,8 +10,6 @@ import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.util.currentMillis
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
-import java.text.SimpleDateFormat
-import java.util.Date
 import kotlin.math.ceil
 
 object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {

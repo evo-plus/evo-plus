@@ -6,6 +6,7 @@ import ru.dargen.evoplus.event.resourcepack.ResourcePackProvidersEvent
 import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
+import ru.dargen.evoplus.render.node.input.button
 import ru.dargen.evoplus.resource.builtin.EvoPlusPackProvider
 import ru.dargen.evoplus.resource.diamondworld.DiamondWorldPackProvider
 import ru.dargen.evoplus.util.minecraft.Client
@@ -17,9 +18,9 @@ object ResourcePackFeature : Feature("resource-pack", "Пакеты ресурс
 
     val disableAutoLoad by settings.boolean("Отключение автозагрузки РП DiamondWorld")
     val preload by settings.boolean("Пред-загрузка РП DiamondWorld") on { Client?.reloadResources() }
-    val checkVersion by settings.boolean("Проверить наличие обновлений РП DiamondWorld") on { if (preload) checkVersion() }
 
     init {
+        settings.baseElement("Проверить наличие обновлений РП DiamondWorld") { button("Проверить") { on { if (preload) checkVersion() } } }
 
         on<ResourcePackProvidersEvent> {
             providers.add(DiamondWorldPackProvider(Downloader, ::preload))
