@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.mixin.entity;
 
+import net.minecraft.component.ComponentMap;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.item.ItemStack;
@@ -22,7 +23,7 @@ public class ArmorStandEntityMixin implements ArmorStandEntityExtension {
     private void equipStack(EquipmentSlot slot, ItemStack stack, CallbackInfo ci) {
         if (slot != EquipmentSlot.HEAD) return;
 
-        var tag = stack.getNbt();
+        var tag = stack.getComponents();
         if (tag == null) return;
 
         var name = MinecraftKt.getPlayerName();
@@ -33,18 +34,21 @@ public class ArmorStandEntityMixin implements ArmorStandEntityExtension {
     }
 
     @Unique
-    private static boolean isAccessory(NbtCompound tag, String name) {
-        tag = tag.getCompound("PublicBukkitValues");
-        return tag.contains("diamondworld:accessory_owner") && tag.getString("diamondworld:accessory_owner").equalsIgnoreCase(name);
+    private static boolean isAccessory(ComponentMap map, String name) {
+//        map = map.get("PublicBukkitValues");
+
+//        return map.contains("diamondworld:accessory_owner") && map.getString("diamondworld:accessory_owner").equalsIgnoreCase(name);
+        return false;
     }
 
     @Unique
-    private static boolean isOldAccessory(NbtCompound tag, String name) {
-        return tag.contains("accessory_owner") && tag.getString("accessory_owner").equalsIgnoreCase(name);
+    private static boolean isOldAccessory(ComponentMap map, String name) {
+//        return map.contains("accessory_owner") && map.getString("accessory_owner").equalsIgnoreCase(name);
+        return false;
     }
 
     @Override
-    public boolean isSelfAccessory() {
+    public boolean evo_plus$isSelfAccessory() {
         return selfAccessory;
     }
 

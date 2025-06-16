@@ -86,9 +86,7 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
     }
 
     fun thx() {
-        if (AutoThanks) {
-            sendCommand("thx")
-        }
+        if (AutoThanks) sendCommand("thx")
     }
 
 }

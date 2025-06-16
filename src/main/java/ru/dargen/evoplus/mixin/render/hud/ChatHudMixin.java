@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.mixin.render.hud;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import lombok.val;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.MessageIndicator;
@@ -10,9 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent;
@@ -47,10 +46,18 @@ public abstract class ChatHudMixin {
         skipOnAddMessage = false;
     }
 
-    @ModifyConstant(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", constant = @Constant(intValue = 100), expect = 2)
-    public int changeMaxHistory(int original) {
-        if (TextFeature.INSTANCE.isLongerChat())
-            return original + TextFeature.INSTANCE.getLongerChat();
-        return original;
+    @ModifyExpressionValue(method = "addMessage(Lnet/minecraft/client/gui/hud/ChatHudLine;)V", at = @At(value = "CONSTANT", args = "intValue=100"))
+    public int maxHistory(int size) {
+        if (!TextFeature.INSTANCE.isLongerChat()) return size;
+
+        return size + TextFeature.INSTANCE.getLongerChat();
     }
+
+    @ModifyExpressionValue(method = "addVisibleMessage", at = @At(value = "CONSTANT", args = "intValue=100"))
+    private int maxHistoryVisible(int size) {
+        if (!TextFeature.INSTANCE.isLongerChat()) return size;
+
+        return size + TextFeature.INSTANCE.getLongerChat();
+    }
+
 }

@@ -5,12 +5,11 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.text.Text
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.event.EventBus
 import ru.dargen.evoplus.feature.Features
-import ru.dargen.evoplus.features.command.EvoPlusCommand
-import ru.dargen.evoplus.features.command.ShareCommand
+import ru.dargen.evoplus.features.misc.command.EvoPlusCommand
+import ru.dargen.evoplus.features.misc.command.ShareCommand
 import ru.dargen.evoplus.keybind.KeyBindings
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.render.animation.AnimationRunner
@@ -19,13 +18,15 @@ import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.scheduler.Scheduler
 import ru.dargen.evoplus.service.EvoPlusService
 import ru.dargen.evoplus.update.UpdateResolver
+import java.nio.file.Paths
+import kotlin.io.path.createDirectories
 
 val Logger = LoggerFactory.getLogger("EvoPlus")
 
 object EvoPlus : ClientModInitializer {
 
     val Label = "§f§lEvo§6§lPlus"
-    val LabelText = Text.of(Label)
+    val Alpha = true
 
     val Container by lazy { FabricLoader.getInstance().getModContainer("evo-plus").get() }
 
@@ -35,6 +36,7 @@ object EvoPlus : ClientModInitializer {
     val DevEnvironment = java.lang.Boolean.getBoolean("evo-plus.dev")
 
     override fun onInitializeClient() {
+
         EventBus
         Scheduler
         KeyBindings
@@ -50,6 +52,11 @@ object EvoPlus : ClientModInitializer {
 
         UpdateResolver.schedule()
 
+        registerCommands()
+
+    }
+
+    private fun registerCommands() {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher: CommandDispatcher<FabricClientCommandSource>, _ ->
             EvoPlusCommand.register(dispatcher)
             ShareCommand.register(dispatcher)

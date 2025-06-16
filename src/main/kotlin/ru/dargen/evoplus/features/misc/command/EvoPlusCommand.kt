@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.command
+package ru.dargen.evoplus.features.misc.command
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.tree.LiteralCommandNode

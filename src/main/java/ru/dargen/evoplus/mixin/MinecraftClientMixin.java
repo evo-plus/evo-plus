@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
@@ -118,12 +119,12 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     }
 
     @Inject(method = "joinWorld", at = @At("HEAD"))
-    private void joinWorldPre(ClientWorld world, CallbackInfo ci) {
+    private void joinWorldPre(ClientWorld world, DownloadingTerrainScreen.WorldEntryReason worldEntryReason, CallbackInfo ci) {
         EventBus.INSTANCE.fire(new WorldPreLoadEvent(world));
     }
 
     @Inject(method = "joinWorld", at = @At("TAIL"))
-    private void joinWorldPost(ClientWorld world, CallbackInfo ci) {
+    private void joinWorldPost(ClientWorld world, DownloadingTerrainScreen.WorldEntryReason worldEntryReason, CallbackInfo ci) {
         EventBus.INSTANCE.fire(new WorldPostLoadEvent(world));
     }
 

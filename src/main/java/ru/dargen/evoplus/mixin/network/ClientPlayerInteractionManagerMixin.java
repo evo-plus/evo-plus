@@ -20,16 +20,14 @@ public class ClientPlayerInteractionManagerMixin {
 
     @Inject(method = "clickSlot", at = @At("HEAD"), cancellable = true)
     public void clickSlot(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-        if (!EventBus.INSTANCE.fireResult(new InventoryClickEvent(syncId, slotId, button, actionType))) {
+        if (!EventBus.INSTANCE.fireResult(new InventoryClickEvent(syncId, slotId, button, actionType)))
             ci.cancel();
-        }
     }
 
     @Inject(at = @At("HEAD"), method = "breakBlock", cancellable = true)
     public void breakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (!EventBus.INSTANCE.fireResult(new BlockBreakEvent(pos))) {
+        if (!EventBus.INSTANCE.fireResult(new BlockBreakEvent(pos)))
             cir.setReturnValue(false);
-        }
     }
 
     @Inject(at = @At("HEAD"), method = "attackEntity", cancellable = true)

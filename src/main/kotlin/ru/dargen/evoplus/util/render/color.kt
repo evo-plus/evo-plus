@@ -1,6 +1,9 @@
 package ru.dargen.evoplus.util.render
 
-import net.minecraft.util.math.ColorHelper.Argb.*
+import net.minecraft.util.math.ColorHelper.getAlpha
+import net.minecraft.util.math.ColorHelper.getBlue
+import net.minecraft.util.math.ColorHelper.getGreen
+import net.minecraft.util.math.ColorHelper.getRed
 import ru.dargen.evoplus.util.math.fix
 import ru.dargen.evoplus.util.math.progressTo
 import java.awt.Color
@@ -18,11 +21,9 @@ fun Int.decomposeColorFloat() = RGBA(
     getBlue(this).toFloat() / 255f, getAlpha(this).toFloat() / 255f
 )
 
-fun Color.decompose() = rgb.decomposeColor()
-
 fun Color.decomposeFloat() = rgb.decomposeColorFloat()
 
-private fun Int.fixCC() = fix(0, 255)
+fun Int.fixCC() = fix(0, 255)
 
 fun Color.progressTo(destination: Color, progress: Double) = Color(
     red.progressTo(destination.red, progress).fixCC(),

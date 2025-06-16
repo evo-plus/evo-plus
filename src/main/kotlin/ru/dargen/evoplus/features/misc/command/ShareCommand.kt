@@ -1,4 +1,4 @@
-package ru.dargen.evoplus.features.command
+package ru.dargen.evoplus.features.misc.command
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -8,8 +8,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.scheduler.async
-import ru.dargen.evoplus.util.catch
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.minecraft.printMessage
 

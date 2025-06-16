@@ -1,40 +1,25 @@
-//package ru.dargen.evoplus.resource.diamondworld
-//
-//import com.google.common.hash.Hashing
-//import net.minecraft.resource.ResourcePack
-//import net.minecraft.resource.ResourcePackProfile
-//import net.minecraft.resource.ZipResourcePack
-//import ru.dargen.evoplus.feature.Features
-//import ru.dargen.evoplus.resource.AbstractResourcePackProvider
-//import ru.dargen.evoplus.util.rest.request
-//import java.io.InputStream
-//import java.net.http.HttpResponse.BodyHandlers
-//import java.nio.file.Paths
-//import java.util.function.Consumer
-//import kotlin.io.path.exists
-//import kotlin.io.path.outputStream
-//
-//class DiamondWorldPackProvider : AbstractResourcePackProvider("diamond-world", "DiamondWorld", "Server resource pack", 7) {
-//
-//    companion object {
-//        private const val URL = "https://files.diamondworld.pro/resourcePacks/DiamondWorld_Latest.zip"
-//    }
-//
-//    override fun register(profileAdder: Consumer<ResourcePackProfile>) {
-//        if (Features.Initialized){// && MiscFeature.ResourcePackLoadDisable) {
-//            super.register(profileAdder)
-//        }
-//    }
-//
-//    override fun openPack(name: String): ResourcePack {
-//        val response = request<InputStream>(URL, "GET", handler = BodyHandlers.ofInputStream()).join()
-//        val hash = Hashing.sha256().hashString(response.headers().firstValue("last-modified").get(), Charsets.UTF_8).toString()
-//        val file = Paths.get("server-resource-packs", hash)
-//
-//        if (!file.exists()) file.outputStream().use(response.body()::transferTo)
-//        response.body().close()
-//
-//        return ZipResourcePack(name, file.toFile(), true)
-//    }
-//
-//}
+package ru.dargen.evoplus.resource.diamondworld
+
+import net.minecraft.resource.ResourcePack
+import net.minecraft.resource.ResourcePackInfo
+import net.minecraft.resource.ResourcePackProfile
+import net.minecraft.resource.ZipResourcePack
+import ru.dargen.evoplus.features.misc.resource.ResourcePackDownloader
+import ru.dargen.evoplus.resource.AbstractResourcePackProvider
+import java.util.function.Consumer
+
+class DiamondWorldPackProvider(
+    private val downloader: ResourcePackDownloader,
+    private val isEnabled: () -> Boolean,
+) : AbstractResourcePackProvider("diamond-world", "DiamondWorld", "Server resource pack") {
+
+    override fun register(profileAdder: Consumer<ResourcePackProfile>) {
+        if (isEnabled())
+            super.register(profileAdder)
+    }
+
+    override fun openPack(info: ResourcePackInfo): ResourcePack {
+        return ZipResourcePack.ZipBackedFactory(downloader.supplySync().toFile()).open(info)
+    }
+
+}

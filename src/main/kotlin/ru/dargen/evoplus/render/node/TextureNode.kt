@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.render.node
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import ru.dargen.evoplus.render.animation.property.proxied
@@ -31,17 +30,17 @@ class TextureNode : Node() {
 
         if (blend) RenderSystem.enableBlend()
 
-        if (repeating) DrawableHelper.drawRepeatingTexture(
-            matrices, 0, 0,
-            size.x.toInt(), size.y.toInt(),
-            textureOffset.x.toInt(), textureOffset.y.toInt(),
-            textureSize.x.toInt(), textureSize.y.toInt()
-        ) else DrawableHelper.drawTexture(
-            matrices, 0, 0,
-            textureOffset.x.toFloat(), textureOffset.y.toFloat(),
-            size.x.toInt(), size.y.toInt(),
-            textureSize.x.toInt(), textureSize.y.toInt()
-        )
+//        if (repeating) DrawableHelper.drawRepeatingTexture(
+//            matrices, 0, 0,
+//            size.x.toInt(), size.y.toInt(),
+//            textureOffset.x.toInt(), textureOffset.y.toInt(),
+//            textureSize.x.toInt(), textureSize.y.toInt()
+//        ) else DrawableHelper.drawTexture(
+//            matrices, 0, 0,
+//            textureOffset.x.toFloat(), textureOffset.y.toFloat(),
+//            size.x.toInt(), size.y.toInt(),
+//            textureSize.x.toInt(), textureSize.y.toInt()
+//        )
     }
 
 }

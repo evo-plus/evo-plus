@@ -21,6 +21,8 @@ import ru.dargen.evoplus.features.fishing.FishingFeature
 import ru.dargen.evoplus.features.game.GoldenRushFeature
 import ru.dargen.evoplus.features.misc.MiscFeature
 import ru.dargen.evoplus.features.misc.RenderFeature
+import ru.dargen.evoplus.features.misc.discord.DiscordRPCFeature
+import ru.dargen.evoplus.features.misc.resource.ResourcePackFeature
 import ru.dargen.evoplus.features.potion.PotionFeature
 import ru.dargen.evoplus.features.rune.RuneFeature
 import ru.dargen.evoplus.features.share.ShareFeature
@@ -88,6 +90,8 @@ data object Features {
         RenderFeature.register()
         MiscFeature.register()
         ShareFeature.register()
+        ResourcePackFeature.register()
+        DiscordRPCFeature.register()
     }
 
     fun Feature.register() = List.add(this)

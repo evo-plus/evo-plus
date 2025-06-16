@@ -1,15 +1,21 @@
 plugins {
-    id 'fabric-loom' version '1.3-SNAPSHOT'
+    id 'fabric-loom' version '1.10-SNAPSHOT'
     id "com.modrinth.minotaur" version "2.+"
 
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
-    id 'org.jetbrains.kotlin.plugin.allopen' version '1.9.0'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.0'
+    id 'org.jetbrains.kotlin.jvm' version '2.1.21'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '2.1.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.21'
 }
 
 version = project.evo_plus_version
 group = project.maven_group
+
+loom {
+    if (!project.hasProperty('production')) {
+        accessWidenerPath = file("src/main/resources/evoplus.accesswidener")
+    }
+}
 
 repositories {
     mavenCentral()
@@ -22,23 +28,30 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // Fabric API
     include(modImplementation(fabricApi.module("fabric-message-api-v1", project.fabric_version)))
     include(modImplementation(fabricApi.module("fabric-command-api-v2", project.fabric_version)))
+    include(modImplementation(fabricApi.module("fabric-networking-api-v1", project.fabric_version)))
 
-//    Kotlin
+    // Kotlin
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    //Other dependencies
+    // Lombok
+    compileOnly(annotationProcessor('org.projectlombok:lombok:1.18.30'))
+
+    // Other dependencies
     include(implementation("com.github.ben-manes.caffeine:caffeine:${project.caffeine_version}"))
     include(implementation("pro.diamondworld.evoplusprotocol:evoplusprotocol:${project.evo_plus_protocol_version}"))
     include(implementation("com.github.asyncdargen:rest-client:${project.rest_client_version}"))
     include(implementation("com.github.asyncdargen.crowbar:crowbar-core:${project.crowbar_version}"))
 
-    compileOnly(annotationProcessor('org.projectlombok:lombok:1.18.24'))
+    // Discord RPC
+    include(implementation("io.github.vyfor:kpresence:${project.kpresence_version}"))
 }
 
 runClient {
-    jvmArgs '-Devo-plus.dev=true'
+//    jvmArgs '-Devo-plus.dev=true'
     args "--username=${System.getenv('TEST_NAME')}"
 }
 

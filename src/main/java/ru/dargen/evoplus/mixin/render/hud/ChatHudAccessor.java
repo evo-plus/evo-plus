@@ -19,4 +19,5 @@ public interface ChatHudAccessor {
 
     @Invoker("toChatLineY")
     double toChatLineYA(double y);
+
 }

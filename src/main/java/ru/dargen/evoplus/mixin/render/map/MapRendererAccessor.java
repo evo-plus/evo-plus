@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(MapRenderer.class)
 public interface MapRendererAccessor {
 
-    @Accessor("mapTextures")
-    Int2ObjectMap<MapTextureAccessor> getTextures();
+//    @Accessor("texturesManager")
+//    Int2ObjectMap<MapTextureAccessor> getTextures();
 
 }

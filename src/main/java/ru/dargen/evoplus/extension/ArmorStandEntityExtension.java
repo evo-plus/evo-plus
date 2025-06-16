@@ -2,6 +2,6 @@ package ru.dargen.evoplus.extension;
 
 public interface ArmorStandEntityExtension {
 
-    boolean isSelfAccessory();
+    boolean evo_plus$isSelfAccessory();
 
 }

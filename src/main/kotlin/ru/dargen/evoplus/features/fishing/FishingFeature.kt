@@ -97,7 +97,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
             if (AutoHookDelay >= 0 && Player?.fishHook?.isSink == true) {
                 if (++fishHookTicks >= AutoHookDelay) {
                     fishHookTicks = 0
-                    Player?.fishHook?.kill()
+                    Player?.fishHook?.discard()
                     InteractionManager?.interactItem(Player!!, Hand.MAIN_HAND)
                 }
             } else fishHookTicks = 0

@@ -17,14 +17,13 @@ public abstract class EntityRendererMixin<T extends Entity> {
 
     @Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
     private void shouldRender(T entity, Frustum frustum, double x, double y, double z, CallbackInfoReturnable<Boolean> cir) {
-        if (isSelfAccessoryStand(entity) && MinecraftKt.getClient().options.getPerspective().isFirstPerson()) {
+        if (isSelfAccessoryStand(entity) && MinecraftKt.getClient().options.getPerspective().isFirstPerson())
             cir.cancel();
-        }
     }
 
     @Unique
     private boolean isSelfAccessoryStand(T entity) {
-        return entity.getType() == EntityType.ARMOR_STAND && ((ArmorStandEntityExtension) entity).isSelfAccessory();
+        return entity.getType() == EntityType.ARMOR_STAND && ((ArmorStandEntityExtension) entity).evo_plus$isSelfAccessory();
     }
 
 }

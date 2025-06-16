@@ -16,14 +16,16 @@ import ru.dargen.evoplus.event.entity.EntitySpawnEvent;
 @Mixin(ClientWorld.class)
 public abstract class ClientWorldMixin {
 
-    @Shadow @Nullable public abstract Entity getEntityById(int id);
+    @Shadow
+    @Nullable
+    public abstract Entity getEntityById(int id);
 
-    @Inject(at = @At("HEAD"), method = "addEntityPrivate", cancellable = true)
-    private void addEntity(int id, Entity entity, CallbackInfo ci) {
+    @Inject(method = "addEntity", at = @At("HEAD"), cancellable = true)
+    private void addEntity(Entity entity, CallbackInfo ci) {
         if (!EventBus.INSTANCE.fireResult(new EntitySpawnEvent(entity))) ci.cancel();
     }
 
-    @Inject(at = @At("HEAD"), method = "removeEntity")
+    @Inject(method = "removeEntity", at = @At("HEAD"))
     private void removeEntity(int entityId, Entity.RemovalReason removalReason, CallbackInfo ci) {
         val entity = getEntityById(entityId);
 

@@ -8,7 +8,7 @@ enum class FishingWidgetQuestDescriptionMode(val displayName: String, val isVisi
 
     ENABLED("Всегда", { true }),
     HOVER("При наведении", { false }),
-    FISHING("На рыбалке", { PlayerDataCollector.location.isFish }),
+    FISHING("На рыбалке", { PlayerDataCollector.location.warp == "fish" }),
     FISH_ROD("С удочкой", { Player?.mainHandStack?.item === Items.FISHING_ROD });
 
     override fun toString() = displayName

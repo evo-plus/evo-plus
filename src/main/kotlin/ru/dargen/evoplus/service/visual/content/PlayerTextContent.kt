@@ -21,6 +21,10 @@ data class PlayerTextContent(val options: PlayerContentOptions, val player: Stri
         return visitor.accept(buildString())
     }
 
+    override fun getType(): TextContent.Type<*>? {
+        TODO("Not yet implemented")
+    }
+
     override fun toString(): String {
         return "player{$player, $text}"
     }
@@ -31,9 +35,9 @@ data class PlayerTextContent(val options: PlayerContentOptions, val player: Stri
             MutableText.of(PlayerTextContent(PlayerContentOptions.Prefix, player, text))
 
         fun replace(text: Text, player: String, options: PlayerContentOptions): Text {
-            text.content?.safeCast<LiteralTextContent>()?.let { content ->
-                if (content.string.contains(player) == true) {
-                    text<MutableTextExtension>()?.setTextContent(PlayerTextContent(options, player, content.string))
+            text.content?.safeCast<PlainTextContent>()?.let { content ->
+                if (content.string().contains(player)) {
+                    text<MutableTextExtension>()?.setTextContent(PlayerTextContent(options, player, content.string()))
                 }
             }
             text.siblings.filterIsInstance<MutableText>().forEach { replace(it, player, options) }

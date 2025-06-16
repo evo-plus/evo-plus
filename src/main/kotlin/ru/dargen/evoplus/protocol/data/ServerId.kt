@@ -2,7 +2,6 @@ package ru.dargen.evoplus.protocol.data
 
 import pro.diamondworld.protocol.packet.ServerInfo
 
-
 data class ServerId(val name: String, val id: Int, val mirror: Int) {
 
     val displayName
@@ -12,6 +11,13 @@ data class ServerId(val name: String, val id: Int, val mirror: Int) {
             "UNKNOWN" -> "Где?"
             else -> toString()
         }
+
+    val shortDisplayName get() = when (name) {
+        "HUB" -> "Хаб"
+        "PRISONEVO" -> "PrisonEvo"
+        "UNKNOWN" -> "Где?"
+        else -> toString()
+    }
 
     override fun toString() = "$name-$id-$mirror"
 

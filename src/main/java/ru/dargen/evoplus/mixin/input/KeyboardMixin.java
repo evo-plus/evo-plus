@@ -25,9 +25,8 @@ public class KeyboardMixin {
 
     @Inject(method = "onChar", at = @At("RETURN"))
     private void onChar(long window, int code, int modifiers, CallbackInfo ci) {
-        if (Character.charCount(code) == 1) {
-            fireCharEvent(code, (char) code);
-        } else {
+        if (Character.charCount(code) == 1) fireCharEvent(code, (char) code);
+        else {
             for (char character : Character.toChars(code)) {
                 fireCharEvent(code, character);
             }

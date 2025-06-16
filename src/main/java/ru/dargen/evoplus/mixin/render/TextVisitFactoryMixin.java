@@ -11,17 +11,12 @@ import ru.dargen.evoplus.event.render.StringRenderEvent;
 @Mixin(TextVisitFactory.class)
 public abstract class TextVisitFactoryMixin {
 
-    @ModifyArg
-            (at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/text/TextVisitFactory;visitFormatted(Ljava/lang/String;ILnet/minecraft/text/Style;Lnet/minecraft/text/Style;Lnet/minecraft/text/CharacterVisitor;)Z",
-                    ordinal = 0
-            ), method = {
-                    "visitFormatted(Ljava/lang/String;ILnet/minecraft/text/Style;Lnet/minecraft/text/CharacterVisitor;)Z"},
-                    index = 0
-            )
+    @ModifyArg(at = @At(value = "INVOKE", target = "Lnet/minecraft/text/TextVisitFactory;visitFormatted(Ljava/lang/String;ILnet/minecraft/text/Style;Lnet/minecraft/text/Style;Lnet/minecraft/text/CharacterVisitor;)Z", ordinal = 0), method = {"visitFormatted(Ljava/lang/String;ILnet/minecraft/text/Style;Lnet/minecraft/text/CharacterVisitor;)Z"}, index = 0)
     private static String adjustText(String text) {
         val newText = EventBus.INSTANCE.fire(new StringRenderEvent(text)).getText();
+
         if (newText != null) return newText;
+
         else return text;
     }
 }

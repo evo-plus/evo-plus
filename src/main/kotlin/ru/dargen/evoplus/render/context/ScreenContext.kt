@@ -1,7 +1,9 @@
 package ru.dargen.evoplus.render.context
 
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
+import ru.dargen.evoplus.event.render.OverlayRenderEvent
 import ru.dargen.evoplus.render.node.resize
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.kotlin.safeCast
@@ -23,16 +25,9 @@ class ScreenContext(id: String, title: String) : RenderContext() {
     var displayHandler: ScreenContext.() -> Unit = {}
     var closeHandler: ScreenContext.() -> Unit = {}
 
-    override fun registerRenderHandlers() {
-    }
-
-    override fun registerInputHandlers() {
-
-    }
-
-    override fun registerTickHandlers() {
-
-    }
+    override fun registerRenderHandlers() {}
+    override fun registerInputHandlers() {}
+    override fun registerTickHandlers() {}
 
     companion object {
 
@@ -43,6 +38,7 @@ class ScreenContext(id: String, title: String) : RenderContext() {
     inner class Screen(title: String) : net.minecraft.client.gui.screen.Screen(title.asText()) {
 
         val context = this@ScreenContext
+        var passEvents = false
 
         init {
             resize {
@@ -55,8 +51,9 @@ class ScreenContext(id: String, title: String) : RenderContext() {
             resize()
         }
 
-        override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-            render(matrices, delta)
+        override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+            OverlayRenderEvent.context = context
+            render(context.matrices, delta)
         }
 
         override fun mouseMoved(mouseX: Double, mouseY: Double) {
@@ -88,9 +85,9 @@ class ScreenContext(id: String, title: String) : RenderContext() {
             else super.charTyped(chr, modifiers) && !passEvents
         }
 
-        override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
-            return if (mouseWheel(v3(mouseX, mouseY), amount, .0)) true
-            else super.mouseScrolled(mouseX, mouseY, amount)
+        override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
+            return if (mouseWheel(v3(mouseX, mouseY), horizontalAmount, verticalAmount)) true
+            else super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
         }
 
         override fun tick() {

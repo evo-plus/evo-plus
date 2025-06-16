@@ -4,7 +4,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.NoteBlock
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.block.enums.Instrument
+import net.minecraft.block.enums.NoteBlockInstrument
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.chunk.Chunk
 import ru.dargen.evoplus.render.Colors
@@ -34,13 +34,13 @@ fun BlockState.getBarrel() = Barrel.entries.firstOrNull {
     it.isThis(this)
 }
 
-enum class Barrel(val color: Color, val instrument: Instrument, val note: Int, val powered: Boolean) {
-    NORMAL(Colors.Green, Instrument.FLUTE, 21, false),
-    NORMAL_DETONATING(Colors.Green, Instrument.FLUTE, 22, false),
-    NETHER(Colors.Red, Instrument.FLUTE, 18, false),
-    NETHER_DETONATING(Colors.Red, Instrument.FLUTE, 19, false),
-    END(Colors.Purple, Instrument.FLUTE, 16, false),
-    END_DETONATING(Colors.Purple, Instrument.FLUTE, 17, false),
+enum class Barrel(val color: Color, val instrument: NoteBlockInstrument, val note: Int, val powered: Boolean) {
+    NORMAL(Colors.Green, NoteBlockInstrument.FLUTE, 21, false),
+    NORMAL_DETONATING(Colors.Green, NoteBlockInstrument.FLUTE, 22, false),
+    NETHER(Colors.Red, NoteBlockInstrument.FLUTE, 18, false),
+    NETHER_DETONATING(Colors.Red, NoteBlockInstrument.FLUTE, 19, false),
+    END(Colors.Purple, NoteBlockInstrument.FLUTE, 16, false),
+    END_DETONATING(Colors.Purple, NoteBlockInstrument.FLUTE, 17, false),
     ;
     
     fun isThis(blockState: BlockState) = blockState.run {
@@ -75,5 +75,5 @@ enum class LuckyBlock(val color: Color, val value: String) {
     
     fun isThis(blockState: BlockState, pos: BlockPos, chunk: Chunk) =
         (blockState.isHead() || blockState.isWallHead()) && pos.getPlayerSkullTextureValue(chunk) == value
-}
 
+}

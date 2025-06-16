@@ -1,32 +1,36 @@
 package ru.dargen.evoplus.resource
 
-import net.minecraft.SharedConstants
 import net.minecraft.resource.*
 import net.minecraft.resource.ResourcePackProfile.InsertionPosition
-import net.minecraft.resource.ResourcePackProfile.Metadata
-import net.minecraft.resource.featuretoggle.FeatureFlags
+import net.minecraft.resource.featuretoggle.FeatureSet
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
+import java.util.Optional
 import java.util.function.Consumer
 
 abstract class AbstractResourcePackProvider(
-    val id: String, val name: String, val description: String,
+    val id: String, val name: String, description: String,
 ) : ResourcePackProvider {
 
-    private val metadata = Metadata(
-        Text.of(description),
-        SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES),
-        FeatureFlags.DEFAULT_ENABLED_FEATURES
+    private val info = ResourcePackInfo(
+        id, Text.of(name), Source, Optional.empty()
     )
-    protected open val pack get() = ResourcePackProfile.of(
-        id, Text.of(name), true,
-        this::openPack, metadata,
-        ResourceType.CLIENT_RESOURCES, InsertionPosition.TOP, false, Source
+    private val metadata = ResourcePackProfile.Metadata(
+        Text.of(description), ResourcePackCompatibility.COMPATIBLE,
+        FeatureSet.empty(), emptyList()
     )
+    protected open val pack
+        get() = ResourcePackProfile(
+            info, object : ResourcePackProfile.PackFactory {
+                override fun open(info: ResourcePackInfo) = openPack(info)
+                override fun openWithOverlays(info: ResourcePackInfo, metadata: ResourcePackProfile.Metadata) = openPack(info)
+            }, metadata, ResourcePackPosition(true, InsertionPosition.TOP, true)
+        )
+
 
     override fun register(profileAdder: Consumer<ResourcePackProfile>) = profileAdder.accept(pack)
 
-    abstract fun openPack(name: String): ResourcePack
+    abstract fun openPack(info: ResourcePackInfo): ResourcePack
 
     companion object {
         val Source = ResourcePackSource.create(

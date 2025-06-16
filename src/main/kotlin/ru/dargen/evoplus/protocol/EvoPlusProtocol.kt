@@ -2,8 +2,8 @@ package ru.dargen.evoplus.protocol
 
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket
+import net.minecraft.network.packet.UnknownCustomPayload
+import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket
 import net.minecraft.util.Identifier
 import pro.diamondworld.protocol.ProtocolRegistry
 import pro.diamondworld.protocol.util.BufUtil
@@ -15,7 +15,6 @@ import ru.dargen.evoplus.util.minecraft.Client
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
-
 typealias Handler<T> = (T) -> Unit
 typealias RawHandler = Handler<ByteBuf>
 
@@ -26,14 +25,14 @@ object EvoPlusProtocol {
 
     init {
         scheduleEvery(unit = TimeUnit.SECONDS) {
-            if (Connector.isOnDiamondWorld && !Connector.isOnPrisonEvo) {
+            if (Connector.isOnDiamondWorld && !Connector.isOnPrisonEvo)
                 sendDummy("handshake")
-            }
         }
 
         on<CustomPayloadEvent> {
-            if (!channel.startsWith("dw")) return@on
-            val channel = channel.drop(3)
+            if (!channel.startsWith("dw:evoplus")) return@on
+
+            val channel = BufUtil.readString(payload)
 
             Handlers[channel]?.invoke(payload)
 
@@ -68,5 +67,5 @@ fun sendDummy(channel: String) = sendRaw(channel, Unpooled.buffer())
 fun sendRaw(channel: String, block: ByteBuf.() -> Unit) = sendRaw(channel, Unpooled.buffer().apply(block))
 
 fun sendRaw(channel: String, buf: ByteBuf) {
-    Client?.networkHandler?.sendPacket(CustomPayloadC2SPacket(Identifier("dw", channel), PacketByteBuf(buf)))
+    Client?.networkHandler?.sendPacket(CustomPayloadC2SPacket(UnknownCustomPayload(Identifier.of("dw", channel))))
 }

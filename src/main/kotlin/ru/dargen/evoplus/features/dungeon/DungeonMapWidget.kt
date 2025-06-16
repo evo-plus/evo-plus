@@ -29,8 +29,8 @@ object DungeonMapWidget : WidgetBase {
         preTransform { matrices, tickDelta ->
             if (mapId == -1) return@preTransform
 
-            texture = Client.gameRenderer!!.mapRenderer<MapRendererAccessor>()!!.textures.get(mapId)
-                ?.cast<MapTextureAccessor>()?.texture?.glId ?: -1
+//            texture = Client.gameRenderer!!.lightmapTextureManager<MapRendererAccessor>()!!.textures.get(mapId)
+//                ?.cast<MapTextureAccessor>()?.texture?.glId ?: -1
         }
 
     }

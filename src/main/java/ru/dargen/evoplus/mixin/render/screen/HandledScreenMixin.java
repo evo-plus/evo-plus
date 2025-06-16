@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.mixin.render.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -22,12 +23,12 @@ import java.util.List;
 public class HandledScreenMixin {
 
     @Inject(method = "drawSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"))
-    private void drawItem(MatrixStack matrices, Slot slot, CallbackInfo ci) {
+    private void drawItem(DrawContext context, Slot slot, CallbackInfo ci) {
         //TODO: make with texture and more visible
         if (RenderFeature.INSTANCE.getHighlightAvailableItems() && slot.hasStack() && isHighlightedItem(slot.getStack())) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            DrawKt.drawRectangle(matrices, slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
+            DrawKt.drawRectangle(context.getMatrices(), slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
         }
     }
 

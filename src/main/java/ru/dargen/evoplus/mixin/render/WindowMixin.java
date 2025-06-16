@@ -11,7 +11,7 @@ import ru.dargen.evoplus.event.window.WindowRescaleEvent;
 @Mixin(Window.class)
 public class WindowMixin {
 
-    @Inject(method = "setScaleFactor", at =@At("RETURN"))
+    @Inject(method = "setScaleFactor", at = @At("RETURN"))
     private void setScaleFactor(double scaleFactor, CallbackInfo ci) {
         EventBus.INSTANCE.fire(new WindowRescaleEvent(scaleFactor));
     }

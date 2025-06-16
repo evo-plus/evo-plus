@@ -27,7 +27,8 @@ public class KeyBindingMixin {
     @Shadow
     @Final
     private static Map<InputUtil.Key, KeyBinding> KEY_TO_BINDINGS;
-    @Shadow private boolean pressed;
+    @Shadow
+    private boolean pressed;
     @Unique
     private static final Map<InputUtil.Key, List<KeyBinding>> KEY_BINDINGS = new HashMap();
 
@@ -58,6 +59,7 @@ public class KeyBindingMixin {
     @Inject(method = "updateKeysByCode", at = @At("TAIL"))
     private static void updateKeysByCode(CallbackInfo ci) {
         KEY_BINDINGS.clear();
+
         for (KeyBinding keyBinding : KEYS_BY_ID.values()) {
             KEY_BINDINGS.computeIfAbsent(((KeyBindingAccessor) keyBinding).getBoundKey(), any -> new ArrayList<>()).add(keyBinding);
         }
@@ -67,8 +69,10 @@ public class KeyBindingMixin {
     private static void updatePressedStates(CallbackInfo ci) {
         for (KeyBinding keyBinding : KEYS_BY_ID.values()) {
             var accessor = (KeyBindingAccessor) keyBinding;
+
             if (accessor.getBoundKey().getCategory() != Type.KEYSYM || accessor.getBoundKey().getCode() == InputUtil.UNKNOWN_KEY.getCode())
                 continue;
+
             keyBinding.setPressed(isKeyPressed(MinecraftKt.getWindow().getHandle(), accessor.getBoundKey().getCode()));
         }
     }
@@ -76,9 +80,9 @@ public class KeyBindingMixin {
     @Inject(method = "unpressAll", at = @At("HEAD"), cancellable = true)
     private static void unpressAll(CallbackInfo ci) {
         val screen = ScreenContext.Companion.current();
-        if (screen != null && screen.isPassEvents()) {
-            ci.cancel();
-        } else {
+
+        if (screen != null && screen.isPassEvents()) ci.cancel();
+        else {
             for (KeyBinding keyBinding : KEYS_BY_ID.values()) {
                 var accessor = (KeyBindingAccessor) keyBinding;
                 accessor.setTimesPressed(0);

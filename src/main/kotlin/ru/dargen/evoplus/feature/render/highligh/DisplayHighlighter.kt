@@ -36,6 +36,6 @@ abstract class DisplayHighlighter(val enabled: () -> Boolean, expire: Duration =
     protected fun ItemDisplayEntity.shouldRender() = customModelData?.let(ids::contains) == true
 
     protected val ItemDisplayEntity.customModelData
-        get() = itemStack?.takeIf { it.item === Items.PAPER }?.customModelData
+        get() = data?.itemStack?.takeIf { it.item === Items.PAPER }?.customModelData
 
 }

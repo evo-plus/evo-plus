@@ -107,8 +107,8 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
 
             WorldEntities
                 .filterIsInstance<ItemDisplayEntity>()
-                .filter { it.itemStack.item == Items.LEATHER_HORSE_ARMOR }
-                .mapNotNull { it.itemStack.customModelData }
+                .filter { it.type == Items.LEATHER_HORSE_ARMOR }
+                .mapNotNull { it.data?.itemStack?.customModelData }
                 .filter { it in RaidEntityData }
                 .forEach {
                     val previousRaidShaftLevel = RaidShaftLevel
