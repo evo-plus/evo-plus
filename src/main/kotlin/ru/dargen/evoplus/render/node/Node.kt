@@ -282,7 +282,6 @@ infix fun <N : Node> N.hoverOut(handler: N.(mouse: Vector3) -> Unit) =
     hover { mouse, state -> if (!state) handler(mouse) }
 
 //wheel
-
 infix fun <N : Node> N.wheel(handler: MouseWheelHandler<N>) =
     apply { wheelHandlers.add(handler.cast()) }
 
@@ -293,7 +292,6 @@ infix fun <N : Node> N.vWheel(handler: N.(mouse: Vector3, wheel: Double) -> Bool
     wheel { mouse, verticalWheel, _ -> handler(mouse, verticalWheel) }
 
 //click
-
 infix fun <N : Node> N.click(handler: MouseClickHandler<N>) =
     apply { clickHandlers.add(handler.cast()) }
 
@@ -307,7 +305,6 @@ infix fun <N : Node> N.leftClick(handler: N.(mouse: Vector3, state: Boolean) -> 
     click(0, handler)
 
 //move
-
 fun <N : Node> N.drag(
     _button: Int? = null,
     inOutHandler: N.(dragged: Boolean) -> Unit = {},
@@ -346,7 +343,6 @@ infix fun <N : Node> N.mouseMove(handler: MouseMoveHandler<N>) =
     apply { moveHandlers.add(handler.cast()) }
 
 //type
-
 infix fun <N : Node> N.key(handler: KeyHandler<N>) = apply { keyHandlers.add(handler.cast()) }
 
 fun <N : Node> N.key(_key: Int, handler: N.(state: Boolean) -> Boolean) =
@@ -371,7 +367,6 @@ fun <N : Node> N.type(_char: Char, handler: N.() -> Boolean) =
     type { char, _ -> if (char == _char) handler() else false }
 
 //tick
-
 infix fun <N : Node> N.preTick(handler: TickHandler<N>) = apply { preTickHandlers.add(handler.cast()) }
 
 infix fun <N : Node> N.postTick(handler: TickHandler<N>) =

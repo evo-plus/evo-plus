@@ -30,13 +30,35 @@ fun MatrixStack.drawText(text: String, position: Vector3 = Vector3.Zero, color: 
     drawText(text, position.x.toFloat(), position.y.toFloat(), color)
 
 fun MatrixStack.drawText(text: String, x: Float = 0f, y: Float = 0f, color: Color = Color.WHITE) =
-    TextRenderer.draw(text, x, y, color.rgb, false, positionMatrix, OverlayRenderEvent.context.vertexConsumers, TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE)
+    TextRenderer.draw(
+        text,
+        x,
+        y,
+        color.rgb,
+        false,
+        positionMatrix,
+        OverlayRenderEvent.context.vertexConsumers,
+        TextLayerType.NORMAL,
+        0,
+        LightmapTextureManager.MAX_LIGHT_COORDINATE
+    )
 
 fun MatrixStack.drawTextWithShadow(text: String, position: Vector3 = Vector3.Zero, color: Color = Color.WHITE) =
     drawTextWithShadow(text, position.x.toFloat(), position.y.toFloat(), color)
 
 fun MatrixStack.drawTextWithShadow(text: String, x: Float = 0f, y: Float = 0f, color: Color = Color.WHITE) =
-    TextRenderer.draw(text, x, y, color.rgb, true, positionMatrix, OverlayRenderEvent.context.vertexConsumers, TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE)
+    TextRenderer.draw(
+        text,
+        x,
+        y,
+        color.rgb,
+        true,
+        positionMatrix,
+        OverlayRenderEvent.context.vertexConsumers,
+        TextLayerType.NORMAL,
+        0,
+        LightmapTextureManager.MAX_LIGHT_COORDINATE
+    )
 
 fun MatrixStack.drawWorldText(
     text: String, x: Float, y: Float,
@@ -78,7 +100,7 @@ fun MatrixStack.drawRectangle(
 
     RenderSystem.enableBlend()
     RenderSystem.setShaderColor(r, g, b, a)
-    RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR)
+    RenderSystem.setShader(ShaderProgramKeys.POSITION)
 
     BufferRenderer.drawWithGlobalProgram(begin.end())
 
@@ -142,7 +164,7 @@ fun MatrixStack.drawCubeOutline(
 
     RenderSystem.enableBlend()
     RenderSystem.setShaderColor(r, g, b, a)
-    RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR)
+    RenderSystem.setShader(ShaderProgramKeys.POSITION)
 
     BufferRenderer.drawWithGlobalProgram(begin.end())
 

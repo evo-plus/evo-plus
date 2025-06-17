@@ -44,9 +44,7 @@ class TextNode(lines: List<String>) : Node() {
     }
 
     override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
-        if (dirty) {
-            recompute()
-        }
+        if (dirty) recompute()
 
         val height = (TextRenderer.fontHeight - 1.0)
         linesWithWidths.forEachIndexed { index, (line, width) ->

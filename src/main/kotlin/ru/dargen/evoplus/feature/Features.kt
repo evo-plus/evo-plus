@@ -69,9 +69,8 @@ data object Features {
     }
 
     fun load() {
-        if (EvoPlus.DevEnvironment) {
-            DevFeature.register()
-        }
+        if (EvoPlus.DevEnvironment) DevFeature.register()
+
         AutoClickerFeature.register()
         ESPFeature.register()
         BossTimerFeature.register()
