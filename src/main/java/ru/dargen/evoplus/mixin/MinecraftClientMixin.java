@@ -15,9 +15,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import ru.dargen.evoplus.EvoPlus;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.game.MinecraftLoadedEvent;
 import ru.dargen.evoplus.event.game.PostTickEvent;
@@ -136,6 +138,11 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     @Override
     public void leftClick() {
         leftClick = true;
+    }
+
+    @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
+    private String setCustomWindowTitle(String original) {
+        return "Minecraft 1.21.3 | EvoPlus " + EvoPlus.INSTANCE.getVersion();
     }
 
 }
