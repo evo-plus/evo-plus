@@ -7,7 +7,6 @@ import ru.dargen.evoplus.event.evo.EvoJoinEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.event.resourcepack.ResourcePackRequestEvent
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
@@ -25,7 +24,7 @@ import java.util.concurrent.TimeUnit
 object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
-    
+
     val NotifiesWidget by widgets.widget("Уведомления", "notifies-widget", widget = NotifyWidget)
 
     val FastSelector by settings.boolean("Fast-селектор", true)
@@ -34,24 +33,11 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
     val AutoSprint by settings.boolean("Авто-спринт", true) on { if (!it) Player?.isSprinting = false }
     val AutoThanks by settings.boolean("Авто /thx", true)
 
-    val ResourcePackLoadDisable by settings.boolean(
-        "Отключение загрузки РП DiamondWorld",
-        false
-    )
-    val ShowServerInTab by settings.boolean(
-        "Показывать текущий сервер в табе",
-        true
-    )
+    val ShowServerInTab by settings.boolean("Показывать текущий сервер в табе", true)
 
     val CaseNotify by settings.boolean("Уведомления о кейсах", true)
-    val LuckyBlockNotify by settings.boolean(
-        "Уведомления о лаки-блоках",
-        true
-    )
-    val CollectionNotify by settings.boolean(
-        "Уведомления о коллекционках",
-        true
-    )
+    val LuckyBlockNotify by settings.boolean("Уведомления о лаки-блоках", true)
+    val CollectionNotify by settings.boolean("Уведомления о коллекционках", true)
     val EventNotify by settings.boolean("Уведомления о эвенте", true)
 
     init {
@@ -71,15 +57,8 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
         on<EvoJoinEvent> { schedule(5, TimeUnit.SECONDS) { thx() } }
 
         on<GameEventChangeEvent> {
-            if (EventNotify && new !== GameEvent.EventType.NONE && (old === GameEvent.EventType.NONE || old !== new)) {
-                NotifyWidget.showText("§aТекущее событие", new.getName(), delay = 20.0)
-            }
-        }
-        on<ResourcePackRequestEvent> {
-            if (ResourcePackLoadDisable) {
-                responseAccepted = true
-                cancel()
-            }
+            if (EventNotify && new !== GameEvent.EventType.NONE && (old === GameEvent.EventType.NONE || old !== new))
+                NotifyWidget.showText("§aТекущее событие", new.name, delay = 20.0)
         }
         FastSelectorScreen
     }

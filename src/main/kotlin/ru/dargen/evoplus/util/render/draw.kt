@@ -87,22 +87,22 @@ fun MatrixStack.drawRectangle(
     color: Color = Color.white
 ) {
     val positionMatrix = positionMatrix
-    val buffer = Tesselator
+    val tessellator = Tesselator
 
     val (r, g, b, a) = color.decomposeFloat()
 
-    val begin = buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
+    val buffer = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
 
-    begin.vertex(positionMatrix, minX, minY, zLevel).color(r, g, b, a)
-    begin.vertex(positionMatrix, minX, maxY, zLevel).color(r, g, b, a)
-    begin.vertex(positionMatrix, maxX, maxY, zLevel).color(r, g, b, a)
-    begin.vertex(positionMatrix, maxX, minY, zLevel).color(r, g, b, a)
+    buffer.vertex(positionMatrix, minX, minY, zLevel).color(r, g, b, a)
+    buffer.vertex(positionMatrix, minX, maxY, zLevel).color(r, g, b, a)
+    buffer.vertex(positionMatrix, maxX, maxY, zLevel).color(r, g, b, a)
+    buffer.vertex(positionMatrix, maxX, minY, zLevel).color(r, g, b, a)
 
     RenderSystem.enableBlend()
     RenderSystem.setShaderColor(r, g, b, a)
     RenderSystem.setShader(ShaderProgramKeys.POSITION)
 
-    BufferRenderer.drawWithGlobalProgram(begin.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
 
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.disableBlend()
@@ -117,56 +117,56 @@ fun MatrixStack.drawCubeOutline(
     color: Color = Color.white
 ) {
     val position = positionMatrix
-    val buffer = Tesselator
+    val tessellator = Tesselator
 
     val (r, g, b, a) = color.decomposeFloat()
 
-    val begin = buffer.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION)
+    val buffer = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION)
 
     // Bottom edges
-    begin.vertex(position, minX, minY, minZ).color(r, g, b, a)
-    begin.vertex(position, maxX, minY, minZ).color(r, g, b, a)
+    buffer.vertex(position, minX, minY, minZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, minY, minZ).color(r, g, b, a)
 
-    begin.vertex(position, maxX, minY, minZ).color(r, g, b, a)
-    begin.vertex(position, maxX, minY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, minY, minZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, minY, maxZ).color(r, g, b, a)
 
-    begin.vertex(position, maxX, minY, maxZ).color(r, g, b, a)
-    begin.vertex(position, minX, minY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, minY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, minX, minY, maxZ).color(r, g, b, a)
 
-    begin.vertex(position, minX, minY, maxZ).color(r, g, b, a)
-    begin.vertex(position, minX, minY, minZ).color(r, g, b, a)
+    buffer.vertex(position, minX, minY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, minX, minY, minZ).color(r, g, b, a)
 
     // Top edges
-    begin.vertex(position, minX, maxY, minZ).color(r, g, b, a)
-    begin.vertex(position, maxX, maxY, minZ).color(r, g, b, a)
+    buffer.vertex(position, minX, maxY, minZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, maxY, minZ).color(r, g, b, a)
 
-    begin.vertex(position, maxX, maxY, minZ).color(r, g, b, a)
-    begin.vertex(position, maxX, maxY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, maxY, minZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, maxY, maxZ).color(r, g, b, a)
 
-    begin.vertex(position, maxX, maxY, maxZ).color(r, g, b, a)
-    begin.vertex(position, minX, maxY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, maxY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, minX, maxY, maxZ).color(r, g, b, a)
 
-    begin.vertex(position, minX, maxY, maxZ).color(r, g, b, a)
-    begin.vertex(position, minX, maxY, minZ).color(r, g, b, a)
+    buffer.vertex(position, minX, maxY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, minX, maxY, minZ).color(r, g, b, a)
 
     // Vertical edges
-    begin.vertex(position, minX, minY, minZ).color(r, g, b, a)
-    begin.vertex(position, minX, maxY, minZ).color(r, g, b, a)
+    buffer.vertex(position, minX, minY, minZ).color(r, g, b, a)
+    buffer.vertex(position, minX, maxY, minZ).color(r, g, b, a)
 
-    begin.vertex(position, maxX, minY, minZ).color(r, g, b, a)
-    begin.vertex(position, maxX, maxY, minZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, minY, minZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, maxY, minZ).color(r, g, b, a)
 
-    begin.vertex(position, maxX, minY, maxZ).color(r, g, b, a)
-    begin.vertex(position, maxX, maxY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, minY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, maxX, maxY, maxZ).color(r, g, b, a)
 
-    begin.vertex(position, minX, minY, maxZ).color(r, g, b, a)
-    begin.vertex(position, minX, maxY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, minX, minY, maxZ).color(r, g, b, a)
+    buffer.vertex(position, minX, maxY, maxZ).color(r, g, b, a)
 
     RenderSystem.enableBlend()
     RenderSystem.setShaderColor(r, g, b, a)
     RenderSystem.setShader(ShaderProgramKeys.POSITION)
 
-    BufferRenderer.drawWithGlobalProgram(begin.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
 
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.disableBlend()

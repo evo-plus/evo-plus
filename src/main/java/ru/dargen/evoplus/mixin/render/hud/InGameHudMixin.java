@@ -74,7 +74,6 @@ public abstract class InGameHudMixin {
         int yOffset = RenderFeature.INSTANCE.getNoExpHud() ? 6 : 0;
 
         HeartType heartType = HeartType.fromPlayerState(player);
-//        int i = 9 * (player.getWorld().getLevelProperties().isHardcore() ? 5 : 0);
         boolean bl = player.getWorld().getLevelProperties().isHardcore();
         int i = MathHelper.ceil((double) maxHealth / 2.0);
         int j = MathHelper.ceil((double) absorption / 2.0);

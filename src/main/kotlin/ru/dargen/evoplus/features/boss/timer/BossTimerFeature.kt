@@ -71,8 +71,6 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     val SpawnNotify by settings.boolean("Уведомление о спавне", true)
     val UpdateNotify by settings.boolean("Уведомление об обновлении времени", true)
 
-    val AutoReset by settings.boolean("Автоматический сброс таймеров при рестарте", true)
-
     init {
         settings.baseElement("Сбросить таймеры") { button("Сбросить") { on { Bosses.clear() } } }
 

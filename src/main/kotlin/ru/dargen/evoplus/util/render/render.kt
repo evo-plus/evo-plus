@@ -8,6 +8,17 @@ import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
 
+inline fun MatrixStack.push(block: MatrixStack.() -> Unit) {
+    try {
+        push()
+        block()
+    } finally {
+        pop()
+    }
+}
+
+inline fun MatrixStack.normalize3DScale() = scale(-0.025F, -0.025F, 0.025F)
+
 val TextRenderer get() = Client.textRenderer
 val ItemRenderer get() = Client.itemRenderer
 val Tesselator = Tessellator.getInstance()
