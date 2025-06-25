@@ -50,15 +50,15 @@ public abstract class InGameHudMixin {
         if (RenderFeature.INSTANCE.getNoExcessHud()) ci.cancel();
     }
 
-    @Inject(method = "renderExperienceBar", at = @At("HEAD"), cancellable = true)
-    private void renderExperienceBar(DrawContext context, int x, CallbackInfo ci) {
-        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
-    }
+//    @Inject(method = "renderExperienceBar", at = @At("HEAD"), cancellable = true)
+//    private void renderExperienceBar(DrawContext context, int x, CallbackInfo ci) {
+//        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
+//    }
 
-    @Inject(method = "renderExperienceLevel", at = @At("HEAD"), cancellable = true)
-    private void renderExperienceLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
-    }
+//    @Inject(method = "renderExperienceLevel", at = @At("HEAD"), cancellable = true)
+//    private void renderExperienceLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+//        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
+//    }
 
     //tmp mb bc idk how to edit locals
     @Inject(method = "renderHealthBar", at = @At("HEAD"), cancellable = true)
@@ -71,7 +71,7 @@ public abstract class InGameHudMixin {
 
         int lineWidth = mode == RenderFeature.HealthRenderMode.LONG ? 23 : 10;
         int xOffset = mode == RenderFeature.HealthRenderMode.LONG ? -2 : 0;
-        int yOffset = RenderFeature.INSTANCE.getNoExpHud() ? 6 : 0;
+//        int yOffset = RenderFeature.INSTANCE.getNoExpHud() ? 6 : 0;
 
         HeartType heartType = HeartType.fromPlayerState(player);
         boolean bl = player.getWorld().getLevelProperties().isHardcore();
@@ -82,7 +82,8 @@ public abstract class InGameHudMixin {
             int m = l / lineWidth;
             int n = l % lineWidth;
             int o = x + n * 8 + xOffset;
-            int p = y - m * lines + yOffset;
+//            int p = y - m * lines + yOffset;
+            int p = y - m * lines;
             if (lastHealth + absorption <= 4) {
                 p += this.random.nextInt(2);
             }
