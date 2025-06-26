@@ -27,7 +27,7 @@ object GoldenRushFeature : Feature("golden-rush", "Золотая Лихорад
     var GoldenCrystalEntity: Entity? = null
         set(value) {
             field = value
-            field?.isGlowing = GoldenCrystalGlowing
+//            field?.isGlowing = GoldenCrystalGlowing
         }
     var GoldenCrystalAround = false
         set(value) {
@@ -58,9 +58,9 @@ object GoldenRushFeature : Feature("golden-rush", "Золотая Лихорад
 
     val GoldenCrystalNotify by settings.boolean("Уведомление о появлении золотого кристалла")
     val GoldenCrystalMessage by settings.boolean("Сообщение о появлении золотого кристалла", true)
-    val GoldenCrystalGlowing by settings.boolean("Подсветка золотого кристалла") on {
-        GoldenCrystalEntity?.isGlowing = it
-    }
+//    val GoldenCrystalGlowing by settings.boolean("Подсветка золотого кристалла") on {
+//        GoldenCrystalEntity?.isGlowing = it
+//    }
 
     init {
         scheduleEvery(period = 10) {

@@ -31,7 +31,15 @@ object BossTimerWidget : WidgetBase {
 
     fun update() {
         node._childrens = BossTimerFeature.ComparedBosses
-            .filter { (type, _) -> (!BossTimerFeature.OnlyRaidBosses || type.isRaid) || (!BossTimerFeature.OnlyCapturedBosses && type in ClanInfoCollector.Bosses) }
+            .filter { (type, _) ->
+//                (!BossTimerFeature.OnlyRaidBosses || type.isRaid) || (!BossTimerFeature.OnlyCapturedBosses && type in ClanInfoCollector.Bosses) }
+                when {
+                    BossTimerFeature.OnlyRaidBosses && BossTimerFeature.OnlyCapturedBosses -> type.isRaid && type in ClanInfoCollector.Bosses
+                    BossTimerFeature.OnlyCapturedBosses -> type in ClanInfoCollector.Bosses
+                    BossTimerFeature.OnlyRaidBosses -> type.isRaid
+                    else -> true
+                }
+            }
             .take(BossTimerFeature.BossesCount)
             .associate { (key, value) -> key to (value - currentMillis) }
             .ifEmpty { if (isWidgetEditor) BossType.values.take(5).associateWith { 2000L } else emptyMap() }
@@ -45,11 +53,10 @@ object BossTimerWidget : WidgetBase {
 
                     +item(type.displayItem) { scale = scale(.7, .7) }
                     +text(
-                        "${
-                            if (ShortName) type.displayLevel else type.displayName
-                        }§8: ${if (spawned) "§cуже " else "§f"}${
-                            if (ShortTimeFormat) remaining.asShortTextTime else remaining.asTextTime
-                        }"
+                        "${if (ShortName) type.displayLevel else type.displayName}§8: ${
+                            if (spawned) "§cуже "
+                            else "§f"
+                        }${if (ShortTimeFormat) remaining.asShortTextTime else remaining.asTextTime}"
                     ) { isShadowed = true }
 
                     leftClick { _, state ->
@@ -58,7 +65,7 @@ object BossTimerWidget : WidgetBase {
                             true
                         } else false
                     }
-                    rightClick {_, state ->
+                    rightClick { _, state ->
                         if (isHovered && state && CurrentScreen != null && !isWidgetEditor && Screen.hasShiftDown()) {
                             BossTimerFeature.Bosses.remove(type.id)
                             true
