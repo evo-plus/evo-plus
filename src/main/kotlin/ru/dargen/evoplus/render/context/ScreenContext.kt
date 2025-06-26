@@ -92,7 +92,7 @@ class ScreenContext(id: String, title: String) : RenderContext() {
         }
 
         override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
-            return if (mouseWheel(v3(mouseX, mouseY), horizontalAmount, verticalAmount)) true
+            return if (mouseWheel(v3(mouseX, mouseY), verticalAmount, horizontalAmount)) true
             else super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
         }
 

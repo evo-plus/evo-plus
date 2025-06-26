@@ -46,6 +46,7 @@ dependencies {
     // Essential UI
     include(implementation(project(':features')))
     include(implementation("gg.essential:elementa:${project.elementa_version}"))
+    include(implementation("gg.essential:elementa-unstable-layoutdsl:${project.elementa_version}"))
     include(modImplementation("gg.essential:universalcraft-${project.universalcraft_version}"))
 
     // Lombok
