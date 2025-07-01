@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.dev
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import dev.evoplus.feature.setting.property.value.Bind
 import gg.essential.universal.UKeyboard
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.render.context.RenderContext
 import ru.dargen.evoplus.render.node.Node

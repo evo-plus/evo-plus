@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.tree.LiteralCommandNode
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
-import ru.dargen.evoplus.feature.FeaturesSettings
 import ru.dargen.evoplus.util.minecraft.Client
 
 object EvoPlusCommand {

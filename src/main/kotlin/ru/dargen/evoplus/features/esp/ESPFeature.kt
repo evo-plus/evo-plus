@@ -13,7 +13,6 @@ import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockEntityUpdateEvent
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.Node

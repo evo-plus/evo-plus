@@ -6,7 +6,6 @@ import pro.diamondworld.protocol.packet.boss.BossTimers
 import pro.diamondworld.protocol.packet.game.GameEvent.EventType.MYTHICAL_EVENT
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.boss.BossTimerFeature.MaxLevel
 import ru.dargen.evoplus.features.boss.BossTimerFeature.MinLevel

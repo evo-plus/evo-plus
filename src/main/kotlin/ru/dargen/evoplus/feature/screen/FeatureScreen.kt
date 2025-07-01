@@ -2,8 +2,6 @@ package ru.dargen.evoplus.feature.screen
 
 import net.minecraft.client.util.InputUtil
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative

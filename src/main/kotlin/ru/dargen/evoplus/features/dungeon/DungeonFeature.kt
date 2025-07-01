@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.dungeon
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.world.WorldMapEvent
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 

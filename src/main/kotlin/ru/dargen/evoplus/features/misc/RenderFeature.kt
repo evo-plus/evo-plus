@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.features.misc
 
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.misc.render.HealthBar
 
 object RenderFeature : Feature("render", "Визуализация") {

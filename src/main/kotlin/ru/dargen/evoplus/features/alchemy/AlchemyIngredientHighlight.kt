@@ -3,7 +3,7 @@ package ru.dargen.evoplus.features.alchemy
 import net.minecraft.entity.boss.BossBar
 import net.minecraft.particle.ParticleTypes
 import org.joml.Vector3f
-import ru.dargen.evoplus.feature.render.highligh.ParticleHighlighter
+import ru.dargen.evoplus.core.highligh.ParticleHighlighter
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.kotlin.cast

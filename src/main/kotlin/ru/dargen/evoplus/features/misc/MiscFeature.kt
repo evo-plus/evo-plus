@@ -7,14 +7,15 @@ import ru.dargen.evoplus.event.evo.EvoJoinEvent
 import ru.dargen.evoplus.event.evo.data.GameEventChangeEvent
 import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
+import ru.dargen.evoplus.event.resourcepack.ResourcePackProvidersEvent
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.discord.DiscordRPCFeature
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
-import ru.dargen.evoplus.features.misc.resource.ResourcePackFeature
 import ru.dargen.evoplus.features.misc.selector.FastSelectorScreen
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.on
+import ru.dargen.evoplus.render.node.input.button
+import ru.dargen.evoplus.resource.builtin.EvoPlusPackProvider
 import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.util.minecraft.CurrentScreen
 import ru.dargen.evoplus.util.minecraft.Player
@@ -22,11 +23,9 @@ import ru.dargen.evoplus.util.minecraft.sendCommand
 import ru.dargen.evoplus.util.minecraft.uncolored
 import java.util.concurrent.TimeUnit
 
-
 object MiscFeature : Feature("misc", "Прочее") {
 
     private val BoosterMessagePattern = "^[\\w\\s]+ активировал глобальный бустер".toRegex()
-
 
     var FastSelector = true
 
@@ -41,8 +40,6 @@ object MiscFeature : Feature("misc", "Прочее") {
     var ShowServerInTab = true
 
     override fun CategoryBuilder.setup() {
-        include(ResourcePackFeature)
-        include(DiscordRPCFeature)
 
         subcategory("selector", "Fast-селектор") {
             switch(
@@ -76,6 +73,10 @@ object MiscFeature : Feature("misc", "Прочее") {
 
     override fun initialize() {
         Keybinds.FastSelector.on { if (CurrentScreen == null && FastSelector) FastSelectorScreen.open() }
+
+        on<ResourcePackProvidersEvent> {
+            providers.add(EvoPlusPackProvider())
+        }
 
         on<PostTickEvent> { Player?.apply { if (AutoSprint && forwardSpeed > 0) isSprinting = true } }
         on<ChatReceiveEvent> {

@@ -1,13 +1,10 @@
 package ru.dargen.evoplus
 
-import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.loader.api.FabricLoader
 import org.slf4j.LoggerFactory
 import ru.dargen.evoplus.event.EventBus
-import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.feature.Features
 import ru.dargen.evoplus.feature.widget.WidgetEditorScreen
 import ru.dargen.evoplus.features.alchemy.AlchemyFeature
 import ru.dargen.evoplus.features.boss.BossFeature
@@ -38,7 +35,7 @@ import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.scheduler.Scheduler
 import ru.dargen.evoplus.scheduler.after
 import ru.dargen.evoplus.service.EvoPlusService
-import ru.dargen.evoplus.update.UpdateResolver
+import ru.dargen.evoplus.core.update.UpdateResolver
 import java.nio.file.Paths
 import kotlin.io.path.createDirectories
 

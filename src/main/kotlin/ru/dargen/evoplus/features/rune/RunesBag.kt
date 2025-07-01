@@ -1,5 +1,6 @@
 package ru.dargen.evoplus.features.rune
 
+import gg.essential.universal.UMinecraft
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -15,7 +16,6 @@ import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.util.minecraft.*
 import ru.dargen.evoplus.util.render.TextRenderer
-import ru.dargen.evoplus.util.render.drawText
 
 private typealias RawRuneProperty = Pair<String, String>
 
@@ -76,7 +76,17 @@ object RunesBag {
                 RunesProperties.values
                     .filter { it.value != .0 }
                     .forEachIndexed { index, property ->
-                        matrices.drawText(property.toString(), 0f, index * height / scale, false, Colors.White)
+                        TextRenderer.draw(
+                            property.toString(),
+                            0f,
+                            index * height / scale,
+                            Colors.White,
+                            false,
+                            matrices,
+                            UMinecraft.getMinecraft().bufferBuilders.entityVertexConsumers,
+                            TextRenderer.TextLayerType.NORMAL,
+                            0, 15728880
+                        )
                     }
 
                 matrices.pop()

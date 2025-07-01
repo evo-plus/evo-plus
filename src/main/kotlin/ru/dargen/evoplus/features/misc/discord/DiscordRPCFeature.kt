@@ -7,7 +7,6 @@ import io.github.vyfor.kpresence.event.DisconnectEvent
 import io.github.vyfor.kpresence.event.ReadyEvent
 import io.github.vyfor.kpresence.rpc.ActivityType
 import ru.dargen.evoplus.EvoPlus
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.Connector.isOnDiamondWorld
 import ru.dargen.evoplus.scheduler.scheduleEvery

@@ -14,7 +14,7 @@ import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.render.Colors;
 import ru.dargen.evoplus.util.minecraft.ItemsKt;
 import ru.dargen.evoplus.util.render.ColorKt;
-import ru.dargen.evoplus.util.render.DrawKt;
+import ru.dargen.evoplus.util.render.DrawHelperKt;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class HandledScreenMixin {
         if (RenderFeature.INSTANCE.getHighlightAvailableItems() && slot.hasStack() && isHighlightedItem(slot.getStack())) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            DrawKt.drawRectangle(context.getMatrices(), slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
+            DrawHelperKt.drawRectangleCoords(context.getMatrices(), slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
         }
     }
 

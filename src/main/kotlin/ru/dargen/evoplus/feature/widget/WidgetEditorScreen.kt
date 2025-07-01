@@ -2,7 +2,6 @@ package ru.dargen.evoplus.feature.widget
 
 import dev.evoplus.feature.setting.property.attr.WidgetPropertyAttr
 import dev.evoplus.feature.setting.property.value.WidgetData
-import ru.dargen.evoplus.feature.FeaturesSettings
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.Tips

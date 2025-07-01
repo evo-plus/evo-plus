@@ -6,7 +6,7 @@ import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.minecraft.MousePosition
 import ru.dargen.evoplus.util.render.TextRenderer
-import ru.dargen.evoplus.util.render.drawRectangle
+import ru.dargen.evoplus.util.render.drawRectangleCoords
 import ru.dargen.evoplus.util.render.drawText
 import ru.dargen.evoplus.util.render.translate
 import java.awt.Color
@@ -36,7 +36,7 @@ object Tips {
 
         matrices.translate(position)
         matrices.translate(0f, 0f, 1000f) //z buffer hehe
-        matrices.drawRectangle(0f, 0f, width, height, color = color)
+        matrices.drawRectangleCoords(0f, 0f, width, height, color = color)
 
         matrices.translate(indent, indent, 0f)
 

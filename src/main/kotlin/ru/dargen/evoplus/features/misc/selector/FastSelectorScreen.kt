@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.features.misc.selector
 
 import net.minecraft.entity.player.PlayerEntity
-import ru.dargen.evoplus.feature.FeaturesSettings
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.render.Colors

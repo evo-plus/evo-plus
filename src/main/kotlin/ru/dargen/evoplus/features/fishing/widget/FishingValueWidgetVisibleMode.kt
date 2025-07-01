@@ -9,4 +9,10 @@ enum class FishingValueWidgetVisibleMode(val displayName: String, val isVisible:
 
     override fun toString() = displayName
 
+    companion object {
+        fun ofIndex(index: Int): FishingValueWidgetVisibleMode {
+            return entries.getOrNull(index) ?: ENABLED
+        }
+    }
+
 }

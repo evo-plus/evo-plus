@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.dargen.evoplus.update.UpdateResolver;
-import ru.dargen.evoplus.update.Updater;
+import ru.dargen.evoplus.core.update.UpdateResolver;
+import ru.dargen.evoplus.core.update.Updater;
 
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin {

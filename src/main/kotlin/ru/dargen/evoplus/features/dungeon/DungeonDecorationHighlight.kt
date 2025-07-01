@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.features.dungeon
 
-import ru.dargen.evoplus.feature.render.highligh.DisplayHighlighter
+import ru.dargen.evoplus.core.highligh.DisplayHighlighter
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.render.Colors
 

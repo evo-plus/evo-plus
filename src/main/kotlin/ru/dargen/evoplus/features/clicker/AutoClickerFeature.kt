@@ -7,7 +7,6 @@ import gg.essential.universal.UKeyboard
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import java.util.concurrent.TimeUnit
 import kotlin.math.max

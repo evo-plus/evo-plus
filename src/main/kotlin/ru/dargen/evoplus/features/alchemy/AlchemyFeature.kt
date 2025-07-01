@@ -6,7 +6,6 @@ import net.minecraft.client.gui.screen.ingame.GenericContainerScreen
 import net.minecraft.sound.SoundEvents
 import ru.dargen.evoplus.event.inventory.InventoryClickEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.alchemy.recipe.PotionRecipe
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
@@ -49,15 +48,7 @@ object AlchemyFeature : Feature("alchemy", "Алхимия") {
             origin = Relative.LeftCenter
             +RecipeText
         }, false)
-        subcategory("alchemy-highlight", "Подсветка") {
-            switch(::IngredientHighlight, "Подсветка ингредиентов", "Подсвечивает ингредиенты алхимии на локации").subscription()
-        }
 
-        subcategory("alchemy-notify", "Настройки оповещений") {
-            slider(::BrewingAlertDelay, "Время задержки перед оповещением",
-                "Задержка перед оповещением при варке зелья (мс)", range = 100..2000)
-            switch(::SoundAlert, "Звук оповещения", "Проигрывать звук при оповещении")
-        }
     }
 
     override fun initialize() {

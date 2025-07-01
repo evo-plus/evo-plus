@@ -7,7 +7,6 @@ import ru.dargen.evoplus.render.animation.property.proxied
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.render.drawBoxOutline
 
 @KotlinOpens
 class CubeOutlineNode : Node() {

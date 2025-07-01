@@ -1,6 +1,9 @@
 package ru.dargen.evoplus.util.render
 
-import net.minecraft.util.math.ColorHelper.Argb.*
+import net.minecraft.util.math.ColorHelper.getAlpha
+import net.minecraft.util.math.ColorHelper.getBlue
+import net.minecraft.util.math.ColorHelper.getGreen
+import net.minecraft.util.math.ColorHelper.getRed
 import ru.dargen.evoplus.util.math.fix
 import ru.dargen.evoplus.util.math.progressTo
 import java.awt.Color

@@ -2,7 +2,6 @@ package ru.dargen.evoplus.features.share
 
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.util.json.Gson
 import ru.dargen.evoplus.util.minecraft.uncolored
 

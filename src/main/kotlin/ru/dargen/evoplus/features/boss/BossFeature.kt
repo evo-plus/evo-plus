@@ -4,7 +4,6 @@ import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import pro.diamondworld.protocol.packet.boss.BossDamage
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.boss.BossTimerFeature.Bosses
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
@@ -46,30 +45,7 @@ object BossFeature : Feature("boss", "Боссы") {
     var BossHealthsCooldown = 15
 
     override fun CategoryBuilder.setup() {
-        subcategory("boss-notify", "Оповещения") {
-            switch(::NotifyCapture, "Захват боссов", "Уведомляет о захвате боссов")
-            switch(::CurseMessage, "Проклятие босса", "Отправляет сообщение о проклятии босса в клановый чат")
-            switch(
-                ::BossLowHealthsMessage,
-                "Процент здоровья босса",
-                "Отправляет сообщение об определённом проценте здоровья босса в клановый чат"
-            )
-        }
 
-        subcategory("boss-health-settings", "Настройки оповещений здоровья босса") {
-            slider(
-                ::BossHealthsPercent,
-                "Оповещать о здоровье босса",
-                "Процент здоровья босса, при котором отправляется сообщение в клановый чат",
-                range = 10..90
-            )
-            slider(
-                ::BossHealthsCooldown,
-                "Частота оповещений о здоровье босса",
-                "Частота отправки сообщения о здоровье босса в клановый чат \n(в секундах)",
-                range = 5..60
-            )
-        }
         widget("boss-damage", "Урон по боссу", widget =  {
             origin = Relative.CenterBottom
             align = v3(.58, .9)

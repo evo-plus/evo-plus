@@ -2,7 +2,7 @@ package ru.dargen.evoplus.features.fishing
 
 import net.minecraft.particle.ParticleTypes
 import org.joml.Vector3f
-import ru.dargen.evoplus.feature.render.highligh.ParticleHighlighter
+import ru.dargen.evoplus.core.highligh.ParticleHighlighter
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.util.render.shape.Box
 import java.awt.Color

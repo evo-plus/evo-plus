@@ -4,7 +4,6 @@ import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.chat.ChatSendEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.text.market.MarketChatTimerWidget
 import ru.dargen.evoplus.protocol.Connector

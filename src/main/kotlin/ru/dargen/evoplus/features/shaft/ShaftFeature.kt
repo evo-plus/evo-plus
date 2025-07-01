@@ -11,7 +11,6 @@ import ru.dargen.evoplus.event.world.ChunkLoadEvent
 import ru.dargen.evoplus.event.world.ChunkUnloadEvent
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent
 import ru.dargen.evoplus.event.world.block.BlockChangeEvent
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.protocol.Connector

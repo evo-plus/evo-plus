@@ -8,7 +8,6 @@ import ru.dargen.evoplus.event.evo.data.ComboUpdateEvent
 import ru.dargen.evoplus.event.evo.data.LevelUpdateEvent
 import ru.dargen.evoplus.event.interact.BlockBreakEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.stats.combo.ComboWidget

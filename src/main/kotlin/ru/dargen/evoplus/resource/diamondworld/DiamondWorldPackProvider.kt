@@ -4,7 +4,6 @@ import net.minecraft.resource.ResourcePack
 import net.minecraft.resource.ResourcePackInfo
 import net.minecraft.resource.ResourcePackProfile
 import net.minecraft.resource.ZipResourcePack
-import ru.dargen.evoplus.features.misc.resource.ResourcePackDownloader
 import ru.dargen.evoplus.resource.AbstractResourcePackProvider
 import java.util.function.Consumer
 

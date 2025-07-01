@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.rune
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import pro.diamondworld.protocol.packet.ability.AbilityTimers
 import pro.diamondworld.protocol.packet.rune.ActiveRunes
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.rune.widget.AbilityTimerWidget

@@ -12,7 +12,7 @@ import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.render.TextRenderer
-import ru.dargen.evoplus.util.render.drawRectangle
+import ru.dargen.evoplus.util.render.drawRectangleCoords
 import java.awt.Color
 
 typealias InputFilter = InputNode.(char: Char) -> Boolean
@@ -130,7 +130,7 @@ class InputNode : RectangleNode() {
         text.postRender { matrices, tickDelta ->
             if (!focused || (currentMillis / 500) % 2 == 0L) return@postRender
             val preCursorSize = TextRenderer.getWidth(contentBefore) * scale.x
-            matrices.drawRectangle(
+            matrices.drawRectangleCoords(
                 preCursorSize.toFloat(), -this@InputNode.size.y.toFloat() / 2f,
                 preCursorSize.toFloat() + 1f, this@InputNode.size.y.toFloat() / 2f,
                 color = color

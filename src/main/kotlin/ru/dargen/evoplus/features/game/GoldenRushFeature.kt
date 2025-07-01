@@ -5,7 +5,6 @@ import dev.evoplus.feature.setting.property.subscription
 import net.minecraft.entity.Entity
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.item.Items
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.feature.widget.widget
 import ru.dargen.evoplus.features.game.widget.GoldenCrystalWidget
 import ru.dargen.evoplus.features.misc.notify.NotifyWidget

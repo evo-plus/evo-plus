@@ -3,7 +3,6 @@ package ru.dargen.evoplus.features.clan
 import dev.evoplus.feature.setting.Settings.CategoryBuilder
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.BossFeature
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.protocol.registry.BossType
@@ -17,9 +16,7 @@ object ClanFeature : Feature("clan", "Клан") {
     var InlineMenuClanScores = true
 
     override fun CategoryBuilder.setup() {
-        subcategory("clan-visual", "Визуализация") {
-            switch(::InlineMenuClanScores, "К.О. для захвата босса в меню", "Отображает количество К.О. для захвата босса в меню")
-        }
+
     }
 
     override fun initialize() {
