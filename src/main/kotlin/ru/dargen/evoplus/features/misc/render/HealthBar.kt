@@ -25,81 +25,81 @@ import ru.dargen.evoplus.util.render.progressTo
 import java.util.*
 
 object HealthBar {
-
-    private val renderedHealthBars = concurrentHashMapOf<UUID, Node>()
-
-    init {
-        on<ChangeServerEvent> { clearHealthBars() }
-        on<EntitySpawnEvent> {
-            if (!RenderFeature.HealthBarsRender) return@on
-            entity.createHealthBar()
-        }
-        on<EntityRemoveEvent> {
-            if (!RenderFeature.HealthBarsRender) return@on
-            renderedHealthBars.remove(entity.uuid)?.let { WorldContext - it }
-        }
-    }
-
-    fun updateRender(state: Boolean) {
-        if (state) fillHealthBars()
-        else clearHealthBars()
-    }
-
-    fun fillHealthBars() = WorldEntities
-        .filterIsInstance<AbstractClientPlayerEntity>()
-        .forEach { it.createHealthBar() }
-
-    fun clearHealthBars() = renderedHealthBars.values.onEach { WorldContext - it }.clear()
-
-    fun Entity.createHealthBar() {
-        if (this !is AbstractClientPlayerEntity || isNPC || isMainPlayer || isInvisibleTo(Player)) return
-
-        WorldContext + vbox {
-            indent = v3(1.5, 1.5)
-
-            origin = Relative.CenterBottom
-            color = Colors.TransparentBlack
-
-            preTransform { _, tickDelta ->
-                val entityPos = getLerpedPos(tickDelta)
-                position = entityPos.run { v3(x, (y + height + .55) + RenderFeature.HealthBarsY / 10.0, z) }
-                rotation.y = Math.toRadians(Player!!.yaw.toDouble())
-                rotation.x = Math.toRadians(-Player!!.pitch.toDouble())
-            }
-
-            +hbar {
-                translation = v3(z = -.01)
-                size = v3(54.0, TextRenderer.fontHeight * .8)
-                progressRectangle.size.y -= 0.02
-
-                progressRectangle.translation = v3(z = -.01)
-
-                backgroundColor = Colors.Transparent
-
-                val healthText = +text("") {
-                    origin = Relative.Center
-                    align = Relative.Center
-
-                    translation = v3(z = -.02)
-                    scale = v3(.8, .8)
-                }
-
-                tick {
-                    healthText.text = if (RenderFeature.HealthCountRender) "${health.toInt()} HP" else ""
-
-                    progress = (health / maxHealth).toDouble()
-                    animate("color", interpolationTime, interpolationEasing) {
-                        progressRectangle.color = Colors.Green.progressTo(Colors.Red, 1 - progress)
-                    }
-                }
-
-            }
-
-            tick { render = RenderFeature.HealthBarsRender && !isDead && !isSpectator }
-
-            renderedHealthBars[uuid] = this
-        }
-    }
+//
+//    private val renderedHealthBars = concurrentHashMapOf<UUID, Node>()
+//
+//    init {
+//        on<ChangeServerEvent> { clearHealthBars() }
+//        on<EntitySpawnEvent> {
+//            if (!RenderFeature.HealthBarsRender) return@on
+//            entity.createHealthBar()
+//        }
+//        on<EntityRemoveEvent> {
+//            if (!RenderFeature.HealthBarsRender) return@on
+//            renderedHealthBars.remove(entity.uuid)?.let { WorldContext - it }
+//        }
+//    }
+//
+//    fun updateRender(state: Boolean) {
+//        if (state) fillHealthBars()
+//        else clearHealthBars()
+//    }
+//
+//    fun fillHealthBars() = WorldEntities
+//        .filterIsInstance<AbstractClientPlayerEntity>()
+//        .forEach { it.createHealthBar() }
+//
+//    fun clearHealthBars() = renderedHealthBars.values.onEach { WorldContext - it }.clear()
+//
+//    fun Entity.createHealthBar() {
+//        if (this !is AbstractClientPlayerEntity || isNPC || isMainPlayer || isInvisibleTo(Player)) return
+//
+//        WorldContext + vbox {
+//            indent = v3(1.5, 1.5)
+//
+//            origin = Relative.CenterBottom
+//            color = Colors.TransparentBlack
+//
+//            preTransform { _, tickDelta ->
+//                val entityPos = getLerpedPos(tickDelta)
+//                position = entityPos.run { v3(x, (y + height + .55) + RenderFeature.HealthBarsY / 10.0, z) }
+//                rotation.y = Math.toRadians(Player!!.yaw.toDouble())
+//                rotation.x = Math.toRadians(-Player!!.pitch.toDouble())
+//            }
+//
+//            +hbar {
+//                translation = v3(z = -.01)
+//                size = v3(54.0, TextRenderer.fontHeight * .8)
+//                progressRectangle.size.y -= 0.02
+//
+//                progressRectangle.translation = v3(z = -.01)
+//
+//                backgroundColor = Colors.Transparent
+//
+//                val healthText = +text("") {
+//                    origin = Relative.Center
+//                    align = Relative.Center
+//
+//                    translation = v3(z = -.02)
+//                    scale = v3(.8, .8)
+//                }
+//
+//                tick {
+//                    healthText.text = if (RenderFeature.HealthCountRender) "${health.toInt()} HP" else ""
+//
+//                    progress = (health / maxHealth).toDouble()
+//                    animate("color", interpolationTime, interpolationEasing) {
+//                        progressRectangle.color = Colors.Green.progressTo(Colors.Red, 1 - progress)
+//                    }
+//                }
+//
+//            }
+//
+//            tick { render = RenderFeature.HealthBarsRender && !isDead && !isSpectator }
+//
+//            renderedHealthBars[uuid] = this
+//        }
+//    }
 
 //    private val Color = ColorProgression(Colors.Green, Colors.Red)
 //

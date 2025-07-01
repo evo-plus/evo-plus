@@ -17,9 +17,9 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
 
     val HealthRender by settings.switcher("Режим отображения здоровья", enumSelector<HealthRenderMode>())
 
-    val HealthBarsRender by settings.boolean("Отображать полоску здоровья игроков", true) on { HealthBar::updateRender }
-    val HealthBarsY by settings.selector("Сдвиг полоски здоровья игроков", (0..50).toSelector()) { "${it?.div(10.0)?.fix(1)}" }
-    val HealthCountRender by settings.boolean("Отображать единицы здоровья игроков", true)
+//    val HealthBarsRender by settings.boolean("Отображать полоску здоровья игроков", true) on { HealthBar::updateRender }
+//    val HealthBarsY by settings.selector("Сдвиг полоски здоровья игроков", (0..50).toSelector()) { "${it?.div(10.0)?.fix(1)}" }
+//    val HealthCountRender by settings.boolean("Отображать единицы здоровья игроков", true)
 
     val NoBlockParticles by settings.boolean("Отключение эффектов блока")
     val NoFire by settings.boolean("Отключение огня")
@@ -27,10 +27,12 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
     val NoDamageShake by settings.boolean("Отключение покачивания камеры при ударе")
     val NoHandShake by settings.boolean("Отключение покачивания руки")
     val NoExcessHud by settings.boolean("Отключение ненужных элементов HUD", true)
+
+    // фогост сказал убрать, т.к. она теперь интерактивная
 //    val NoExpHud by settings.boolean("Отключение отрисовки опыта и его уровня", true)
 
     init {
-        HealthBar
+//        HealthBar
 
         on<ResourcePackProvidersEvent> {
             providers.add(EvoPlusPackProvider())
