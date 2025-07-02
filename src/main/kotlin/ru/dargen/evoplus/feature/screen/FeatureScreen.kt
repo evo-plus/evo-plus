@@ -110,9 +110,9 @@ class FeatureScreen : ScreenContext("features", "") {
                 indent = v3()
                 space = 1.0
                 search = +input {
+                    prompt.text = "Поиск"
                     size = v3(129.0, 20.0)
                     color = Colors.TransparentBlack
-                    prompt.text = "Поиск"
 
                     on {
                         this@FeatureScreen.prompt = FeaturePrompt(content.takeUnless(String::isBlank))

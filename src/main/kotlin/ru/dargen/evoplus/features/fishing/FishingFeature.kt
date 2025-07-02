@@ -33,11 +33,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
 
     val ExpWidget by widgets.widget(
         "Счёт опыта рыбы", "fish-exp",
-        widget = FishingValueWidget("Опыт рыбы", "^Опыта дает питомцу: (\\d+)\$".toRegex())
-    )
-    val CaloriesWidget by widgets.widget(
-        "Счёт калорийности рыбы", "fish-calories",
-        widget = FishingValueWidget("Калорийность рыбы", "^Калорийность: (\\d+)\$".toRegex())
+        widget = FishingValueWidget("Опыт рыбы", "^Опыт питомца: (\\d+)\$".toRegex())
     )
 
     val NibblesWidget by widgets.widget(
