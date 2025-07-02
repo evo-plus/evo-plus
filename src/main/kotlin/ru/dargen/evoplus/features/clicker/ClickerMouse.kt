@@ -6,12 +6,12 @@ enum class ClickerMouse(val display: String) {
     
     LEFT("ЛКМ") {
         override fun invoke() {
-            ClientExtension.leftClick()
+            ClientExtension.`evo_plus$leftClick`()
         }
     },
     RIGHT("ПКМ") {
         override fun invoke() {
-            ClientExtension.rightClick()
+            ClientExtension.`evo_plus$rightClick`()
         }
     };
 

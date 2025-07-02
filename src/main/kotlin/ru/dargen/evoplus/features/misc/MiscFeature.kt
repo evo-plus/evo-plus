@@ -38,7 +38,7 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
     val CaseNotify by settings.boolean("Уведомления о кейсах", true)
     val LuckyBlockNotify by settings.boolean("Уведомления о лаки-блоках", true)
     val CollectionNotify by settings.boolean("Уведомления о коллекционках", true)
-    val EventNotify by settings.boolean("Уведомления о эвенте", true)
+    val EventNotify by settings.boolean("Уведомления о ивенте", true)
 
     init {
         Keybinds.FastSelector.on { if (CurrentScreen == null && FastSelector) FastSelectorScreen.open() }

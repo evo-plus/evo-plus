@@ -131,12 +131,12 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     }
 
     @Override
-    public void rightClick() {
+    public void evo_plus$rightClick() {
         rightClick = true;
     }
 
     @Override
-    public void leftClick() {
+    public void evo_plus$leftClick() {
         leftClick = true;
     }
 

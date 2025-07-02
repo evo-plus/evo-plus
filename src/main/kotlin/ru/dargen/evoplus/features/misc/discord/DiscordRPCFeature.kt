@@ -34,11 +34,13 @@ object DiscordRPCFeature : Feature("discord-rpc", "Discord RPC", Items.COMPARATO
         toggle()
     }
 
-    val RichClient.isConnected get() = connectionState !== ConnectionState.DISCONNECTED
+    private val RichClient.isConnected get() = connectionState !== ConnectionState.DISCONNECTED
 
     private fun toggle() {
-        if (enabled) Client.connect(shouldBlock = false)
-        else if (Client.isConnected) Client.shutdown()
+        runCatching {
+            if (enabled) Client.connect(shouldBlock = false)
+            else if (Client.isConnected) Client.shutdown()
+        }.exceptionOrNull()?.printStackTrace()
     }
 
     private fun tryUpdate() {

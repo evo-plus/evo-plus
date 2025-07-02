@@ -14,9 +14,11 @@ import ru.dargen.evoplus.EvoPlus
 import ru.dargen.evoplus.extension.MinecraftClientExtension
 import ru.dargen.evoplus.mixin.MinecraftClientAccessor
 import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.Vector3
+import ru.dargen.evoplus.util.text.print
 
 
 val Client get() = MinecraftClient.getInstance()
@@ -91,7 +93,7 @@ fun sendChatMessage(message: String) =
     Player?.networkHandler?.sendChatMessage(message.replace('§', '&'))
 
 fun sendClanMessage(message: String) {
-    if (Connector.isOnPrisonEvo) sendChatMessage("@$message")
+    if (Connector.isOnPrisonEvo && ClanInfoCollector.Name.isNotEmpty()) sendChatMessage("@$message")
 }
 
 fun sendCommand(command: String) = Player?.networkHandler?.sendChatCommand(command)

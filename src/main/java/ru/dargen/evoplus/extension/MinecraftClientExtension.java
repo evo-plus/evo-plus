@@ -2,8 +2,8 @@ package ru.dargen.evoplus.extension;
 
 public interface MinecraftClientExtension {
 
-    void leftClick();
+    void evo_plus$leftClick();
 
-    void rightClick();
+    void evo_plus$rightClick();
 
 }

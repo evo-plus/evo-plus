@@ -26,7 +26,7 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
     val EmojiMenu by settings.boolean("Меню эмодзи", true)
 
     val KeepHistory by settings.boolean("Сохранение истории чата после перезахода", false)
-    val LongerChat by settings.selector("Увеличение истории чата", (0..1000).toSelector()) { "$it строк" }
+    val LongerChat by settings.selector("Увеличение истории чата", (0..10000).toSelector()) { "$it строк" }
 
     init {
         Emojis
@@ -48,8 +48,5 @@ object TextFeature : Feature("text", "Текст", Items.WRITABLE_BOOK) {
 
     }
 
-    fun isLongerChat(): Boolean {
-        return if (LongerChat == 0) false
-        else LongerChat > 0
-    }
+    fun isLongerChat() = LongerChat > 0
 }

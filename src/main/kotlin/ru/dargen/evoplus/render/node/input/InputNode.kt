@@ -172,7 +172,7 @@ class InputNode : RectangleNode() {
     fun filter(filter: InputFilter) = apply { filters.add(filter) }
 
     fun strictSymbols() = filter { char ->
-        val isValidChar = ("[a-z0-9_]".toRegex()).matches(char.toString())
+        val isValidChar = ("[a-zA-Zа-яА-ЯёЁ0-9_ ]".toRegex()).matches(char.toString())
 
         !SharedConstants.INVALID_CHARS_LEVEL_NAME.contains(char) && isValidChar
     }

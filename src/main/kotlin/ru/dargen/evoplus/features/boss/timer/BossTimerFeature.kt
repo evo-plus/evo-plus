@@ -21,6 +21,7 @@ import ru.dargen.evoplus.util.format.asTextTime
 import ru.dargen.evoplus.util.format.fromTextTime
 import ru.dargen.evoplus.util.minecraft.*
 import ru.dargen.evoplus.util.selector.toSelector
+import ru.dargen.evoplus.util.text.print
 import kotlin.math.absoluteValue
 
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
@@ -41,7 +42,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     val TimerWidget by widgets.widget("Таймер боссов", "boss-timer", widget = BossTimerWidget)
 
     val WidgetTeleport by settings.boolean("Телепорт по клику в виджете")
-    val PremiumTimers by settings.boolean("Покупной таймер")
+    val PremiumTimer by settings.boolean("Покупной таймер")
 
     val MinLevel by settings.selector("Мин. уровень босса", (0..520).toSelector())
     val MaxLevel by settings.selector("Макс. уровень босса", (0..520).toSelector(-1))
@@ -83,7 +84,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         }
 
         listen<BossTimers> {
-            if (PremiumTimers) it.timers
+            if (PremiumTimer) it.timers
                 .mapKeys { BossType.valueOf(it.key) ?: return@listen }
                 .mapValues { it.value + currentMillis }
                 .mapKeys { it.key.id }
@@ -91,7 +92,7 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
         }
 
         scheduleEvery(period = 10) {
-            if (!PremiumTimers) fillBossData()
+            if (!PremiumTimer) fillBossData()
 
             fillInventory()
             updateBosses()
@@ -176,15 +177,9 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
 
     private fun fetchWorldBossData() = Client?.world?.entities
         ?.filterNotNull()
+        ?.sortedByDescending { it.y }
         ?.mapNotNull { it.displayName?.string?.uncolored() }
-        ?.sortedByDescending { it.startsWith("Босс") }
-        ?.mapNotNull {
-            when {
-                it.startsWith("Босс") -> it.substring(5)
-                "сек." in it || "мин." in it || "ч." in it -> it
-                else -> null
-            }
-        }
+        ?.filter { BossType.valueOfName(it) != null || ("сек." in it || "мин." in it || "ч." in it) }
         ?.run {
             val type = BossType.valueOfName(getOrNull(0) ?: return@run null) ?: return@run null
             val delay = getOrNull(1)?.replace("۞", "")?.fromTextTime

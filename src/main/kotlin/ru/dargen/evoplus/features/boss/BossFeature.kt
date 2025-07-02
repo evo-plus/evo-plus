@@ -10,6 +10,8 @@ import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.protocol.Connector
+import ru.dargen.evoplus.protocol.EvoPlusProtocol
+import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
@@ -21,9 +23,11 @@ import ru.dargen.evoplus.util.format.fix
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
+import ru.dargen.evoplus.util.text.print
 import java.util.concurrent.TimeUnit
 
 object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
@@ -32,8 +36,7 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
     private val BossCapturePattern = "^Босс (.*) захвачен кланом (.*)!\$".toRegex()
     private val ClanWavePattern = "Испытание вызова (?:(|\\d+):|)(\\d+)".toRegex()
 
-    //    private val BossHealthsPattern = "^[А-Яа-яЁё ]+ \\d+(\\.\\d+)?❤\$".toRegex()
-    private val BossHealthsPattern = "^([А-Яа-яЁё ]+) (\\d+(\\.\\d+)?)❤\$".toRegex()
+    private val BossHealthsPattern = "([а-яА-ЯёЁ\\s]+) ([0-9]+)\uE101".toRegex()
     val BossMenuPattern = "[넼넽넾]".toRegex()
 
     val BossDamageText = text("???? [??]: ??\uE35E") { isShadowed = true }
@@ -43,7 +46,6 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
         +BossDamageText
     }
 
-    //    val NearTeleport by settings.boolean("Телепорт к ближайшему боссу")
     val NotifyCapture by settings.boolean(
         "Уведомление о захватах боссов",
         true
@@ -90,12 +92,12 @@ object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {
                 if (ClanWavePattern.containsMatchIn(text)) return@scheduleEvery
 
                 BossHealthsPattern.find(text)?.run {
+                    val type = BossType.valueOfName(groupValues[1]) ?: return@run
                     val percent = it.percent.toDouble() * 100.0
 
                     if (percent >= BossHealthsPercent) return@run
 
                     val isCursed = it.name.siblings.any { it.style.color?.name == "#25D192" }
-                    val type = BossType.valueOfName(groupValues[1]) ?: return@run
                     val health = groupValues[2].toDoubleOrNull() ?: return@run
 
                     sendClanMessage("§8[§e${Connector.server.displayName}§8] ${type.displayName}${if (isCursed) " §8[§3Прок§8]" else ""}§8: §e${percent.fix()}% §8(§c${health.fix()}❤§8)")

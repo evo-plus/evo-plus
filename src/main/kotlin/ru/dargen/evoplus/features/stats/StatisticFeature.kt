@@ -116,7 +116,7 @@ object StatisticFeature : Feature("statistic", "Статистика", Items.PAP
         on<LevelUpdateEvent> {
             LevelWidget.update(economic)
 
-            if (NotifyCompleteLevelRequire && level.isCompleted && !previousLevel.isCompleted) {
+            if (NotifyCompleteLevelRequire && level.isCompleted && !previousLevel.isCompleted && !economic.nextLevel.isMaxLevel) {
                 NotifyWidget.showText("§aВы можете повысить уровень!")
             }
 
