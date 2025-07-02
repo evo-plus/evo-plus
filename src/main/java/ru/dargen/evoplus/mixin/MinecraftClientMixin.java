@@ -69,6 +69,7 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     @Inject(method = "tick", at = @At("HEAD"))
     private void onStartTick(CallbackInfo info) {
         EventBus.INSTANCE.fire(PreTickEvent.INSTANCE);
+
         doItemUseCalled = false;
         doAttackCalled = false;
 

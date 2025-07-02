@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
 object AutoClickerFeature : Feature("clicker", "Кликер", Items.WOODEN_SWORD) {
-    
+
     val BindEnabled by settings.boolean("Статус бинда")
     val Mode by settings.switcher(
         "Режим работы",

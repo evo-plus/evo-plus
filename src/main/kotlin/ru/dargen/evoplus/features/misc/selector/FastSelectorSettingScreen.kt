@@ -66,16 +66,21 @@ object FastSelectorSettingScreen {
                 space = 20.0
 
                 +textField("Название", selectorItem.name) { selectorItem.name = it }
-                +textField("Команда", selectorItem.command) { selectorItem.command = it }
+                +textField("Команда", selectorItem.command, { filter { it in 'a'..'z' || it == ' ' } }) {
+                    selectorItem.command = it
+                }
             }
 
             +hbox {
                 indent = v3()
                 space = 20.0
 
-                +textField("Предмет", selectorItem.item.identifier) { selectorItem.item = itemOf(it) }
-                +textField("ID модели", selectorItem.customModel.toString(),
-                    { filter { it in '0'..'9' } }) { selectorItem.customModel = it.toIntOrNull() ?: 0 }
+                +textField("Предмет", selectorItem.item.identifier, { filter { it in 'a'..'z' || it == '_' } }) {
+                    selectorItem.item = itemOf(it)
+                }
+                +textField("ID модели", selectorItem.customModel.toString(), { filter { it in '0'..'9' } }) {
+                    selectorItem.customModel = it.toIntOrNull() ?: 0
+                }
             }
 
             +button("Сохранить и выйти") {
