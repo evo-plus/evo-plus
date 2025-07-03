@@ -10,6 +10,12 @@ import java.util.Queue;
 @Mixin(MinecraftClient.class)
 public interface MinecraftClientAccessor {
 
+    @Accessor("attackCooldown")
+    int getAttackCooldown();
+
+    @Accessor("attackCooldown")
+    void setAttackCooldown(int attackCooldown);
+
     @Invoker("doAttack")
     boolean leftClick();
 

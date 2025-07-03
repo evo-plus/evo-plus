@@ -55,7 +55,6 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
     var Barrels = 0
         set(value) {
             if (field == 0 && value == 1) {
-                if (BarrelsClanMessage) sendClanMessage("§8[§e${Connector.server.displayName}§8] §6Обнаружена бочка §8[§e/mine ${PlayerDataCollector.location.level}§8]")
                 if (BarrelsNotify) NotifyWidget.showText("§6Обнаружена бочка")
                 if (BarrelsMessage) printMessage("§6Обнаружена бочка")
             }
@@ -77,7 +76,6 @@ object ShaftFeature : Feature("shaft", "Шахта", Items.DIAMOND_PICKAXE) {
         true
     )
     val BarrelsMessage by settings.boolean("Сообщение о найденных бочках")
-    val BarrelsClanMessage by settings.boolean("Сообщение о найденных бочках в клан")
 
     init {
         scheduleEvery(period = 10) {
