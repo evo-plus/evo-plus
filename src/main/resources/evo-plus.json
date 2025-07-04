@@ -33,6 +33,7 @@
     "render.hud.PlayerListHudMixin",
     "render.screen.ChatScreenMixin",
     "render.screen.HandledScreenMixin",
+    "render.screen.HandledScreenAccessor",
     "render.screen.TitleScreenMixin",
     "render.map.MapTextureAccessor",
     "render.map.MapRendererAccessor",

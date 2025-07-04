@@ -1,14 +1,19 @@
 package ru.dargen.evoplus.features.misc
 
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import ru.dargen.evoplus.event.inventory.InventoryClickEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.resourcepack.ResourcePackProvidersEvent
 import ru.dargen.evoplus.feature.Feature
-import ru.dargen.evoplus.features.misc.render.HealthBar
+import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.resource.builtin.EvoPlusPackProvider
-import ru.dargen.evoplus.util.format.fix
+import ru.dargen.evoplus.util.minecraft.CurrentScreenHandler
+import ru.dargen.evoplus.util.minecraft.lore
+import ru.dargen.evoplus.util.render.alpha
+import ru.dargen.evoplus.util.render.other.RenderUtil.highlight
 import ru.dargen.evoplus.util.selector.enumSelector
-import ru.dargen.evoplus.util.selector.toSelector
+import java.awt.Color
 
 object RenderFeature : Feature("render", "Визуализация", Items.REDSTONE) {
 
@@ -38,6 +43,13 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
             providers.add(EvoPlusPackProvider())
         }
 
+//        on<InventoryClickEvent> {
+//            val itemSlot = CurrentScreenHandler?.getSlot(slot)
+//            val itemStack = itemSlot?.stack ?: return@on
+//
+//            if (HighlightAvailableItems && !itemStack.isEmpty && isHighlightedItem(itemStack)) itemSlot.highlight(Colors.Green.alpha(100))
+//        }
+
     }
 
     enum class HealthRenderMode(val displayName: String, val isDefaultHearts: Boolean = true) {
@@ -47,6 +59,19 @@ object RenderFeature : Feature("render", "Визуализация", Items.REDST
 
         override fun toString() = displayName
 
+    }
+
+    val HIGHLIGHT_DESCRIPTION = mutableListOf(
+        "Нажмите, чтобы получить награду",
+        "Нажмите, чтобы забрать награду"
+    )
+
+    fun isHighlightedItem(stack: ItemStack): Boolean {
+        val lore = stack.lore
+
+        if (lore.isEmpty()) return false
+
+        return HIGHLIGHT_DESCRIPTION.contains(lore.last().toString())
     }
 
 }

@@ -20,6 +20,7 @@ loom {
 repositories {
     mavenCentral()
     maven { url 'https://gitlab.diamondworld.pro/api/v4/projects/104/packages/maven' }
+    maven { url "https://repo.essential.gg/repository/maven-public" }
     maven { url 'https://jitpack.io' }
 }
 
@@ -45,6 +46,10 @@ dependencies {
     include(implementation("pro.diamondworld.evoplusprotocol:evoplusprotocol:${project.evo_plus_protocol_version}"))
     include(implementation("com.github.asyncdargen:rest-client:${project.rest_client_version}"))
     include(implementation("com.github.asyncdargen.crowbar:crowbar-core:${project.crowbar_version}"))
+
+//    include(implementation("gg.essential:elementa:${project.elementa_version}"))
+//    include(implementation("gg.essential:elementa-unstable-layoutdsl:${project.elementa_version}"))
+    include(modImplementation("gg.essential:universalcraft-${project.universalcraft_version}"))
 
     // Discord RPC
     include(implementation("io.github.vyfor:kpresence:${project.kpresence_version}"))

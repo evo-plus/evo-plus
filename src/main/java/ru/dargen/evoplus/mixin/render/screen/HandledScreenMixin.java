@@ -1,6 +1,8 @@
 package ru.dargen.evoplus.mixin.render.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import gg.essential.universal.UGraphics;
+import gg.essential.universal.UMatrixStack;
+import gg.essential.universal.vertex.UBufferBuilder;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.ItemStack;
@@ -14,7 +16,8 @@ import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.render.Colors;
 import ru.dargen.evoplus.util.minecraft.ItemsKt;
 import ru.dargen.evoplus.util.render.ColorKt;
-import ru.dargen.evoplus.util.render.DrawKt;
+import ru.dargen.evoplus.util.render.other.DrawHelper;
+import ru.dargen.evoplus.util.render.other.RenderUtil;
 
 import java.util.List;
 
@@ -25,9 +28,13 @@ public class HandledScreenMixin {
     private void drawItem(DrawContext context, Slot slot, CallbackInfo ci) {
         //TODO: make with texture and more visible
         if (RenderFeature.INSTANCE.getHighlightAvailableItems() && slot.hasStack() && isHighlightedItem(slot.getStack())) {
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            DrawKt.drawRectangle(context.getMatrices(), slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
+//            RenderSystem.enableBlend();
+//            RenderSystem.defaultBlendFunc();
+//            DrawKt.drawRectangle(context.getMatrices(), slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
+            var matrices = UMatrixStack.Compat.INSTANCE.get();
+            var buffer = UBufferBuilder.create(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR);
+
+            DrawHelper.INSTANCE.writeRect(matrices, buffer, slot.x, slot.y, slot.x + 16, slot.y + 16, ColorKt.alpha(Colors.Green.INSTANCE, 100));
         }
     }
 
@@ -40,11 +47,11 @@ public class HandledScreenMixin {
     @Unique
     private static boolean isHighlightedItem(ItemStack stack) {
         var lore = ItemsKt.getLore(stack);
-        if (lore.isEmpty()) {
-            return false;
-        }
 
-        return HIGHLIGHT_DESCRIPTION.contains(lore.get(lore.size() - 1).getString());
+        if (lore.isEmpty())
+            return false;
+
+        return HIGHLIGHT_DESCRIPTION.contains(lore.getLast().getString());
     }
 
 }

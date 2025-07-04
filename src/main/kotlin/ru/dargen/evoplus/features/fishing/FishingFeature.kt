@@ -33,7 +33,8 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
 
     val ExpWidget by widgets.widget(
         "Счёт опыта рыбы", "fish-exp",
-        widget = FishingValueWidget("Опыт рыбы", "^Опыт питомца: (\\d+)\$".toRegex())
+        widget = FishingValueWidget("Опыт рыбы", "^Опыт питомца: (\\d+)\$".toRegex()),
+        enabled = false
     )
 
     val NibblesWidget by widgets.widget(
@@ -68,7 +69,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
 
     val AutoHookDelay by settings.selector(
         "Автоматическая удочка (задержка - тик = 50 мс)",
-        (-1..40).toSelector(2), nameMapper = { if (it == -1) "отключена" else "$it" }
+        (-1..10).toSelector(2), nameMapper = { if (it == -1) "отключена" else "$it" }
     )
 
     init {
