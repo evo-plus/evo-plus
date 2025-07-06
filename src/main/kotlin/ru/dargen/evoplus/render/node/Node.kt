@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.render.node
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.animation.property.proxied
@@ -21,7 +21,7 @@ import ru.dargen.evoplus.util.render.scale
 import ru.dargen.evoplus.util.render.translate
 import java.awt.Color
 
-typealias RenderHandler<N> = N.(matrices: MatrixStack, tickDelta: Float) -> Unit
+typealias RenderHandler<N> = N.(context: DrawContext, tickDelta: Float) -> Unit
 
 typealias KeyHandler<N> = N.(key: Int, state: Boolean) -> Boolean
 typealias CharHandler<N> = N.(char: Char, code: Int) -> Boolean
@@ -107,7 +107,7 @@ abstract class Node {
     val wholeRotation get() = (parent?.rotation ?: Vector3.Mutable()) + rotation
     val wholeSize get() = wholeScale * size
 
-    val isWorldElement get() = context is WorldContext
+    val isWorldElement get() = this@Node.context is WorldContext
     val context: RenderContext? get() = parent?.context ?: safeCast<RenderContext>()
 
     //dispatchers
@@ -197,27 +197,27 @@ abstract class Node {
         children.forEach { it.updateHover(mouse) }
     }
 
-    fun render(matrices: MatrixStack, tickDelta: Float) {
+    fun render(context: DrawContext, tickDelta: Float) {
         if (!enabled || !render) return
-        matrices.push()
+        context.matrices.push()
 
-        preTransformHandlers.forEach { it(matrices, tickDelta) }
+        preTransformHandlers.forEach { it(context, tickDelta) }
 
-        parent?.let { matrices.translate(it.size, align) }
+        parent?.let { context.matrices.translate(it.size, align) }
 
         val positionScale = parent?.safeCast<RenderContext>()?.translationScale ?: DefaultScale
-        matrices.translate(translation, positionScale)
-        matrices.translate(position, positionScale)
+        context.matrices.translate(translation, positionScale)
+        context.matrices.translate(position, positionScale)
 
-        matrices.scale(scale)
+        context.matrices.scale(scale)
 
-        matrices.rotate(rotation)
+        context.matrices.rotate(rotation)
 
-        matrices.translate(size, origin, -1.0)
+        context.matrices.translate(size, origin, -1.0)
 
-        preRenderHandlers.forEach { it(matrices, tickDelta) }
+        preRenderHandlers.forEach { it(context, tickDelta) }
 
-        renderElement(matrices, tickDelta)
+        renderElement(context, tickDelta)
 
         if (isScissor) {
             val position = (wholePosition + scissorIndent * wholeScale) * Overlay.ScaleFactor
@@ -229,19 +229,18 @@ abstract class Node {
             )
         }
 
-        children.forEach { it.render(matrices, tickDelta) }
+        children.forEach { it.render(context, tickDelta) }
 
-        postRenderHandlers.forEach { it(matrices, tickDelta) }
+        postRenderHandlers.forEach { it(context, tickDelta) }
 
-        if (isScissor) {
+        if (isScissor)
             RenderSystem.disableScissor()
-        }
 
-        postTransformHandlers.forEach { it(matrices, tickDelta) }
-        matrices.pop()
+        postTransformHandlers.forEach { it(context, tickDelta) }
+        context.matrices.pop()
     }
 
-    fun renderElement(matrices: MatrixStack, tickDelta: Float) {}
+    fun renderElement(context: DrawContext, tickDelta: Float) {}
 
     //children
     fun addChildren(children: Collection<Node>) {

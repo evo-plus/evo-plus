@@ -1,7 +1,7 @@
 package ru.dargen.evoplus.render.node
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier
 import ru.dargen.evoplus.render.animation.property.proxied
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
@@ -22,7 +22,7 @@ class TextureNode : Node() {
         size = textureSize.clone()
     }
 
-    override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
+    override fun renderElement(context: DrawContext, tickDelta: Float) {
         if (!this::identifier.isInitialized) {
             if (texture == -1) return
             RenderSystem.setShaderTexture(0, texture)
@@ -30,7 +30,7 @@ class TextureNode : Node() {
 
         if (blend) RenderSystem.enableBlend()
 
-//        if (repeating) DrawableHelper.drawRepeatingTexture(
+//        if (repeating) DrawContextExtensions.drawRepeatingTexture(
 //            matrices, 0, 0,
 //            size.x.toInt(), size.y.toInt(),
 //            textureOffset.x.toInt(), textureOffset.y.toInt(),

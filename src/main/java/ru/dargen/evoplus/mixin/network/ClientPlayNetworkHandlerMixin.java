@@ -61,7 +61,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
     protected abstract ParseResults<CommandSource> parse(String command);
 
     private static final Cache<Integer, InventoryOpenEvent> INVENTORY_OPEN_EVENTS = CacheBuilder.newBuilder()
-            .expireAfterAccess(30, TimeUnit.MINUTES)
+            .expireAfterAccess(15, TimeUnit.MINUTES)
             .build();
 
     //TODO: make better

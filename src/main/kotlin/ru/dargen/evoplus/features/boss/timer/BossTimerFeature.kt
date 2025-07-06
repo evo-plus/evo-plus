@@ -21,7 +21,6 @@ import ru.dargen.evoplus.util.format.asTextTime
 import ru.dargen.evoplus.util.format.fromTextTime
 import ru.dargen.evoplus.util.minecraft.*
 import ru.dargen.evoplus.util.selector.toSelector
-import ru.dargen.evoplus.util.text.print
 import kotlin.math.absoluteValue
 
 private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615

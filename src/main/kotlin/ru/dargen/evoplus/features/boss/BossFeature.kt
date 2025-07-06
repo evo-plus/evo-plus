@@ -10,8 +10,6 @@ import ru.dargen.evoplus.features.misc.notify.NotifyWidget
 import ru.dargen.evoplus.features.share.ShareFeature
 import ru.dargen.evoplus.mixin.render.hud.BossBarHudAccessor
 import ru.dargen.evoplus.protocol.Connector
-import ru.dargen.evoplus.protocol.EvoPlusProtocol
-import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
 import ru.dargen.evoplus.protocol.listen
 import ru.dargen.evoplus.protocol.registry.BossType
@@ -23,11 +21,9 @@ import ru.dargen.evoplus.util.format.fix
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
-import ru.dargen.evoplus.util.minecraft.printMessage
 import ru.dargen.evoplus.util.minecraft.sendClanMessage
 import ru.dargen.evoplus.util.minecraft.uncolored
 import ru.dargen.evoplus.util.selector.toSelector
-import ru.dargen.evoplus.util.text.print
 import java.util.concurrent.TimeUnit
 
 object BossFeature : Feature("boss", "Боссы", Items.DIAMOND_SWORD) {

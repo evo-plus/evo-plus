@@ -1,8 +1,9 @@
 package ru.dargen.evoplus.mixin.render;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.ObjectAllocator;
-import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,15 +23,19 @@ public class WorldRendererMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderLateDebug(Lnet/minecraft/client/render/FrameGraphBuilder;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/client/render/Fog;)V", shift = At.Shift.BEFORE))
     private void beforeRender(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
-        MatrixStack matrices = new MatrixStack();
 
-        matrices.push();
-        matrices.translate(-camera.getPos().x, -camera.getPos().y, -camera.getPos().z);
+        DrawContext context = new DrawContext(
+                MinecraftClient.getInstance(),
+                bufferBuilders.getEntityVertexConsumers()
+        );
 
-        EventBus.INSTANCE.fire(new WorldRenderEvent.Absolute(matrices, tickCounter.getTickDelta(false), camera, bufferBuilders));
-        matrices.pop();
+        context.getMatrices().push();
+        context.getMatrices().translate(-camera.getPos().x, -camera.getPos().y, -camera.getPos().z);
 
-        EventBus.INSTANCE.fire(new WorldRenderEvent(matrices, tickCounter.getTickDelta(false), camera, bufferBuilders));
+        EventBus.INSTANCE.fire(new WorldRenderEvent.Absolute(context, tickCounter.getTickDelta(false), camera, bufferBuilders));
+        context.getMatrices().pop();
+
+        EventBus.INSTANCE.fire(new WorldRenderEvent(context, tickCounter.getTickDelta(false), camera, bufferBuilders));
     }
 
 }

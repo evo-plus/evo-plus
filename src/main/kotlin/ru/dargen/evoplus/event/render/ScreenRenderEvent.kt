@@ -1,15 +1,15 @@
 package ru.dargen.evoplus.event.render
 
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.util.math.MatrixStack
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 
 @KotlinOpens
-class ScreenRenderEvent(val screen: Screen, matrices: MatrixStack, tickDelta: Float) : RenderEvent(matrices, tickDelta) {
+class ScreenRenderEvent(val screen: Screen, context: DrawContext, tickDelta: Float) : RenderEvent(context, tickDelta) {
 
     @KotlinOpens
-    class Pre(screen: Screen, matrices: MatrixStack, tickDelta: Float) : ScreenRenderEvent(screen, matrices, tickDelta)
+    class Pre(screen: Screen, context: DrawContext, tickDelta: Float) : ScreenRenderEvent(screen, context, tickDelta)
     @KotlinOpens
-    class Post(screen: Screen, matrices: MatrixStack, tickDelta: Float) : ScreenRenderEvent(screen, matrices, tickDelta)
+    class Post(screen: Screen, context: DrawContext, tickDelta: Float) : ScreenRenderEvent(screen, context, tickDelta)
 
 }

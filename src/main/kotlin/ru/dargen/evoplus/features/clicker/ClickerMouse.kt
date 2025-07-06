@@ -1,7 +1,5 @@
 package ru.dargen.evoplus.features.clicker
 
-import ru.dargen.evoplus.mixin.MinecraftClientAccessor
-import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.minecraft.ClientAccessor
 import ru.dargen.evoplus.util.minecraft.ClientExtension

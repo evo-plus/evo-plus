@@ -1,19 +1,20 @@
 package ru.dargen.evoplus.features.clan
 
 import net.minecraft.item.Items
-import ru.dargen.evoplus.event.chat.ChatReceiveEvent
 import ru.dargen.evoplus.event.inventory.InventoryFillEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.features.boss.BossFeature
-import ru.dargen.evoplus.features.boss.timer.BossTimerFeature
+import ru.dargen.evoplus.features.share.ShareFeature
+import ru.dargen.evoplus.keybind.Keybinds
+import ru.dargen.evoplus.keybind.on
 import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.protocol.registry.BossType
+import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.util.format.fix
 import ru.dargen.evoplus.util.minecraft.asText
 import ru.dargen.evoplus.util.minecraft.displayName
 import ru.dargen.evoplus.util.minecraft.lore
-import ru.dargen.evoplus.util.minecraft.uncolored
 
 object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
 
@@ -28,6 +29,10 @@ object ClanFeature : Feature("clan", "Клан", Items.SHIELD) {
 
     init {
 //        listen<ClanInfo> { ClanHolder.accept(it.data) }
+
+        Keybinds.ShareBossesToClan.on {
+            async { ShareFeature.shares["bosses"]!!.share(null) }
+        }
 
         on<InventoryFillEvent> {
             if (InlineMenuClanScores && BossFeature.BossMenuPattern.containsMatchIn(openEvent?.nameString ?: "")) {

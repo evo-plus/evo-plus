@@ -1,27 +1,27 @@
 package ru.dargen.evoplus.event.render
 
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.BufferBuilderStorage
 import net.minecraft.client.render.Camera
-import net.minecraft.client.util.math.MatrixStack
 import ru.dargen.evoplus.event.CancellableEvent
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 
 @KotlinOpens
-class RenderEvent(val matrices: MatrixStack, val tickDelta: Float) : CancellableEvent()
+class RenderEvent(val context: DrawContext, val tickDelta: Float) : CancellableEvent()
 
 @KotlinOpens
 class WorldRenderEvent(
-    matrices: MatrixStack,
+    context: DrawContext,
     tickDelta: Float,
     val camera: Camera,
     val bufferBuilderStorage: BufferBuilderStorage,
-) : RenderEvent(matrices, tickDelta) {
+) : RenderEvent(context, tickDelta) {
 
     class Absolute(
-        matrices: MatrixStack,
+        context: DrawContext,
         tickDelta: Float,
         camera: Camera,
         bufferBuilderStorage: BufferBuilderStorage,
-    ) : WorldRenderEvent(matrices, tickDelta, camera, bufferBuilderStorage)
+    ) : WorldRenderEvent(context, tickDelta, camera, bufferBuilderStorage)
 
 }

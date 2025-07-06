@@ -14,8 +14,8 @@ import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.util.minecraft.*
+import ru.dargen.evoplus.util.render.DrawContextExtensions.drawText
 import ru.dargen.evoplus.util.render.TextRenderer
-import ru.dargen.evoplus.util.render.drawText
 
 private typealias RawRuneProperty = Pair<String, String>
 
@@ -68,42 +68,42 @@ object RunesBag {
             if (RuneFeature.RunesBagProperties) {
                 val x = screen.width / 2.0 + 89.0
                 val y = screen.height / 2.0 - (RunesProperties.size * height) / 2.0
-                matrices.push()
 
-                matrices.translate(x, y, .0)
-                matrices.scale(scale, scale, scale)
+                context.matrices.push()
+                context.matrices.translate(x, y, .0)
+                context.matrices.scale(scale, scale, scale)
 
                 RunesProperties.values
                     .filter { it.value != .0 }
                     .forEachIndexed { index, property ->
-                        matrices.drawText(property.toString(), 0f, index * height / scale, false, Colors.White)
+                        context.drawText(property.toString(), 0f, index * height / scale, false, Colors.White)
                     }
 
-                matrices.pop()
+                context.matrices.pop()
             }
 
             if (RuneFeature.RunesBagSet) {
                 val x = screen.width / 2.0 - 89.0
                 val y = screen.height / 2.0 - ((SelectedSet.runes.size + 1) * height) / 2.0
-                matrices.push()
 
-                matrices.translate(x, y, .0)
-                matrices.scale(scale, scale, scale)
+                context.matrices.push()
+                context.matrices.translate(x, y, .0)
+                context.matrices.scale(scale, scale, scale)
 
-                matrices.drawText(
+                context.drawText(
                     SelectedSet.name,
                     -TextRenderer.getWidth(SelectedSet.name).toFloat(), 0f,
                     false, Colors.White
                 )
                 SelectedSet.runes.forEachIndexed { index, line ->
-                    matrices.drawText(
+                    context.drawText(
                         line,
                         -TextRenderer.getWidth(line).toFloat(), (index + 1) * height / scale,
                         false, Colors.White
                     )
                 }
 
-                matrices.pop()
+                context.matrices.pop()
             }
         }
     }

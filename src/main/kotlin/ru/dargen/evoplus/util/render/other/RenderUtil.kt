@@ -5,12 +5,14 @@ import gg.essential.universal.ChatColor
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
 import gg.essential.universal.vertex.UBufferBuilder
+import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.slot.Slot
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
+import ru.dargen.evoplus.mixin.MinecraftClientAccessor
 import ru.dargen.evoplus.util.minecraft.Client
 import ru.dargen.evoplus.util.render.other.DrawHelper.writeRectCoords
 import java.awt.Color
@@ -178,6 +180,9 @@ object RenderUtil {
         val viewerZ = viewer.lastRenderZ + (viewer.z - viewer.lastRenderZ) * partialTicks
         return Triple(viewerX, viewerY, viewerZ)
     }
+
+    fun getPartialTicks(entity: Entity? = null) =
+        (Client as MinecraftClientAccessor).timer.getTickDelta(entity?.let { Client.world?.tickManager?.shouldSkipTick(it)?.not() } ?: false)
 
     fun Slot.highlight(color: Color) {
         val matrices = UMatrixStack()

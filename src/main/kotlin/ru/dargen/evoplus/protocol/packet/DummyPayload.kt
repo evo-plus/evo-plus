@@ -2,8 +2,8 @@ package ru.dargen.evoplus.protocol.packet
 
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.packet.CustomPayload
-import pro.diamondworld.protocol.util.ProtocolSerializable
 import net.minecraft.util.Identifier
+import pro.diamondworld.protocol.util.ProtocolSerializable
 
 object DummyPayload : ProtocolSerializable {
 

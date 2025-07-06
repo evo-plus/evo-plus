@@ -1,6 +1,6 @@
 package ru.dargen.evoplus.render.node
 
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 
 data object DummyNode : Node() {
 
@@ -8,8 +8,6 @@ data object DummyNode : Node() {
         get() = false
         set(value) {}
 
-    override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
-
-    }
+    override fun renderElement(context: DrawContext, tickDelta: Float) {}
 
 }

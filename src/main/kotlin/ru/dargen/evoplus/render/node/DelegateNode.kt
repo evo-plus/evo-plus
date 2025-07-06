@@ -1,10 +1,10 @@
 package ru.dargen.evoplus.render.node
 
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 
 class DelegateNode : Node() {
 
-    override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
+    override fun renderElement(context: DrawContext, tickDelta: Float) {
         children.forEach { it.size = size.clone() }
     }
 

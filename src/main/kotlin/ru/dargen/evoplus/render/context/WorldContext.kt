@@ -19,22 +19,22 @@ data object WorldContext : RenderContext() {
             Camera = camera
             BufferBuilderStorage = bufferBuilderStorage
 
-            matrices.push()
+            context.matrices.push()
             RenderSystem.disableDepthTest()
             RenderSystem.enableBlend()
             RenderSystem.defaultBlendFunc()
             RenderSystem.disableCull()
 
-            camera.pos.run { matrices.translate(-x, -y, -z) }
+            camera.pos.run { context.matrices.translate(-x, -y, -z) }
 
-            render(matrices, tickDelta)
+            render(context, tickDelta)
 
             RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
             VertexBuffer.unbind()
             RenderSystem.enableDepthTest()
             RenderSystem.enableCull()
             RenderSystem.disableBlend()
-            matrices.pop()
+            context.matrices.pop()
         }
     }
 

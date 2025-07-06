@@ -35,7 +35,7 @@
     "render.screen.HandledScreenMixin",
     "render.screen.HandledScreenAccessor",
     "render.screen.TitleScreenMixin",
-    "render.map.MapTextureAccessor",
+    "render.map.MapTextureManagerAccessor",
     "render.map.MapRendererAccessor",
 
     "text.MutableTextMixin",

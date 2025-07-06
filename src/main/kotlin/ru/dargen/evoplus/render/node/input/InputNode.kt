@@ -11,8 +11,8 @@ import ru.dargen.evoplus.util.format.safeSlice
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.render.DrawContextExtensions.drawRectangle
 import ru.dargen.evoplus.util.render.TextRenderer
-import ru.dargen.evoplus.util.render.drawRectangle
 import java.awt.Color
 
 typealias InputFilter = InputNode.(char: Char) -> Boolean
@@ -127,10 +127,10 @@ class InputNode : RectangleNode() {
                 -(TextRenderer.getWidth(contentBefore) * text.scale.x - (size.x - scissorIndent.x * 2 - 5.0))
                     .coerceAtLeast(.0)
         }
-        text.postRender { matrices, tickDelta ->
+        text.postRender { context, tickDelta ->
             if (!focused || (currentMillis / 500) % 2 == 0L) return@postRender
             val preCursorSize = TextRenderer.getWidth(contentBefore) * scale.x
-            matrices.drawRectangle(
+            context.drawRectangle(
                 preCursorSize.toFloat(), -this@InputNode.size.y.toFloat() / 2f,
                 preCursorSize.toFloat() + 1f, this@InputNode.size.y.toFloat() / 2f,
                 color = color

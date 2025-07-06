@@ -1,11 +1,11 @@
 package ru.dargen.evoplus.render.node
 
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
+import ru.dargen.evoplus.util.render.DrawContextExtensions.drawText
+import ru.dargen.evoplus.util.render.DrawContextExtensions.drawWorldText
 import ru.dargen.evoplus.util.render.TextRenderer
-import ru.dargen.evoplus.util.render.drawText
-import ru.dargen.evoplus.util.render.drawWorldText
 
 @KotlinOpens
 class TextNode(lines: List<String>) : Node() {
@@ -43,16 +43,17 @@ class TextNode(lines: List<String>) : Node() {
         )
     }
 
-    override fun renderElement(matrices: MatrixStack, tickDelta: Float) {
+    override fun renderElement(context: DrawContext, tickDelta: Float) {
         if (dirty) recompute()
 
         val height = (TextRenderer.fontHeight - 1.0)
+
         linesWithWidths.forEachIndexed { index, (line, width) ->
             val x = if (isCentered) size.x.toFloat() / 2f - width / 2f else 0f
             val y = index * height.toFloat() + index * linesSpace.toFloat()
 
-            if (isWorldElement) matrices.drawWorldText(text, x, y, isShadowed, isSeeThrough, color)
-            else matrices.drawText(line, x, y, isShadowed, color)
+            if (isWorldElement) context.drawWorldText(text, x, y, isShadowed, isSeeThrough, color)
+            else context.drawText(line, x, y, isShadowed, color)
         }
     }
 }

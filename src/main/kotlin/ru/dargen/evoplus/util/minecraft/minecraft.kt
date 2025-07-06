@@ -18,7 +18,6 @@ import ru.dargen.evoplus.protocol.collector.ClanInfoCollector
 import ru.dargen.evoplus.util.kotlin.cast
 import ru.dargen.evoplus.util.kotlin.safeCast
 import ru.dargen.evoplus.util.math.Vector3
-import ru.dargen.evoplus.util.text.print
 
 
 val Client get() = MinecraftClient.getInstance()

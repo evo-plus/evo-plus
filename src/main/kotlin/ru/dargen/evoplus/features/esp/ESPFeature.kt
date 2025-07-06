@@ -39,6 +39,7 @@ object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
     }
 
     init {
+
         on<ChunkLoadEvent> {
             //TODO: make more better than async
             async {

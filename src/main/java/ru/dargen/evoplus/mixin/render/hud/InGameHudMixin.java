@@ -35,8 +35,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "render", at = @At("TAIL"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/LayeredDrawer;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V")), cancellable = true)
     private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         context.getMatrices().push();
-        OverlayRenderEvent.context = context;
-        EventBus.INSTANCE.fire(new OverlayRenderEvent(context.getMatrices(), tickCounter.getTickDelta(true)));
+        EventBus.INSTANCE.fire(new OverlayRenderEvent(context, tickCounter.getTickDelta(true)));
         context.getMatrices().pop();
     }
 
@@ -49,16 +48,6 @@ public abstract class InGameHudMixin {
     private void renderStatusBars_getAir(DrawContext context, PlayerEntity player, int heartCount, int top, int left, CallbackInfo ci) {
         if (RenderFeature.INSTANCE.getNoExcessHud()) ci.cancel();
     }
-
-//    @Inject(method = "renderExperienceBar", at = @At("HEAD"), cancellable = true)
-//    private void renderExperienceBar(DrawContext context, int x, CallbackInfo ci) {
-//        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
-//    }
-
-//    @Inject(method = "renderExperienceLevel", at = @At("HEAD"), cancellable = true)
-//    private void renderExperienceLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-//        if (RenderFeature.INSTANCE.getNoExpHud()) ci.cancel();
-//    }
 
     //tmp mb bc idk how to edit locals
     @Inject(method = "renderHealthBar", at = @At("HEAD"), cancellable = true)

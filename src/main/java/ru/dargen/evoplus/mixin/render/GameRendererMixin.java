@@ -25,9 +25,9 @@ public class GameRendererMixin {
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V"))
     private void render(Screen instance, DrawContext context, int mouseX, int mouseY, float delta) {
-        if (EventBus.INSTANCE.fireResult(new ScreenRenderEvent.Pre(instance, context.getMatrices(), delta))) {
+        if (EventBus.INSTANCE.fireResult(new ScreenRenderEvent.Pre(instance, context, delta))) {
             instance.renderWithTooltip(context, mouseX, mouseY, delta);
-            EventBus.INSTANCE.fire(new ScreenRenderEvent.Post(instance, context.getMatrices(), delta));
+            EventBus.INSTANCE.fire(new ScreenRenderEvent.Post(instance, context, delta));
         }
     }
 

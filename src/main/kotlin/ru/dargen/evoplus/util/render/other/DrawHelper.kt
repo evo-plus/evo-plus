@@ -7,12 +7,11 @@ import gg.essential.universal.vertex.UBufferBuilder
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.item.ItemStack
+import net.minecraft.item.ModelTransformationMode
 import net.minecraft.util.Colors
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
-import net.minecraft.client.texture.TextureManager
-import net.minecraft.item.ModelTransformationMode
 import org.joml.Quaternionf
 import ru.dargen.evoplus.mixin.render.screen.HandledScreenAccessor
 import ru.dargen.evoplus.util.minecraft.Client
