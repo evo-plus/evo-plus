@@ -11,7 +11,6 @@ import ru.dargen.evoplus.util.format.safeSlice
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
 import ru.dargen.evoplus.util.minecraft.Client
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawRectangle
 import ru.dargen.evoplus.util.render.TextRenderer
 import java.awt.Color
 
@@ -129,11 +128,11 @@ class InputNode : RectangleNode() {
         }
         text.postRender { context, tickDelta ->
             if (!focused || (currentMillis / 500) % 2 == 0L) return@postRender
-            val preCursorSize = TextRenderer.getWidth(contentBefore) * scale.x
-            context.drawRectangle(
-                preCursorSize.toFloat(), -this@InputNode.size.y.toFloat() / 2f,
-                preCursorSize.toFloat() + 1f, this@InputNode.size.y.toFloat() / 2f,
-                color = color
+            val preCursorSize = (TextRenderer.getWidth(contentBefore) * scale.x).toInt()
+            context.fill(
+                preCursorSize, (-this@InputNode.size.y / 2).toInt(),
+                (preCursorSize.toFloat() + 1f).toInt(), (this@InputNode.size.y.toFloat() / 2f).toInt(),
+                color.rgb
             )
         }
     }

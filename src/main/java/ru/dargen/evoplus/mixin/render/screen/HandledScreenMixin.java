@@ -13,28 +13,17 @@ import ru.dargen.evoplus.features.misc.RenderFeature;
 import ru.dargen.evoplus.render.Colors;
 import ru.dargen.evoplus.util.minecraft.ItemsKt;
 import ru.dargen.evoplus.util.render.ColorKt;
-import ru.dargen.evoplus.util.render.DrawContextExtensions;
 
 import java.util.List;
 
 @Mixin(HandledScreen.class)
 public class HandledScreenMixin {
 
-//    @Inject(method = "drawSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"))
     @Inject(method = "drawSlot", at = @At("HEAD"))
     private void drawItem(DrawContext context, Slot slot, CallbackInfo ci) {
-        //TODO: make with texture and more visible
         if (RenderFeature.INSTANCE.getHighlightAvailableItems() && slot.hasStack() && isHighlightedItem(slot.getStack())) {
-//            RenderSystem.enableBlend();
-//            RenderSystem.defaultBlendFunc();
-//            DrawKt.drawRectangle(context.getMatrices(), slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
-
-            DrawContextExtensions.INSTANCE.drawRectangle(context, slot.x, slot.y, slot.x + 16f, slot.y + 16f, 101f, ColorKt.alpha(Colors.Green.INSTANCE, 100));
-
-//            var matrices = UMatrixStack.Compat.INSTANCE.get();
-//            var buffer = UBufferBuilder.create(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR);
-
-//            DrawHelper.INSTANCE.writeRect(matrices, buffer, slot.x, slot.y, slot.x + 16, slot.y + 16, ColorKt.alpha(Colors.Green.INSTANCE, 100));
+            int color = ColorKt.alpha(Colors.Green.INSTANCE, 150).getRGB();
+            context.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, 101, color);
         }
     }
 

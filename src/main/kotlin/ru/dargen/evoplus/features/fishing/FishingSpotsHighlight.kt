@@ -30,6 +30,6 @@ object FishingSpotsHighlight : ParticleHighlighter(FishingFeature::SpotsHighligh
         after { WorldContext + this@hide }
     }
 
-    override fun shouldProcess() = PlayerDataCollector.location.warp == "fish"
+    override fun shouldProcess() = PlayerDataCollector.location.warp?.contains("fish") ?: false
 
 }

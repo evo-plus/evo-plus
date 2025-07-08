@@ -5,10 +5,10 @@ import net.minecraft.client.gui.DrawContext
 import ru.dargen.evoplus.render.context.Overlay
 import ru.dargen.evoplus.util.math.Vector3
 import ru.dargen.evoplus.util.minecraft.MousePosition
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawRectangle
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawText
+import ru.dargen.evoplus.util.render.DrawUtil.drawText
 import ru.dargen.evoplus.util.render.TextRenderer
 import ru.dargen.evoplus.util.render.translate
+import ru.dargen.evoplus.util.text.print
 import java.awt.Color
 
 object Tips {
@@ -35,7 +35,7 @@ object Tips {
 
         context.matrices.translate(position)
         context.matrices.translate(0f, 0f, 1000f) //z buffer hehe
-        context.drawRectangle(0f, 0f, width, height, color = color)
+        context.fill(0, 0, width.toInt(), height.toInt(), color.print("color2").rgb)
 
         context.matrices.translate(indent, indent, 0f)
 

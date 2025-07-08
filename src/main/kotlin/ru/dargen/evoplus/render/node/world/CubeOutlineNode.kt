@@ -1,13 +1,15 @@
 package ru.dargen.evoplus.render.node.world
 
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.DrawContext
-import org.lwjgl.opengl.GL11
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
 import ru.dargen.evoplus.render.animation.property.proxied
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawCubeOutline
+import ru.dargen.evoplus.util.render.DrawUtil
+import ru.dargen.evoplus.util.text.print
+import java.awt.Color
 
 @KotlinOpens
 class CubeOutlineNode : Node() {
@@ -23,36 +25,29 @@ class CubeOutlineNode : Node() {
         scaledSize = v3(1.0, 1.0, 1.0)
     }
 
-//    override fun renderElement(context: DrawContext, tickDelta: Float) {
-//        if (!isSeeThrough) RenderSystem.enableDepthTest()
-//        //TODO: make line width
-//        RenderSystem.lineWidth(4 * width.toFloat())
-//        context.drawCubeOutline(size, color)
-//        if (!isSeeThrough) RenderSystem.disableDepthTest()
-//    }
-
     override fun renderElement(context: DrawContext, tickDelta: Float) {
-        val lineWidth = 4 * width.toFloat()
 
-        val wasDepthTestEnabled = GL11.glIsEnabled(GL11.GL_DEPTH_TEST)
-        val previousLineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH)
+        val offsetX = position.x - (origin.x * scaledSize.x)
+        val offsetY = position.y - (origin.y * scaledSize.y)
+        val offsetZ = position.z - (origin.z * scaledSize.z)
 
-        try {
-            if (!isSeeThrough) RenderSystem.enableDepthTest()
-            else RenderSystem.disableDepthTest()
+        val box = Box(
+            offsetX, offsetY, offsetZ,
+            offsetX + scaledSize.x, offsetY + scaledSize.y, offsetZ + scaledSize.z
+        ).print("box1")
 
-            RenderSystem.lineWidth(lineWidth)
+        context.drawCubeOutline(isWorldElement, box, color, 4 * width.toFloat())
 
-            context.drawCubeOutline(size, color)
-
-        } finally {
-            if (wasDepthTestEnabled) RenderSystem.enableDepthTest()
-            else RenderSystem.disableDepthTest()
-
-            RenderSystem.lineWidth(previousLineWidth)
-        }
     }
 
+}
+
+private fun DrawContext.drawCubeOutline(isWorldElement: Boolean, box: Box, color: Color, width: Float) {
+    if (!isWorldElement) return
+
+    val test = Box.from(Vec3d(-599.0, 97.0, 106.0))
+
+    DrawUtil.draw3DBox(matrices, test, color, width)
 }
 
 fun cubeOutline(block: CubeOutlineNode.() -> Unit = {}) = CubeOutlineNode().apply(block)

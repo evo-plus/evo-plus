@@ -31,7 +31,7 @@ data object Overlay : RenderContext() {
     }
 
     override fun registerRenderHandlers() {
-        on<OverlayRenderEvent> { render(this.context, tickDelta) }
+        on<OverlayRenderEvent> { render(context, tickDelta) }
         on<WindowResizeEvent> { resize() }
         on<WindowRescaleEvent> { resize() }
     }

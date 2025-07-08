@@ -1,7 +1,6 @@
 package ru.dargen.evoplus.util.render
 
-import net.minecraft.client.render.BufferBuilderStorage
-import net.minecraft.client.render.Camera
+import net.minecraft.client.render.Frustum
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.util.math.MatrixStack
 import ru.dargen.evoplus.util.math.Vector3
@@ -20,12 +19,13 @@ inline fun MatrixStack.push(block: MatrixStack.() -> Unit) {
 inline fun MatrixStack.normalize3DScale() = scale(-0.025F, -0.025F, 0.025F)
 
 val TextRenderer get() = Client.textRenderer
-val ItemRenderer get() = Client.itemRenderer
+//val ItemRenderer get() = Client.itemRenderer
 val Tesselator = Tessellator.getInstance()
 
-lateinit var MatrixStack: MatrixStack
-lateinit var BufferBuilderStorage: BufferBuilderStorage
-lateinit var Camera: Camera
+//lateinit var MatrixStack: MatrixStack
+//lateinit var BufferBuilderStorage: BufferBuilderStorage
+//lateinit var Camera: Camera
+lateinit var Frustum: Frustum
 
 val DefaultScale = v3(1.0, 1.0, 1.0)
 

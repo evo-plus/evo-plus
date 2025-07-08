@@ -27,4 +27,8 @@ object Colors {
     data object Deepskyblue : Color(0, 199, 220)
     data object Purple : Color(158, 0, 220)
 
+
+    fun getArgb(alpha: Int, red: Int, green: Int, blue: Int): Int {
+        return alpha shl 24 or (red shl 16) or (green shl 8) or blue
+    }
 }

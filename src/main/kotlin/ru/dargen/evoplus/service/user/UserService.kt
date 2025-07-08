@@ -7,6 +7,7 @@ import ru.dargen.evoplus.event.network.ChangeServerEvent
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.protocol.Connector
 import ru.dargen.evoplus.protocol.collector.PlayerDataCollector
+import ru.dargen.evoplus.scheduler.async
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.service.user.model.UserStatisticModel
 import ru.dargen.evoplus.util.collection.takeIfNotEmpty
@@ -41,10 +42,12 @@ object UserService {
     fun getDisplayName(player: String) = userNames.getIfPresent(player.lowercase())
 
     private fun tryUpdate() {
-        if (Connector.isOnDiamondWorld && Connector.token.isWorking) {
-            runCatching {
-                UserController.update(Connector.token.token, EvoPlus.Version, Connector.server.toString())
-            }.onFailure { Logger.error("Error while updating user", it) }
+        async {
+            if (Connector.isOnDiamondWorld && Connector.token.isWorking) {
+                runCatching {
+                    UserController.update(Connector.token.token, EvoPlus.Version, Connector.server.toString())
+                }.onFailure { Logger.error("Error while updating user", it) }
+            }
         }
     }
 

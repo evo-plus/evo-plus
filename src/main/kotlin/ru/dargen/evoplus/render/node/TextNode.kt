@@ -3,8 +3,8 @@ package ru.dargen.evoplus.render.node
 import net.minecraft.client.gui.DrawContext
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawText
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawWorldText
+import ru.dargen.evoplus.util.render.DrawUtil.drawText
+import ru.dargen.evoplus.util.render.DrawUtil.drawWorldText
 import ru.dargen.evoplus.util.render.TextRenderer
 
 @KotlinOpens

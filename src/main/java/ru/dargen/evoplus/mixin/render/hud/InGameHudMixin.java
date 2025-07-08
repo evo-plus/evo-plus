@@ -4,6 +4,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -14,7 +15,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.dargen.evoplus.event.EventBus;
 import ru.dargen.evoplus.event.render.OverlayRenderEvent;
@@ -32,7 +32,7 @@ public abstract class InGameHudMixin {
     @Shadow
     protected abstract int getHeartCount(LivingEntity entity);
 
-    @Inject(method = "render", at = @At("TAIL"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/LayeredDrawer;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V")), cancellable = true)
+    @Inject(method = "renderMainHud", at = @At("HEAD"))
     private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         context.getMatrices().push();
         EventBus.INSTANCE.fire(new OverlayRenderEvent(context, tickCounter.getTickDelta(true)));
@@ -46,6 +46,16 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderAirBubbles", at = @At("HEAD"), cancellable = true)
     private void renderStatusBars_getAir(DrawContext context, PlayerEntity player, int heartCount, int top, int left, CallbackInfo ci) {
+        if (RenderFeature.INSTANCE.getNoExcessHud()) ci.cancel();
+    }
+
+    @Inject(method = "renderMountHealth", at = @At("HEAD"), cancellable = true)
+    private void renderMountHealth(DrawContext context, CallbackInfo ci) {
+        if (RenderFeature.INSTANCE.getNoExcessHud()) ci.cancel();
+    }
+
+    @Inject(method = "renderMountJumpBar", at = @At("HEAD"), cancellable = true)
+    private void renderMountHealth(JumpingMount mount, DrawContext context, int x, CallbackInfo ci) {
         if (RenderFeature.INSTANCE.getNoExcessHud()) ci.cancel();
     }
 

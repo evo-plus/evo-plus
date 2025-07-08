@@ -7,7 +7,7 @@ object Keybinds {
     val MenuKey = keyBind("Открыть меню", InputUtil.GLFW_KEY_RIGHT_SHIFT, "EvoPlus")
     val AutoClicker = keyBind("Включить авто-кликер", InputUtil.GLFW_KEY_Z, "EvoPlus")
     val FastSelector = keyBind("Окно быстрого доступа", InputUtil.GLFW_KEY_R, "EvoPlus")
-    val ShareBossesToClan = keyBind("Отправка боссов в клан чат", InputUtil.GLFW_KEY_O, "EvoPlus")
+//    val ShareBossesToClan = keyBind("Отправка боссов в клан чат", InputUtil.GLFW_KEY_O, "EvoPlus")
 
     val MoveRuneSetRight = keyBind("Переключить сет рун вправо", InputUtil.GLFW_KEY_D, "EvoPlus")
     val MoveRuneSetLeft = keyBind("Переключить сет рун влево", InputUtil.GLFW_KEY_A, "EvoPlus")

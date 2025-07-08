@@ -14,7 +14,7 @@ import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.scheduler.schedule
 import ru.dargen.evoplus.util.minecraft.*
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawText
+import ru.dargen.evoplus.util.render.DrawUtil.drawText
 import ru.dargen.evoplus.util.render.TextRenderer
 
 private typealias RawRuneProperty = Pair<String, String>

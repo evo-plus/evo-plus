@@ -69,9 +69,9 @@ class Widget(id: String, name: String, supplier: Node.() -> Unit) : Setting<Node
         }
         hover {  _, state -> if (isWidgetEditor) hoverTimestamp = if (state) currentMillis else 0L }
         preTransform { _, _ -> color = if (isWidgetEditor && isHovered) TransparentWhite else Transparent }
-        postRender { context, _ ->
+        postRender { matrixStack, _ ->
             if (isWidgetEditor && isHovered && hoverTimestamp + 1000 <= currentMillis) Tips.draw(
-                context, "Для изменения размера используйте колесико мышки.",
+                matrixStack, "Для изменения размера используйте колесико мышки.",
                 "Чтобы вернуть размер по умолчанию, нажмите на колесико мышки."
             )
         }

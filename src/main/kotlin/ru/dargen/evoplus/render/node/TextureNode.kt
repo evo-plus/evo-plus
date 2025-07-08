@@ -2,20 +2,22 @@ package ru.dargen.evoplus.render.node
 
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.util.Identifier
 import ru.dargen.evoplus.render.animation.property.proxied
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
+import java.util.function.Function
 
 @KotlinOpens
 class TextureNode : Node() {
 
     lateinit var identifier: Identifier
+    lateinit var renderLayer: RenderLayer
     var texture: Int = -1
 
     var textureOffset by proxied(v3())
     var textureSize by proxied(v3(256.0, 256.0))
-    var repeating = false
     var blend = true
 
     init {
@@ -30,17 +32,18 @@ class TextureNode : Node() {
 
         if (blend) RenderSystem.enableBlend()
 
-//        if (repeating) DrawContextExtensions.drawRepeatingTexture(
-//            matrices, 0, 0,
-//            size.x.toInt(), size.y.toInt(),
-//            textureOffset.x.toInt(), textureOffset.y.toInt(),
-//            textureSize.x.toInt(), textureSize.y.toInt()
-//        ) else DrawableHelper.drawTexture(
-//            matrices, 0, 0,
-//            textureOffset.x.toFloat(), textureOffset.y.toFloat(),
-//            size.x.toInt(), size.y.toInt(),
-//            textureSize.x.toInt(), textureSize.y.toInt()
-//        )
+        val renderLayers: Function<Identifier, RenderLayer> = if (this::renderLayer.isInitialized)
+            Function { _ -> renderLayer }
+        else Function { id -> RenderLayer.getGui() }
+
+        context.drawTexture(
+            renderLayers,
+            identifier,
+            0, 0,
+            textureOffset.x.toFloat(), textureOffset.y.toFloat(),
+            size.x.toInt(), size.y.toInt(),
+            textureSize.x.toInt(), textureSize.y.toInt(), color.rgb
+        )
     }
 
 }
@@ -54,5 +57,11 @@ fun texture(identifier: Identifier, block: TextureNode.() -> Unit = {}) = textur
 
 fun texture(texture: Int, block: TextureNode.() -> Unit = {}) = texture {
     this.texture = texture
+    block()
+}
+
+fun texture(identifier: Identifier, renderLayer: RenderLayer, block: TextureNode.() -> Unit = {}) = texture {
+    this.identifier = identifier
+    this.renderLayer = renderLayer
     block()
 }

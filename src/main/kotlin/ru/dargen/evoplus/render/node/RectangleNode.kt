@@ -3,7 +3,6 @@ package ru.dargen.evoplus.render.node
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.DrawContext
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
-import ru.dargen.evoplus.util.render.DrawContextExtensions.drawRectangle
 
 @KotlinOpens
 class RectangleNode : Node() {
@@ -14,7 +13,7 @@ class RectangleNode : Node() {
         if (!transparentRender && color.alpha == 0) return
 
         if (!isSeeThrough) RenderSystem.enableDepthTest()
-        context.drawRectangle(size, color = color)
+        context.fill(0, 0, size.x.toInt(), size.y.toInt(), color.rgb)
         if (!isSeeThrough) RenderSystem.disableDepthTest()
     }
 
