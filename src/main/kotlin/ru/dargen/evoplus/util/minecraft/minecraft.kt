@@ -99,3 +99,17 @@ fun sendClanMessage(message: String) {
 fun sendCommand(command: String) = Player?.networkHandler?.sendChatCommand(command)
 
 fun sendPacket(packet: Packet<*>) = Player?.networkHandler?.sendPacket(packet)
+
+fun leftClick() {
+    val attackCooldown = ClientAccessor.attackCooldown
+
+    if (attackCooldown == 10000) ClientAccessor.attackCooldown = 0
+
+    Client.options.attackKey.isPressed = true
+    ClientAccessor.leftClick()
+    Client.options.attackKey.isPressed = false
+}
+
+fun rightClick() {
+    ClientExtension.`evo_plus$rightClick`()
+}

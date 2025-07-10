@@ -1,5 +1,7 @@
 package ru.dargen.evoplus.render.context
 
+import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.gl.VertexBuffer
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.render.WorldRenderEvent
 import ru.dargen.evoplus.util.math.v3
@@ -16,22 +18,23 @@ data object WorldContext : RenderContext() {
         on<WorldRenderEvent> {
             Frustum = frustum
 
-//            matrixStack.push()
-//            RenderSystem.disableDepthTest()
-//            RenderSystem.enableBlend()
-//            RenderSystem.defaultBlendFunc()
-//            RenderSystem.disableCull()
+            matrixStack.push()
+            RenderSystem.disableDepthTest()
+            RenderSystem.enableBlend()
+            RenderSystem.defaultBlendFunc()
+            RenderSystem.disableCull()
 //
-//            frustum.setPosition(-frustum.x, -frustum.y, -frustum.z)
+            frustum.setPosition(-frustum.x, -frustum.y, -frustum.z)
 
 //            renderBox(Box.from(Vec3d(-598.5, 98.0, 106.5)), color, 4f)
+            renderBox(matrixStack)
 
-//            RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
-//            VertexBuffer.unbind()
-//            RenderSystem.enableDepthTest()
-//            RenderSystem.enableCull()
-//            RenderSystem.disableBlend()
-//            matrixStack.pop()
+            RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
+            VertexBuffer.unbind()
+            RenderSystem.enableDepthTest()
+            RenderSystem.enableCull()
+            RenderSystem.disableBlend()
+            matrixStack.pop()
         }
 
     }

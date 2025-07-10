@@ -43,8 +43,8 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     private boolean doAttackCalled;
     @Unique
     private boolean rightClick;
-    @Unique
-    private boolean leftClick;
+//    @Unique
+//    private boolean leftClick;
 
     @Shadow
     protected abstract void doItemUse();
@@ -74,10 +74,10 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
         doAttackCalled = false;
 
         if (rightClick && !doItemUseCalled && interactionManager != null) doItemUse();
-        if (leftClick && !doAttackCalled && interactionManager != null) doAttack();
-
         rightClick = false;
-        leftClick = false;
+
+//        if (leftClick && !doAttackCalled && interactionManager != null) doAttack();
+//        leftClick = false;
     }
 
     @Inject(method = "tick", at = @At("RETURN"))
@@ -136,10 +136,10 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
         rightClick = true;
     }
 
-    @Override
-    public void evo_plus$leftClick() {
-        leftClick = true;
-    }
+//    @Override
+//    public void evo_plus$leftClick() {
+//        leftClick = true;
+//    }
 
     @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
     private String setCustomWindowTitle(String original) {

@@ -7,7 +7,7 @@ import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.input.MouseWheelEvent
 import ru.dargen.evoplus.event.on
-import ru.dargen.evoplus.render.node.RectangleNode
+import ru.dargen.evoplus.render.node.world.CubeOutlineNode
 import ru.dargen.evoplus.scheduler.scheduleEvery
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
@@ -15,7 +15,7 @@ import ru.dargen.evoplus.util.minecraft.Player
 import java.util.concurrent.TimeUnit
 
 @KotlinOpens
-abstract class RenderContext : RectangleNode() {
+abstract class RenderContext : CubeOutlineNode() {
 
     var translationScale = v3(1.0, 1.0, 1.0)
 

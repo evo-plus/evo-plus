@@ -82,7 +82,7 @@ modrinth {
     versionNumber = project.version
     versionName = project.version
     changelog = openFile('release/changelog.txt').split('\n').collect { "- $it" }.join('\n')
-    versionType = 'release'
+    versionType = 'alpha'
     uploadFile = remapJar
     gameVersions = [project.minecraft_version]
     loaders = ['fabric']

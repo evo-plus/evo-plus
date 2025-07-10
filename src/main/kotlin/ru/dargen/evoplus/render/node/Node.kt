@@ -2,6 +2,7 @@ package ru.dargen.evoplus.render.node
 
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.util.math.MatrixStack
 import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.render.Relative
 import ru.dargen.evoplus.render.animation.property.proxied
@@ -107,8 +108,8 @@ abstract class Node {
     val wholeRotation get() = (parent?.rotation ?: Vector3.Mutable()) + rotation
     val wholeSize get() = wholeScale * size
 
-    val isWorldElement get() = this@Node.context is WorldContext
-    val context: RenderContext? get() = parent?.context ?: safeCast<RenderContext>()
+    val isWorldElement get() = this@Node.renderContext is WorldContext
+    val renderContext: RenderContext? get() = parent?.renderContext ?: safeCast<RenderContext>()
 
     //dispatchers
     fun asyncTick() {
@@ -218,6 +219,7 @@ abstract class Node {
         preRenderHandlers.forEach { it(context, tickDelta) }
 
         renderElement(context, tickDelta)
+        renderBox(context.matrices)
 
         if (isScissor) {
             val position = (wholePosition + scissorIndent * wholeScale) * Overlay.ScaleFactor
@@ -241,6 +243,7 @@ abstract class Node {
     }
 
     fun renderElement(context: DrawContext, tickDelta: Float) {}
+    fun renderBox(matrices: MatrixStack) {}
 
     //children
     fun addChildren(children: Collection<Node>) {

@@ -1,15 +1,10 @@
 package ru.dargen.evoplus.render.node.world
 
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.Vec3d
+import net.minecraft.client.util.math.MatrixStack
 import ru.dargen.evoplus.render.animation.property.proxied
 import ru.dargen.evoplus.render.node.Node
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import ru.dargen.evoplus.util.math.v3
-import ru.dargen.evoplus.util.render.DrawUtil
-import ru.dargen.evoplus.util.text.print
-import java.awt.Color
 
 @KotlinOpens
 class CubeOutlineNode : Node() {
@@ -25,29 +20,16 @@ class CubeOutlineNode : Node() {
         scaledSize = v3(1.0, 1.0, 1.0)
     }
 
-    override fun renderElement(context: DrawContext, tickDelta: Float) {
+    override fun renderBox(matrices: MatrixStack) {
+//        val box = Box(position.x, position.y, position.z, size.x, size.y, size.z).print("box1")
 
-        val offsetX = position.x - (origin.x * scaledSize.x)
-        val offsetY = position.y - (origin.y * scaledSize.y)
-        val offsetZ = position.z - (origin.z * scaledSize.z)
-
-        val box = Box(
-            offsetX, offsetY, offsetZ,
-            offsetX + scaledSize.x, offsetY + scaledSize.y, offsetZ + scaledSize.z
-        ).print("box1")
-
-        context.drawCubeOutline(isWorldElement, box, color, 4 * width.toFloat())
+//        if (!isSeeThrough) RenderSystem.enableDepthTest()
+//        RenderSystem.lineWidth(4 * width.toFloat())
+//        DrawUtil.draw3DBox(matrices, box, color, 4 * width.toFloat())
+//        if (!isSeeThrough) RenderSystem.disableDepthTest()
 
     }
 
-}
-
-private fun DrawContext.drawCubeOutline(isWorldElement: Boolean, box: Box, color: Color, width: Float) {
-    if (!isWorldElement) return
-
-    val test = Box.from(Vec3d(-599.0, 97.0, 106.0))
-
-    DrawUtil.draw3DBox(matrices, test, color, width)
 }
 
 fun cubeOutline(block: CubeOutlineNode.() -> Unit = {}) = CubeOutlineNode().apply(block)

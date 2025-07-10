@@ -22,6 +22,8 @@ public class ClientPlayerInteractionManagerMixin {
     public void clickSlot(int syncId, int slotId, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
         if (!EventBus.INSTANCE.fireResult(new InventoryClickEvent(syncId, slotId, button, actionType)))
             ci.cancel();
+        else if (slotId == -999) // click outside of inventory
+            ci.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "breakBlock", cancellable = true)
