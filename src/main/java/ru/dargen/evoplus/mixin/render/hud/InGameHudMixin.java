@@ -25,9 +25,9 @@ import ru.dargen.evoplus.util.mixin.HeartType;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
 
-    @Shadow
-    @Final
-    private Random random;
+//    @Shadow
+//    @Final
+//    private Random random = Random.create();
 
     @Shadow
     protected abstract int getHeartCount(LivingEntity entity);
@@ -83,9 +83,9 @@ public abstract class InGameHudMixin {
             int o = x + n * 8 + xOffset;
 //            int p = y - m * lines + yOffset;
             int p = y - m * lines;
-            if (lastHealth + absorption <= 4) {
-                p += this.random.nextInt(2);
-            }
+//            if (lastHealth + absorption <= 4) {
+//                p += this.random.nextInt(2);
+//            }
 
             if (l < i && l == regeneratingHeartIndex) {
                 p -= 2;

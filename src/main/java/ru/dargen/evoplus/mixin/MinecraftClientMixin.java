@@ -32,15 +32,16 @@ import ru.dargen.evoplus.event.world.WorldPostLoadEvent;
 import ru.dargen.evoplus.event.world.WorldPreLoadEvent;
 import ru.dargen.evoplus.extension.MinecraftClientExtension;
 import ru.dargen.evoplus.features.misc.RenderFeature;
+import ru.dargen.evoplus.util.CPSUtils;
 import ru.dargen.evoplus.util.minecraft.MinecraftKt;
 
-@Mixin(MinecraftClient.class)
+@Mixin(value = MinecraftClient.class, priority = 1001)
 public abstract class MinecraftClientMixin implements MinecraftClientExtension {
 
     @Unique
     private boolean doItemUseCalled;
-    @Unique
-    private boolean doAttackCalled;
+//    @Unique
+//    private boolean doAttackCalled;
     @Unique
     private boolean rightClick;
 //    @Unique
@@ -49,8 +50,8 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     @Shadow
     protected abstract void doItemUse();
 
-    @Shadow
-    protected abstract boolean doAttack();
+//    @Shadow
+//    protected abstract boolean doAttack();
 
     @Shadow
     @Nullable
@@ -71,7 +72,7 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
         EventBus.INSTANCE.fire(PreTickEvent.INSTANCE);
 
         doItemUseCalled = false;
-        doAttackCalled = false;
+//        doAttackCalled = false;
 
         if (rightClick && !doItemUseCalled && interactionManager != null) doItemUse();
         rightClick = false;
@@ -106,7 +107,8 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
     @Inject(method = "doAttack", at = @At("HEAD"))
     private void doAttack(CallbackInfoReturnable<Boolean> cir) {
         EventBus.INSTANCE.fire(new InteractEvent(false));
-        doAttackCalled = true;
+//        doAttackCalled = true;
+        CPSUtils.INSTANCE.onAttack();
     }
 
     @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
@@ -116,9 +118,7 @@ public abstract class MinecraftClientMixin implements MinecraftClientExtension {
             return;
         }
 
-        if (screen != null && !EventBus.INSTANCE.fireResult(new ScreenOpenEvent(screen, currentScreen))) {
-            ci.cancel();
-        }
+        if (screen != null && !EventBus.INSTANCE.fireResult(new ScreenOpenEvent(screen, currentScreen))) ci.cancel();
     }
 
     @Inject(method = "joinWorld", at = @At("HEAD"))

@@ -1,6 +1,7 @@
 package ru.dargen.evoplus.features.clicker
 
 import net.minecraft.item.Items
+import ru.dargen.evoplus.event.game.PostTickEvent
 import ru.dargen.evoplus.event.input.KeyEvent
 import ru.dargen.evoplus.event.input.MouseClickEvent
 import ru.dargen.evoplus.event.on
@@ -8,10 +9,11 @@ import ru.dargen.evoplus.feature.Feature
 import ru.dargen.evoplus.keybind.Keybinds
 import ru.dargen.evoplus.keybind.boundKey
 import ru.dargen.evoplus.keybind.on
-import ru.dargen.evoplus.scheduler.scheduleEvery
+import ru.dargen.evoplus.util.minecraft.Client
+import ru.dargen.evoplus.util.minecraft.leftClick
+import ru.dargen.evoplus.util.minecraft.rightClick
 import ru.dargen.evoplus.util.selector.enumSelector
 import ru.dargen.evoplus.util.selector.toSelector
-import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
 object AutoClickerFeature : Feature("clicker", "Кликер", Items.WOODEN_SWORD) {
@@ -36,30 +38,77 @@ object AutoClickerFeature : Feature("clicker", "Кликер", Items.WOODEN_SWOR
             field = max(0, value)
         }
 
+    var leftClickTimer = 0
+    var rightClickTimer = 0
+
     init {
+
         Keybinds.AutoClicker.on {
             if (!BindEnabled || Mode !== ClickerMode.CLICK) return@on
             enabled = !enabled
+
+            if (enabled) {
+                leftClickTimer = 20 / CPS
+                rightClickTimer = 20 / CPS
+                Client.options.attackKey.isPressed = false
+                Client.options.useKey.isPressed = false
+            } else {
+                Client.options.attackKey.isPressed = false
+                Client.options.useKey.isPressed = false
+            }
         }
         
         on<KeyEvent> {
             if (key != Keybinds.AutoClicker.boundKey.code || !BindEnabled || Mode !== ClickerMode.HOLD) return@on
             enabled = state
         }
+
         on<MouseClickEvent> {
             if (button != Keybinds.AutoClicker.boundKey.code || !BindEnabled || Mode !== ClickerMode.HOLD) return@on
             enabled = state
         }
 
-        scheduleEvery(0, 50, unit = TimeUnit.MILLISECONDS) {
-            if (!enabled) return@scheduleEvery
+//        scheduleEvery(0, 50, unit = TimeUnit.MILLISECONDS) {
+//            if (!enabled) return@scheduleEvery
+//
+//            remainToClick -= 50
+//
+//            if (remainToClick > 0) return@scheduleEvery
+//
+//            remainToClick = 1000 / CPS
+//            Mouse()
+//        }
 
-            remainToClick -= 50
+        on<PostTickEvent> {
 
-            if (remainToClick > 0) return@scheduleEvery
+            if (!enabled) return@on
 
-            remainToClick = 1000 / CPS
-            Mouse()
+            when (Mode) {
+                ClickerMode.HOLD -> {
+                    if (Mouse == ClickerMouse.LEFT) Client.options.attackKey.isPressed = true
+                    else Client.options.useKey.isPressed = true
+                }
+                ClickerMode.CLICK -> {
+                    if (Mouse == ClickerMouse.LEFT) {
+                        leftClickTimer--
+
+                        if (leftClickTimer <= 0) {
+                            leftClick()
+                            leftClickTimer = 20 / CPS
+                        }
+                    } else {
+                        rightClickTimer--
+
+                        if (rightClickTimer <= 0) {
+                            rightClick()
+                            rightClickTimer = 20 / CPS
+                        }
+                    }
+                }
+            }
+
         }
+
     }
+
 }

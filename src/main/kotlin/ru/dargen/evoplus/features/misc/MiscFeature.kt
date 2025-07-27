@@ -43,7 +43,12 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
     init {
         Keybinds.FastSelector.on { if (CurrentScreen == null && FastSelector) FastSelectorScreen.open() }
 
-        on<PostTickEvent> { Player?.apply { if (AutoSprint && forwardSpeed > 0) isSprinting = true } }
+        on<PostTickEvent> {
+            Player?.apply {
+                if (AutoSprint && forwardSpeed > 0) isSprinting = true
+            }
+        }
+
         on<ChatReceiveEvent> {
             val text = text.uncolored()
 
@@ -54,12 +59,14 @@ object MiscFeature : Feature("misc", "Прочее", Items.REPEATER) {
                 if (LuckyBlockNotify && text.contains("лаки-блок")) NotifyWidget.showText("§e$text")
             }
         }
+
         on<EvoJoinEvent> { schedule(5, TimeUnit.SECONDS) { thx() } }
 
         on<GameEventChangeEvent> {
             if (EventNotify && new !== GameEvent.EventType.NONE && (old === GameEvent.EventType.NONE || old !== new))
                 NotifyWidget.showText("§aТекущее событие", new.name, delay = 20.0)
         }
+
         FastSelectorScreen
     }
 

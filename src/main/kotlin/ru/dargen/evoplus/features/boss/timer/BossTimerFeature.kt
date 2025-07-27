@@ -23,7 +23,7 @@ import ru.dargen.evoplus.util.minecraft.*
 import ru.dargen.evoplus.util.selector.toSelector
 import kotlin.math.absoluteValue
 
-private const val MYTHICAL_EVENT_MULTIPLIER = 1.5384615384615
+private const val MYTHICAL_EVENT_MULTIPLIER = 1.5
 
 object BossTimerFeature : Feature("boss-timer", "Таймер боссов", itemStack(Items.CLOCK)) {
 
@@ -43,8 +43,8 @@ object BossTimerFeature : Feature("boss-timer", "Таймер боссов", ite
     val WidgetTeleport by settings.boolean("Телепорт по клику в виджете")
     val PremiumTimer by settings.boolean("Покупной таймер")
 
-    val MinLevel by settings.selector("Мин. уровень босса", (0..520).toSelector())
-    val MaxLevel by settings.selector("Макс. уровень босса", (0..520).toSelector(-1))
+    val MinLevel by settings.selector("Мин. уровень босса", (0..520 step 5).toSelector())
+    val MaxLevel by settings.selector("Макс. уровень босса", (0..520 step 5).toSelector(-1))
     val BossesCount by settings.selector("Кол-во отображаемых боссов", (0..60).toSelector(-1))
 
     val ShortName by settings.boolean("Сокращение имени босса")

@@ -6,7 +6,8 @@ import ru.dargen.evoplus.util.json.gson
 
 class GameLocation(val id: String) {
 
-    val isEliteShaft get() = id.startsWith("shaft_tnt")
+    val isEliteShaft get() = id.startsWith("shaft_elite")
+    val isClanShaft get() = id.startsWith("shaft_clan")
     val isShaft get() = id.startsWith("shaft")
     val level get() = if (isShaft) id.substring(6).toInt() else -1
 
@@ -33,32 +34,61 @@ class GameLocation(val id: String) {
 }
 
 private val DisplayNames = mapOf(
-    "pvp" to "PvP арена",
-    "alchemy" to "Алхимия",
-    "gorge_pvp" to "Алхимия",
-    "library" to "Библиотека",
-    "mine" to "Шахтерская",
-    "clanArena" to "Клановая арена",
-    "clan_base" to "Клановая база",
-    "fish" to "Рыбалка",
-    "spawn" to "Спавн",
+
+    "spawn_overworld" to "Спавн",
+    "arena_overworld" to "Арена",
+    "library_overworld" to "Библиотека",
+    "wand_overworld" to "Спавн",
+
+    "spawn_nether" to "Адский спавн",
+    "arena_nether" to "Адская арена",
+    "library_nether" to "Адская библиотека",
+    "wand_nether" to "Адский спавн",
+
+    "spawn_end" to "Эндер спавн",
+    "arena_end" to "Эндер арена",
+    "library_end" to "Эндер библиотека",
+    "wand_end" to "Эндер спавн",
+
     "wand" to "Спавн",
+    "miner" to "Спавн",
+    "craft" to "Спавн",
+
+    "alchemy" to "Алхимия",
+    "pvp" to "PvP арена",
     "market" to "Рынок",
     "auction" to "Аукцион",
-    "duels" to "Дуэли"
+    "duels" to "Дуэли",
+
+    "fish_1_overworld" to "Рыбалка",
+    "fish_2_overworld" to "Рыбалка",
+    "fish_nether" to "Адская рыбалка",
+    "fish_end" to "Эндер рыбалка",
+
+    "mine" to "Шахтерская",
+
+    "clanArena" to "Клановая арена",
+    "clan_base" to "Клановая база",
+
+    "tower" to "Башня",
+    "temple_arena" to "Проклятый храм"
+
 )
 
 private val DungeonNames = mapOf(
+
     "forest" to "Дремучий лес",
     "caves" to "Пещеры",
     "catacombs" to "Катакомбы",
 
     "pyramid" to "Пирамида",
-    "nether" to "Адские недра",
+    "nether" to "Адские недра"
+
 )
 
 val GameLocation.displayName get() = when {
     isEliteShaft -> "Элитная шахта"
+    isClanShaft -> "Клановая шахта"
     isShaft -> "Шахта $level ур."
     isBoss -> "Босс ${bossType?.name ?: id}"
     isDungeon || isProceduralDungeon -> "Данж: ${DungeonNames[dungeonId]}"

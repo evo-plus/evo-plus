@@ -132,7 +132,7 @@ object RunesBag {
                         it.pattern.find(value)?.run { it to this }
                     } ?: return@forEach
                     property = property ?: RuneProperty(name, type)
-                    type.appender(property!!, matcher)
+                    type.appender(property, matcher)
                 }
                 property
             }
