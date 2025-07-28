@@ -10,7 +10,7 @@ import ru.dargen.evoplus.util.selector.enumSelector
 object RenderFeature : Feature("render", "Визуализация", Items.REDSTONE) {
 
     val FullBright by settings.boolean("Полная яркость", true)
-    val HighlightAvailableItems by settings.boolean("Подсветка доступных предметов", true)
+//    val HighlightAvailableItems by settings.boolean("Подсветка доступных предметов", true)
 
     val HealthRender by settings.switcher("Режим отображения здоровья", enumSelector<HealthRenderMode>())
 

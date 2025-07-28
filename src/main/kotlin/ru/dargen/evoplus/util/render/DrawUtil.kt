@@ -6,7 +6,6 @@ import net.minecraft.client.gl.ShaderProgramKeys
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import ru.dargen.evoplus.util.math.Vector3
 import java.awt.Color
@@ -82,6 +81,7 @@ object DrawUtil {
     fun MatrixStack.drawCubeOutline(size: Vector3, color: Color = Color.white) =
         drawCubeOutline(0f, 0f, 0f, size.x.toFloat() + 1, size.y.toFloat() + 1, size.z.toFloat() + 1, color)
 
+    @Suppress("Duplicates")
     fun MatrixStack.drawCubeOutline(
         minX: Float, minY: Float, minZ: Float,
         maxX: Float, maxY: Float, maxZ: Float,
@@ -143,13 +143,19 @@ object DrawUtil {
         RenderSystem.disableBlend()
     }
 
-    fun draw3DBox(matrixStack: MatrixStack, box: Box, color: Color, lineThickness: Float) {
-        RenderSystem.setShaderColor(
-            color.red.toFloat(),
-            color.green.toFloat(),
-            color.blue.toFloat(),
-            color.alpha.toFloat()
-        )
+    fun draw3DBox(matrixStack: MatrixStack, position: Vector3, size: Vector3, color: Color, lineThickness: Float) {
+        draw3DBox(matrixStack, position.x.toFloat(), position.y.toFloat(), position.z.toFloat(), size.x.toFloat(), size.y.toFloat(), size.z.toFloat(), color, lineThickness)
+    }
+
+    @Suppress("Duplicates")
+    fun draw3DBox(
+        matrixStack: MatrixStack,
+        minX: Float, minY: Float, minZ: Float,
+        maxX: Float, maxY: Float, maxZ: Float,
+        color: Color, lineThickness: Float
+    ) {
+
+        RenderSystem.setShaderColor(color.red.toFloat(), color.green.toFloat(), color.blue.toFloat(), color.alpha.toFloat())
 
         val entry = matrixStack.peek()
         val matrix4f = entry.getPositionMatrix()
@@ -163,43 +169,40 @@ object DrawUtil {
 
         RenderSystem.setShader(ShaderProgramKeys.POSITION)
 
-        RenderSystem.setShaderColor(
-            color.getRed().toFloat(),
-            color.getGreen().toFloat(),
-            color.getBlue().toFloat(),
-            color.getAlpha().toFloat()
-        )
+        RenderSystem.setShaderColor(color.red.toFloat(), color.green.toFloat(), color.blue.toFloat(), color.alpha.toFloat())
 
         var bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.minY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.minY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat())
 
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat())
+        bufferBuilder.vertex(matrix4f, minX, minY, minZ)
+        bufferBuilder.vertex(matrix4f, maxX, minY, minZ)
+        bufferBuilder.vertex(matrix4f, maxX, minY, maxZ)
+        bufferBuilder.vertex(matrix4f, minX, minY, maxZ)
 
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.minY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.minY.toFloat(), box.minZ.toFloat())
+        bufferBuilder.vertex(matrix4f, minX, maxY, minZ)
+        bufferBuilder.vertex(matrix4f, minX, maxY, maxZ)
+        bufferBuilder.vertex(matrix4f, maxX, maxY, maxZ)
+        bufferBuilder.vertex(matrix4f, maxX, maxY, minZ)
 
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.minY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat())
+        bufferBuilder.vertex(matrix4f, minX, minY, minZ)
+        bufferBuilder.vertex(matrix4f, minX, maxY, minZ)
+        bufferBuilder.vertex(matrix4f, maxX, maxY, minZ)
+        bufferBuilder.vertex(matrix4f, maxX, minY, minZ)
 
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.maxX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat())
+        bufferBuilder.vertex(matrix4f, maxX, minY, minZ)
+        bufferBuilder.vertex(matrix4f, maxX, maxY, minZ)
+        bufferBuilder.vertex(matrix4f, maxX, maxY, maxZ)
+        bufferBuilder.vertex(matrix4f, maxX, minY, maxZ)
 
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.minY.toFloat(), box.minZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat())
-        bufferBuilder.vertex(matrix4f, box.minX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat())
+        bufferBuilder.vertex(matrix4f, minX, minY, maxZ)
+        bufferBuilder.vertex(matrix4f, maxX, minY, maxZ)
+        bufferBuilder.vertex(matrix4f, maxX, maxY, maxZ)
+        bufferBuilder.vertex(matrix4f, minX, maxY, maxZ)
+
+        bufferBuilder.vertex(matrix4f, minX, minY, minZ)
+        bufferBuilder.vertex(matrix4f, minX, minY, maxZ)
+        bufferBuilder.vertex(matrix4f, minX, maxY, maxZ)
+        bufferBuilder.vertex(matrix4f, minX, maxY, minZ)
+
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
 
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
@@ -210,54 +213,18 @@ object DrawUtil {
 
         bufferBuilder = tessellator.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES)
 
-        buildLine3d(
-            matrixStack, bufferBuilder, box.minX.toFloat(), box.minY.toFloat(), box.minZ.toFloat(), box.maxX.toFloat(),
-            box.minY.toFloat(), box.minZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.maxX.toFloat(), box.minY.toFloat(), box.minZ.toFloat(), box.maxX.toFloat(),
-            box.minY.toFloat(), box.maxZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.maxX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat(), box.minX.toFloat(),
-            box.minY.toFloat(), box.maxZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.minX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat(), box.minX.toFloat(),
-            box.minY.toFloat(), box.minZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.minX.toFloat(), box.minY.toFloat(), box.minZ.toFloat(), box.minX.toFloat(),
-            box.maxY.toFloat(), box.minZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.maxX.toFloat(), box.minY.toFloat(), box.minZ.toFloat(), box.maxX.toFloat(),
-            box.maxY.toFloat(), box.minZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.maxX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat(), box.maxX.toFloat(),
-            box.maxY.toFloat(), box.maxZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.minX.toFloat(), box.minY.toFloat(), box.maxZ.toFloat(), box.minX.toFloat(),
-            box.maxY.toFloat(), box.maxZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.minX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat(), box.maxX.toFloat(),
-            box.maxY.toFloat(), box.minZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.maxX.toFloat(), box.maxY.toFloat(), box.minZ.toFloat(), box.maxX.toFloat(),
-            box.maxY.toFloat(), box.maxZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.maxX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat(), box.minX.toFloat(),
-            box.maxY.toFloat(), box.maxZ.toFloat(), color
-        )
-        buildLine3d(
-            matrixStack, bufferBuilder, box.minX.toFloat(), box.maxY.toFloat(), box.maxZ.toFloat(), box.minX.toFloat(),
-            box.maxY.toFloat(), box.minZ.toFloat(), color
-        )
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, minZ, maxX, minY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, minZ, maxX, minY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, maxZ, minX, minY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, maxZ, minX, minY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, minZ, minX, maxY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, minZ, maxX, maxY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, maxZ, maxX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, maxZ, minX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, maxY, minZ, maxX, maxY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, maxY, minZ, maxX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, maxY, maxZ, minX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, maxY, maxZ, minX, maxY, minZ, color)
 
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
 
@@ -267,7 +234,7 @@ object DrawUtil {
         RenderSystem.disableBlend()
     }
 
-    private fun buildLine3d(
+    private fun draw3DLine(
         matrixStack: MatrixStack, bufferBuilder: BufferBuilder, x1: Float, y1: Float, z1: Float,
         x2: Float, y2: Float, z2: Float, color: Color
     ) {
@@ -280,14 +247,15 @@ object DrawUtil {
         val g = color.green.toFloat()
         val b = color.blue.toFloat()
 
-        bufferBuilder.vertex(matrix4f, x1, y1, z1).color(r, g, b, 1.0f).normal(
-            entry, normalized.x.toFloat(),
-            normalized.y.toFloat(), normalized.z.toFloat()
-        )
-        bufferBuilder.vertex(matrix4f, x2, y2, z2).color(r, g, b, 1.0f).normal(
-            entry, normalized.x.toFloat(),
-            normalized.y.toFloat(), normalized.z.toFloat()
-        )
+        bufferBuilder
+            .vertex(matrix4f, x1, y1, z1)
+            .color(r, g, b, 1.0f)
+            .normal(entry, normalized.x.toFloat(), normalized.y.toFloat(), normalized.z.toFloat())
+        bufferBuilder
+            .vertex(matrix4f, x2, y2, z2)
+            .color(r, g, b, 1.0f)
+            .normal(entry, normalized.x.toFloat(), normalized.y.toFloat(), normalized.z.toFloat())
+
     }
 
 }

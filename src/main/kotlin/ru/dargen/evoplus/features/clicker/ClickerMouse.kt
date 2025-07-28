@@ -1,18 +1,15 @@
 package ru.dargen.evoplus.features.clicker
 
-import ru.dargen.evoplus.util.minecraft.leftClick
-import ru.dargen.evoplus.util.minecraft.rightClick
-
 enum class ClickerMouse(val display: String) {
     
     LEFT("ЛКМ") {
         override fun invoke() {
-            leftClick()
+//            leftClick()
         }
     },
     RIGHT("ПКМ") {
         override fun invoke() {
-            rightClick()
+//            rightClick()
         }
     };
 

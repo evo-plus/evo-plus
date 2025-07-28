@@ -9,7 +9,6 @@ import ru.dargen.evoplus.render.context.WorldContext
 import ru.dargen.evoplus.render.node.plus
 import ru.dargen.evoplus.render.node.world.CubeOutlineNode
 import ru.dargen.evoplus.util.math.v3
-import java.awt.Color
 
 object FishingSpotsHighlight : ParticleHighlighter(FishingFeature::SpotsHighlight) {
 
@@ -18,11 +17,11 @@ object FishingSpotsHighlight : ParticleHighlighter(FishingFeature::SpotsHighligh
         ParticleTypes.BUBBLE_COLUMN_UP, ParticleTypes.LAVA
     )
 
-    override fun highlight(x: Double, y: Double, z: Double, size: Double, color: Color): CubeOutlineNode {
-        return super.highlight(x, y + .8, z, size, color).apply {
-            scaledSize = v3(size * 2.4, size / 2, size * 2.4)
-        }
-    }
+//    override fun highlight(x: Double, y: Double, z: Double, size: Double, color: Color): CubeOutlineNode {
+//        return super.highlight(x, y + .8, z, size, color).apply {
+//            scaledSize = v3(size * 2.4, size / 2, size * 2.4)
+//        }
+//    }
 
     override fun CubeOutlineNode.hide() = animate("fade", .2) {
         scale = v3()
@@ -31,5 +30,4 @@ object FishingSpotsHighlight : ParticleHighlighter(FishingFeature::SpotsHighligh
     }
 
     override fun shouldProcess() = PlayerDataCollector.location.warp?.contains("fish") ?: false
-
 }

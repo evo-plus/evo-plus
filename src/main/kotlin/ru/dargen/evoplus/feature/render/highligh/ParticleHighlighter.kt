@@ -15,7 +15,7 @@ abstract class ParticleHighlighter(val enabled: () -> Boolean, expire: Duration 
     init {
         on<ParticleEvent> {
             if (enabled() && shouldProcess() && packet.parameters.type in particles) with(packet) {
-                createHighlight(x, y, z, offsetX * 2.0)
+//                createHighlight(x, y, z, offsetX * 2.0, Colors.Transparent)
             }
         }
     }

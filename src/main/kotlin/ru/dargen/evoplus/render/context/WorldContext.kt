@@ -23,11 +23,12 @@ data object WorldContext : RenderContext() {
             RenderSystem.enableBlend()
             RenderSystem.defaultBlendFunc()
             RenderSystem.disableCull()
-//
+
             frustum.setPosition(-frustum.x, -frustum.y, -frustum.z)
 
-//            renderBox(Box.from(Vec3d(-598.5, 98.0, 106.5)), color, 4f)
-            renderBox(matrixStack)
+            children.forEach {
+                it.renderBox(matrixStack)
+            }
 
             RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
             VertexBuffer.unbind()

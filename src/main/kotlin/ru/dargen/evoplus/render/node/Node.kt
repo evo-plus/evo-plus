@@ -219,7 +219,6 @@ abstract class Node {
         preRenderHandlers.forEach { it(context, tickDelta) }
 
         renderElement(context, tickDelta)
-        renderBox(context.matrices)
 
         if (isScissor) {
             val position = (wholePosition + scissorIndent * wholeScale) * Overlay.ScaleFactor
