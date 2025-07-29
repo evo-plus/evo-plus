@@ -34,9 +34,9 @@ class Highlighter(val expire: Duration) {
     ) = cubeOutline {
         position = v3(x, y, z)
         scaledSize = v3(size, size, size)
-        origin = v3(.5, .5, .5)
+//        origin = v3(.5, .5, .5)
         isSeeThrough = true
-        width = 3.0
+        width = 1.0
 
         this.color = color
         scale = v3()

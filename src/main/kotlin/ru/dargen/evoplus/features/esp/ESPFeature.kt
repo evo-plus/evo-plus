@@ -1,7 +1,9 @@
 package ru.dargen.evoplus.features.esp
 
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.SkullBlockEntity
 import net.minecraft.item.Items
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.chunk.Chunk
@@ -22,6 +24,7 @@ import ru.dargen.evoplus.util.evo.getBarrel
 import ru.dargen.evoplus.util.evo.getLuckyBlock
 import ru.dargen.evoplus.util.evo.getShard
 import ru.dargen.evoplus.util.math.v3
+import ru.dargen.evoplus.util.text.print
 import java.awt.Color
 
 object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
@@ -60,7 +63,27 @@ object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
         on<BlockChangeEvent> {
             tryToRemoveBlock(blockPos)
             recognizeBlock(chunk, blockPos, newState)
+
+            ////// code to find player head value
+//            val state = oldState
+//            val pos = blockPos
+//            val block = state?.block
+//
+//            if (block == Blocks.PLAYER_HEAD) {
+//                val blockEntity = chunk.getBlockEntity(pos)
+//
+//                if (blockEntity is SkullBlockEntity) {
+//                    val owner = blockEntity.owner
+//
+//                    owner?.properties?.let { prop ->
+//                        println("pos: $pos")
+//                        val textures = prop["textures"].first().value.print("value")
+//                    }
+//                }
+//            }
+
         }
+
         on<BlockEntityLoadEvent> { tryToRecognizeBlock(chunk, blockEntity) }
         on<BlockEntityUpdateEvent> { tryToRecognizeBlock(chunk, blockEntity) }
 
@@ -72,6 +95,7 @@ object ESPFeature : Feature("esp", "Подсветка", Items.SEA_LANTERN) {
 //                recognizeBlock(it.world!!.getWorldChunk(pos), pos, it.cachedState)
 //            }
 //        }
+
     }
 
     private fun tryToRecognizeBlock(chunk: WorldChunk, blockEntity: BlockEntity) {

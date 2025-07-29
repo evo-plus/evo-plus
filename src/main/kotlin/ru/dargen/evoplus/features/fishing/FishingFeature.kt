@@ -80,6 +80,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
         listen<SpotNibbles> {
             Nibbles.putAll(it.nibbles)
         }
+
         listen<HourlyQuestInfo> { info ->
             FishingQuestWidget.update(info.data.map {
                 HourlyQuestInfoHolder(
@@ -105,6 +106,7 @@ object FishingFeature : Feature("fishing", "Рыбалка", Items.FISHING_ROD) 
                 NotifyWidget.showText("На локации §6${groupValues[1]}", "повышенный клёв.")
             }
         }
+
     }
 
 }

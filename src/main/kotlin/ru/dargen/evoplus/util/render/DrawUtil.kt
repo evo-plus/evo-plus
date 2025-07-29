@@ -143,12 +143,12 @@ object DrawUtil {
         RenderSystem.disableBlend()
     }
 
-    fun draw3DBox(matrixStack: MatrixStack, position: Vector3, size: Vector3, color: Color, lineThickness: Float) {
-        draw3DBox(matrixStack, position.x.toFloat(), position.y.toFloat(), position.z.toFloat(), size.x.toFloat(), size.y.toFloat(), size.z.toFloat(), color, lineThickness)
+    fun draw3DFilledBox(matrixStack: MatrixStack, position: Vector3, size: Vector3, color: Color, lineThickness: Float) {
+        draw3DFilledBox(matrixStack, position.x.toFloat(), position.y.toFloat(), position.z.toFloat(), size.x.toFloat(), size.y.toFloat(), size.z.toFloat(), color, lineThickness)
     }
 
     @Suppress("Duplicates")
-    fun draw3DBox(
+    fun draw3DFilledBox(
         matrixStack: MatrixStack,
         minX: Float, minY: Float, minZ: Float,
         maxX: Float, maxY: Float, maxZ: Float,
@@ -234,6 +234,57 @@ object DrawUtil {
         RenderSystem.disableBlend()
     }
 
+    fun draw3DBox(matrixStack: MatrixStack, position: Vector3, size: Vector3, color: Color, lineThickness: Float) {
+        draw3DBox(matrixStack, position.x.toFloat(), position.y.toFloat(), position.z.toFloat(), size.x.toFloat(), size.y.toFloat(), size.z.toFloat(), color, lineThickness)
+    }
+
+    @Suppress("Duplicates")
+    fun draw3DBox(
+        matrixStack: MatrixStack,
+        minX: Float, minY: Float, minZ: Float,
+        maxX: Float, maxY: Float, maxZ: Float,
+        color: Color, lineThickness: Float
+    ) {
+        RenderSystem.setShaderColor(color.red.toFloat(), color.green.toFloat(), color.blue.toFloat(), color.alpha.toFloat())
+
+        val entry = matrixStack.peek()
+        val matrix4f = entry.getPositionMatrix()
+
+        val tessellator = RenderSystem.renderThreadTesselator()
+
+        RenderSystem.enableBlend()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.disableCull()
+        RenderSystem.disableDepthTest()
+
+        RenderSystem.setShader(ShaderProgramKeys.RENDERTYPE_LINES)
+
+        RenderSystem.lineWidth(lineThickness)
+
+        val bufferBuilder = tessellator.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES)
+
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, minZ, maxX, minY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, minZ, maxX, minY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, maxZ, minX, minY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, maxZ, minX, minY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, minZ, minX, maxY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, minZ, maxX, maxY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, minY, maxZ, maxX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, minY, maxZ, minX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, maxY, minZ, maxX, maxY, minZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, maxY, minZ, maxX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, maxX, maxY, maxZ, minX, maxY, maxZ, color)
+        draw3DLine(matrixStack, bufferBuilder, minX, maxY, maxZ, minX, maxY, minZ, color)
+
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
+
+        RenderSystem.enableCull()
+        RenderSystem.lineWidth(1f)
+        RenderSystem.enableDepthTest()
+        RenderSystem.disableBlend()
+    }
+
+    @Suppress("Duplicates")
     private fun draw3DLine(
         matrixStack: MatrixStack, bufferBuilder: BufferBuilder, x1: Float, y1: Float, z1: Float,
         x2: Float, y2: Float, z2: Float, color: Color

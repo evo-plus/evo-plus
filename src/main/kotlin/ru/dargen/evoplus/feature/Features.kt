@@ -75,7 +75,7 @@ data object Features {
         BossTimerFeature.register()
         BossFeature.register()
         StaffFeature.register()
-        DungeonFeature.register()
+//        DungeonFeature.register()
         RuneFeature.register()
         AlchemyFeature.register()
         PotionFeature.register()

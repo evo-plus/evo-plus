@@ -27,7 +27,7 @@ abstract class DisplayHighlighter(val enabled: () -> Boolean, expire: Duration =
     }
 
     fun ItemDisplayEntity.createHighlight() {
-//        createHighlight(x, y, z)
+        createHighlight(x, y, z)
     }
 
     protected fun shouldProcess() = true

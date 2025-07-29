@@ -3,6 +3,7 @@ package ru.dargen.evoplus.feature.render.highligh
 import net.minecraft.particle.ParticleType
 import ru.dargen.evoplus.event.on
 import ru.dargen.evoplus.event.world.ParticleEvent
+import ru.dargen.evoplus.render.Colors
 import ru.dargen.evoplus.util.kotlin.KotlinOpens
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -15,7 +16,7 @@ abstract class ParticleHighlighter(val enabled: () -> Boolean, expire: Duration 
     init {
         on<ParticleEvent> {
             if (enabled() && shouldProcess() && packet.parameters.type in particles) with(packet) {
-//                createHighlight(x, y, z, offsetX * 2.0, Colors.Transparent)
+//                createHighlight(x - 1.25, y, z - 1.25, offsetX / 8.0, Colors.Green)
             }
         }
     }

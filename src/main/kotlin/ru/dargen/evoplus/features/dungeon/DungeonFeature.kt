@@ -13,15 +13,16 @@ object DungeonFeature : Feature("dungeon", "Данжи", customItem(Items.PAPER,
         "Подсветка разрушаемых декораций",
         true
     )
-//    val Map by widgets.widget("Карта", widget = DungeonMapWidget)
+    val Map by widgets.widget("Карта", widget = DungeonMapWidget)
 
     init {
-        DungeonDecorationHighlight
+//        DungeonDecorationHighlight
+
         on<WorldMapEvent> {
-            if (PlayerDataCollector.location.isDungeon) {
+            if (PlayerDataCollector.location.isDungeon)
                 DungeonMapWidget.mapId = id
-            }
         }
+
     }
 
 }

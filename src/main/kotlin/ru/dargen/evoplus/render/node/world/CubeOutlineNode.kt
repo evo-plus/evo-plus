@@ -23,12 +23,10 @@ class CubeOutlineNode : Node() {
     }
 
     override fun renderBox(matrices: MatrixStack) {
-//        val box = Box(position.x, position.y, position.z, size.x, size.y, size.z).print("box")
-//        val box = Box(position.x, position.y, position.z, size.x, size.y, size.z).print("box")
-
-        if (!isSeeThrough) RenderSystem.enableDepthTest()
-        DrawUtil.draw3DBox(matrices, position, position.plus(size), color, width.toFloat())
-        if (!isSeeThrough) RenderSystem.disableDepthTest()
+//        if (!isSeeThrough) RenderSystem.enableDepthTest()
+//        DrawUtil.draw3DFilledBox(matrices, position, position.plus(size), color, width.toFloat())
+        DrawUtil.draw3DBox(matrices, position, position.plus(size), color, width.toFloat() * 3)
+//        if (!isSeeThrough) RenderSystem.disableDepthTest()
 
     }
 
